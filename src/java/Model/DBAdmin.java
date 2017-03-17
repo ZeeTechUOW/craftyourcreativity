@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class DBAdmin {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cyc";
     private static final String DB_USER = "root";
-    private static final String DB_PASS = "";
+    private static final String DB_PASS = "cK3rMeyG";
     
     // <editor-fold defaultstate="collapsed" desc="Query String. Click + sign on the left to expand the code">
     private static final String LOGIN_QUERY = "SELECT * FROM `user` WHERE (username='%s' OR email='%s') AND password=SHA1('%s')";
