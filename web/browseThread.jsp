@@ -74,7 +74,7 @@
         <table border="1">
             <tr>
                 <td>
-                    <h2><a href="http://35.187.198.153/cycfrontend/thread.jsp?<% out.print(threadsList.get(i).getThreadID()); %>"><% out.print(threadsList.get(i).getThreadTitle()); %></a></h2>
+                    <h2><a href="http://35.187.198.153/cycfrontend/thread.jsp?t=<% out.print(threadsList.get(i).getThreadID()); %>"><% out.print(threadsList.get(i).getThreadTitle()); %></a></h2>
                 </td>
                 <td>
                     <h3><% out.print(threadsList.get(i).getThreadType()); %></h3>
