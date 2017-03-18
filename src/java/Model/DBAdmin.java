@@ -17,53 +17,66 @@ public class DBAdmin {
     private static final String DB_PASS = "cK3rMeyG";
     
     // <editor-fold defaultstate="collapsed" desc="Query String. Click + sign on the left to expand the code">
-    private static final String LOGIN_QUERY = "SELECT * FROM `user` WHERE (username='%s' OR email='%s') AND password=SHA1('%s')";
-    private static final String REGISTER_QUERY  = "INSERT INTO `user` (`userID`, `username`, `password`, `email`, `userType`, `receiveUpdates`) "
-                                                + "VALUES (NULL, '%s', SHA1('%s'), '%s', '%s', '0')";
+    private static final String LOGIN_QUERY 
+            = "SELECT * FROM `user` WHERE (username='%s' OR email='%s') AND password=SHA1('%s')";
+    private static final String REGISTER_QUERY 
+            = "INSERT INTO `user` (`userID`, `username`, `password`, `email`, `userType`, `receiveUpdates`) "
+            + "VALUES (NULL, '%s', SHA1('%s'), '%s', '%s', '0')";
     
-    private static final String GET_USER_FROM_USERNAME = "SELECT * FROM `user` WHERE username='%s'";
-    private static final String GET_USER_FROM_USER_ID = "SELECT * FROM `user` WHERE userID='%d'";
+    private static final String GET_USER_FROM_USERNAME 
+            = "SELECT * FROM `user` WHERE username='%s'";
+    private static final String GET_USER_FROM_USER_ID 
+            = "SELECT * FROM `user` WHERE userID='%d'";
     
-    private static final String CREATE_NEW_THREAD   = "INSERT INTO `thread` (`threadID`, `userID`, `threadTitle`, `threadType`) "
-                                                    + "VALUES (NULL, '%d', '%s', '%s')";
+    private static final String CREATE_NEW_THREAD 
+            = "INSERT INTO `thread` (`threadID`, `userID`, `threadTitle`, `threadType`) "
+            + "VALUES (NULL, '%d', '%s', '%s')";
     private static final String GET_THREAD_FROM_THREAD_ID = "SELECT * FROM `thread` WHERE threadID='%d'";
     private static final String GET_THREAD_POST_COUNT_FROM_THREAD_ID = "SELECT COUNT(postID) FROM `post` WHERE threadID=1";
-    private static final String GET_THREAD_SORT_BY_NEWEST_WITH_TIMESTAMP_LIMIT_BY_X = "SELECT t.threadID, t.userID, t.threadTitle, t.threadType, p.timestamp, COUNT(p.threadID) AS reply "
-                                                                                    + "FROM thread t, post p "
-                                                                                    + "WHERE p.threadID = t.threadID "
-                                                                                    + "GROUP BY p.threadID "
-                                                                                    + "ORDER BY p.timestamp DESC "
-                                                                                    + "LIMIT %d, %d";
-    private static final String GET_THREAD_SORT_BY_POPULAR_TODAY_WITH_TIMESTAMP_LIMIT_BY_X  = "SELECT t.threadID, t.userID, t.threadTitle, t.threadType, p.timestamp, COUNT(p.threadID) AS reply "
-                                                                                            + "FROM thread t, post p "
-                                                                                            + "WHERE p.threadID = t.threadID AND p.timestamp BETWEEN DATE_SUB(NOW(), INTERVAL 1 DAY) AND TIMESTAMP(NOW()) "
-                                                                                            + "GROUP BY p.threadID "
-                                                                                            + "ORDER BY reply DESC "
-                                                                                            + "LIMIT %d, %d";
-    private static final String GET_THREAD_SORT_BY_POPULAR_WEEK_WITH_TIMESTAMP_LIMIT_BY_X   = "SELECT t.threadID, t.userID, t.threadTitle, t.threadType, p.timestamp, COUNT(p.threadID) AS reply "
-                                                                                            + "FROM thread t, post p "
-                                                                                            + "WHERE p.threadID = t.threadID AND p.timestamp BETWEEN DATE_SUB(NOW(), INTERVAL 1 WEEK) AND TIMESTAMP(NOW()) "
-                                                                                            + "GROUP BY p.threadID "
-                                                                                            + "ORDER BY reply DESC "
-                                                                                            + "LIMIT %d, %d";
-    private static final String GET_THREAD_SORT_BY_POPULAR_MONTH_WITH_TIMESTAMP_LIMIT_BY_X  = "SELECT t.threadID, t.userID, t.threadTitle, t.threadType, p.timestamp, COUNT(p.threadID) AS reply "
-                                                                                            + "FROM thread t, post p "
-                                                                                            + "WHERE p.threadID = t.threadID AND p.timestamp BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND TIMESTAMP(NOW()) "
-                                                                                            + "GROUP BY p.threadID "
-                                                                                            + "ORDER BY reply DESC "
-                                                                                            + "LIMIT %d, %d";
-    private static final String GET_THREAD_SORT_BY_POPULAR_ALL_TIME_WITH_TIMESTAMP_LIMIT_BY_X   = "SELECT t.threadID, t.userID, t.threadTitle, t.threadType, p.timestamp, COUNT(p.threadID) AS reply "
-                                                                                                + "FROM thread t, post p "
-                                                                                                + "WHERE p.threadID = t.threadID "
-                                                                                                + "GROUP BY p.threadID "
-                                                                                                + "ORDER BY reply DESC "
-                                                                                                + "LIMIT %d, %d";
-    
-    private static final String CREATE_NEW_POST = "INSERT INTO `post` (`postID`, `threadID`, `userID`, `openingPost`, `message`, `timestamp`) "
-                                                + "VALUES (NULL, '%d', '%d', %d, '%s', CURRENT_TIMESTAMP)";
-    private static final String CREATE_OPENING_POST = "INSERT INTO `post` (`postID`, `threadID`, `userID`, `openingPost`, `message`, `timestamp`) "
-                                                    + "VALUES (NULL, (SELECT threadID FROM thread WHERE userID='%d' ORDER BY threadID DESC LIMIT 1), '%d', %d, '%s', CURRENT_TIMESTAMP)";
-    private static final String GET_POST_FROM_THREAD_ID_LIMIT_BY_X = "SELECT * FROM `post` WHERE threadID='%d' LIMIT %d, %d";
+    private static final String GET_THREAD_SORT_BY_NEWEST_WITH_TIMESTAMP_LIMIT_BY_X 
+            = "SELECT t.threadID, t.userID, t.threadTitle, t.threadType, p.timestamp, COUNT(p.threadID) AS reply "
+            + "FROM thread t, post p "
+            + "WHERE p.threadID = t.threadID "
+            + "GROUP BY p.threadID "
+            + "ORDER BY p.timestamp DESC "
+            + "LIMIT %d, %d";
+    private static final String GET_THREAD_SORT_BY_POPULAR_TODAY_WITH_TIMESTAMP_LIMIT_BY_X 
+            = "SELECT t.threadID, t.userID, t.threadTitle, t.threadType, p.timestamp, COUNT(p.threadID) AS reply "
+            + "FROM thread t, post p "
+            + "WHERE p.threadID = t.threadID AND p.timestamp BETWEEN DATE_SUB(NOW(), INTERVAL 1 DAY) AND TIMESTAMP(NOW()) "
+            + "GROUP BY p.threadID "
+            + "ORDER BY reply DESC "
+            + "LIMIT %d, %d";
+    private static final String GET_THREAD_SORT_BY_POPULAR_WEEK_WITH_TIMESTAMP_LIMIT_BY_X 
+            = "SELECT t.threadID, t.userID, t.threadTitle, t.threadType, p.timestamp, COUNT(p.threadID) AS reply "
+            + "FROM thread t, post p "
+            + "WHERE p.threadID = t.threadID AND p.timestamp BETWEEN DATE_SUB(NOW(), INTERVAL 1 WEEK) AND TIMESTAMP(NOW()) "
+            + "GROUP BY p.threadID "
+            + "ORDER BY reply DESC "
+            + "LIMIT %d, %d";
+    private static final String GET_THREAD_SORT_BY_POPULAR_MONTH_WITH_TIMESTAMP_LIMIT_BY_X 
+            = "SELECT t.threadID, t.userID, t.threadTitle, t.threadType, p.timestamp, COUNT(p.threadID) AS reply "
+            + "FROM thread t, post p "
+            + "WHERE p.threadID = t.threadID AND p.timestamp BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND TIMESTAMP(NOW()) "
+            + "GROUP BY p.threadID "
+            + "ORDER BY reply DESC "
+            + "LIMIT %d, %d";
+    private static final String GET_THREAD_SORT_BY_POPULAR_ALL_TIME_WITH_TIMESTAMP_LIMIT_BY_X 
+            = "SELECT t.threadID, t.userID, t.threadTitle, t.threadType, p.timestamp, COUNT(p.threadID) AS reply "
+            + "FROM thread t, post p "
+            + "WHERE p.threadID = t.threadID "
+            + "GROUP BY p.threadID "
+            + "ORDER BY reply DESC "
+            + "LIMIT %d, %d";
+
+    private static final String CREATE_NEW_POST
+            = "INSERT INTO `post` (`postID`, `threadID`, `userID`, `openingPost`, `message`, `timestamp`) "
+            + "VALUES (NULL, '%d', '%d', %d, '%s', CURRENT_TIMESTAMP)";
+    private static final String CREATE_OPENING_POST
+            = "INSERT INTO `post` (`postID`, `threadID`, `userID`, `openingPost`, `message`, `timestamp`) "
+            + "VALUES (NULL, (SELECT threadID FROM thread WHERE userID='%d' ORDER BY threadID DESC LIMIT 1), '%d', %d, '%s', CURRENT_TIMESTAMP)";
+    private static final String GET_POST_FROM_THREAD_ID_LIMIT_BY_X 
+            = "SELECT * FROM `post` WHERE threadID='%d' LIMIT %d, %d";
     // </editor-fold>
     
     public static User login(String username, String email, String password) {
