@@ -1,0 +1,28 @@
+#gTitle{
+    float: left;
+    width: 37%;
+    margin-left: 10%;
+    margin-top: 1.5%;
+    font-size: 2.5vw;
+    color: white;
+    min-height: 10%;
+}
+ 
+#gFullscreen{
+    float: right;
+    width: 22%;
+    margin-left: 20%;
+    margin-right: 8%;
+    margin-top:  2.5%;
+    font-size: 1.5vw;
+    color: white;
+    min-height: 10%;
+}
+ 
+#gDisp{
+    margin-top: 5%;
+    margin-right: 10%;
+    margin-left: 10%;
+    background-color: #aad0c5;
+    height: 78%;
+}

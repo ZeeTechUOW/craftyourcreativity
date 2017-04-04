@@ -36,11 +36,11 @@
                     </td>
                     <td>
                         <%
-                            if(message != null) {
+                            if (message != null) {
                                 out.println(message);
                             }
 
-                            if(errorMessage != null) {
+                            if (errorMessage != null) {
                                 out.println(errorMessage);
                             }
                         %>

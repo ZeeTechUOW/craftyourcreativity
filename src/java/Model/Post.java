@@ -1,14 +1,18 @@
-
 package Model;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import org.ocpsoft.prettytime.PrettyTime;
 
 public class Post {
+
     private int postID;
     private int threadID;
     private int userID;
     private String postMessage;
     private LocalDateTime postTime;
+    private PrettyTime p = new PrettyTime();
 
     public Post(int postID, int threadID, int userID, String postMessage, LocalDateTime postTime) {
         this.postID = postID;
@@ -57,5 +61,9 @@ public class Post {
 
     public void setPostTime(LocalDateTime postTime) {
         this.postTime = postTime;
+    }
+
+    public String getPostTimeFormatted() {
+        return p.format(Date.from(postTime.atZone(ZoneId.systemDefault()).toInstant()));
     }// </editor-fold>\
 }

@@ -1,0 +1,54 @@
+#lStructure{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	position: relative;
+	margin: 15px 2.5%;
+	width: 95%;
+	min-height: 250px;
+}
+
+#lSTitle{
+	display: inline-block;
+    padding: 5px 0.5%;
+	min-height: 40px;
+	width: 49%;
+	font-size: 40px;
+}
+
+#lSToggle{
+	display: inline-block;
+    padding: 5px 0.5%;
+	height: 40px;
+	width: 49%;
+	font-size: 30px;
+	text-align: right;
+}
+
+#lSDisp{
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	padding: 15px 12.5px;
+	width: 100%;
+	min-height: 210px;
+	/*overflow:hidden;*/
+}
+
+#lSFrame{
+	position: relative;
+	border-radius: 5px;
+	width: 100%;
+	background-color: #a3b79f;
+	border: solid 3px white;
+	margin: 10px 0px;
+}
+
+table, tr, td {
+	font-size: 30px;
+	text-align: center;
+	padding: 0px 0px;
+	overflow-x: hidden;
+	table-layout:fixed;
+	width: 100%;
+}

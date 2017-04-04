@@ -1,0 +1,163 @@
+<!DOCTYPE>
+<!-- saved from url=(0014)about:internet -->
+<html>
+    <head>
+        <title>New Threads</title>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/coreF.css">
+        <link rel="stylesheet" type="text/css" href="css/tStruc.css">
+        <script src="https://cdn.quilljs.com/1.2.3/quill.js"></script>
+        <script src="https://cdn.quilljs.com/1.2.3/quill.min.js"></script>
+
+        <link href="https://cdn.quilljs.com/1.2.3/quill.snow.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div id="headerSeparator">
+        </div>
+        <nav class="navbar navbar-findcond navbar-fixed-top" style="height: 78px">
+            <div class="container" style="margin-top: 10px; position: relative; width: 80%;">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="logo"><img src="resource/blogo.png" class="img-responsive" style="margin: auto; margin-top: 5px;" alt="front logo"></div>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger"></span> Menu 
+                                <ul class="dropdown-menu" role="menu" style="background-color: #4fa78b;">
+                                    <li><a href="#">Main Menu</a></li>
+                                    <li><a href="#">Library</a></li>
+                                    <li><a href="#">My modules</a></li>
+                                    <li><a href="#">Achievements</a></li>
+                                    <li><a href="#">Leaderboards</a></li>
+                                    <li><a href="#">Forums</a></li>
+                                    <li style="padding-right: 5%"><button class="button" type="button" style="float: right; background-color: #4fa78b;">
+                                            <span class="glyphicon glyphicon-cog"></span></button></li>
+                                </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="#">Log in <span class="sr-only">(current)</span></a></li>
+                        <li class="active"><a href="#">Sign up <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                    <form class="navbar-form navbar-left search-form" role="search" style="position: absolute; left: 30%; right: 30%">
+                        <input type="text" class="form-control" placeholder="Search" style="width: 100%;" />
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <div id="container">
+            <div id="tStructure">
+                <div id="tSTitle">
+                    Just end Mylef
+                </div>
+                <div id="tThreadCore">
+                    <div id="tThreadHeader">
+                        <div id="tHead">
+                            Forum >> Discussion
+                        </div>
+                        <div id="tHeadPage">
+                            << 1 2 3 ... 420>>
+                        </div>
+                    </div>
+                    <div id="tPostHeader">
+                        <table>
+                            <tr><td>TzarMoraei</td><td>17/08/2017 12:30</td></tr>
+                        </table>
+                    </div>
+                    <div id="tPostContent">
+                        Best module in this site smh tbh fam
+                    </div>
+                </div>
+                <div id="tThreadCore">
+                    <div id="tPostHeader">
+                        <table>
+                            <tr><td>Jeff</td><td>17/08/2017 13:30</td></tr>
+                        </table>
+                    </div>
+                    <div id="tPostContent">
+                        Hi there! My name's Jeffe
+                    </div>
+                </div>
+                <div id="tThreadCore">
+                    <div id="tPostHeader">
+                        <table>
+                            <tr><td>DigDug420</td><td>17/08/2017 18:30</td></tr>
+                        </table>
+                    </div>
+                    <div id="tPostContent">
+                        not really kys
+                    </div>
+                </div>
+                <div id="tThreadCore">
+                    <div id="tPostHeader">
+                        <table>
+                            <tr><td>TzarMoraei</td><td>20/08/2017 11:30</td></tr>
+                        </table>
+                    </div>
+                    <div id="tPostContent">
+                        rude
+                    </div>
+                </div>
+                <div id="tThreadCore">
+                    <div id="tPostHeader">
+                        <table>
+                            <tr><td>DigDug420</td><td>20/08/2017 11:31</td></tr>
+                        </table>
+                    </div>
+                    <div id="tPostContent">
+                        fite me c0nt
+                    </div>
+                </div>
+                <div id="tThreadBot">
+                    <div id="tBot">
+                        Forum >> Discussion
+                    </div>
+                    <div id="tBotPage">
+                        << 1 2 3 ... 420>>
+                    </div>
+                </div>
+                <div id="quillBox">
+                    <div  id="quill">
+                    </div>
+                </div>
+
+                <script>
+                    var quill = new Quill('#quill', {
+                        modules: {
+                            toolbar: [
+                                ['bold', 'italic', 'underline'],
+                                ['image', 'code-block']
+                            ]
+                        },
+                        scrollingContainer: '#quill',
+                        bounds: '#quill',
+                        placeholder: 'Add a comment',
+                        theme: 'snow'});
+                </script>
+            </div>
+        </div>
+
+
+        <div id="footer">
+            Powered by ZeeTech
+        </div>
+        <!--<a href="main.html">Main Menu</a>
+        <br><a href="library.html">Library</a>
+        <br><a href="my_modules.html">My Modules</a>
+        <br><a href="achievement.html">Achievements</a>
+        <br><a href="leaderboard.html">Leaderboards</a>
+        <br><a href="forum.html">Forums</a>
+        <br><a href="setting.html">Setting</a>
+        
+        <br>Sign In
+        <br>Log In-->
+    </body>
+</html>

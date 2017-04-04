@@ -1,4 +1,3 @@
-
 package Servlet;
 
 import Model.DBAdmin;
@@ -21,18 +20,18 @@ public class createPostServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         int threadID = Integer.parseInt(request.getParameter("threadID"));
         User loggedUser = (User) request.getSession().getAttribute("loggedUser");
         String message = request.getParameter("post");
-        
-        if(loggedUser == null) {
+
+        if (loggedUser == null) {
             String errorMessage = "Please Login";
             response.sendRedirect("login.jsp?em=" + errorMessage);
             return;
         }
-        
-        if(DBAdmin.createNewPost(threadID, loggedUser.getUserID(), message)) {
+
+        if (DBAdmin.createNewPost(threadID, loggedUser.getUserID(), message)) {
             response.sendRedirect("thread.jsp?t=" + threadID);
         }
     }

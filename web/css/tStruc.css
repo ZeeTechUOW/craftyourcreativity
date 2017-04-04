@@ -1,0 +1,119 @@
+#tStructure{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	position: relative;
+	margin: 15px 2.5%;
+	width: 95%;
+	min-height: 250px;
+}
+
+#tSTitle{
+    padding: 5px 2% 15px 2%;
+	width: 96%;
+	font-size: 40px;
+}
+
+#tThreadCore{
+	width: 99%;
+	margin: 0px 0.5%;
+	background-color: #b8cab5;
+	margin-bottom: 20px;
+}
+
+#tThreadHeader{
+	padding: 1%;
+	padding-bottom: 2pc;
+	font-weight: bold;
+	background-color: #458e77;
+}
+
+#tHead{
+	float: left;
+	font-weight: bold;
+}
+
+#tHeadPage{
+	float: right;
+	font-weight: bold;
+	text-align: right;
+}
+
+#tPostHeader{
+	padding: 10px 1%;
+	background-color: #9aad96;
+}
+
+#tPostContent{
+	min-height: 160px;
+	border-style: solid;
+	border-color: #9aad96;
+	border-width: 0px 1% 1% 1%;
+	padding: 10px 1%;
+}
+
+#tThreadBot{
+	width: 99%;
+	margin: 20px auto;
+	padding: 10px 1.5%;
+	font-weight: bold;
+	background-color: #458e77;
+}
+
+#tBot{
+	float: left;
+	width: 47%;
+	height: 20px;
+	padding: 0px 1.5%;
+	font-weight: bold;
+}
+
+#tBotPage{
+	float: left;
+	width: 47%;
+	height: 20px;
+	padding: 0px 1.5%;
+	font-weight: bold;
+	text-align: right;
+}
+
+#quillBox{
+	width: 99%;
+	height: 200px;
+	margin: 0px 0.5%;
+	margin-bottom: 20px;
+	background-color: white;
+	overflow-y: hidden;
+}
+
+#quill{
+	width: 100%;
+	overflow-y: auto;
+}
+
+#quill .ql-editor {
+  overflow-y: auto;
+  height: unset;
+}
+
+.ql-container.ql-snow {
+    border: none !important;
+}
+
+/*table configuration starts*/
+table, tr, td {
+	font-size: 20px;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+td:first-child{
+	width: 50%;
+	text-align: left;
+}
+
+td:last-child{
+	width: 50%;
+	text-align: right;
+}
+/*table configuration ends*/

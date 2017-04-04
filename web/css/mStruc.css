@@ -1,0 +1,80 @@
+#structure{
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	margin: 15px 2.5%;
+	width: 95%;
+	min-height: 250px;
+}
+
+#sTitle{
+	position: relative;
+	padding: 5px 0.5%;
+	width: 99%;
+	font-size: 40px;
+}
+
+#sMore{
+	position: relative;
+	padding: 5px 0.5%;
+	width: 99%;
+	height: 40px;
+	text-align: right;
+}
+
+#sButton{
+	position: relative;
+	padding: 5px 0.5%;
+	height: 34px;
+	width: 7%;		
+	background-color: #61b29b;
+	color: #004a04;
+	font-family: Tahoma;
+}
+
+@media (max-width: 1366px) {
+	#sButton{
+		position: relative;
+		padding: 5px 0.5%;
+		height: 50px;
+		width: 7%;		
+		background-color: #61b29b;
+		color: #004a04;
+		font-family: Tahoma;
+	}
+}
+
+#sDisp{
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	padding: 15px 12.5px;
+	width: 100%-25px;
+	min-height: 210px;
+	/*overflow:hidden;*/
+}
+
+#sFrame{
+	position: relative;
+	border-radius: 5px;
+	/* put into consideration
+	width: 10.28vw;
+	height: 20vh;
+	*/
+	max-width: 200px;
+	max-height: 200px;
+	background-color: #a3b79f;
+	border: solid 3px white;
+}
+
+.frame{
+	max-width: 200px;
+	max-height: 200px;
+}
+
+table, tr, td {
+	padding: 5px 0px;
+	overflow-x: hidden;
+	table-layout:fixed;
+	width: 100%;
+}

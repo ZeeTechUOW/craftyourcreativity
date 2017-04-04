@@ -1,4 +1,3 @@
-
 package Servlet;
 
 import Model.DBAdmin;
@@ -12,8 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 public class loginServlet extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -22,22 +20,22 @@ public class loginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String username = request.getParameter("usernameLogin");
         String password = request.getParameter("passwordLogin");
-        
+
         User loggedUser = DBAdmin.login(username, username, password);
-        if(username.isEmpty() || password.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty()) {
             String error = "Please enter username/email and password";
             response.sendRedirect("login.jsp?em=" + error);
             return;
         }
-        if(loggedUser == null) {
+        if (loggedUser == null) {
             String error = "Invalid login credentials";
             response.sendRedirect("login.jsp?em=" + error);
             return;
         }
-        
+
         request.getSession().setAttribute("loggedUser", loggedUser);
         response.sendRedirect("main.jsp");
     }

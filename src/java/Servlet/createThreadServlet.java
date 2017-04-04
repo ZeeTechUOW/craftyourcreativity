@@ -1,4 +1,3 @@
-
 package Servlet;
 
 import Model.DBAdmin;
@@ -21,22 +20,21 @@ public class createThreadServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         User loggedUser = (User) request.getSession().getAttribute("loggedUser");
         String threadTitle = request.getParameter("threadTitle");
-        //String threadType = request.getParameter("threadType");
-        String threadType = "Joke";
+        String threadType = request.getParameter("threadType");
         String threadPost = request.getParameter("threadPost");
-        
-        if(loggedUser == null) {
+
+        if (loggedUser == null) {
             String errorMessage = "Please Login";
             response.sendRedirect("login.jsp?em=" + errorMessage);
             return;
         }
-        
+
         // create if later
         DBAdmin.createNewThread(loggedUser.getUserID(), threadTitle, threadType, threadPost);
-        
+
         response.sendRedirect("main.jsp");
     }
 

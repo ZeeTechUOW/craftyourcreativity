@@ -1,0 +1,34 @@
+html{
+	background: url(../resource/bg.png) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+#headerSeparator{
+	width: 100%;
+	height: 78px;
+}
+
+#header{
+	left: 0;
+	top: 0;
+	padding: 20px;
+	position: fixed;
+	width: 100%;
+	height: 45px;
+	background-color: #022519;
+	font-size: 20px;
+	z-index: 1;
+}
+
+#container{
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	margin-right: 10%;
+	margin-left: 10%;
+	background-color: #aad0c5;
+	min-height: 650px;
+}

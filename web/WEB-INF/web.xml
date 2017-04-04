@@ -20,6 +20,14 @@
         <servlet-name>createPostServlet</servlet-name>
         <servlet-class>Servlet.createPostServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ForumServlet</servlet-name>
+        <servlet-class>Servlet.ForumServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ThreadServlet</servlet-name>
+        <servlet-class>Servlet.ThreadServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loginServlet</servlet-name>
         <url-pattern>/loginServlet</url-pattern>
@@ -39,6 +47,14 @@
     <servlet-mapping>
         <servlet-name>createPostServlet</servlet-name>
         <url-pattern>/createPostServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ForumServlet</servlet-name>
+        <url-pattern>/forum</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ThreadServlet</servlet-name>
+        <url-pattern>/thread</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

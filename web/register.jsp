@@ -43,14 +43,14 @@
                     </td>
                     <td>
                         <%
-                            if(errorMessage != null) {
+                            if (errorMessage != null) {
                                 out.println(errorMessage);
                             }
                         %>
                     </td>
                 </tr>
             </table>
-            
+
         </form>
     </body>
 </html>
