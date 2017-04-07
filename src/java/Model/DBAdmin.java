@@ -94,12 +94,29 @@ public class DBAdmin {
             = "INSERT INTO `post` (`postID`, `threadID`, `userID`, `openingPost`, `message`, `timestamp`) "
             + "VALUES (NULL, (SELECT threadID FROM thread WHERE userID=? ORDER BY threadID DESC LIMIT 1), ?, ?, ?, CURRENT_TIMESTAMP)";
     private static final String GET_POST_FROM_THREAD_ID_LIMIT_BY_X
-            = "SELECT * FROM `post` WHERE threadID=? LIMIT ?, ?";
+            = "SELECT * "
+            + "FROM `post` "
+            + "WHERE threadID=? "
+            + "LIMIT ?, ?";
 
     // Module Query
     private static final String CREATE_NEW_MODULE
             = "INSERT INTO `module` (`moduleID`, `moduleVersion`, `moduleName`, `moduleDescription`, `thumbnailPath`, `releaseTime`, `lastEdited`) "
             + "VALUES (NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+    private static final String GET_ALL_MODULE_SORT_BY_POPULAR_VIEW
+            = "SELECT m.moduleID, m.moduleVersion, m.moduleName, m.moduleDescription, m.thumbnailPath, m.releaseTime, m.lastEdited, COUNT(v.moduleID) AS viewCount "
+            + "FROM module m, views v "
+            + "WHERE m.moduleID = v.moduleID "
+            + "GROUP BY m.moduleID "
+            + "ORDER BY viewCount DESC";
+    private static final String GET_ALL_MODULE_SORT_BY_NEWEST_RELEASE
+            = "SELECT * "
+            + "FROM `module` "
+            + "ORDER BY `releaseTime` DESC";
+    private static final String GET_ALL_MODULE_SORT_BY_NEWEST_UPDATE
+            = "SELECT * "
+            + "FROM `module` "
+            + "ORDER BY `lastEdited` DESC";
     private static final String GET_MODULE_FROM_MODULE_ID
             = "SELECT * "
             + "FROM `module` "
@@ -395,8 +412,46 @@ public class DBAdmin {
             return false;
         }
     }
-
-    public static Module getModule(int moduleID) {
+    
+    public static ArrayList<Module> getModuleSortBy(String sort) {
+        ArrayList<Module> modules = new ArrayList<>();
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER,DB_PASS);
+            
+            PreparedStatement preparedStatement;
+            if(sort.equalsIgnoreCase("popular")) {
+                preparedStatement = connection.prepareStatement(GET_ALL_MODULE_SORT_BY_POPULAR_VIEW);
+            } else if(sort.equalsIgnoreCase("release")) {
+                preparedStatement = connection.prepareStatement(GET_ALL_MODULE_SORT_BY_NEWEST_RELEASE);
+            } else if(sort.equalsIgnoreCase("update")) {
+                preparedStatement = connection.prepareStatement(GET_ALL_MODULE_SORT_BY_NEWEST_UPDATE);
+            }else {
+                preparedStatement = connection.prepareStatement(GET_ALL_MODULE_SORT_BY_NEWEST_RELEASE);
+            }
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            while(resultSet.next()) {
+                int _moduleID = resultSet.getInt("moduleID");
+                String _moduleVersion = resultSet.getString("moduleVersion");
+                String _moduleName = resultSet.getString("moduleName");
+                String _moduleDescription = resultSet.getString("moduleDescription");
+                String _thumbnailPath = resultSet.getString("thumbnailPath");
+                LocalDateTime _releaseTime = resultSet.getTimestamp("releaseTime").toLocalDateTime();
+                LocalDateTime _lastEdited = resultSet.getTimestamp("lastEdited").toLocalDateTime();
+                
+                modules.add(new Module(_moduleID, _moduleVersion, _moduleName, _moduleDescription, _thumbnailPath, _releaseTime, _lastEdited));
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return modules;
+    }
+    
+    public static Module getModuleByID(int moduleID) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);

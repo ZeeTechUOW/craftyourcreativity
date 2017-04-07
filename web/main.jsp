@@ -1,172 +1,136 @@
-<%-- 
-    Document   : main
-    Created on : 29/03/2017, 6:32:21 PM
-    Author     : Andree Yosua
---%>
 
-<%@page import="Model.User"%>
+<%@page import="Model.Module"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 
 <%
-    User loggedUser = (User) session.getAttribute("loggedUser");
-
-    // TO DO: redirect to index.jsp with error message
-    if (loggedUser == null) {
-        response.sendRedirect("index.jsp");
-        return;
-    }
-
-    int userID = loggedUser.getUserID();
-    String username = loggedUser.getUsername();
-    String email = loggedUser.getEmail();
-    String userType = loggedUser.getUserType();
+    ArrayList<Module> modulesPopular = (ArrayList<Module>) request.getAttribute("modulesPopular");
+    ArrayList<Module> modulesNewest = (ArrayList<Module>) request.getAttribute("modulesNewest");
+    ArrayList<Module> modulesUpdate = (ArrayList<Module>) request.getAttribute("modulesUpdate");
 %>
 
-<title>Craft Your Creativity</title>
+<!DOCTYPE html>
 <html>
     <head>
+        <title>Craft Your Creativity</title>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/coreF.css">
         <link rel="stylesheet" type="text/css" href="css/mStruc.css">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
     </head>
     <body>
         <div id="headerSeparator">
         </div>
-        <div id="header">
-            <div id="hLogo">
-                <div class="logo"><img src="resource/blogo.png" alt="front logo"></div>
+        <nav class="navbar navbar-findcond navbar-fixed-top" style="height: 78px">
+            <div class="container" style="margin-top: 10px; position: relative; width: 80%;">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="logo"><img src="resource/blogo.png" class="img-responsive" style="margin: auto; margin-top: 5px;" alt="front logo"></div>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger"></span> Menu 
+                                <ul class="dropdown-menu" role="menu" style="background-color: #4fa78b;">
+                                    <li><a href="#">Main Menu</a></li>
+                                    <li><a href="#">Library</a></li>
+                                    <li><a href="#">My modules</a></li>
+                                    <li><a href="#">Achievements</a></li>
+                                    <li><a href="#">Leaderboards</a></li>
+                                    <li><a href="#">Forums</a></li>
+                                    <li style="padding-right: 5%"><button class="button" type="button" style="float: right; background-color: #4fa78b;">
+                                            <span class="glyphicon glyphicon-cog"></span></button></li>
+                                </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="#">Log in <span class="sr-only">(current)</span></a></li>
+                        <li class="active"><a href="#">Sign up <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                    <form class="navbar-form navbar-left search-form" role="search" style="position: absolute; left: 30%; right: 30%">
+                        <input type="text" class="form-control" placeholder="Search" style="width: 100%;" />
+                    </form>
+                </div>
             </div>
-        </div>
-
+        </nav>
         <div id="container">
             <div id="structure">
                 <div id="sTitle">
-                    TEST #1
+                    Popular
                 </div>
                 <div id="sMore">
-                    BUTTON POSITION
+                    <button id="sButton" class="col-xs-offset-11">See More</button>
                 </div>
                 <div id="sDisp">
                     <table>
                         <tr>
+                            <% 
+                                for(Module m : modulesPopular) {
+                            %>
                             <td>
                                 <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder1.png" alt="f1" id="team"></div>
+                                    <div class="frame"><img src="<% out.print(m.getThumbnailPath()); %>" alt="<% out.print(m.getModuleName()); %>" id="team"></div>
                                 </div>
                             </td>
-                            <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder2.png" alt="f2" id="team"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder1.png" alt="f3" id="team"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder2.png" alt="f4" id="team"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder1.png" alt="f5" id="team"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder2.png" alt="f6" id="team"></div>
-                                </div>
-                            </td>
+                            <%
+                                }
+                            %>
                         </tr>
                     </table>
                 </div>
             </div>
             <div id="structure">
                 <div id="sTitle">
-                    TEST #2
+                    New Release
                 </div>
                 <div id="sMore">
-                    BUTTON POSITION
+                    <button id="sButton" class="col-xs-offset-11">See More</button>
                 </div>
                 <div id="sDisp">
                     <table>
                         <tr>
+                            <% 
+                                for(Module m : modulesNewest) {
+                            %>
                             <td>
                                 <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder2.png" alt="f1" id="team"></div>
+                                    <div class="frame"><img src="<% out.print(m.getThumbnailPath()); %>" alt="<% out.print(m.getModuleName()); %>" id="team"></div>
                                 </div>
                             </td>
-                            <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder1.png" alt="f2" id="team"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder2.png" alt="f3" id="team"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder1.png" alt="f4" id="team"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder2.png" alt="f5" id="team"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder1.png" alt="f6" id="team"></div>
-                                </div>
-                            </td>
+                            <%
+                                }
+                            %>
                         </tr>
                     </table>
                 </div>
             </div>
             <div id="structure">
                 <div id="sTitle">
-                    TEST #3
+                    Recently Updated
                 </div>
                 <div id="sMore">
-                    BUTTON POSITION
+                    <button id="sButton" class="col-xs-offset-11">See More</button>
                 </div>
                 <div id="sDisp">
                     <table>
                         <tr>
+                            <% 
+                                for(Module m : modulesUpdate) {
+                            %>
                             <td>
                                 <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder1.png" alt="f1" id="team"></div>
+                                    <div class="frame"><img src="<% out.print(m.getThumbnailPath()); %>" alt="<% out.print(m.getModuleName()); %>" id="team"></div>
                                 </div>
                             </td>
-                            <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder2.png" alt="f2" id="team"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder1.png" alt="f3" id="team"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder2.png" alt="f4" id="team"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder1.png" alt="f5" id="team"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="resource/placeholder2.png" alt="f6" id="team"></div>
-                                </div>
-                            </td>
+                            <%
+                                }
+                            %>
                         </tr>
                     </table>
                 </div>
@@ -183,7 +147,7 @@
         <br><a href="leaderboard.html">Leaderboards</a>
         <br><a href="forum.html">Forums</a>
         <br><a href="setting.html">Setting</a>
-
+        
         <br>Sign In
         <br>Log In-->
     </body>
