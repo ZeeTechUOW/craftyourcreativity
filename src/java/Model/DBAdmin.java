@@ -135,6 +135,17 @@ public class DBAdmin {
     private static final String DELETE_ALL_GENRE_FROM_MODULE_ID
             = "DELETE FROM `genre` "
             + "WHERE moduleID=?";
+
+    // Achievement Query
+    private static final String GET_ALL_ACHIEVEMENTS_FROM_MODULE_ID
+            = "SELECT * "
+            + "FROM `achievement` "
+            + "WHERE moduleID=?";
+
+    private static final String GET_ALL_USER_ACHIEVEMENT_FROM_USER_ID
+            = "SELECT * "
+            + "FROM `userachievement` "
+            + "WHERE userID=?";
     // </editor-fold>
 
     public static User login(String username, String email, String password) {
@@ -342,7 +353,7 @@ public class DBAdmin {
 
         return threads;
     }
-    
+
     public static boolean createNewPost(int threadID, int userID, String message) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -412,28 +423,28 @@ public class DBAdmin {
             return false;
         }
     }
-    
+
     public static ArrayList<Module> getModuleSortBy(String sort) {
         ArrayList<Module> modules = new ArrayList<>();
-        
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER,DB_PASS);
-            
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
             PreparedStatement preparedStatement;
-            if(sort.equalsIgnoreCase("popular")) {
+            if (sort.equalsIgnoreCase("popular")) {
                 preparedStatement = connection.prepareStatement(GET_ALL_MODULE_SORT_BY_POPULAR_VIEW);
-            } else if(sort.equalsIgnoreCase("release")) {
+            } else if (sort.equalsIgnoreCase("release")) {
                 preparedStatement = connection.prepareStatement(GET_ALL_MODULE_SORT_BY_NEWEST_RELEASE);
-            } else if(sort.equalsIgnoreCase("update")) {
+            } else if (sort.equalsIgnoreCase("update")) {
                 preparedStatement = connection.prepareStatement(GET_ALL_MODULE_SORT_BY_NEWEST_UPDATE);
-            }else {
+            } else {
                 preparedStatement = connection.prepareStatement(GET_ALL_MODULE_SORT_BY_NEWEST_RELEASE);
             }
-            
+
             ResultSet resultSet = preparedStatement.executeQuery();
-            
-            while(resultSet.next()) {
+
+            while (resultSet.next()) {
                 int _moduleID = resultSet.getInt("moduleID");
                 String _moduleVersion = resultSet.getString("moduleVersion");
                 String _moduleName = resultSet.getString("moduleName");
@@ -441,16 +452,16 @@ public class DBAdmin {
                 String _thumbnailPath = resultSet.getString("thumbnailPath");
                 LocalDateTime _releaseTime = resultSet.getTimestamp("releaseTime").toLocalDateTime();
                 LocalDateTime _lastEdited = resultSet.getTimestamp("lastEdited").toLocalDateTime();
-                
+
                 modules.add(new Module(_moduleID, _moduleVersion, _moduleName, _moduleDescription, _thumbnailPath, _releaseTime, _lastEdited));
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return modules;
     }
-    
+
     public static Module getModuleByID(int moduleID) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -530,6 +541,76 @@ public class DBAdmin {
         }
 
         return genres;
+    }
+
+    public static ArrayList<Achievement> getAchievementByModuleID(int moduleID) {
+        ArrayList<Achievement> achievements = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_ACHIEVEMENTS_FROM_MODULE_ID);
+            preparedStatement.setInt(1, moduleID);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int _achievementID = resultSet.getInt("achievementID");
+                int _moduleID = resultSet.getInt("moduleID");
+                String _achievementName = resultSet.getString("achievementName");
+                String _achievementDescription = resultSet.getString("achievementDescription");
+                String _imagePath = resultSet.getString("imagePath");
+
+                achievements.add(new Achievement(_achievementID, moduleID, _achievementName, _achievementDescription, _imagePath));
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return achievements;
+    }
+
+    public static ArrayList<Achievement> getAchievementByModuleID(int moduleID, int userID) {
+        ArrayList<Achievement> achievements = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            PreparedStatement preparedStatement1 = connection.prepareStatement(GET_ALL_ACHIEVEMENTS_FROM_MODULE_ID);
+            preparedStatement1.setInt(1, moduleID);
+
+            PreparedStatement preparedStatement2 = connection.prepareStatement(GET_ALL_USER_ACHIEVEMENT_FROM_USER_ID);
+            preparedStatement2.setInt(1, userID);
+
+            ResultSet resultSet = preparedStatement1.executeQuery();
+
+            while (resultSet.next()) {
+                int _achievementID = resultSet.getInt("achievementID");
+                int _moduleID = resultSet.getInt("moduleID");
+                String _achievementName = resultSet.getString("achievementName");
+                String _achievementDescription = resultSet.getString("achievementDescription");
+                String _imagePath = resultSet.getString("imagePath");
+
+                achievements.add(new Achievement(_achievementID, moduleID, _achievementName, _achievementDescription, _imagePath));
+            }
+
+            resultSet = preparedStatement2.executeQuery();
+
+            while (resultSet.next()) {
+                for (Achievement a : achievements) {
+                    if(a.getAchievementID() == resultSet.getInt("achievementID")) {
+                        a.setUnlocked(true);
+                        a.setUnlockTime(resultSet.getTimestamp("time").toLocalDateTime());
+                    }
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return achievements;
     }
 }
 
