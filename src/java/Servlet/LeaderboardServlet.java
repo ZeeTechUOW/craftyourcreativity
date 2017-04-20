@@ -1,14 +1,13 @@
+
 package Servlet;
 
-import Model.DBAdmin;
-import Model.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class loginServlet extends HttpServlet {
+public class LeaderboardServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -20,24 +19,11 @@ public class loginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        String username = request.getParameter("usernameLogin");
-        String password = request.getParameter("passwordLogin");
-
-        User loggedUser = DBAdmin.login(username, username, password);
-        if (username.isEmpty() || password.isEmpty()) {
-            String error = "Please enter username/email and password";
-            response.sendRedirect("login.jsp?em=" + error);
-            return;
-        }
-        if (loggedUser == null) {
-            String error = "Invalid login credentials";
-            response.sendRedirect("login.jsp?em=" + error);
-            return;
-        }
-
-        request.getSession().setAttribute("loggedUser", loggedUser);
-        response.sendRedirect("main.jsp");
+        
+        
+        
+        // Forward to view
+        request.getRequestDispatcher("leaderboard.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

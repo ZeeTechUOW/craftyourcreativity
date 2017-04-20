@@ -5,6 +5,7 @@ import Model.DBAdmin;
 import Model.Module;
 import Model.User;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,13 +32,9 @@ public class AchievementServlet extends HttpServlet {
         // Get user session
         User loggedUser = (User) request.getSession().getAttribute("loggedUser");
 
-        if (loggedUser == null) {
-            // Redirect to login page
-//            return;
-        }
-        
         // Initialize variable
         int moduleID;
+        int unlockedModuleCount;
         Module module;
         ArrayList<Achievement> achievements;
 
@@ -49,11 +46,28 @@ public class AchievementServlet extends HttpServlet {
             return;
         }
 
+        // Fetch Module
+        module = DBAdmin.getModuleByID(moduleID);
+        
         // Fetch achievement
-        achievements = DBAdmin.getAchievementByModuleID(moduleID);
+        if (loggedUser == null) {
+            achievements = DBAdmin.getAchievementByModuleID(moduleID);
+        } else {
+            achievements = DBAdmin.getAchievementByModuleID(moduleID, loggedUser.getUserID());
+        }
+
+        // Count unlocked achievement
+        unlockedModuleCount = 0;
+        for (Achievement a : achievements) {
+            if(a.getUnlockTime() != LocalDateTime.MIN) {
+                unlockedModuleCount++;
+            }
+        }
 
         // Set Atrribute
+        request.setAttribute("module", module);
         request.setAttribute("achievements", achievements);
+        request.setAttribute("unlockedModuleCount", unlockedModuleCount);
 
         // Forward to view
         request.getRequestDispatcher("achievement.jsp").forward(request, response);

@@ -145,7 +145,7 @@ public class DBAdmin {
     private static final String GET_ALL_USER_ACHIEVEMENT_FROM_USER_ID
             = "SELECT * "
             + "FROM `userachievement` "
-            + "WHERE userID=?";
+            + "WHERE userID=?"; 
     // </editor-fold>
 
     public static User login(String username, String email, String password) {
