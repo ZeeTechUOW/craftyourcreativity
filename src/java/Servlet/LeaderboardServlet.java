@@ -1,7 +1,12 @@
 
 package Servlet;
 
+import Model.DBAdmin;
+import Model.Module;
+import Model.ModuleUserData;
+import Model.User;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +25,35 @@ public class LeaderboardServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        // Initialize variable
+        int moduleID;
+        Module module;
+        ArrayList<ModuleUserData> userDatas = new ArrayList<>();
+        ArrayList<User> userList = new ArrayList<>();
         
+        // Parse all parameter
+        try {
+            moduleID = Integer.parseInt(request.getParameter("mid"));
+        } catch (NumberFormatException ex) {
+            // redirect to 404
+            return;
+        }
+        
+        // Fetch module
+        module = DBAdmin.getModuleByID(moduleID);
+        
+        // Fetch Highscore
+        userDatas.addAll(DBAdmin.getModuleHighScore(moduleID));
+        
+        // Fetch Userlist
+        for (ModuleUserData ud : userDatas) {
+            userList.add(DBAdmin.getUserFromUserID(ud.getUserID()));
+        }
+        
+        // Set Attribute
+        request.setAttribute("module", module);
+        request.setAttribute("userDatas", userDatas);
+        request.setAttribute("userList", userList);
         
         // Forward to view
         request.getRequestDispatcher("leaderboard.jsp").forward(request, response);

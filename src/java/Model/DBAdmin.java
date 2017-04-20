@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -145,7 +146,13 @@ public class DBAdmin {
     private static final String GET_ALL_USER_ACHIEVEMENT_FROM_USER_ID
             = "SELECT * "
             + "FROM `userachievement` "
-            + "WHERE userID=?"; 
+            + "WHERE userID=?";
+    
+    // Module user data Query
+    private static final String GET_ALL_USER_SCORE_FROM_MODULE_ID 
+            = "SELECT * "
+            + "FROM `moduleuserdata` "
+            + "WHERE moduleID=? AND mKey=?";
     // </editor-fold>
 
     public static User login(String username, String email, String password) {
@@ -611,6 +618,36 @@ public class DBAdmin {
         }
 
         return achievements;
+    }
+    
+    public static ArrayList<ModuleUserData> getModuleHighScore(int moduleID) {
+        ArrayList<ModuleUserData> userDatas = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_USER_SCORE_FROM_MODULE_ID);
+            preparedStatement.setInt(1, moduleID);
+            preparedStatement.setString(2, "score");
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            while (resultSet.next()) {
+                int _moduleID = resultSet.getInt("moduleId");
+                int _userID = resultSet.getInt("userID");
+                String _mKey = resultSet.getString("mKey");
+                String _mValue = resultSet.getString("mValue");
+                
+                userDatas.add(new ModuleUserData(_moduleID, _userID, _mKey, _mValue));
+            }
+            
+            Collections.sort(userDatas, ModuleUserData.sortByScoreDesc);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return userDatas;
     }
 }
 

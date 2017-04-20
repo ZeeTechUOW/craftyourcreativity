@@ -8,7 +8,6 @@
 
 <%
     String url = DBAdmin.WEB_URL;
-    String moduleID = request.getParameter("mid");
     
     Module module = (Module) request.getAttribute("module");
     ArrayList<Achievement> achievements = (ArrayList<Achievement>) request.getAttribute("achievements");

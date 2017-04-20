@@ -1,5 +1,18 @@
 
+<%@page import="Model.User"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="Model.ModuleUserData"%>
+<%@page import="Model.Module"%>
+<%@page import="Model.DBAdmin"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    String url = DBAdmin.WEB_URL;
+    
+    Module module = (Module) request.getAttribute("module");
+    ArrayList<ModuleUserData> userDatas = (ArrayList<ModuleUserData>) request.getAttribute("userDatas");
+    ArrayList<User> userList = (ArrayList<User>) request.getAttribute("userList");
+%>
 
 <!DOCTYPE>
 <html>
@@ -53,7 +66,7 @@
         </nav>
         <div id="container">
             <div id="lStructure">
-                <div id="lSTitle">Game: Leaderboards</div>
+                <div id="lSTitle">Game: <% out.print(module.getModuleName()); %></div>
                 <div id="lSToggle">
                     <select class="selectpicker" style="background: #61b29b">
                         <option>Global Stats</option>
@@ -62,21 +75,13 @@
                 </div>
                 <div id="lSDisp">
                     <table><tr><td><b>Rank</b></td><td><b>Online ID</b></td><td><b>Score</b></td></tr></table>
-                    <div id="lSFrame"><table><tr><b><td>1</td><td>Aeff</td><td>171294123123123</td></b></tr></table></div>
-                    <div id="lSFrame"><table><tr><b><td>2</td><td>Beff</td><td>17129446454123</td></b></tr></table></div>
-                    <div id="lSFrame"><table><tr><b><td>3</td><td>Ceff</td><td>1712942343123</td></b></tr></table></div>
-                    <div id="lSFrame"><table><tr><b><td>4</td><td>Deff</td><td>171294234411</td></b></tr></table></div>
-                    <div id="lSFrame"><table><tr><b><td>5</td><td>Eeff</td><td>17129434123</td></b></tr></table></div>
-                    <div id="lSFrame"><table><tr><b><td>6</td><td>Feff</td><td>1712941145</td></b></tr></table></div>
-                    <div id="lSFrame"><table><tr><b><td>7</td><td>Geff</td><td>171294654</td></b></tr></table></div>
-                    <div id="lSFrame"><table><tr><b><td>8</td><td>Heff</td><td>17129213</td></b></tr></table></div>
-                    <div id="lSFrame"><table><tr><b><td>9</td><td>Ieff</td><td>1712132</td></b></tr></table></div>
-                    <div id="lSFrame"><table><tr><b><td>10</td><td>Jeff</td><td>171761</td></b></tr></table></div>
-                    <div id="lSFrame"><table><tr><b><td>11</td><td>Keff</td><td>17565</td></b></tr></table></div>
-                    <div id="lSFrame"><table><tr><b><td>12</td><td>Leff</td><td>1714</td></b></tr></table></div>
-                    <div id="lSFrame"><table><tr><b><td>13</td><td>Meff</td><td>174</td></b></tr></table></div>
-                    <div id="lSFrame"><table><tr><b><td>14</td><td>Neff</td><td>17</td></b></tr></table></div>
-                    <div id="lSFrame"><table><tr><b><td>15</td><td>Oeff</td><td>5</td></b></tr></table></div>
+                    <%
+                        for (int i = 0; i < userDatas.size() && i < 20; i++) {
+                    %>
+                    <div id="lSFrame"><table><tr><b><td><% out.print(i + 1); %></td><td><% out.print(userList.get(i).getUsername()); %></td><td><% out.print(userDatas.get(i).getmValue()); %></td></b></tr></table></div>
+                    <%
+                        }
+                    %>
                 </div>
             </div>
         </div>
