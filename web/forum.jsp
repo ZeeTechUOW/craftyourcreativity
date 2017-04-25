@@ -214,7 +214,7 @@
                 } else {
                 %>
                 <div id="fSTitle">
-                    <% out.println("<B>" + StringUtils.capitalize(type) + "</b>"); %>
+                    <% out.println("<B>" + StringUtils.capitalize(type) + "</b>"); %> <% out.print(sort);%>
                 </div>
                 <div id="fListContainer">
                     <table>

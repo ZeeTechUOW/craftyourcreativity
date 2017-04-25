@@ -4,22 +4,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <meta http-equiv="refresh" content="0; url=main" />
+        <title>Redirect to Main Menu</title>
     </head>
     <body>
-        <table border="0">
-            <tr>
-                <td>
-                    <form action="login.jsp">
-                        <input type="submit" value="Login Page">
-                    </form>
-                </td>
-                <td>
-                    <form action="register.jsp">
-                        <input type="submit" value="Register Page">
-                    </form>
-                </td>
-            </tr>
-        </table>
     </body>
 </html>

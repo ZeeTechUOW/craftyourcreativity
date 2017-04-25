@@ -1,14 +1,17 @@
 package Servlet;
 
 import Model.DBAdmin;
+import Model.Module;
+import Model.ModuleUserData;
 import Model.User;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class registerServlet extends HttpServlet {
+public class LibraryServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -21,30 +24,32 @@ public class registerServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String username = request.getParameter("usernameRegister");
-        String password = request.getParameter("passwordRegister");
-        String email = request.getParameter("emailRegister");
+        // Initialize variable
+        User loggedUser;
+        ArrayList<ModuleUserData> userDatas = new ArrayList<>();
+        ArrayList<Module> modules = new ArrayList<>();
 
-        if (DBAdmin.isUsernameTaken(username)) {
-            String error = "Username already used, Please user other username";
-            response.sendRedirect("register.jsp?em=" + error);
+        // Get user session
+        loggedUser = (User) request.getSession().getAttribute("loggedUser");
+        if (loggedUser == null) {
+            // Redirect to login page
+            response.sendRedirect("login");
+            return;
         }
 
-        User user = new User(0, username, password, email, "");
+        // Fetch all user module library
+        userDatas.addAll(DBAdmin.getModuleProgress(loggedUser.getUserID()));
 
-        if (!user.isEmailValid()) {
-            String error = "Please use valid email address";
-            response.sendRedirect("register.jsp?em=" + error);
-        } else if (!user.isPasswordValid()) {
-            String error = "Password must be 8 chars long, contain at least 1 number, and no whitespace allowed";
-            response.sendRedirect("register.jsp?em=" + error);
-        } else if (DBAdmin.register(username, email, password, "player")) {
-            String message = "Account is created, please login";
-            response.sendRedirect("login.jsp?me=" + message);
-        } else {
-            String error = "Failed to create new account";
-            response.sendRedirect("regiser.jsp?em=" + error);
+        // Get all module information
+        for (ModuleUserData ud : userDatas) {
+            modules.add(DBAdmin.getModuleByID(ud.getModuleID()));
         }
+
+        // Set Attribute
+        request.setAttribute("modules", modules);
+
+        // Forward to view
+        request.getRequestDispatcher("library.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -18,11 +18,21 @@
                 <div class="logo"><img src="resource/blogo.png" alt="logo"></div>
             </div>
             <div id="title">Login</div>
-            <form class="navbar-form navbar-left search-form">
-                <input type="text" class="form-control" placeholder="Username" style="width: 100%;"/>
+            <form action="loginauth" method="post" style="margin-bottom: 0em">
+                <div class="input-lg">
+                    <input type="text" class="form-control" placeholder="Username" name="usernameLogin" style="width: 100%;"/>
+                </div>
+                <div class="input-lg">
+                    <input type="password" class="form-control" placeholder="Password" name="passwordLogin" style="width: 100%;"/>
+                </div>
+                <div id="buttonBox">
+                    <button id="Button" type="submit" class="btn btn-default">Login</button>
+                </div>
             </form>
-            <form class="navbar-form navbar-left search-form">
-                <input type="text" class="form-control" placeholder="Password" style="width: 100%;"/>
+            <form action="signup" method="post" style="margin-bottom: 0em">
+                <div id="buttonBox">
+                    <button id="Button" type="submit" class="btn btn-default">Create Account</button>
+                </div>
             </form>
             <div id="util">
                 <table id="soc">
@@ -33,8 +43,6 @@
                     </tr>
                 </table>
             </div>
-            <div id="buttonBox"><button id="Button" type="button" class="btn btn-default">Login</button></div>
-            <div id="buttonBox"><button id="Button" type="button" class="btn btn-default">Create New Account</button></div>
         </div>
     </body>
 </html>

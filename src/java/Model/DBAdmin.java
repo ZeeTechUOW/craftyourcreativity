@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 public class DBAdmin {
 
     public static final String WEB_URL = "http://localhost:8084/cycfrontend/";
+//    public static final String WEB_URL = "http://localhost:8084/cycfrontend/";
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cyc";
     private static final String DB_USER = "root";
     private static final String DB_PASS = "";
@@ -149,10 +150,15 @@ public class DBAdmin {
             + "WHERE userID=?";
     
     // Module user data Query
-    private static final String GET_ALL_USER_SCORE_FROM_MODULE_ID 
+    private static final String GET_ALL_USER_DATA_FROM_MODULE_ID 
             = "SELECT * "
             + "FROM `moduleuserdata` "
             + "WHERE moduleID=? AND mKey=?";
+    
+    private static final String GET_USER_DATA_FROM_MODULE_ID 
+            = "SELECT * "
+            + "FROM `moduleuserdata` "
+            + "WHERE userID=? AND mKey=?";
     // </editor-fold>
 
     public static User login(String username, String email, String password) {
@@ -627,7 +633,7 @@ public class DBAdmin {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
             
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_USER_SCORE_FROM_MODULE_ID);
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_USER_DATA_FROM_MODULE_ID);
             preparedStatement.setInt(1, moduleID);
             preparedStatement.setString(2, "score");
             
@@ -649,11 +655,41 @@ public class DBAdmin {
 
         return userDatas;
     }
+    
+    public static ArrayList<ModuleUserData> getModuleProgress(int userID) {
+        ArrayList<ModuleUserData> userDatas = new ArrayList<>();
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            PreparedStatement preparedStatement = connection.prepareCall(GET_USER_DATA_FROM_MODULE_ID);
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setString(2, "progress");
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            while (resultSet.next()) {
+                int _moduleID = resultSet.getInt("moduleId");
+                int _userID = resultSet.getInt("userID");
+                String _mKey = resultSet.getString("mKey");
+                String _mValue = resultSet.getString("mValue");
+                
+                userDatas.add(new ModuleUserData(_moduleID, _userID, _mKey, _mValue));
+            }
+            
+            Collections.sort(userDatas, ModuleUserData.sortByModuleIDAsc);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return userDatas;
+    }
 }
 
-//        try {
-//            Class.forName("com.mysql.jdbc.Driver");
-//            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER,DB_PASS);
-//        } catch (ClassNotFoundException | SQLException ex) {
-//            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+    //        try {
+    //            Class.forName("com.mysql.jdbc.Driver");
+    //            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER,DB_PASS);
+    //        } catch (ClassNotFoundException | SQLException ex) {
+    //            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+    //        }

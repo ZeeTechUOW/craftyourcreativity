@@ -54,4 +54,11 @@ public class ModuleUserData {
             return Integer.valueOf(o2.getmValue()).compareTo(Integer.valueOf(o1.getmValue()));
         }
     };
+    
+    public static Comparator<ModuleUserData> sortByModuleIDAsc = new Comparator<ModuleUserData>() {
+        @Override
+        public int compare(ModuleUserData o1, ModuleUserData o2) {
+            return Integer.compare(o1.getModuleID(), o2.getModuleID());
+        }
+    };
 }

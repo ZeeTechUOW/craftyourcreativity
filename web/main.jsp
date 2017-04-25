@@ -1,9 +1,13 @@
 
+<%@page import="Model.User"%>
+<%@page import="Model.DBAdmin"%>
 <%@page import="Model.Module"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
+    User loggedUser = (User) request.getSession().getAttribute("loggedUser");
+    
     ArrayList<Module> modulesPopular = (ArrayList<Module>) request.getAttribute("modulesPopular");
     ArrayList<Module> modulesNewest = (ArrayList<Module>) request.getAttribute("modulesNewest");
     ArrayList<Module> modulesUpdate = (ArrayList<Module>) request.getAttribute("modulesUpdate");
@@ -38,20 +42,42 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger"></span> Menu 
                                 <ul class="dropdown-menu" role="menu" style="background-color: #4fa78b;">
-                                    <li><a href="#">Main Menu</a></li>
-                                    <li><a href="#">Library</a></li>
+                                    <li><a href="main">Main Menu</a></li>
+                                    <li><a href="library">Library</a></li>
+                                    <%
+                                        if (loggedUser != null && loggedUser.getUserType() != "player") {
+                                    %>
                                     <li><a href="#">My modules</a></li>
+                                    <%
+                                        }
+                                    %>
                                     <li><a href="#">Achievements</a></li>
                                     <li><a href="#">Leaderboards</a></li>
-                                    <li><a href="#">Forums</a></li>
-                                    <li style="padding-right: 5%"><button class="button" type="button" style="float: right; background-color: #4fa78b;">
-                                            <span class="glyphicon glyphicon-cog"></span></button></li>
+                                    <li><a href="forum">Forums</a></li>
+                                    <%
+                                        if (loggedUser != null && loggedUser.getUserType() != "player") {
+                                    %>
+                                    <li><a href="logoutauth">Logout</a></li>
+                                    <%
+                                        }
+                                    %>
+                                    <li style="padding-right: 5%"><button class="button" type="button" style="float: right; background-color: #4fa78b;"><span class="glyphicon glyphicon-cog"></span></button></a></li>
                                 </ul>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="#">Log in <span class="sr-only">(current)</span></a></li>
-                        <li class="active"><a href="#">Sign up <span class="sr-only">(current)</span></a></li>
+                        <%
+                            if (loggedUser == null) {
+                        %>
+                        <li class="active"><a href="login">Log in <span class="sr-only">(current)</span></a></li>
+                        <li class="active"><a href="signup">Sign up <span class="sr-only">(current)</span></a></li>
+                        <%
+                            } else {
+                        %>
+                        <li class="active"><a href="#"><% out.print(loggedUser.getUsername()); %><span class="sr-only">(current)</span></a></li>
+                        <%
+                            }
+                        %>
                     </ul>
                     <form class="navbar-form navbar-left search-form" role="search" style="position: absolute; left: 30%; right: 30%">
                         <input type="text" class="form-control" placeholder="Search" style="width: 100%;" />
@@ -74,9 +100,11 @@
                                 for(Module m : modulesPopular) {
                             %>
                             <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="<% out.print(m.getThumbnailPath()); %>" alt="<% out.print(m.getModuleName()); %>" id="team"></div>
-                                </div>
+                                <a href="">
+                                    <div id="sFrame">
+                                        <div class="frame"><img src="<% out.print(m.getThumbnailPath()); %>" alt="<% out.print(m.getModuleName()); %>" id="team"></div>
+                                    </div>
+                                </a>
                             </td>
                             <%
                                 }
@@ -99,9 +127,11 @@
                                 for(Module m : modulesNewest) {
                             %>
                             <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="<% out.print(m.getThumbnailPath()); %>" alt="<% out.print(m.getModuleName()); %>" id="team"></div>
-                                </div>
+                                <a href="">
+                                    <div id="sFrame">
+                                        <div class="frame"><img src="<% out.print(m.getThumbnailPath()); %>" alt="<% out.print(m.getModuleName()); %>" id="team"></div>
+                                    </div>
+                                </a>
                             </td>
                             <%
                                 }
@@ -124,9 +154,11 @@
                                 for(Module m : modulesUpdate) {
                             %>
                             <td>
-                                <div id="sFrame">
-                                    <div class="frame"><img src="<% out.print(m.getThumbnailPath()); %>" alt="<% out.print(m.getModuleName()); %>" id="team"></div>
-                                </div>
+                                <a href="">
+                                    <div id="sFrame">
+                                        <div class="frame"><img src="<% out.print(m.getThumbnailPath()); %>" alt="<% out.print(m.getModuleName()); %>" id="team"></div>
+                                    </div>
+                                </a>
                             </td>
                             <%
                                 }

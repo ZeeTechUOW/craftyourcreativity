@@ -1,25 +1,18 @@
-
 <%@page import="Model.Module"%>
-<%@page import="java.time.LocalDateTime"%>
-<%@page import="Model.Achievement"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="Model.DBAdmin"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    String url = DBAdmin.WEB_URL;
-    
-    Module module = (Module) request.getAttribute("module");
-    ArrayList<Achievement> achievements = (ArrayList<Achievement>) request.getAttribute("achievements");
-    int unlockedModuleCount = (int) request.getAttribute("unlockedModuleCount");
+    ArrayList<Module> modules = (ArrayList<Module>) request.getAttribute("modules");
 %>
+
 <!DOCTYPE>
 <html>
     <head>
-        <title>Achievements</title>
+        <title>Library</title>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/coreF.css">
-        <link rel="stylesheet" type="text/css" href="css/aStruc.css">
+        <link rel="stylesheet" type="text/css" href="css/mStruc.css">
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
     </head>
@@ -64,35 +57,36 @@
             </div>
         </nav>
         <div id="container">
-            <div id="aStructure">
-                <div id="aSTitle">Game: <% out.print(module.getModuleName()); %></div>
-                <div id="aSList"><% out.print(unlockedModuleCount); %> of <% out.print(achievements.size()); %> unlocked</div>
-                <div id="aSDisp">
-                    <%
-                        for (Achievement a : achievements) {
-                    %>
-                    <div id="aSFrame">
-                        <table>
-                            <tr>
-                                <td><div id="aSpic"><div class="aFrame"><img src="<% out.print(a.getImagePath()); %>" alt="a1"></div></div></td>
-                                <td><b><% out.print(a.getAchievementName()); %></b><br><% out.print(a.getAchievementDescription()); %></td>
-                                <%
-                                    if (a.getUnlockTime() == LocalDateTime.MIN) {
-                                %>
-                                <td>Locked</td>
-                                <%
-                                    } else {
-                                %>
-                                <td>Unlocked <% out.print(a.getUnlockTime().getDayOfMonth() + "/" + a.getUnlockTime().getMonthValue() + "/" + a.getUnlockTime().getYear()); %></td>
-                                <%
-                                    }
-                                %>
-                            </tr>
-                        </table>
-                    </div>
-                    <%
-                        }
-                    %>
+            <div id="structure">
+                <div id="sTitle">
+                    My Library
+                </div>
+                <div id="sMore">
+                </div>
+                <div id="sDisp">
+                    <table>
+                        <%
+                            for (int i = 0; i < modules.size(); i++) {
+                                if(i % 6 == 0) {
+                        %>
+                        <tr>
+                        <%
+                                }
+                        %>
+                            <td>
+                                <div id="sFrame">
+                                    <div class="frame"><img src="<% out.print(modules.get(i).getThumbnailPath()); %>" alt="f1" id="team"></div>
+                                </div>
+                            </td>
+                        <%
+                                if(i % 6 == 5) {
+                        %>
+                        </tr>
+                        <%
+                                }
+                            }
+                        %>
+                    </table>
                 </div>
             </div>
         </div>

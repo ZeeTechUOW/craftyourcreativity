@@ -72,6 +72,57 @@
 	max-height: 200px;
 }
 
+#descSeparator{
+	width: 100%;
+	height: 20px;
+}
+
+#descTitle{
+	position: relative;
+	padding: 5px 2%;
+	width: 99%;
+	font-size: 40px;
+}
+
+#descImg{
+	position: relative;
+	margin: 50px auto;
+	max-width: 500px;
+	max-height: 500px;
+}
+
+.desc{
+	max-width: 500px;
+	max-height: 500px;
+}
+
+#descBox{
+	position: relative;
+	border-radius: 5px;
+	/*
+	width: 10.28vw;
+	height: 20vh;
+	*/
+	margin: 10px 10%;
+	padding: 15px;
+	width: 77.5%;
+	min-height: 250px;
+	background-color: #a3b79f;
+	border: solid 3px white;
+}
+
+#descButtonBox{
+	position: relative;
+	border-radius: 0px 0px 5px 5px;
+	/*
+	width: 10.28vw;
+	height: 20vh;
+	*/
+	padding: 10px;
+	width: 100%;
+	height: 50px;
+}
+
 table, tr, td {
 	padding: 5px 0px;
 	overflow-x: hidden;

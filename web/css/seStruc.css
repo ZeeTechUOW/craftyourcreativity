@@ -33,16 +33,32 @@
 }
 
 #seContent{
-	width: 80%;
+	width: 100%;
 	/*background-color: gray;*/
 	min-height: 650px;
 	font-size: 1.5vw;
 }
 
 #seBox{
-	width: 90%;
+	width: 100%;
 	/*background-color: gray;*/
 	padding: 4% 5% 0px 5%;
+	min-height: 50px;
+	font-size: 1.5vw;
+}
+
+#seBox{
+	width: 100%;
+	/*background-color: gray;*/
+	padding: 4% 5% 0px 5%;
+	min-height: 50px;
+	font-size: 1.5vw;
+}
+
+#teBox{
+	width: 100%;
+	/*background-color: gray;*/
+	padding: 4% 25% 0px 5%;
 	min-height: 50px;
 	font-size: 1.5vw;
 }
@@ -89,8 +105,8 @@
 }
 
 .avatar{
-	width: 200px;
-	height: 200px;
+	width: 195px;
+	height: 195px;
 }
 
 #seAvatarSelect{
@@ -98,6 +114,73 @@
 	margin: 0px 5%;
 	min-height: 100px;
 	font-size: 30px;
+}
+
+/*theme page*/
+
+#thm{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	position: relative;
+	width: 100%;
+	/*background-color: green;*/
+	min-height: 250px;
+}
+
+#thmTitle{
+	width: 100%;
+	/*background-color: green;*/
+	text-align: center;
+	padding: 30px 5%;
+	text-decoration: underline;
+	font-size: 40px;
+}
+
+#thmDisp{
+	position: relative;
+	border-radius: 5px;
+	/*
+	width: 10.28vw;
+	height: 20vh;
+	*/
+	min-height: 1px;
+	min-width: 1px;
+	margin: 10px 16.56%;
+	background-color: #a3b79f;
+	border: solid 3px white;
+}
+
+.thm{
+	max-width: 1206px;
+	max-height: 576px;
+}
+
+#thmSelection{
+	position: relative;
+	border-radius: 5px;
+	/*
+	width: 10.28vw;
+	height: 20vh;
+	*/
+	margin: 10px auto;
+	padding: 15px;
+	width: 67%;
+	height: 250px;
+	background-color: #a3b79f;
+	border: solid 3px #a3b79f;
+}
+
+.tema{
+	max-width: 150px;
+	max-height: 113px;
+}
+
+#thmButtonContainer{
+	display: flex;
+	flex-wrap: wrap;
+	width: 67%;
+	margin: 10px auto 20px auto;
 }
 
 /*about page*/
@@ -112,15 +195,16 @@
 }
 
 #abtTitle{
-	width: 90%;
+	width: 100%;
 	/*background-color: green;*/
+	text-align: center;
 	padding: 30px 5%;
 	text-decoration: underline;
 	font-size: 40px;
 }
 
 #abtContent{
-	width: 90%;
+	width: 100%;
 	padding: 30px 5%;
 	text-align: center;
 	font-size: 1.5vw;
@@ -130,11 +214,20 @@
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: row;
-	width: 94%;
+	width: 100%;
 	min-height: 100px;
 	padding: 0px 0px 2% 6%;
 	text-align: center;
 	font-size: 24px;
+}
+
+#abtSpacer{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	position: relative;
+	width: 13%;
+	height: 10px;
 }
 
 #abtMember{
@@ -146,7 +239,7 @@
 	padding: 10px 0px;
 	margin: 10px 0px 10px 5%;
 	/*background-color: green;*/
-	min-height: 200px;
+	height: 600px;
 }
 
 #abtPhoto{
@@ -172,11 +265,13 @@
 #abtName{
 	padding: 2%;
 	font-size: 1.5vw;
+	height: 110px;
 	font-weight: bold;
 }
 
 #abtPosition{
 	padding: 1%;
+	height: 85px;
 	font-size: 1.3vw;
 	font-style: italic;
 }

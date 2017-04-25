@@ -33,6 +33,24 @@ public class MainServlet extends HttpServlet {
         modulesNewest.addAll(DBAdmin.getModuleSortBy("newest"));
         modulesUpdate.addAll(DBAdmin.getModuleSortBy("update"));
         
+        // Remove newest module if releasedate = lastedited
+        for (int i = (modulesNewest.size() - 1); i >= 0; i--) {
+            if(modulesNewest.get(i).getLastEdited().isEqual(modulesNewest.get(i).getReleaseTime())) {
+                modulesNewest.remove(i);
+            }
+        }
+        
+        // Limit module to 6
+        while(modulesPopular.size() > 6) {
+            modulesPopular.remove(6);
+        }
+        while(modulesNewest.size() > 6) {
+            modulesNewest.remove(6);
+        }
+        while(modulesUpdate.size() > 6) {
+            modulesUpdate.remove(6);
+        }
+        
         // Set Attribute
         request.setAttribute("modulesPopular", modulesPopular);
         request.setAttribute("modulesNewest", modulesNewest);

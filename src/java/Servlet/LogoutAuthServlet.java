@@ -1,3 +1,4 @@
+
 package Servlet;
 
 import java.io.IOException;
@@ -6,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class logoutServlet extends HttpServlet {
+public class LogoutAuthServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -18,9 +19,9 @@ public class logoutServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
         request.getSession().setAttribute("loggedUser", null);
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("main");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

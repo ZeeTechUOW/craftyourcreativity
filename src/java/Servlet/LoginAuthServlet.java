@@ -1,3 +1,4 @@
+
 package Servlet;
 
 import Model.DBAdmin;
@@ -8,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class registerServlet extends HttpServlet {
+public class LoginAuthServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -20,31 +21,36 @@ public class registerServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        String username = request.getParameter("usernameRegister");
-        String password = request.getParameter("passwordRegister");
-        String email = request.getParameter("emailRegister");
-
-        if (DBAdmin.isUsernameTaken(username)) {
-            String error = "Username already used, Please user other username";
-            response.sendRedirect("register.jsp?em=" + error);
+        
+        // Initialize variable
+        String username;
+        String password;
+        User loggedUser;
+        
+        // Get parameter
+        username = request.getParameter("usernameLogin");
+        password = request.getParameter("passwordLogin");
+        
+        // Cehck parameter
+        if(username.isEmpty() || password.isEmpty()) {
+            response.sendRedirect("login");
+            return;
         }
-
-        User user = new User(0, username, password, email, "");
-
-        if (!user.isEmailValid()) {
-            String error = "Please use valid email address";
-            response.sendRedirect("register.jsp?em=" + error);
-        } else if (!user.isPasswordValid()) {
-            String error = "Password must be 8 chars long, contain at least 1 number, and no whitespace allowed";
-            response.sendRedirect("register.jsp?em=" + error);
-        } else if (DBAdmin.register(username, email, password, "player")) {
-            String message = "Account is created, please login";
-            response.sendRedirect("login.jsp?me=" + message);
-        } else {
-            String error = "Failed to create new account";
-            response.sendRedirect("regiser.jsp?em=" + error);
+        
+        // Try login
+        loggedUser = DBAdmin.login(username, username, password);
+        
+        // Check user exist
+        if(loggedUser == null) {
+            response.sendRedirect("login");
+            return;
         }
+        
+        // Set loggedUser to session
+        request.getSession().setAttribute("loggedUser", loggedUser);
+        
+        // redirect to main menu
+        response.sendRedirect("main");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
