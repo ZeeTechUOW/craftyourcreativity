@@ -50,7 +50,7 @@ public class ThreadServlet extends HttpServlet {
         }
 
         // Calculating total page
-        postCount = DBAdmin.getThreadPostCountFromThreadID(id);
+        postCount = DBAdmin.getThreadPostCount(id);
         System.out.println(postCount);
         if (postCount % 10 == 0) {
             lastPage = postCount / 10;
@@ -66,16 +66,16 @@ public class ThreadServlet extends HttpServlet {
         }
 
         // Retrieve thread and posts
-        Thread thread = DBAdmin.getThreadFromThreadID(id);
+        Thread thread = DBAdmin.getThread(id);
         if (thread == null) {
             // Send to 404
         }
-        posts = DBAdmin.getPostFromThreadIDByPage(id, page);
+        posts = DBAdmin.getThreadPost(id, page);
         
         // Get username for every post
         userList = new ArrayList<>();
         for(Post p : posts) {
-            userList.add(DBAdmin.getUserFromUserID(p.getUserID()));
+            userList.add(DBAdmin.getUser(p.getUserID()));
         }
 
         // Create thread page url

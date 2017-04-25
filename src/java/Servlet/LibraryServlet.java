@@ -42,7 +42,7 @@ public class LibraryServlet extends HttpServlet {
 
         // Get all module information
         for (ModuleUserData ud : userDatas) {
-            modules.add(DBAdmin.getModuleByID(ud.getModuleID()));
+            modules.add(DBAdmin.getModule(ud.getModuleID()));
         }
 
         // Set Attribute

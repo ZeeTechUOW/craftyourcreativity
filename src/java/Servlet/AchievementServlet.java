@@ -48,7 +48,7 @@ public class AchievementServlet extends HttpServlet {
         }
 
         // Fetch Module
-        module = DBAdmin.getModuleByID(moduleID);
+        module = DBAdmin.getModule(moduleID);
         if (module == null) {
             response.sendRedirect("404");
             return;
@@ -56,9 +56,9 @@ public class AchievementServlet extends HttpServlet {
         
         // Fetch achievement
         if (loggedUser == null) {
-            achievements = DBAdmin.getAchievementByModuleID(moduleID);
+            achievements = DBAdmin.getAchievement(moduleID);
         } else {
-            achievements = DBAdmin.getAchievementByModuleID(moduleID, loggedUser.getUserID());
+            achievements = DBAdmin.getAchievement(moduleID, loggedUser.getUserID());
         }
 
         // Count unlocked achievement

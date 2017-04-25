@@ -63,7 +63,7 @@ public class ForumServlet extends HttpServlet {
         
         // Get username for every thread
         for(Thread t : threads) {
-            userList.add(DBAdmin.getUserFromUserID(t.getUserID()));
+            userList.add(DBAdmin.getUser(t.getUserID()));
         }
         
         // Calculating total page

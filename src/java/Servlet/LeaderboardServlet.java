@@ -40,14 +40,14 @@ public class LeaderboardServlet extends HttpServlet {
         }
         
         // Fetch module
-        module = DBAdmin.getModuleByID(moduleID);
+        module = DBAdmin.getModule(moduleID);
         
         // Fetch Highscore
         userDatas.addAll(DBAdmin.getModuleHighScore(moduleID));
         
         // Fetch Userlist
         for (ModuleUserData ud : userDatas) {
-            userList.add(DBAdmin.getUserFromUserID(ud.getUserID()));
+            userList.add(DBAdmin.getUser(ud.getUserID()));
         }
         
         // Set Attribute
