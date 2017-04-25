@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <servlet-name>registerServlet</servlet-name>
-        <servlet-class>Servlet.registerServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>createThreadServlet</servlet-name>
         <servlet-class>Servlet.createThreadServlet</servlet-class>
     </servlet>
@@ -56,10 +52,30 @@
         <servlet-name>LibraryServlet</servlet-name>
         <servlet-class>Servlet.LibraryServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>registerServlet</servlet-name>
-        <url-pattern>/registerServlet</url-pattern>
-    </servlet-mapping>
+    <servlet>
+        <servlet-name>ModuleServlet</servlet-name>
+        <servlet-class>Servlet.ModuleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Error404Servlet</servlet-name>
+        <servlet-class>Servlet.Error404Servlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Error401Servlet</servlet-name>
+        <servlet-class>Servlet.Error401Servlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Error403Servlet</servlet-name>
+        <servlet-class>Servlet.Error403Servlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Error500Servlet</servlet-name>
+        <servlet-class>Servlet.Error500Servlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Error503Servlet</servlet-name>
+        <servlet-class>Servlet.Error503Servlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>createThreadServlet</servlet-name>
         <url-pattern>/createThreadServlet</url-pattern>
@@ -111,6 +127,55 @@
     <servlet-mapping>
         <servlet-name>LibraryServlet</servlet-name>
         <url-pattern>/library</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModuleServlet</servlet-name>
+        <url-pattern>/module</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Error404Servlet</servlet-name>
+        <url-pattern>/404</url-pattern>
+    </servlet-mapping>
+    <error-page>
+        <!-- Missing login -->
+        <error-code>401</error-code>
+        <location>/401</location>
+    </error-page>
+    <error-page>
+        <!-- Forbidden directory listing -->
+        <error-code>403</error-code>
+        <location>/403</location>
+    </error-page>
+    <error-page>
+        <!-- Missing resource -->
+        <error-code>404</error-code>
+        <location>/404</location>
+    </error-page>
+    <error-page>
+        <!-- Uncaught exception -->
+        <error-code>500</error-code>
+        <location>/500</location>
+    </error-page>
+    <error-page>
+        <!-- Unsupported servlet method -->
+        <error-code>503</error-code>
+        <location>/503</location>
+    </error-page>
+    <servlet-mapping>
+        <servlet-name>Error401Servlet</servlet-name>
+        <url-pattern>/401</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Error403Servlet</servlet-name>
+        <url-pattern>/403</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Error500Servlet</servlet-name>
+        <url-pattern>/500</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Error503Servlet</servlet-name>
+        <url-pattern>/503</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

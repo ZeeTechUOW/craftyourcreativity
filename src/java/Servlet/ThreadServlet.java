@@ -39,7 +39,8 @@ public class ThreadServlet extends HttpServlet {
             id = Integer.parseInt(request.getParameter("tid"));
         } catch (NumberFormatException ex) {
             // Send to 404
-            id = 0;
+            response.sendRedirect("404");
+            return;
         }
 
         try {
