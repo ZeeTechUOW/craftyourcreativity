@@ -12,6 +12,10 @@ body{
 	background-color: white;/*#1e5543;*/
 }
 
+#colorOverride{
+    background-color: #4fa78b;
+}
+
 #headerSeparator{
 	width: 100%;
 	height: 78px;
