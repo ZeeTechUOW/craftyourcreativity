@@ -56,6 +56,10 @@
         <servlet-name>ErrorServlet</servlet-name>
         <servlet-class>Servlet.ErrorServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreatePostServlet</servlet-name>
+        <servlet-class>Servlet.CreatePostServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>createThreadServlet</servlet-name>
         <url-pattern>/createThreadServlet</url-pattern>
@@ -160,6 +164,10 @@
         <error-code>504</error-code>
         <location>/error?code=504</location>
     </error-page>
+    <servlet-mapping>
+        <servlet-name>CreatePostServlet</servlet-name>
+        <url-pattern>/createpost</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
