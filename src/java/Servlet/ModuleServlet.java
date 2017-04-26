@@ -1,4 +1,3 @@
-
 package Servlet;
 
 import java.io.IOException;
@@ -28,9 +27,11 @@ public class ModuleServlet extends HttpServlet {
             moduleID = Integer.parseInt(request.getParameter("mid"));
         } catch (NumberFormatException ex) {
             // Redirect to 404
-            response.sendRedirect("404");
+            response.sendRedirect("error?code=404");
             return;
         }
+        
+        request.getRequestDispatcher("module.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

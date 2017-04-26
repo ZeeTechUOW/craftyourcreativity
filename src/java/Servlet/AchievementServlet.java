@@ -43,14 +43,14 @@ public class AchievementServlet extends HttpServlet {
             moduleID = Integer.parseInt(request.getParameter("mid"));
         } catch (NumberFormatException ex) {
             // Redirect to 404
-            response.sendRedirect("404");
+            response.sendRedirect("error?code=404");
             return;
         }
 
         // Fetch Module
         module = DBAdmin.getModule(moduleID);
         if (module == null) {
-            response.sendRedirect("404");
+            response.sendRedirect("error?code=404");
             return;
         }
         

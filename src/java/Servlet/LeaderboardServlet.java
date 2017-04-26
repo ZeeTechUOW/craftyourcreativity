@@ -36,11 +36,16 @@ public class LeaderboardServlet extends HttpServlet {
             moduleID = Integer.parseInt(request.getParameter("mid"));
         } catch (NumberFormatException ex) {
             // redirect to 404
+            response.sendRedirect("error?code=404");
             return;
         }
         
         // Fetch module
         module = DBAdmin.getModule(moduleID);
+        if(module == null) {
+            response.sendRedirect("error?code=404");
+            return;
+        }
         
         // Fetch Highscore
         userDatas.addAll(DBAdmin.getModuleHighScore(moduleID));

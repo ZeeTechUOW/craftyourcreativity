@@ -39,7 +39,7 @@ public class ThreadServlet extends HttpServlet {
             id = Integer.parseInt(request.getParameter("tid"));
         } catch (NumberFormatException ex) {
             // Send to 404
-            response.sendRedirect("404");
+            response.sendRedirect("error?code=404");
             return;
         }
 
@@ -69,6 +69,8 @@ public class ThreadServlet extends HttpServlet {
         Thread thread = DBAdmin.getThread(id);
         if (thread == null) {
             // Send to 404
+            response.sendRedirect("error?code=404");
+            return;
         }
         posts = DBAdmin.getThreadPost(id, page);
         

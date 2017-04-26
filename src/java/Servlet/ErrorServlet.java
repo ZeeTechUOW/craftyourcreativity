@@ -1,12 +1,13 @@
 package Servlet;
 
+import Model.HttpErrorList;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class Error503Servlet extends HttpServlet {
+public class ErrorServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -19,7 +20,25 @@ public class Error503Servlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        request.getRequestDispatcher("503.jsp").forward(request, response);
+        // Initialize variable
+        int errorID;
+        String message;
+        
+        // Parse Parameter
+        try {
+            errorID = Integer.parseInt(request.getParameter("code"));
+        } catch (NumberFormatException ex) {
+            errorID = 500;
+        }
+        
+        // Get Message
+        message = HttpErrorList.getMessages(errorID);
+        
+        // Set Attribute
+        request.setAttribute("errorID", errorID);
+        request.setAttribute("message", message);
+        
+        request.getRequestDispatcher("error.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
