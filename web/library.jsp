@@ -7,6 +7,7 @@
 <%
     String url = DBAdmin.WEB_URL;
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
+    
     ArrayList<Module> modules = (ArrayList<Module>) request.getAttribute("modules");
 %>
 

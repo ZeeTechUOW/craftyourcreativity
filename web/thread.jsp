@@ -11,16 +11,8 @@
     String url = DBAdmin.WEB_URL;
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
     
-    int pageNum;
-    int lastPage;
-
-    try {
-        pageNum = Integer.parseInt(request.getParameter("page"));
-    } catch (NumberFormatException ex) {
-        pageNum = 1;
-    }
-
-    lastPage = (int) request.getAttribute("lastPage");
+    int pageNum = (int) request.getAttribute("pageNum");
+    int lastPage = (int) request.getAttribute("lastPage");
     ArrayList<String> pageCount = (ArrayList<String>) request.getAttribute("pageCount");
     ArrayList<String> pageCountUrl = (ArrayList<String>) request.getAttribute("pageCountUrl");
 

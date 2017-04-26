@@ -1,7 +1,5 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE>
-<!-- saved from url=(0014)about:internet -->
 <html>
     <head>
         <title>Log in</title>

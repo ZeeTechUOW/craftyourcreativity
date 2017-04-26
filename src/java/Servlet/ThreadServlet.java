@@ -26,7 +26,7 @@ public class ThreadServlet extends HttpServlet {
 
         // Initialize variable
         int id;
-        int page;
+        int pageNum;
         int postCount;
         int lastPage;
         ArrayList<Post> posts;
@@ -44,9 +44,9 @@ public class ThreadServlet extends HttpServlet {
         }
 
         try {
-            page = Integer.parseInt(request.getParameter("page"));
+            pageNum = Integer.parseInt(request.getParameter("page"));
         } catch (NumberFormatException ex) {
-            page = 1;
+            pageNum = 1;
         }
 
         // Calculating total page
@@ -59,10 +59,10 @@ public class ThreadServlet extends HttpServlet {
         }
 
         // Checking page
-        if (page < 1) {
-            page = 1;
-        } else if (page > lastPage) {
-            page = lastPage;
+        if (pageNum < 1) {
+            pageNum = 1;
+        } else if (pageNum > lastPage) {
+            pageNum = lastPage;
         }
 
         // Retrieve thread and posts
@@ -72,7 +72,7 @@ public class ThreadServlet extends HttpServlet {
             response.sendRedirect("error?code=404");
             return;
         }
-        posts = DBAdmin.getThreadPost(id, page);
+        posts = DBAdmin.getThreadPost(id, pageNum);
         
         // Get username for every post
         userList = new ArrayList<>();
@@ -81,11 +81,12 @@ public class ThreadServlet extends HttpServlet {
         }
 
         // Create thread page url
-        pageCount = generatePageCount(page, lastPage);
-        pageCountUrl = generatePageCountUrl(pageCount, id, page, lastPage);
+        pageCount = generatePageCount(pageNum, lastPage);
+        pageCountUrl = generatePageCountUrl(pageCount, id, pageNum, lastPage);
 
         // Set attribute
         request.setAttribute("postCount", postCount);
+        request.setAttribute("pageNum", pageNum);
         request.setAttribute("lastPage", lastPage);
         request.setAttribute("thread", thread);
         request.setAttribute("posts", posts);
