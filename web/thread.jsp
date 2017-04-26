@@ -55,7 +55,7 @@
                     <ul class="nav navbar-nav navbar-left">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger"></span> Menu 
-                                <ul class="dropdown-menu" role="menu" style="background-color: #4fa78b;">
+                                <ul id="colorOverride" class="dropdown-menu" role="menu">
                                     <li><a href="main">Main Menu</a></li>
                                     <li><a href="library">Library</a></li>
                                     <%
@@ -75,7 +75,7 @@
                                     <%
                                         }
                                     %>
-                                    <li style="padding-right: 5%"><button class="button" type="button" style="float: right; background-color: #4fa78b;"><span class="glyphicon glyphicon-cog"></span></button></a></li>
+                                    <li style="padding-right: 5%"><button id="colorOverride" class="button" type="button" style="float: right;"><span class="glyphicon glyphicon-cog"></span></button></a></li>
                                 </ul>
                         </li>
                     </ul>
