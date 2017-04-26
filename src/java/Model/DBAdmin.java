@@ -91,7 +91,7 @@ public class DBAdmin {
     // Post Query
     private static final String CREATE_NEW_POST
             = "INSERT INTO `post` (`postID`, `threadID`, `userID`, `openingPost`, `message`, `timestamp`) "
-            + "VALUES (NULL, ?, ?, ?%, ?, CURRENT_TIMESTAMP)";
+            + "VALUES (NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
     private static final String CREATE_OPENING_POST
             = "INSERT INTO `post` (`postID`, `threadID`, `userID`, `openingPost`, `message`, `timestamp`) "
             + "VALUES (NULL, (SELECT threadID FROM thread WHERE userID=? ORDER BY threadID DESC LIMIT 1), ?, ?, ?, CURRENT_TIMESTAMP)";

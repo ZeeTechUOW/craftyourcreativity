@@ -25,10 +25,6 @@ public class SignupAuthServlet extends HttpServlet {
         String password = request.getParameter("passwordRegister");
         String email = request.getParameter("emailRegister");
         
-        System.out.println(username);
-        System.out.println(password);
-        System.out.println(email);
-
         if (DBAdmin.isUsernameTaken(username)) {
             String error = "Username already used, Please user other username";
 
@@ -38,7 +34,6 @@ public class SignupAuthServlet extends HttpServlet {
         User user = new User(0, username, password, email, "");
 
         if (!user.isEmailValid()) {
-            System.out.println(user.isEmailValid());
             String error = "Please use valid email address";
 
             response.sendRedirect("signup?em=" + error);

@@ -5,10 +5,6 @@
         <servlet-class>Servlet.createThreadServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>createPostServlet</servlet-name>
-        <servlet-class>Servlet.createPostServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ForumServlet</servlet-name>
         <servlet-class>Servlet.ForumServlet</servlet-class>
     </servlet>
@@ -57,36 +53,12 @@
         <servlet-class>Servlet.ModuleServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Error404Servlet</servlet-name>
-        <servlet-class>Servlet.Error404Servlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>Error401Servlet</servlet-name>
-        <servlet-class>Servlet.Error401Servlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>Error403Servlet</servlet-name>
-        <servlet-class>Servlet.Error403Servlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>Error500Servlet</servlet-name>
-        <servlet-class>Servlet.Error500Servlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>Error503Servlet</servlet-name>
-        <servlet-class>Servlet.Error503Servlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ErrorServlet</servlet-name>
         <servlet-class>Servlet.ErrorServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>createThreadServlet</servlet-name>
         <url-pattern>/createThreadServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>createPostServlet</servlet-name>
-        <url-pattern>/createPostServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ForumServlet</servlet-name>

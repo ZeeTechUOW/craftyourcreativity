@@ -51,7 +51,6 @@ public class ThreadServlet extends HttpServlet {
 
         // Calculating total page
         postCount = DBAdmin.getThreadPostCount(id);
-        System.out.println(postCount);
         if (postCount % 10 == 0) {
             lastPage = postCount / 10;
         } else {

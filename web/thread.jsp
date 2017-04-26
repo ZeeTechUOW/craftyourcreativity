@@ -28,11 +28,13 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/coreF.css">
         <link rel="stylesheet" type="text/css" href="css/tStruc.css">
-        <script src="https://cdn.quilljs.com/1.2.3/quill.js"></script>
-        <script src="https://cdn.quilljs.com/1.2.3/quill.min.js"></script>
-
-        <link href="https://cdn.quilljs.com/1.2.3/quill.snow.css" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.css" rel="stylesheet">
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.js">
+            
         <script src="js/bootstrap.min.js"></script>
     </head>
     <body>
@@ -154,53 +156,32 @@
                         %>
                     </div>
                 </div>
-                <div id="quillBox">
-                    <div  id="quill">
-                    </div>
-                </div>
-
+                <div id="summernote"></div>
                 <script>
-                    var toolbarOptions = [
-                        ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-                        ['blockquote', 'code-block'],
-
-                        [{'header': 1}, {'header': 2}], // custom button values
-                        [{'list': 'ordered'}, {'list': 'bullet'}],
-                        [{'script': 'sub'}, {'script': 'super'}], // superscript/subscript
-                        [{'indent': '-1'}, {'indent': '+1'}], // outdent/indent
-                        [{'direction': 'rtl'}], // text direction
-
-                        [{'size': ['small', false, 'large', 'huge']}], // custom dropdown
-                        [{'header': [1, 2, 3, 4, 5, 6, false]}],
-
-                        [{'color': []}, {'background': []}], // dropdown with defaults from theme
-                        [{'font': []}],
-                        [{'align': []}],
-
-                        ['clean']                                         // remove formatting button
-                    ];
-                    var quill = new Quill('#quill', {
-                        modules: {
-                            toolbar: toolbarOptions
-                        },
-                        placeholder: 'Compose your comment ...',
-                        theme: 'snow'});
+                    $(document).ready(function() {
+                        $('#summernote').summernote({
+                            height: 300,
+                            width: 1500,
+                            minHeight: null,
+                            maxHeight: null,
+                            focus: true
+                        });
+                    });
+                    
+                    function submitPost () {
+                        $('#summerNoteTextID').html($('#summernote').summernote('code'));
+                        $('#myForm').submit();
+                    }
                 </script>
+                <form action="createpost" method="post" id="myForm">
+                    <input type="hidden" name="threadID" value="<% out.print(thread.getThreadID()); %>">
+                    <textarea id="summerNoteTextID" name="summerNoteText" style="display: none;"></textarea>
+                    <button type="button" onclick="submitPost()">Submit</button>
+                </form>
             </div>
         </div>
-
         <div id="footer">
             Powered by ZeeTech
         </div>
-        <!--<a href="main.html">Main Menu</a>
-        <br><a href="library.html">Library</a>
-        <br><a href="my_modules.html">My Modules</a>
-        <br><a href="achievement.html">Achievements</a>
-        <br><a href="leaderboard.html">Leaderboards</a>
-        <br><a href="forum.html">Forums</a>
-        <br><a href="setting.html">Setting</a>
-        
-        <br>Sign In
-        <br>Log In-->
     </body>
 </html>
