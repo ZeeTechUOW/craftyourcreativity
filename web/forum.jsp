@@ -1,8 +1,8 @@
 <%@page import="Model.User"%>
 <%@page import="Model.DBAdmin"%>
+<%@page import="Model.Thread"%>
 <%@page import="com.sun.xml.internal.ws.util.StringUtils"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="Model.Thread"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%!
@@ -17,36 +17,17 @@
 
 <%
     String url = DBAdmin.WEB_URL;
-    String type = request.getParameter("type");
-    String sort = request.getParameter("sort");
-    int pageNum;
-    
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-
+    
+    String type = (String) request.getAttribute("type");
+    String sort = (String) request.getAttribute("sort");
+    String sortFormatted = (String) request.getAttribute("sortFormatted");
+    int pageNum = (int) request.getAttribute("pageNum");
+    
     ArrayList<Thread> threads = (ArrayList<Thread>) request.getAttribute("threads");
     ArrayList<User> userList = (ArrayList<User>) request.getAttribute("userList");
     ArrayList<String> pageCount = (ArrayList<String>) request.getAttribute("pageCount");
     ArrayList<String> pageCountUrl = (ArrayList<String>) request.getAttribute("pageCountUrl");
-
-    try {
-        pageNum = Integer.parseInt(request.getParameter("page"));
-    } catch (NumberFormatException ex) {
-        pageNum = 1;
-    }
-
-    if (type == null || !isValidType(type)) {
-        type = "default";
-    }
-
-    if (sort == null || !isValidSort(sort)) {
-        sort = "new";
-    }
-
-    if (threads == null) {
-        type = type.toLowerCase();
-        sort = sort.toLowerCase();
-        response.sendRedirect("forum");
-    }
 %>
 
 <!DOCTYPE html>
@@ -237,7 +218,20 @@
                 } else {
                 %>
                 <div id="fSTitle">
-                    <% out.println("<B>" + StringUtils.capitalize(type) + "</b>"); %> <% out.print(sort);%>
+                    <div>
+                        <% out.println("<B>" + StringUtils.capitalize(type) + "</b>"); %>
+                    </div>
+                    <div class="dropdown" style="">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #4fa78b;">Sort by <% out.print(sortFormatted); %>
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="<% out.print(url + "forum?type=" + type + "&sort=new"); %>">Newest</a></li>
+                            <li><a href="<% out.print(url + "forum?type=" + type + "&sort=today"); %>">Popular today</a></li>
+                            <li><a href="<% out.print(url + "forum?type=" + type + "&sort=week"); %>">Popular this week</a></li>
+                            <li><a href="<% out.print(url + "forum?type=" + type + "&sort=month"); %>">Popular this month</a></li>
+                            <li><a href="<% out.print(url + "forum?type=" + type + "&sort=all"); %>">Popular all time</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <div id="fListContainer">
                     <table>

@@ -26,7 +26,8 @@ public class ForumServlet extends HttpServlet {
         // Initialize variable
         String type;
         String sort;
-        int page;
+        String sortFormatted;
+        int pageNum;
         int threadCount;
         int lastPage;
         ArrayList<Thread> threads = new ArrayList<>();
@@ -44,11 +45,23 @@ public class ForumServlet extends HttpServlet {
         if (sort == null) {
             sort = "new";
         }
+        
+        if (sort.equalsIgnoreCase("new")) {
+            sortFormatted = "Newest";
+        } else if (sort.equalsIgnoreCase("today")) {
+            sortFormatted = "Popular today";
+        } else if (sort.equalsIgnoreCase("week")) {
+            sortFormatted = "Popular this week";
+        } else if (sort.equalsIgnoreCase("month")) {
+            sortFormatted = "Popular this month";
+        } else {
+            sortFormatted = "Popular all time";
+        }
 
         try {
-            page = Integer.parseInt(request.getParameter("page"));
+            pageNum = Integer.parseInt(request.getParameter("page"));
         } catch (NumberFormatException ex) {
-            page = 1;
+            pageNum = 1;
         }
 
         // Retrieve thread
@@ -58,7 +71,7 @@ public class ForumServlet extends HttpServlet {
             threads.addAll(DBAdmin.getXForumSortedBy("funny", "new", 5, 1));
             threads.addAll(DBAdmin.getXForumSortedBy("other", "new", 5, 1));
         } else {
-            threads.addAll(DBAdmin.getXForumSortedBy(type, sort, 10, page));
+            threads.addAll(DBAdmin.getXForumSortedBy(type, sort, 10, pageNum));
         }
         
         // Get username for every thread
@@ -75,10 +88,14 @@ public class ForumServlet extends HttpServlet {
         }
         
         // Create forum page url
-        pageCount = generatePageCount(page, lastPage);
-        pageCountUrl = generatePageCountUrl(pageCount, type, sort, page, lastPage);
+        pageCount = generatePageCount(pageNum, lastPage);
+        pageCountUrl = generatePageCountUrl(pageCount, type, sort, pageNum, lastPage);
 
         // Set Attribute
+        request.setAttribute("type", type);
+        request.setAttribute("sort", sort);
+        request.setAttribute("sortFormatted", sortFormatted);
+        request.setAttribute("pageNum", pageNum);
         request.setAttribute("threads", threads);
         request.setAttribute("userList", userList);
         request.setAttribute("pageCount", pageCount);

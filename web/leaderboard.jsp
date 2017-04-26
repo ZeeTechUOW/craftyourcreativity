@@ -1,8 +1,8 @@
 <%@page import="Model.User"%>
-<%@page import="java.util.ArrayList"%>
 <%@page import="Model.ModuleUserData"%>
 <%@page import="Model.Module"%>
 <%@page import="Model.DBAdmin"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
