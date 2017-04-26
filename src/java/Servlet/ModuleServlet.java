@@ -1,5 +1,7 @@
 package Servlet;
 
+import Model.DBAdmin;
+import Model.Module;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,6 +23,7 @@ public class ModuleServlet extends HttpServlet {
         
         // Initialize variable
         int moduleID;
+        Module module;
         
         // Parse all parameter
         try {
@@ -30,6 +33,17 @@ public class ModuleServlet extends HttpServlet {
             response.sendRedirect("error?code=404");
             return;
         }
+        
+        // Get Module
+        module = DBAdmin.getModule(moduleID);
+        if (module == null) {
+            // Redirect to 404
+            response.sendRedirect("error?code=404");
+            return;
+        }
+        
+        // Set Attribute
+        request.setAttribute("module", module);
         
         request.getRequestDispatcher("module.jsp").forward(request, response);
     }

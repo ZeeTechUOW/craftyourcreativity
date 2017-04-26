@@ -81,5 +81,13 @@ public class Module {
 
     public void setLastEdited(LocalDateTime lastEdited) {
         this.lastEdited = lastEdited;
+    }
+
+    public String getReleaseTimeFormatted() {
+        return releaseTime.getDayOfMonth() + " " + releaseTime.getMonth().toString() + " " + releaseTime.getYear();
+    }
+
+    public String getLastUpdatedFormatted() {
+        return lastEdited.getDayOfMonth() + " " + lastEdited.getMonth().toString() + " " + lastEdited.getYear();
     }// </editor-fold>\
 }

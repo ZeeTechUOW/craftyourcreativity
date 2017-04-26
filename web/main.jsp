@@ -6,6 +6,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
+    String url = DBAdmin.WEB_URL;
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
     
     ArrayList<Module> modulesPopular = (ArrayList<Module>) request.getAttribute("modulesPopular");
@@ -102,7 +103,7 @@
                             <td>
                                 <a href="">
                                     <div id="sFrame">
-                                        <div class="frame"><img src="<% out.print(m.getThumbnailPath()); %>" alt="<% out.print(m.getModuleName()); %>" id="team"></div>
+                                        <a href="<% out.print(url + "module?mid=" + m.getModuleID()); %>"><div class="frame"><img src="<% out.print(m.getThumbnailPath()); %>" alt="<% out.print(m.getModuleName()); %>" id="team"></div></a>
                                     </div>
                                 </a>
                             </td>
@@ -129,7 +130,7 @@
                             <td>
                                 <a href="">
                                     <div id="sFrame">
-                                        <div class="frame"><img src="<% out.print(m.getThumbnailPath()); %>" alt="<% out.print(m.getModuleName()); %>" id="team"></div>
+                                        <a href="<% out.print(url + "module?mid=" + m.getModuleID()); %>"><div class="frame"><img src="<% out.print(m.getThumbnailPath()); %>" alt="<% out.print(m.getModuleName()); %>" id="team"></div></a>
                                     </div>
                                 </a>
                             </td>
@@ -156,7 +157,7 @@
                             <td>
                                 <a href="">
                                     <div id="sFrame">
-                                        <div class="frame"><img src="<% out.print(m.getThumbnailPath()); %>" alt="<% out.print(m.getModuleName()); %>" id="team"></div>
+                                        <a href="<% out.print(url + "module?mid=" + m.getModuleID()); %>"><div class="frame"><img src="<% out.print(m.getThumbnailPath()); %>" alt="<% out.print(m.getModuleName()); %>" id="team"></div></a>
                                     </div>
                                 </a>
                             </td>
