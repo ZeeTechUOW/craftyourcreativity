@@ -5,16 +5,6 @@
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%!
-    private boolean isValidType(String type) {
-        return type.equalsIgnoreCase("discussion") || type.equalsIgnoreCase("bug") || type.equalsIgnoreCase("funny") || type.equalsIgnoreCase("other");
-    }
-
-    private boolean isValidSort(String sort) {
-        return sort.equalsIgnoreCase("week") || sort.equalsIgnoreCase("new") || sort.equalsIgnoreCase("today") || sort.equalsIgnoreCase("month") || sort.equalsIgnoreCase("all");
-    }
-%>
-
 <%
     String url = DBAdmin.WEB_URL;
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
