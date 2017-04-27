@@ -210,9 +210,9 @@
                         <% out.println("<B>" + StringUtils.capitalize(type) + "</b>"); %>
                     </div>
                     <div class="dropdown" style="">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #4fa78b;">Sort by <% out.print(sortFormatted); %>
+                        <button id="colorOverride" class="btn dropdown-toggle" type="button" data-toggle="dropdown">Sort by <% out.print(sortFormatted); %>
                             <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
+                        <ul id="colorOverride" class="dropdown-menu">
                             <li><a href="<% out.print(url + "forum?type=" + type + "&sort=new"); %>">Newest</a></li>
                             <li><a href="<% out.print(url + "forum?type=" + type + "&sort=today"); %>">Popular today</a></li>
                             <li><a href="<% out.print(url + "forum?type=" + type + "&sort=week"); %>">Popular this week</a></li>
