@@ -60,6 +60,10 @@
         <servlet-name>CreatePostServlet</servlet-name>
         <servlet-class>Servlet.CreatePostServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SettingServlet</servlet-name>
+        <servlet-class>Servlet.SettingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>createThreadServlet</servlet-name>
         <url-pattern>/createThreadServlet</url-pattern>
@@ -167,6 +171,10 @@
     <servlet-mapping>
         <servlet-name>CreatePostServlet</servlet-name>
         <url-pattern>/createpost</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SettingServlet</servlet-name>
+        <url-pattern>/setting</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
