@@ -29,11 +29,12 @@
         <link rel="stylesheet" type="text/css" href="css/coreF.css">
         <link rel="stylesheet" type="text/css" href="css/tStruc.css">
         
-        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
-        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
-        <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.css" rel="stylesheet">
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.js">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <script src="jquery/jquery-3.2.1.js"></script>
+        <script src="js/bootstrap.js"></script>
+        
+        <link rel="stylesheet" href="summernote/0.8.3/summernote.css">
+        <script src="summernote/0.8.3/summernote.js">
             
         <script src="js/bootstrap.min.js"></script>
     </head>
