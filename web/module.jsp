@@ -1,8 +1,10 @@
+<%@page import="Model.DBAdmin"%>
 <%@page import="Model.User"%>
 <%@page import="Model.Module"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
+    String url = DBAdmin.WEB_URL;
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
     Module module = (Module) request.getAttribute("module");
 %>
@@ -132,8 +134,8 @@
                 <div id="descButtonBox">
                     <table>
                         <tr>
-                            <td><div id="buttonBox"><button id="Button" type="button" class="btn btn-default" style="font-weight: bold; width: 100%; font-size: 1vw;">Achievements</button></div></td>
-                            <td style="padding-left: 15px;"><div id="buttonBox"><button id="Button" type="button" class="btn btn-default" style="font-weight: bold; width: 100%; font-size: 1vw;">Leaderboards</button></div></td>
+                            <td><a href="<% out.print(url + "achievement?mid=" + module.getModuleID()); %>"><div id="buttonBox"><button id="Button" type="button" class="btn btn-default" style="font-weight: bold; width: 100%; font-size: 1vw;">Achievements</button></div></a></td>
+                            <td style="padding-left: 15px;"><a href="<% out.print(url + "leaderboard?mid=" + module.getModuleID()); %>"><div id="buttonBox"><button id="Button" type="button" class="btn btn-default" style="font-weight: bold; width: 100%; font-size: 1vw;">Leaderboards</button></div></a></td>
                             <td></td>
                             <td></td>
                             <td><div id="buttonBox"><button id="Button" type="button" class="btn btn-default" style="font-weight: bold; width: 50%; font-size: 1vw;">Play</button></div></td>

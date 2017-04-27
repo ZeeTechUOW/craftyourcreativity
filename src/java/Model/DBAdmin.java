@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class DBAdmin {
 
     public static final String WEB_URL = "http://localhost:8084/cycfrontend/"; // Local machine web url
-//    public static final String WEB_URL = "http://localhost:8084/cycfrontend/"; // GCP machine web url
+//    public static final String WEB_URL = "http://35.187.198.153/cycfrontend/"; // GCP machine web url
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cyc";
     private static final String DB_USER = "root";
     private static final String DB_PASS = ""; // Local machine DB Pass
