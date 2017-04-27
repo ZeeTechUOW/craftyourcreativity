@@ -45,17 +45,15 @@
                                     <li><a href="main">Main Menu</a></li>
                                     <li><a href="library">Library</a></li>
                                     <%
-                                        if (loggedUser != null && loggedUser.getUserType() != "player") {
+                                        if (loggedUser != null && !loggedUser.getUserType().equalsIgnoreCase("player")) {
                                     %>
                                     <li><a href="#">My modules</a></li>
                                     <%
                                         }
                                     %>
-                                    <li><a href="#">Achievements</a></li>
-                                    <li><a href="#">Leaderboards</a></li>
                                     <li><a href="forum">Forums</a></li>
                                     <%
-                                        if (loggedUser != null && loggedUser.getUserType() != "player") {
+                                        if (loggedUser != null) {
                                     %>
                                     <li><a href="logoutauth">Logout</a></li>
                                     <%

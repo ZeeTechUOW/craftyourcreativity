@@ -42,21 +42,19 @@
                     <ul class="nav navbar-nav navbar-left">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger"></span> Menu 
-                                <ul id="colorOverride" class="dropdown-menu" role="menu"">
+                                <ul id="colorOverride" class="dropdown-menu" role="menu">
                                     <li><a href="main">Main Menu</a></li>
                                     <li><a href="library">Library</a></li>
                                     <%
-                                        if (loggedUser != null && loggedUser.getUserType() != "player") {
+                                        if (loggedUser != null && !loggedUser.getUserType().equalsIgnoreCase("player")) {
                                     %>
                                     <li><a href="#">My modules</a></li>
                                     <%
                                         }
                                     %>
-                                    <li><a href="#">Achievements</a></li>
-                                    <li><a href="#">Leaderboards</a></li>
                                     <li><a href="forum">Forums</a></li>
                                     <%
-                                        if (loggedUser != null && loggedUser.getUserType() != "player") {
+                                        if (loggedUser != null) {
                                     %>
                                     <li><a href="logoutauth">Logout</a></li>
                                     <%
