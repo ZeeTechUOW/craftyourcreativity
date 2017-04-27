@@ -17,7 +17,7 @@
 <!DOCTYPE>
 <html>
     <head>
-        <title>Achievements</title>
+        <title><% out.print(module.getModuleName()); %> Achievements</title>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/coreF.css">
         <link rel="stylesheet" type="text/css" href="css/aStruc.css">
@@ -86,7 +86,7 @@
         </nav>
         <div id="container">
             <div id="aStructure">
-                <div id="aSTitle">Game: <% out.print(module.getModuleName()); %></div>
+                <div id="aSTitle">Game: <a style="text-decoration: none;" href="<% out.print(url + "module?mid=" + module.getModuleID()); %>"><% out.print(module.getModuleName()); %></a></div>
                 <div id="aSList"><% out.print(unlockedModuleCount); %> of <% out.print(achievements.size()); %> unlocked</div>
                 <div id="aSDisp">
                     <%
@@ -121,15 +121,5 @@
         <div id="footer">
             Powered by ZeeTech
         </div>
-        <!--<a href="main.html">Main Menu</a>
-        <br><a href="library.html">Library</a>
-        <br><a href="my_modules.html">My Modules</a>
-        <br><a href="achievement.html">Achievements</a>
-        <br><a href="leaderboard.html">Leaderboards</a>
-        <br><a href="forum.html">Forums</a>
-        <br><a href="setting.html">Setting</a>
-        
-        <br>Sign In
-        <br>Log In-->
     </body>
 </html>

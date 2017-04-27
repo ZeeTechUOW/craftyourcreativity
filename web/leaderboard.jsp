@@ -86,13 +86,7 @@
         </nav>
         <div id="container">
             <div id="lStructure">
-                <div id="lSTitle">Game: <% out.print(module.getModuleName()); %></div>
-                <div id="lSToggle">
-                    <select class="selectpicker" style="background: #61b29b">
-                        <option>Global Stats</option>
-                        <option>User Stats</option>
-                    </select>
-                </div>
+                <div id="lSTitle">Game: <a style="text-decoration: none;" href="<% out.print(url + "module?mid=" + module.getModuleID()); %>"><% out.print(module.getModuleName()); %></a></div>
                 <div id="lSDisp">
                     <table><tr><td><b>Rank</b></td><td><b>Online ID</b></td><td><b>Score</b></td></tr></table>
                     <%
@@ -109,15 +103,5 @@
         <div id="footer">
             Powered by ZeeTech
         </div>
-        <!--<a href="main.html">Main Menu</a>
-        <br><a href="library.html">Library</a>
-        <br><a href="my_modules.html">My Modules</a>
-        <br><a href="achievement.html">Achievements</a>
-        <br><a href="leaderboard.html">Leaderboards</a>
-        <br><a href="forum.html">Forums</a>
-        <br><a href="setting.html">Setting</a>
-        
-        <br>Sign In
-        <br>Log In-->
     </body>
 </html>
