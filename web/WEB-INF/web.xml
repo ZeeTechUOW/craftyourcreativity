@@ -148,10 +148,10 @@
         <error-code>408</error-code>
         <location>/error?code=408</location>
     </error-page>
-    <error-page>
+<!--    <error-page>
         <error-code>500</error-code>
         <location>/error?code=500</location>
-    </error-page>
+    </error-page>-->
     <error-page>
         <error-code>501</error-code>
         <location>/error?code=501</location>

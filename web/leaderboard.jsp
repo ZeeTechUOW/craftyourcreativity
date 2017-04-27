@@ -60,7 +60,7 @@
                                     <%
                                         }
                                     %>
-                                    <li style="padding-right: 5%"><button id="colorOverride" class="button" type="button" style="float: right;"><span class="glyphicon glyphicon-cog"></span></button></a></li>
+                                    <li style="padding-right: 5%"><a href="setting"><button id="colorOverride" class="button" type="button" style="float: right;"><span class="glyphicon glyphicon-cog"></span></button></a></li>
                                 </ul>
                         </li>
                     </ul>
