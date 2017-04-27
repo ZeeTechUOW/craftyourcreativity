@@ -27,7 +27,7 @@
                     <input type="password" class="form-control" placeholder="Password" name="passwordRegister" style="width: 100%;"/>
                 </div>
                 <div id="buttonBox">
-                    <button id="Button" type="submit" class="btn btn-default">Sign me up!</button>
+                    <button id="Button" type="submit" class="btn btn-default">Create Account</button>
                 </div>
             </form>
 <!--            <div id="util">
@@ -40,7 +40,7 @@
             </div>-->
             <form action="login" method="post" style="margin-bottom: 0em">
                 <div id="buttonBox">
-                    <button id="Button" type="submit" class="btn btn-default">You have an acoount!</button>
+                    <button id="Button" type="submit" class="btn btn-default">Already have an account?</button>
                 </div>
             </form>
         </div>

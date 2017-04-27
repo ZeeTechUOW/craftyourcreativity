@@ -29,17 +29,16 @@
             </form>
             <form action="signup" method="post" style="margin-bottom: 0em">
                 <div id="buttonBox">
-                    <button id="Button" type="submit" class="btn btn-default">Create Account</button>
+                    <button id="Button" type="submit" class="btn btn-default">Create new Account</button>
                 </div>
             </form>
             <div id="util">
-                <table id="soc">
-                    <tr><td colspan="2">Log In with</td></tr>
-                    <tr>
-                        <td><div id="socmedLogo"><div class="socmed"><img src="resource/fb.png" alt="fbLogo"></div></div></td>
-                        <td><div id="socmedLogo"><div class="socmed"><img src="resource/tw.png" alt="twLogo"></div></div></td>
-                    </tr>
-                </table>
+                <button type="submit" style="border: 0; background: transparent">
+                    <img src="resource/fb.png" alt="fbLogo">
+                </button>
+                <button type="submit" style="border: 0; background: transparent">
+                    <img id="socmedLogo" src="resource/tw.png" alt="twLogo">
+                </button>                        
             </div>
         </div>
     </body>
