@@ -8,7 +8,6 @@
 %>
 
 <!DOCTYPE>
-<!-- saved from url=(0014)about:internet -->
 <html>
     <head>
         <title>Setting</title>
@@ -100,11 +99,11 @@
                             </tr>
                             <tr id="setting">
                                 <td id="setting">Profile Name</td>
-                                <td id="setting">Metafalls_</td>
+                                <td id="setting"><% out.print(loggedUser.getUsername()); %></td>
                             </tr>
                             <tr id="setting">
                                 <td id="setting">User ID</td>
-                                <td id="setting">420</td>
+                                <td id="setting"><% out.print(loggedUser.getUserID()); %></td>
                             </tr>
                         </table>
                     </div>
@@ -130,8 +129,26 @@
                     </div>
                     <div id="seBox2">
                         <table id="form">
-                            <tr><td><b>Email Address (must be valid):</b></td><td>INPUT HERE</td> </tr>
-                            <tr><td><b>Your Account Password:</b></td><td>INPUT HERE</td></tr>
+                            <tr>
+                                <td>
+                                    <b>Email Address (must be valid):</b>
+                                </td>
+                                <td colspan="2">
+                                    <div class="input-lg">
+                                        <input type="text" class="form-control" placeholder="<% out.print(loggedUser.getEmail()); %>" name="emailSetting" style="width: 100%;"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Your Account Password:</b>
+                                </td>
+                                <td colspan="2">
+                                    <div class="input-lg">
+                                        <input type="password" class="form-control" placeholder="Password" name="passwordSetting" style="width: 100%;"/>
+                                    </div>
+                                </td>
+                            </tr>
                             <tr><td colspan="2" id="form">Update Your Email BUTTON</td></tr>
                         </table>
                     </div>
@@ -141,18 +158,56 @@
                     </div>
                     <div id="seBox2">
                         <table id="form">
-                            <tr><td><b>Current Password</b></td><td>INPUT HERE</td> </tr>
-                            <tr><td><b>New Password:</b></td><td>INPUT HERE</td></tr>
-                            <tr><td colspan="2" id="form">At least 6 Characters long</td></tr>
-                            <tr><td><b>Confirm New Password:</b></td><td>INPUT HERE</td></tr>
-                            <tr><td colspan="2" id="form">Re-type your new password</td></tr>
-                            <tr><td colspan="2" id="form">Change Password BUTTON</td></tr>
+                            <tr>
+                                <td>
+                                    <b>Current Password:</b>
+                                </td>
+                                <td colspan="2">
+                                    <div class="input-lg">
+                                        <input type="password" class="form-control" placeholder="Old Password" name="oldPasswordSetting" style="width: 100%;"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>New Password:</b>
+                                </td>
+                                <td colspan="2">
+                                    <div class="input-lg">
+                                        <input type="password" class="form-control" placeholder="New Password" name="newPassword1Setting" style="width: 100%;"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" id="form">
+                                    At least 8 characters long including 1 uppercase, 1 lowercase and 1 number.
+                                </td>                               
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Confirm New Password:</b>
+                                </td>
+                                <td colspan="2">
+                                    <div class="input-lg">
+                                        <input type="password" class="form-control" placeholder="New Password" name="newPassword2Setting" style="width: 100%;"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" id="form">
+                                    Re-type your new password
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" id="form">
+                                    Change Password BUTTON
+                                </td>
+                            </tr>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-
         <div id="footer">
             Powered by ZeeTech
         </div>

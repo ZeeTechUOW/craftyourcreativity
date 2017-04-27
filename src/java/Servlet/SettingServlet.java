@@ -1,5 +1,6 @@
 package Servlet;
 
+import Model.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,16 @@ public class SettingServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        // Initialize variable
+        User loggedUser;
+        
+        // Get user session
+        loggedUser = (User) request.getSession().getAttribute("loggedUser");
+        if (loggedUser == null) {
+            response.sendRedirect("login");
+            return;
+        }
         
         // Forward to view
         request.getRequestDispatcher("setting.jsp").forward(request, response);
