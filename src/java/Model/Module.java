@@ -17,7 +17,7 @@ public class Module {
     private LocalDateTime lastEdited;
 
     /**
-     * Class to represent the module details and information
+     * Class to represent the module details and information.
      *
      * @param moduleID Module ID
      * @param moduleVersion Module version
