@@ -7,7 +7,7 @@ package Model;
 public class HttpErrorList {
 
     /**
-     *
+     * a class used for specifying the common HTTP Error code and error messages
      */
     public HttpErrorList() {
     }
@@ -15,9 +15,9 @@ public class HttpErrorList {
     // Common HTTP Error List
 
     /**
-     *
-     * @param code
-     * @return
+     * Return the error messages of <code>HTTP</code> error code in <code>String</code> format.
+     * @param code HTTP error code
+     * @return corresponding <code>HTTP</code> error code
      */
     public static String getMessages(int code) {
         switch (code) {
