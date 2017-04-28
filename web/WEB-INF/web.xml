@@ -70,7 +70,7 @@
     </servlet>
     <servlet>
         <servlet-name>CreateThreadServlet</servlet-name>
-        <servlet-class>Servlet.CreateThreadServlet</servlet-class>
+        <servlet-class>Servlet.TestServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ForumServlet</servlet-name>

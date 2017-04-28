@@ -2,6 +2,7 @@ package Servlet;
 
 import Model.DBAdmin;
 import Model.User;
+import Model.Thread;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Andree Yosua
  */
-public class createThreadServlet extends HttpServlet {
+public class TestServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -25,21 +26,32 @@ public class createThreadServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-        String threadTitle = request.getParameter("threadTitle");
-        String threadType = request.getParameter("threadType");
-        String threadPost = request.getParameter("threadPost");
+        // Initialize variable
+        User loggedUser;
+        String threadTitle;
+        String threadType;
+        String threadPost;
+        Thread thread;
 
+        // Get user session
+        loggedUser = (User) request.getSession().getAttribute("loggedUser");
         if (loggedUser == null) {
-            String errorMessage = "Please Login";
-            response.sendRedirect("login.jsp?em=" + errorMessage);
+            response.sendRedirect("login");
             return;
         }
+        
+        // Parse all parameters
+        threadTitle = request.getParameter("threadTitle");
+        threadType = request.getParameter("threadType");
+        threadPost = request.getParameter("threadPost");
 
-        // create if later
-        DBAdmin.createNewThread(loggedUser.getUserID(), threadTitle, threadType, threadPost);
-
-        response.sendRedirect("main.jsp");
+        // Create Thread
+        if (DBAdmin.createNewThread(loggedUser.getUserID(), threadTitle, threadType, threadPost)) {
+            response.sendRedirect("forum");
+        } else {
+            // Internal server error
+            response.sendError(500);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
