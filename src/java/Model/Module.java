@@ -17,14 +17,15 @@ public class Module {
     private LocalDateTime lastEdited;
 
     /**
+     * Class to represent the module details and information
      *
-     * @param moduleID
-     * @param moduleVersion
-     * @param moduleName
-     * @param moduleDescription
-     * @param thumbnailPath
-     * @param releaseTime
-     * @param lastEdited
+     * @param moduleID Module ID
+     * @param moduleVersion Module version
+     * @param moduleName Module name
+     * @param moduleDescription Module description
+     * @param thumbnailPath Module thumbnail image path
+     * @param releaseTime Module release time
+     * @param lastEdited Module last edited time
      */
     public Module(int moduleID, String moduleVersion, String moduleName, String moduleDescription, String thumbnailPath, LocalDateTime releaseTime, LocalDateTime lastEdited) {
         this.moduleID = moduleID;
@@ -37,130 +38,129 @@ public class Module {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Getter and Setter. Click + sign on the left to expand the code">
-
     /**
-     *
-     * @return
+     * Return this <code>Module</code> ID in <code>int</code> format.
+     * @return Module ID.
      */
     public int getModuleID() {
         return moduleID;
     }
 
     /**
-     *
-     * @param moduleID
+     * Set this <code>Module</code> ID to specified <code>int</code>.
+     * @param moduleID Module new ID
      */
     public void setModuleID(int moduleID) {
         this.moduleID = moduleID;
     }
 
     /**
-     *
-     * @return
+     * Return this <code>Module</code> version detail in <code>String</code> format.
+     * @return Module version.
      */
     public String getModuleVersion() {
         return moduleVersion;
     }
 
     /**
-     *
-     * @param moduleVersion
+     * Set this <code>Module</code> version to specified <code>String</code>.
+     * @param moduleVersion Module new version
      */
     public void setModuleVersion(String moduleVersion) {
         this.moduleVersion = moduleVersion;
     }
 
     /**
-     *
-     * @return
+     * Return this <code>Module</code> name in <code>String</code>format.
+     * @return Module name.
      */
     public String getModuleName() {
         return moduleName;
     }
 
     /**
-     *
-     * @param moduleName
+     * Set this <code>Module</code> name to specified <code>String</code>.
+     * @param moduleName Module new name.
      */
     public void setModuleName(String moduleName) {
         this.moduleName = moduleName;
     }
 
     /**
-     *
-     * @return
+     * Return this <code>Module</code> description in <code>String</code> format.
+     * @return Module description.
      */
     public String getModuleDescription() {
         return moduleDescription;
     }
 
     /**
-     *
-     * @param moduleDescription
+     * Set this <code>Module</code> description to specified <code>String</code>.
+     * @param moduleDescription Module new description.
      */
     public void setModuleDescription(String moduleDescription) {
         this.moduleDescription = moduleDescription;
     }
 
     /**
-     *
-     * @return
+     * Return this <code>Module</code> thumbnail image path in <code>String</code> format.
+     * @return Module thumbnail image path.
      */
     public String getThumbnailPath() {
         return thumbnailPath;
     }
 
     /**
-     *
-     * @param thumbnailPath
+     * Set this <code>Module</code> thumbnail image path to specified <code>String</code>.
+     * @param thumbnailPath Module new thumbnail image path.
      */
     public void setThumbnailPath(String thumbnailPath) {
         this.thumbnailPath = thumbnailPath;
     }
 
     /**
-     *
-     * @return
+     * Return this <code>Module</code> release time in <code>LocalDateTime</code> format.
+     * @return Module release time.
      */
     public LocalDateTime getReleaseTime() {
         return releaseTime;
     }
 
     /**
-     *
-     * @param releaseTime
+     * Set this <code>Module</code> release time to specified <code>LocalDateTime</code>.
+     * @param releaseTime Module new release time.
      */
     public void setReleaseTime(LocalDateTime releaseTime) {
         this.releaseTime = releaseTime;
     }
 
     /**
-     *
-     * @return
+     * Return this <code>Module</code> last edited time in <code>LocalDateTime</code>.
+     * @return Module last edited time.
      */
     public LocalDateTime getLastEdited() {
         return lastEdited;
     }
 
     /**
-     *
-     * @param lastEdited
+     * Set this <code>Module</code> last edited time to specified <code>LocalDateTime</code>
+     * @param lastEdited Module new last edited time.
      */
     public void setLastEdited(LocalDateTime lastEdited) {
         this.lastEdited = lastEdited;
     }
 
     /**
-     *
-     * @return
+     * Return a formatted release time with "DD MMMMM YYYY" format in <code>String</code>.
+     * @return Formatted release time.
      */
     public String getReleaseTimeFormatted() {
         return releaseTime.getDayOfMonth() + " " + releaseTime.getMonth().toString() + " " + releaseTime.getYear();
     }
 
     /**
-     *
-     * @return
+     * Return a formatted last edited time with "DD MMMMM YYYY" format in <code>String</code>.
+     * @return Formatted last edited time.
      */
     public String getLastUpdatedFormatted() {
         return lastEdited.getDayOfMonth() + " " + lastEdited.getMonth().toString() + " " + lastEdited.getYear();
