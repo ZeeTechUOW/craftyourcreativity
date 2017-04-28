@@ -1,0 +1,146 @@
+#structure{
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	margin: 15px 2.5%;
+	width: 95%;
+	min-height: 250px;
+}
+
+#sTitle{
+	position: relative;
+	padding: 5px 0.5%;
+	width: 99%;
+	font-size: 40px;
+}
+
+#sMore{
+	position: relative;
+	padding: 5px 0.5%;
+	width: 99%;
+	height: 40px;
+	text-align: right;
+}
+
+#sButton{
+	position: relative;
+	padding: 5px 0.5%;
+	height: 34px;
+	width: 7%;		
+	background-color: #61b29b;
+	color: #004a04;
+	font-family: Tahoma;
+}
+
+@media (max-width: 1366px) {
+	#sButton{
+		position: relative;
+		padding: 5px 0.5%;
+		height: 50px;
+		width: 7%;		
+		background-color: #61b29b;
+		color: #004a04;
+		font-family: Tahoma;
+	}
+}
+
+#sDisp{
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	padding: 15px 12.5px;
+	width: 100%-25px;
+	min-height: 210px;
+	/*overflow:hidden;*/
+}
+
+#sFrame{
+	position: relative;
+	margin-right:5px;
+	border-radius: 5px;
+	/* put into consideration
+	width: 10.28vw;
+	height: 20vh;
+	*/
+	max-width: 200px;
+	max-height: 200px;
+	background-color: #a3b79f;
+	border: solid 3px white;
+}
+
+#sFrame:active{
+	position: relative;
+	border-radius: 5px;
+	/* put into consideration
+	width: 10.28vw;
+	height: 20vh;
+	*/
+	max-width: 200px;
+	max-height: 200px;
+	background-color: #a3b79f;
+	border: solid 3px #333;
+}
+
+.frame{
+	max-width: 200px;
+	max-height: 200px;
+}
+
+#descSeparator{
+	width: 100%;
+	height: 20px;
+}
+
+#descTitle{
+	position: relative;
+	padding: 5px 2%;
+	width: 99%;
+	font-size: 40px;
+}
+
+#descImg{
+	position: relative;
+	margin: 20px 33.6% 50px 33.6%;
+	max-height: 500px;
+	max-width: 500px;
+
+}
+
+.desc{
+	max-width: 500px;
+	max-height: 500px;
+}
+
+#descBox{
+	position: relative;
+	border-radius: 5px;
+	/*
+	width: 10.28vw;
+	height: 20vh;
+	*/
+	margin: 10px 10%;
+	padding: 15px;
+	width: 77.5%;
+	min-height: 250px;
+	background-color: #a3b79f;
+	border: solid 3px white;
+}
+
+#descButtonBox{
+	position: relative;
+	border-radius: 0px 0px 5px 5px;
+	/*
+	width: 10.28vw;
+	height: 20vh;
+	*/
+	padding: 10px;
+	width: 100%;
+	height: 50px;
+}
+
+table, tr, td {
+	padding: 5px 0px;
+	overflow-x: hidden;
+	table-layout:fixed;
+	width: 100%;
+}

@@ -72,6 +72,14 @@
         <servlet-name>CreateThreadServlet</servlet-name>
         <servlet-class>Servlet.CreateThreadServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ThemeServlet</servlet-name>
+        <servlet-class>Servlet.ThemeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AboutServlet</servlet-name>
+        <servlet-class>Servlet.AboutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ForumServlet</servlet-name>
         <url-pattern>/forum</url-pattern>
@@ -191,6 +199,14 @@
     <servlet-mapping>
         <servlet-name>CreateThreadServlet</servlet-name>
         <url-pattern>/createthread</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ThemeServlet</servlet-name>
+        <url-pattern>/theme</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AboutServlet</servlet-name>
+        <url-pattern>/about</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

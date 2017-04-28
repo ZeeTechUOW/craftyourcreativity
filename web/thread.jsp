@@ -26,8 +26,8 @@
     <head>
         <title><% out.print(thread.getThreadTitle()); %> | Page <% out.print(lastPage); %></title>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/coreF.css">
-        <link rel="stylesheet" type="text/css" href="css/tStruc.css">
+        <link rel="stylesheet" type="text/css" href="css/color1/coreF.css">
+        <link rel="stylesheet" type="text/css" href="css/color1/tStruc.css">
         
         <link rel="stylesheet" href="css/bootstrap.css">
         <script src="jquery/jquery-3.2.1.js"></script>

@@ -86,9 +86,10 @@
 
 #descImg{
 	position: relative;
-	margin: 50px auto;
-	max-width: 500px;
+	margin: 20px 33.6% 50px 33.6%;
 	max-height: 500px;
+	max-width: 500px;
+
 }
 
 .desc{

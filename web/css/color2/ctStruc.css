@@ -1,0 +1,36 @@
+#ctStructure{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	position: relative;
+	margin: 15px 5%;
+	width: 95%;
+	min-height: 250px;
+}
+
+#ctTitle{
+	width: 100%;
+	padding: 10px 1%;
+	font-size: 40px;
+}
+
+#ctContent{
+	width: 80%;
+	margin: 3%;
+}
+
+table, tr, td {
+	font-size: 20px;
+	width: 100%;
+	padding: 50px;
+	border-collapse: collapse;
+}
+
+td:first-child{
+	width: 30%;
+	text-align: left;
+}
+
+td:last-child{
+	width: 50%;
+}

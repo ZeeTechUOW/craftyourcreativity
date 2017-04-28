@@ -4,7 +4,7 @@
     <head>
         <title>Log in</title>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/logup.css">
+        <link rel="stylesheet" type="text/css" href="css/color1/logup.css">
         <script src="jquery/jquery-3.2.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
     </head>

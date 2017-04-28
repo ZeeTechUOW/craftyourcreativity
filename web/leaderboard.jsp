@@ -19,8 +19,8 @@
     <head>
         <title>Leaderboards</title>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/coreF.css">
-        <link rel="stylesheet" type="text/css" href="css/lStruc.css">
+        <link rel="stylesheet" type="text/css" href="css/color1/coreF.css">
+        <link rel="stylesheet" type="text/css" href="css/color1/lStruc.css">
         <script src="jquery/jquery-3.2.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
     </head>

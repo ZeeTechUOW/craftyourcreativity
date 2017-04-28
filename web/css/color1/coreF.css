@@ -10,7 +10,7 @@
 
 body{
 	background-color: white;/*#1e5543;*/
-        font-family: Tahoma;
+	font-family: Tahoma;
 }
 
 #colorOverride{
@@ -49,6 +49,10 @@ img{
 .logo{
 	width:120px;
 	height: 45px;
+}
+
+#headerMenu{
+	background-color: #4fa78b;
 }
 
 #container{
@@ -130,12 +134,13 @@ nav.navbar-findcond span.badge.new {
 
 #Button{
 	position: relative;
-        background-color: rgb(127, 212, 168);
-        color: #004a04;
-        font-family: Tahoma;
-        width: 10%;
-        font-size: 20px;
+    background-color: rgb(127, 212, 168);
+    color: #004a04;
+    font-family: Tahoma;
+    width: 10%;
+    font-size: 20px;
 }
+
 
 #footer{
 	left: 0;

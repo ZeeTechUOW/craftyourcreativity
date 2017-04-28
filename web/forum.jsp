@@ -25,8 +25,8 @@
     <head>
         <title>Forums</title>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/coreF.css">
-        <link rel="stylesheet" type="text/css" href="css/fStruc.css">
+        <link rel="stylesheet" type="text/css" href="css/color1/coreF.css">
+        <link rel="stylesheet" type="text/css" href="css/color1/fStruc.css">
         <script src="jquery/jquery-3.2.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
     </head>

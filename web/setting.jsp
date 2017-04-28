@@ -12,8 +12,8 @@
     <head>
         <title>Setting</title>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/coreF.css">
-        <link rel="stylesheet" type="text/css" href="css/seStruc.css">
+        <link rel="stylesheet" type="text/css" href="css/color1/coreF.css">
+        <link rel="stylesheet" type="text/css" href="css/color1/seStruc.css">
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
     </head>

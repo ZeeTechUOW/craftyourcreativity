@@ -1,0 +1,106 @@
+#aStructure{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	position: relative;
+	margin: 15px 2.5%;
+	width: 95%;
+	min-height: 250px;
+}
+
+#aSTitle{
+	display: inline-block;
+    padding: 5px 0.5%;
+	min-height: 40px;
+	width: 49%;
+	font-size: 40px;
+}
+
+#aSList{
+	display: inline-block;
+    padding: 5px 0.5%;
+	height: 40px;
+	width: 49%;
+	font-size: 30px;
+	text-align: right;
+}
+
+#aSDisp{
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	padding: 15px 12.5px;
+	width: 100%;
+	min-height: 210px;
+	/*overflow:hidden;*/
+}
+
+#aSFrame{
+	position: relative;
+	border-radius: 5px;
+	width: 100%;
+	background-color: #a3b79f;
+	border: solid 3px white;
+	margin: 10px 0px;
+}
+
+#aSFrame:active{
+	position: relative;
+	border-radius: 5px;
+	width: 100%;
+	background-color: #a3b79f;
+	border: solid 3px #333;
+	margin: 10px 0px;
+}
+
+#aSPic{
+	position: relative;
+	border-radius: 5px;
+	/* put into consideration
+	width: 10.28vw;
+	height: 20vh;
+	*/
+	max-width: 200px;
+	max-height: 200px;
+	background-color: #a3b79f;
+	border: solid 3px white;
+	margin: 10px;
+}
+
+.aFrame{
+	max-width: 200px;
+	max-height: 200px;
+}
+
+table, tr, td {
+	font-size: 30px;
+	text-align: center;
+	padding: 0px 0px;
+	overflow-x: hidden;
+	table-layout:fixed;
+	width: 100%;
+}
+td:first-child{
+	width: 20%;
+}
+
+td:nth-child(2){
+	text-align: left;
+	width: 40%;
+}
+
+td:last-child{
+	padding-right: 10px;
+	padding-bottom: 10px;
+	vertical-align: bottom;
+	text-align: right;
+	font-size: 21px;
+	width: 40%;
+}
+
+br{
+	content: "";
+	margin: 10px;
+	display: block;
+	font-size: 24%;
+}
