@@ -2,7 +2,9 @@ package Servlet;
 
 import Model.DBAdmin;
 import Model.Module;
+import Model.ModuleImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,7 @@ public class ModuleServlet extends HttpServlet {
         // Initialize variable
         int moduleID;
         Module module;
+        ArrayList<ModuleImage> moduleImages = new ArrayList<>();
         
         // Parse all parameter
         try {
@@ -42,8 +45,12 @@ public class ModuleServlet extends HttpServlet {
             return;
         }
         
+        // Get Module Image
+        moduleImages.addAll(DBAdmin.getModuleImage(moduleID));
+        
         // Set Attribute
         request.setAttribute("module", module);
+        request.setAttribute("moduleImages", moduleImages);
         
         request.getRequestDispatcher("module.jsp").forward(request, response);
     }

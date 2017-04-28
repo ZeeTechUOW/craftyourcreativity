@@ -1,3 +1,5 @@
+<%@page import="Model.ModuleImage"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="Model.DBAdmin"%>
 <%@page import="Model.User"%>
 <%@page import="Model.Module"%>
@@ -7,6 +9,7 @@
     String url = DBAdmin.WEB_URL;
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
     Module module = (Module) request.getAttribute("module");
+    ArrayList<ModuleImage> moduleImages = (ArrayList<ModuleImage>) request.getAttribute("moduleImages");
 %>
 
 <!DOCTYPE>
@@ -86,29 +89,43 @@
                 <div id="myCarousel" class="carousel slide" data-ride="carousel">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
+                        <%
+                            for (int i = 0; i < moduleImages.size(); i++) {
+                                if (i == 0) {
+                        %>
                         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#myCarousel" data-slide-to="1"></li>
-                        <li data-target="#myCarousel" data-slide-to="2"></li>
-                        <li data-target="#myCarousel" data-slide-to="3"></li>
+                        <%   
+                                } else {
+                        %>
+                        <li data-target="#myCarousel" data-slide-to="<% out.print(i); %>"></li>
+                        <%            
+                                }
+                            }
+                        %>
                     </ol>
 
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
+                        <%
+                            for (int i = 0; i < moduleImages.size(); i++) {
+                                if (i == 0) {
+                        %>
                         <div class="item active">
-                            <img src="resource/avates.png" alt="Chania">
+                            <img src="<% out.print(moduleImages.get(i).getImagePath()); %>" alt="">
                         </div>
-
+                        <%
+                                } else {
+                        %>
                         <div class="item">
-                            <img src="resource/avates.png" alt="Chania">
+                            <img src="<% out.print(moduleImages.get(i).getImagePath()); %>" alt="">
                         </div>
-
-                        <div class="item">
-                            <img src="resource/avates.png" alt="Flower">
-                        </div>
-
-                        <div class="item">
-                            <img src="resource/avates.png" alt="Flower">
-                        </div>
+                        <%
+                                }
+                        %>
+                        
+                        <%
+                            }
+                        %>
                     </div>
 
                     <!-- Left and right controls -->
