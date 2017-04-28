@@ -11,8 +11,15 @@ import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author Andree Yosua
+ */
 public class DBAdmin {
 
+    /**
+     *
+     */
     public static final String WEB_URL = "http://localhost:8084/cycfrontend/"; // Local machine web url
 //    public static final String WEB_URL = "http://35.187.198.153/cycfrontend/"; // GCP machine web url
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cyc";
@@ -173,6 +180,14 @@ public class DBAdmin {
     // </editor-fold>
 
     // User method
+
+    /**
+     *
+     * @param username
+     * @param email
+     * @param password
+     * @return
+     */
     public static User login(String username, String email, String password) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -202,6 +217,14 @@ public class DBAdmin {
         }
     }
 
+    /**
+     *
+     * @param username
+     * @param email
+     * @param password
+     * @param userType
+     * @return
+     */
     public static boolean register(String username, String email, String password, String userType) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -221,6 +244,11 @@ public class DBAdmin {
         }
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     public static boolean isUsernameTaken(String username) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -239,6 +267,11 @@ public class DBAdmin {
         }
     }
 
+    /**
+     *
+     * @param userID
+     * @return
+     */
     public static User getUser(int userID) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -265,6 +298,13 @@ public class DBAdmin {
         }
     }
 
+    /**
+     *
+     * @param userID
+     * @param password
+     * @param email
+     * @return
+     */
     public static boolean updateUserEmail(int userID, String password, String email) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -283,6 +323,13 @@ public class DBAdmin {
         }
     }
 
+    /**
+     *
+     * @param userID
+     * @param password
+     * @param newPassword
+     * @return
+     */
     public static boolean updateUserPassword(int userID, String password, String newPassword) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -302,6 +349,15 @@ public class DBAdmin {
     }
 
     // Thread method
+
+    /**
+     *
+     * @param userID
+     * @param threadTitle
+     * @param threadType
+     * @param message
+     * @return
+     */
     public static boolean createNewThread(int userID, String threadTitle, String threadType, String message) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -326,6 +382,11 @@ public class DBAdmin {
         }
     }
 
+    /**
+     *
+     * @param threadID
+     * @return
+     */
     public static Thread getThread(int threadID) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -352,6 +413,11 @@ public class DBAdmin {
         }
     }
 
+    /**
+     *
+     * @param threadID
+     * @return
+     */
     public static int getThreadPostCount(int threadID) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -374,6 +440,14 @@ public class DBAdmin {
         }
     }
 
+    /**
+     *
+     * @param type
+     * @param sort
+     * @param size
+     * @param page
+     * @return
+     */
     public static ArrayList<Thread> getXForumSortedBy(String type, String sort, int size, int page) {
         ArrayList<Thread> threads = new ArrayList<>();
 
@@ -417,6 +491,14 @@ public class DBAdmin {
     }
 
     // Post method
+
+    /**
+     *
+     * @param threadID
+     * @param userID
+     * @param message
+     * @return
+     */
     public static boolean createNewPost(int threadID, int userID, String message) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -436,6 +518,12 @@ public class DBAdmin {
         }
     }
 
+    /**
+     *
+     * @param threadID
+     * @param page
+     * @return
+     */
     public static ArrayList<Post> getThreadPost(int threadID, int page) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -469,6 +557,15 @@ public class DBAdmin {
     }
 
     // Module method
+
+    /**
+     *
+     * @param moduleVersion
+     * @param moduleName
+     * @param moduleDescription
+     * @param moduleImgPath
+     * @return
+     */
     public static boolean createNewModule(String moduleVersion, String moduleName, String moduleDescription, String moduleImgPath) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -488,6 +585,11 @@ public class DBAdmin {
         }
     }
 
+    /**
+     *
+     * @param sort
+     * @return
+     */
     public static ArrayList<Module> getModuleSortBy(String sort) {
         ArrayList<Module> modules = new ArrayList<>();
 
@@ -526,6 +628,11 @@ public class DBAdmin {
         return modules;
     }
 
+    /**
+     *
+     * @param moduleID
+     * @return
+     */
     public static Module getModule(int moduleID) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -556,6 +663,12 @@ public class DBAdmin {
         }
     }
 
+    /**
+     *
+     * @param moduleID
+     * @param genres
+     * @return
+     */
     public static boolean setModuleGenre(int moduleID, ArrayList<String> genres) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -585,6 +698,11 @@ public class DBAdmin {
         }
     }
 
+    /**
+     *
+     * @param moduleID
+     * @return
+     */
     public static ArrayList<String> getModuleGenre(int moduleID) {
         ArrayList<String> genres = new ArrayList<>();
 
@@ -607,6 +725,11 @@ public class DBAdmin {
         return genres;
     }
 
+    /**
+     *
+     * @param moduleID
+     * @return
+     */
     public static ArrayList<ModuleImage> getModuleImage(int moduleID) {
         ArrayList<ModuleImage> moduleImages = new ArrayList<>();
 
@@ -634,6 +757,12 @@ public class DBAdmin {
     }
 
     // Achievement method
+
+    /**
+     *
+     * @param moduleID
+     * @return
+     */
     public static ArrayList<Achievement> getAchievement(int moduleID) {
         ArrayList<Achievement> achievements = new ArrayList<>();
 
@@ -662,6 +791,12 @@ public class DBAdmin {
         return achievements;
     }
 
+    /**
+     *
+     * @param moduleID
+     * @param userID
+     * @return
+     */
     public static ArrayList<Achievement> getAchievement(int moduleID, int userID) {
         ArrayList<Achievement> achievements = new ArrayList<>();
 
@@ -705,6 +840,12 @@ public class DBAdmin {
     }
 
     // Module user data method
+
+    /**
+     *
+     * @param moduleID
+     * @return
+     */
     public static ArrayList<ModuleUserData> getModuleHighScore(int moduleID) {
         ArrayList<ModuleUserData> userDatas = new ArrayList<>();
 
@@ -735,6 +876,11 @@ public class DBAdmin {
         return userDatas;
     }
 
+    /**
+     *
+     * @param userID
+     * @return
+     */
     public static ArrayList<ModuleUserData> getModuleProgress(int userID) {
         ArrayList<ModuleUserData> userDatas = new ArrayList<>();
 

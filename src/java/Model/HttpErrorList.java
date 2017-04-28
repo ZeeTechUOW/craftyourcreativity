@@ -1,11 +1,24 @@
 package Model;
 
+/**
+ *
+ * @author Andree Yosua
+ */
 public class HttpErrorList {
 
+    /**
+     *
+     */
     public HttpErrorList() {
     }
 
     // Common HTTP Error List
+
+    /**
+     *
+     * @param code
+     * @return
+     */
     public static String getMessages(int code) {
         switch (code) {
             case 400:

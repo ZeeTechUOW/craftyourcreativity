@@ -3,6 +3,10 @@ package Model;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ *
+ * @author Andree Yosua
+ */
 public class User {
 
     private int userID;
@@ -11,6 +15,14 @@ public class User {
     private String email;
     private String userType;
 
+    /**
+     *
+     * @param userID
+     * @param username
+     * @param password
+     * @param email
+     * @param userType
+     */
     public User(int userID, String username, String password, String email, String userType) {
         this.userID = userID;
         this.username = username;
@@ -48,42 +60,83 @@ public class User {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Getter and Setter. Click + sign on the left to expand the code">
+
+    /**
+     *
+     * @return
+     */
     public int getUserID() {
         return userID;
     }
 
+    /**
+     *
+     * @param userID
+     */
     public void setUserID(int userID) {
         this.userID = userID;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     *
+     * @param username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     *
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     *
+     * @param email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUserType() {
         return userType;
     }
 
+    /**
+     *
+     * @param userType
+     */
     public void setUserType(String userType) {
         this.userType = userType;
     }// </editor-fold>
