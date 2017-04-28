@@ -182,11 +182,11 @@ public class DBAdmin {
     // User method
 
     /**
-     *
-     * @param username
-     * @param email
-     * @param password
-     * @return
+     * Login method which use username/email and password as credentials and return <code>User</code> object.
+     * @param username User's username
+     * @param email User's email
+     * @param password User's password
+     * @return <code>User</code> with corresponding login credentials if found, otherwise <code>null</code>.
      */
     public static User login(String username, String email, String password) {
         try {
@@ -218,12 +218,12 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param username
-     * @param email
-     * @param password
-     * @param userType
-     * @return
+     * Register the current <code>User</code> to the database with corresponding credentials.
+     * @param username User's username
+     * @param email User's email
+     * @param password User's password
+     * @param userType User's user type
+     * @return <code>true</code> if user successfully registered to the database, otherwise <code>false</code>.
      */
     public static boolean register(String username, String email, String password, String userType) {
         try {
@@ -245,9 +245,9 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param username
-     * @return
+     * Check <code>User</code> with the corresponding username is already exist in database or not.
+     * @param username username target
+     * @return true if username is taken, otherwise false.
      */
     public static boolean isUsernameTaken(String username) {
         try {
@@ -268,9 +268,9 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param userID
-     * @return
+     * Return the corresponding <code>User</code> object from user ID.
+     * @param userID user ID target
+     * @return <code>User</code> if user exist, otherwise <code>null</code>.
      */
     public static User getUser(int userID) {
         try {
@@ -299,11 +299,11 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param userID
-     * @param password
-     * @param email
-     * @return
+     * Update <code>User</code> email to the new email.
+     * @param userID User's ID
+     * @param password User's password
+     * @param email User's email
+     * @return <code>true</code> if operation success, otherwise <code>false</code>.
      */
     public static boolean updateUserEmail(int userID, String password, String email) {
         try {
@@ -324,11 +324,11 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param userID
-     * @param password
-     * @param newPassword
-     * @return
+     * Update <code>User</code> password to the new password.
+     * @param userID User's ID
+     * @param password User's old password
+     * @param newPassword User's new password.
+     * @return <code>true</code> if operation success, otherwise <code>false</code>.
      */
     public static boolean updateUserPassword(int userID, String password, String newPassword) {
         try {
@@ -351,12 +351,12 @@ public class DBAdmin {
     // Thread method
 
     /**
-     *
-     * @param userID
-     * @param threadTitle
-     * @param threadType
-     * @param message
-     * @return
+     * Create a new <code>Thread</code> and attach an opening <code>Post</code> to the <code>Thread</code> as opening <code>Post</code>.
+     * @param userID User's ID
+     * @param threadTitle Thread title
+     * @param threadType Thread type
+     * @param message  Thread opening post
+     * @return <code>true</code> if operation success, otherwise <code>false</code>.
      */
     public static boolean createNewThread(int userID, String threadTitle, String threadType, String message) {
         try {
@@ -383,9 +383,9 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param threadID
-     * @return
+     * Return corresponding <code>Thread</code> from specified ID
+     * @param threadID target ID
+     * @return <code>Thread</code> if found, otherwise <code>null</code>.
      */
     public static Thread getThread(int threadID) {
         try {
@@ -414,9 +414,9 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param threadID
-     * @return
+     * Return the <code>Post</code> that attached to the corresponding <code>Thread</code> ID as <code>int</code> object.
+     * @param threadID target ID
+     * @return <code>Post</code> count if <code>Thread</code> exist, otherwise -1.
      */
     public static int getThreadPostCount(int threadID) {
         try {
@@ -441,12 +441,12 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param type
-     * @param sort
-     * @param size
-     * @param page
-     * @return
+     * Return a set of <code>Thread</code> specified by type, sort, size, and target page.
+     * @param type <code>Thread</code> type
+     * @param sort sorting Algorithm used
+     * @param size size of <code>Thread</code> per page
+     * @param page target page
+     * @return a non-empty <code>ArrayList</code> of <code>Thread</code> if operation success, otherwise empty <code>ArrayList</code> of <code>Thread</code>.
      */
     public static ArrayList<Thread> getXForumSortedBy(String type, String sort, int size, int page) {
         ArrayList<Thread> threads = new ArrayList<>();
@@ -493,11 +493,11 @@ public class DBAdmin {
     // Post method
 
     /**
-     *
-     * @param threadID
-     * @param userID
-     * @param message
-     * @return
+     * Create and attach a non-opening <code>Post</code> to specified <code>Thread</code> ID.
+     * @param threadID Thread target ID
+     * @param userID User target ID
+     * @param message User post
+     * @return <code>true</code> if operation success, otherwise <code>false</code>.
      */
     public static boolean createNewPost(int threadID, int userID, String message) {
         try {
@@ -519,12 +519,14 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param threadID
-     * @param page
-     * @return
+     * Return an <code>ArrayList</code> of <code>Post</code> which attached to certain <code>Thread</code> ID.
+     * @param threadID Thread target ID
+     * @param page target page
+     * @return a non-empty <code>ArrayList</code> of <code>Post</code> if operation success, otherwise empty <code>ArrayList</code> of <code>Post</code>.
      */
     public static ArrayList<Post> getThreadPost(int threadID, int page) {
+        ArrayList<Post> posts = new ArrayList<>();
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
@@ -535,8 +537,7 @@ public class DBAdmin {
             preparedStatement.setInt(3, 10);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            ArrayList<Post> posts = new ArrayList<>();
+    
             while (resultSet.next()) {
                 int _postID = resultSet.getInt("postID");
                 int _threadID = resultSet.getInt("threadID");
@@ -553,18 +554,18 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return null;
+        return posts;
     }
 
     // Module method
 
     /**
-     *
-     * @param moduleVersion
-     * @param moduleName
-     * @param moduleDescription
-     * @param moduleImgPath
-     * @return
+     * Create new <code>Module</code> into database.
+     * @param moduleVersion Module version
+     * @param moduleName Module name
+     * @param moduleDescription Module Description
+     * @param moduleImgPath Module thumbnail image path
+     * @return <code>true</code> if operation success, otherwise <code>false</code>.
      */
     public static boolean createNewModule(String moduleVersion, String moduleName, String moduleDescription, String moduleImgPath) {
         try {
@@ -586,9 +587,9 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param sort
-     * @return
+     * Return an <code>ArrayList</code> of <code>Module</code> sorted by certain method (popular, release, or update).
+     * @param sort Sort method
+     * @return a non-empty <code>ArrayList</code> of <code>Module</code> if operation success, otherwise empty <code>ArrayList</code> of <code>Module</code>.
      */
     public static ArrayList<Module> getModuleSortBy(String sort) {
         ArrayList<Module> modules = new ArrayList<>();
@@ -629,9 +630,9 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param moduleID
-     * @return
+     * Return specified <code>Module</code> object.
+     * @param moduleID target ID
+     * @return <code>Module</code> if exist, otherwise <code>null</code>.
      */
     public static Module getModule(int moduleID) {
         try {
@@ -664,10 +665,10 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param moduleID
-     * @param genres
-     * @return
+     * Specify a set of genre to <code>Module</code> object.
+     * @param moduleID target ID
+     * @param genres <code>ArrayList</code> of genre
+     * @return <code>true</code> if operation success, otherwise <code>false</code>.
      */
     public static boolean setModuleGenre(int moduleID, ArrayList<String> genres) {
         try {
@@ -699,9 +700,9 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param moduleID
-     * @return
+     * Return a set of genre from specified <code>Module</code> ID.
+     * @param moduleID target ID
+     * @return a non-empty <code>Arraylist</code> of genres in <code>String</code> format, otherwise empty <code>Arraylist</code> of <code>String</code>.
      */
     public static ArrayList<String> getModuleGenre(int moduleID) {
         ArrayList<String> genres = new ArrayList<>();
@@ -726,9 +727,9 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param moduleID
-     * @return
+     * Return an <code>ArrayList</code> of <code>ModuleImage</code> from specified <code>Module</code> ID.
+     * @param moduleID target ID
+     * @return a non-empty <code>ArrayList</code> of <code>ModuleImage</code> if operation success, otherwise empty <code>ArrayList</code> of <code>ModuleImage</code>.
      */
     public static ArrayList<ModuleImage> getModuleImage(int moduleID) {
         ArrayList<ModuleImage> moduleImages = new ArrayList<>();
@@ -759,9 +760,9 @@ public class DBAdmin {
     // Achievement method
 
     /**
-     *
-     * @param moduleID
-     * @return
+     * Return an <code>ArrayList</code> of <code>Achievement</code> from specified <code>Module</code> ID.
+     * @param moduleID target ID
+     * @return a non-empty <code>ArrayList</code> of <code>Achievement</code> if operation success, otherwise empty <code>ArrayList</code> of <code>Achievement</code>.
      */
     public static ArrayList<Achievement> getAchievement(int moduleID) {
         ArrayList<Achievement> achievements = new ArrayList<>();
@@ -792,10 +793,10 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param moduleID
-     * @param userID
-     * @return
+     * an <code>ArrayList</code> of <code>Achievement</code> from specified <code>Module</code> ID and <code>User</code> ID.
+     * @param moduleID Module target ID
+     * @param userID User target ID
+     * @return a non-empty <code>ArrayList</code> of <code>Achievement</code> if operation success, otherwise empty <code>ArrayList</code> of <code>Achievement</code>.
      */
     public static ArrayList<Achievement> getAchievement(int moduleID, int userID) {
         ArrayList<Achievement> achievements = new ArrayList<>();
@@ -842,9 +843,9 @@ public class DBAdmin {
     // Module user data method
 
     /**
-     *
-     * @param moduleID
-     * @return
+     * Return an <code>ArrayList</code> of <code>ModuleUserData</code> that represent set of high score of specified <code>Module</code> ID.
+     * @param moduleID Module target ID
+     * @return a non-empty <code>ArrayList</code> of <code>ModuleUserData</code> if operation success, otherwise empty <code>ArrayList</code> of <code>ModuleUserData</code>.
      */
     public static ArrayList<ModuleUserData> getModuleHighScore(int moduleID) {
         ArrayList<ModuleUserData> userDatas = new ArrayList<>();
@@ -877,9 +878,9 @@ public class DBAdmin {
     }
 
     /**
-     *
-     * @param userID
-     * @return
+     * Return an <code>ArrayList</code> of <code>ModuleUserData</code> that represent set of module progress of specified <code>User</code> ID.
+     * @param userID User target ID
+     * @return a non-empty <code>ArrayList</code> of <code>ModuleUserData</code> if operation success, otherwise empty <code>ArrayList</code> of <code>ModuleUserData</code>.
      */
     public static ArrayList<ModuleUserData> getModuleProgress(int userID) {
         ArrayList<ModuleUserData> userDatas = new ArrayList<>();
