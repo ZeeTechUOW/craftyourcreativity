@@ -21,7 +21,7 @@ public class DBAdmin {
 //    private static final String DB_PASS = "cK3rMeyG"; // GCP machine DB Pass
 
     // <editor-fold defaultstate="collapsed" desc="Query String. Click + sign on the left to expand the code">
-    // Login, Register Query
+    // User Query
     private static final String LOGIN_QUERY
             = "SELECT * "
             + "FROM `user` "
@@ -29,7 +29,6 @@ public class DBAdmin {
     private static final String REGISTER_QUERY
             = "INSERT INTO `user` (`userID`, `username`, `password`, `email`, `userType`, `receiveUpdates`) "
             + "VALUES (NULL, ?, SHA1(?), ?, ?, '0')";
-
     private static final String GET_USER_FROM_USERNAME
             = "SELECT * "
             + "FROM `user` "
@@ -38,6 +37,14 @@ public class DBAdmin {
             = "SELECT * "
             + "FROM `user` "
             + "WHERE userID=?";
+    private static final String UPDATE_USER_EMAIL
+            = "UPDATE `user` "
+            + "SET email=? "
+            + "WHERE userID=? AND password=SHA1(?)";
+    private static final String UPDATE_USER_PASSWORD
+            = "UPDATE `user` "
+            + "SET password=SHA1(?) "
+            + "WHERE userID=? AND password=SHA1(?)";
 
     // Thread Query
     private static final String CREATE_NEW_THREAD
@@ -161,6 +168,7 @@ public class DBAdmin {
             + "WHERE userID=? AND mKey=?";
     // </editor-fold>
 
+    // User method
     public static User login(String username, String email, String password) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -253,6 +261,43 @@ public class DBAdmin {
         }
     }
 
+    public static boolean updateUserEmail(int userID, String password, String email) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_EMAIL);
+            preparedStatement.setString(1, email);
+            preparedStatement.setInt(2, userID);
+            preparedStatement.setString(3, password);
+
+            return preparedStatement.executeUpdate() > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+
+            return false;
+        }
+    }
+
+    public static boolean updateUserPassword(int userID, String password, String newPassword) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_PASSWORD);
+            preparedStatement.setString(1, newPassword);
+            preparedStatement.setInt(2, userID);
+            preparedStatement.setString(3, password);
+
+            return preparedStatement.executeUpdate() > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+
+            return false;
+        }
+    }
+
+    // Thread method
     public static boolean createNewThread(int userID, String threadTitle, String threadType, String message) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -367,6 +412,7 @@ public class DBAdmin {
         return threads;
     }
 
+    // Post method
     public static boolean createNewPost(int threadID, int userID, String message) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -418,6 +464,7 @@ public class DBAdmin {
         return null;
     }
 
+    // Module method
     public static boolean createNewModule(String moduleVersion, String moduleName, String moduleDescription, String moduleImgPath) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -556,6 +603,7 @@ public class DBAdmin {
         return genres;
     }
 
+    // Achievement method
     public static ArrayList<Achievement> getAchievement(int moduleID) {
         ArrayList<Achievement> achievements = new ArrayList<>();
 
@@ -626,6 +674,7 @@ public class DBAdmin {
         return achievements;
     }
 
+    // Module user data method
     public static ArrayList<ModuleUserData> getModuleHighScore(int moduleID) {
         ArrayList<ModuleUserData> userDatas = new ArrayList<>();
 

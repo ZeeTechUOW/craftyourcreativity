@@ -64,6 +64,14 @@
         <servlet-name>SettingServlet</servlet-name>
         <servlet-class>Servlet.SettingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangeEmailServlet</servlet-name>
+        <servlet-class>Servlet.ChangeEmailServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>Servlet.ChangePasswordServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>createThreadServlet</servlet-name>
         <url-pattern>/createThreadServlet</url-pattern>
@@ -148,7 +156,7 @@
         <error-code>408</error-code>
         <location>/error?code=408</location>
     </error-page>
-<!--    <error-page>
+    <!--    <error-page>
         <error-code>500</error-code>
         <location>/error?code=500</location>
     </error-page>-->
@@ -175,6 +183,14 @@
     <servlet-mapping>
         <servlet-name>SettingServlet</servlet-name>
         <url-pattern>/setting</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeEmailServlet</servlet-name>
+        <url-pattern>/changeemail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/changepassword</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

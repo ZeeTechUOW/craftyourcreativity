@@ -128,82 +128,89 @@
                         UPDATE YOUR EMAIL
                     </div>
                     <div id="seBox2">
-                        <table id="form">
-                            <tr>
-                                <td>
-                                    <b>Email Address (must be valid):</b>
-                                </td>
-                                <td colspan="2">
-                                    <div class="input-lg">
-                                        <input type="text" class="form-control" placeholder="<% out.print(loggedUser.getEmail()); %>" name="emailSetting" style="width: 100%;"/>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>Your Account Password:</b>
-                                </td>
-                                <td colspan="2">
-                                    <div class="input-lg">
-                                        <input type="password" class="form-control" placeholder="Password" name="passwordSetting" style="width: 100%;"/>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr><td colspan="2" id="form">Update Your Email BUTTON</td></tr>
-                        </table>
+                        <form action="changeemail" method="post">
+                            <table id="form">
+                                <tr>
+                                    <td>
+                                        <b>Email Address (must be valid):</b>
+                                    </td>
+                                    <td colspan="2">
+                                        <div class="input-lg">
+                                            <input type="text" class="form-control" placeholder="email@domain.com" value="<% out.print(loggedUser.getEmail()); %>" name="emailSetting" style="width: 100%;"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Your Account Password:</b>
+                                    </td>
+                                    <td colspan="2">
+                                        <div class="input-lg">
+                                            <input type="password" class="form-control" placeholder="Password" name="passwordSetting" style="width: 100%;"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <button id="Button" type="submit" class="btn btn-default">Update</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
                     </div>
-
                     <div id="seBoxUnderline">
                         CHANGE PASSWORD
                     </div>
                     <div id="seBox2">
-                        <table id="form">
-                            <tr>
-                                <td>
-                                    <b>Current Password:</b>
-                                </td>
-                                <td colspan="2">
-                                    <div class="input-lg">
-                                        <input type="password" class="form-control" placeholder="Old Password" name="oldPasswordSetting" style="width: 100%;"/>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>New Password:</b>
-                                </td>
-                                <td colspan="2">
-                                    <div class="input-lg">
-                                        <input type="password" class="form-control" placeholder="New Password" name="newPassword1Setting" style="width: 100%;"/>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" id="form">
-                                    At least 8 characters long including 1 uppercase, 1 lowercase and 1 number.
-                                </td>                               
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>Confirm New Password:</b>
-                                </td>
-                                <td colspan="2">
-                                    <div class="input-lg">
-                                        <input type="password" class="form-control" placeholder="New Password" name="newPassword2Setting" style="width: 100%;"/>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" id="form">
-                                    Re-type your new password
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" id="form">
-                                    Change Password BUTTON
-                                </td>
-                            </tr>
-                        </table>
+                        <form action="changepassword" method="post">
+                            <table id="form">
+                                <tr>
+                                    <td>
+                                        <b>Current Password:</b>
+                                    </td>
+                                    <td colspan="2">
+                                        <div class="input-lg">
+                                            <input type="password" class="form-control" placeholder="Old Password" name="oldPasswordSetting" style="width: 100%;"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>New Password:</b>
+                                    </td>
+                                    <td colspan="2">
+                                        <div class="input-lg">
+                                            <input type="password" class="form-control" placeholder="New Password" name="newPassword1Setting" style="width: 100%;"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" id="form">
+                                        At least 8 characters long including 1 uppercase, 1 lowercase and 1 number.
+                                    </td>                               
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Confirm New Password:</b>
+                                    </td>
+                                    <td colspan="2">
+                                        <div class="input-lg">
+                                            <input type="password" class="form-control" placeholder="New Password" name="newPassword2Setting" style="width: 100%;"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" id="form">
+                                        Re-type your new password
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                            <button id="Button" type="submit" class="btn btn-default">Change</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
                     </div>
                 </div>
             </div>
