@@ -20,31 +20,31 @@ public class ChangeEmailServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // Initialize variable
         User loggedUser;
         String email;
         String password;
-        
+
         // Get user session
         loggedUser = (User) request.getSession().getAttribute("loggedUser");
-        if(loggedUser == null) {
+        if (loggedUser == null) {
             response.sendRedirect("login");
             return;
         }
-        
+
         // Get email and password field
         email = request.getParameter("emailSetting");
         password = request.getParameter("passwordSetting");
-        
+
         // Change user email
-        if(DBAdmin.updateUserEmail(loggedUser.getUserID(), password, email)) {
+        if (DBAdmin.updateUserEmail(loggedUser.getUserID(), password, email)) {
             // Get updated user
             loggedUser = (User) DBAdmin.getUser(loggedUser.getUserID());
-            
+
             // Set loggedUser to session
             request.getSession().setAttribute("loggedUser", loggedUser);
-            
+
             // Redirect to setting page
             response.sendRedirect("setting");
         } else {

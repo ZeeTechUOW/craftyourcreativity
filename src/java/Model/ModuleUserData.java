@@ -1,9 +1,9 @@
-
 package Model;
 
 import java.util.Comparator;
 
 public class ModuleUserData {
+
     private int moduleID;
     private int userID;
     private String mKey;
@@ -47,14 +47,14 @@ public class ModuleUserData {
     public void setmValue(String mValue) {
         this.mValue = mValue;
     }
-    
+
     public static Comparator<ModuleUserData> sortByScoreDesc = new Comparator<ModuleUserData>() {
         @Override
         public int compare(ModuleUserData o1, ModuleUserData o2) {
             return Integer.valueOf(o2.getmValue()).compareTo(Integer.valueOf(o1.getmValue()));
         }
     };
-    
+
     public static Comparator<ModuleUserData> sortByModuleIDAsc = new Comparator<ModuleUserData>() {
         @Override
         public int compare(ModuleUserData o1, ModuleUserData o2) {

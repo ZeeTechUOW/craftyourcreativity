@@ -1,6 +1,7 @@
 package Model;
 
 public class ModuleImage {
+
     private int moduleID;
     private String imagePath;
 

@@ -1,9 +1,9 @@
-
 package Model;
 
 import java.time.LocalDateTime;
 
 public class Achievement {
+
     private int achievementID;
     private int moduleID;
     private String achievementName;
@@ -76,5 +76,5 @@ public class Achievement {
 
     public void setUnlockTime(LocalDateTime unlockTime) {
         this.unlockTime = unlockTime;
-    }    
+    }
 }

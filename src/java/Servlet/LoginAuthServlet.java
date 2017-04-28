@@ -1,4 +1,3 @@
-
 package Servlet;
 
 import Model.DBAdmin;
@@ -21,34 +20,34 @@ public class LoginAuthServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // Initialize variable
         String username;
         String password;
         User loggedUser;
-        
+
         // Get parameter
         username = request.getParameter("usernameLogin");
         password = request.getParameter("passwordLogin");
-        
+
         // Cehck parameter
-        if(username.isEmpty() || password.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty()) {
             response.sendRedirect("login");
             return;
         }
-        
+
         // Try login
         loggedUser = DBAdmin.login(username, username, password);
-        
+
         // Check user exist
-        if(loggedUser == null) {
+        if (loggedUser == null) {
             response.sendRedirect("login");
             return;
         }
-        
+
         // Set loggedUser to session
         request.getSession().setAttribute("loggedUser", loggedUser);
-        
+
         // redirect to main menu
         response.sendRedirect("main");
     }

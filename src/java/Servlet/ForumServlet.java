@@ -45,7 +45,7 @@ public class ForumServlet extends HttpServlet {
         if (sort == null) {
             sort = "new";
         }
-        
+
         if (sort.equalsIgnoreCase("new")) {
             sortFormatted = "Newest";
         } else if (sort.equalsIgnoreCase("today")) {
@@ -73,12 +73,12 @@ public class ForumServlet extends HttpServlet {
         } else {
             threads.addAll(DBAdmin.getXForumSortedBy(type, sort, 10, pageNum));
         }
-        
+
         // Get username for every thread
-        for(Thread t : threads) {
+        for (Thread t : threads) {
             userList.add(DBAdmin.getUser(t.getUserID()));
         }
-        
+
         // Calculating total page
         threadCount = threads.size();
         if (threadCount % 10 == 0) {
@@ -86,7 +86,7 @@ public class ForumServlet extends HttpServlet {
         } else {
             lastPage = (int) Math.floorDiv(threadCount, 10) + 1;
         }
-        
+
         // Create forum page url
         pageCount = generatePageCount(pageNum, lastPage);
         pageCountUrl = generatePageCountUrl(pageCount, type, sort, pageNum, lastPage);
@@ -100,11 +100,11 @@ public class ForumServlet extends HttpServlet {
         request.setAttribute("userList", userList);
         request.setAttribute("pageCount", pageCount);
         request.setAttribute("pageCountUrl", pageCountUrl);
-        
+
         // Forward to view
         request.getRequestDispatcher("forum.jsp").forward(request, response);
     }
-    
+
     private ArrayList<String> generatePageCount(int page, int lastPage) {
         ArrayList<String> pageCount = new ArrayList<>();
 
@@ -154,7 +154,7 @@ public class ForumServlet extends HttpServlet {
 
         return pageCount;
     }
-    
+
     private ArrayList<String> generatePageCountUrl(ArrayList<String> pageCount, String type, String sort, int page, int lastPage) {
         ArrayList<String> pageCountUrl = new ArrayList<>();
 

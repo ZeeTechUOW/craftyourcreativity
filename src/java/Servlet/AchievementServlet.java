@@ -53,7 +53,7 @@ public class AchievementServlet extends HttpServlet {
             response.sendRedirect("error?code=404");
             return;
         }
-        
+
         // Fetch achievement
         if (loggedUser == null) {
             achievements = DBAdmin.getAchievement(moduleID);
@@ -64,7 +64,7 @@ public class AchievementServlet extends HttpServlet {
         // Count unlocked achievement
         unlockedModuleCount = 0;
         for (Achievement a : achievements) {
-            if(a.getUnlockTime() != LocalDateTime.MIN) {
+            if (a.getUnlockTime() != LocalDateTime.MIN) {
                 unlockedModuleCount++;
             }
         }

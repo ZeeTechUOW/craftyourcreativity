@@ -22,12 +22,12 @@ public class ModuleServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // Initialize variable
         int moduleID;
         Module module;
         ArrayList<ModuleImage> moduleImages = new ArrayList<>();
-        
+
         // Parse all parameter
         try {
             moduleID = Integer.parseInt(request.getParameter("mid"));
@@ -36,7 +36,7 @@ public class ModuleServlet extends HttpServlet {
             response.sendRedirect("error?code=404");
             return;
         }
-        
+
         // Get Module
         module = DBAdmin.getModule(moduleID);
         if (module == null) {
@@ -44,14 +44,14 @@ public class ModuleServlet extends HttpServlet {
             response.sendRedirect("error?code=404");
             return;
         }
-        
+
         // Get Module Image
         moduleImages.addAll(DBAdmin.getModuleImage(moduleID));
-        
+
         // Set Attribute
         request.setAttribute("module", module);
         request.setAttribute("moduleImages", moduleImages);
-        
+
         request.getRequestDispatcher("module.jsp").forward(request, response);
     }
 

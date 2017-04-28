@@ -24,7 +24,7 @@ public class SignupAuthServlet extends HttpServlet {
         String username = request.getParameter("usernameRegister");
         String password = request.getParameter("passwordRegister");
         String email = request.getParameter("emailRegister");
-        
+
         if (DBAdmin.isUsernameTaken(username)) {
             String error = "Username already used, Please user other username";
 

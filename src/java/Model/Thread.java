@@ -82,7 +82,7 @@ public class Thread {
         this.replyCount = replyCount;
     }
 
-    public String getThreadTimeFormatted(){
+    public String getThreadTimeFormatted() {
         return p.format(Date.from(threadTime.atZone(ZoneId.systemDefault()).toInstant()));
     }// </editor-fold>\    
 }

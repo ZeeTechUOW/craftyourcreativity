@@ -20,40 +20,40 @@ public class ChangePasswordServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // Initialize variable
         User loggedUser;
         String oldPassword;
         String newPassword1;
         String newPassword2;
-        
+
         // Get user session
         loggedUser = (User) request.getSession().getAttribute("loggedUser");
-        if(loggedUser == null) {
+        if (loggedUser == null) {
             response.sendRedirect("login");
             return;
         }
-        
+
         // Get old and new password field
         oldPassword = request.getParameter("oldPasswordSetting");
         newPassword1 = request.getParameter("newPassword1Setting");
         newPassword2 = request.getParameter("newPassword2Setting");
-        
+
         // Check new pass1 and pass2 field
-        if(!newPassword1.equals(newPassword2)) {
+        if (!newPassword1.equals(newPassword2)) {
             // Redirect to setting page with error message
             response.sendRedirect("setting");
             return;
         }
-        
+
         // Change user email
-        if(DBAdmin.updateUserPassword(loggedUser.getUserID(), oldPassword, newPassword1)) {
+        if (DBAdmin.updateUserPassword(loggedUser.getUserID(), oldPassword, newPassword1)) {
             // Get updated user
             loggedUser = (User) DBAdmin.getUser(loggedUser.getUserID());
-            
+
             // Set loggedUser to session
             request.getSession().setAttribute("loggedUser", loggedUser);
-            
+
             // Redirect to setting page
             response.sendRedirect("setting");
         } else {

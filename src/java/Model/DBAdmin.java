@@ -606,30 +606,30 @@ public class DBAdmin {
 
         return genres;
     }
-    
+
     public static ArrayList<ModuleImage> getModuleImage(int moduleID) {
         ArrayList<ModuleImage> moduleImages = new ArrayList<>();
-        
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-            
+
             PreparedStatement preparedStatement = connection.prepareStatement(GET_MODULE_IMAGE_FROM_MODULE_ID);
             preparedStatement.setInt(1, moduleID);
-            
+
             ResultSet resultSet = preparedStatement.executeQuery();
-            
+
             while (resultSet.next()) {
                 int _moduleID = resultSet.getInt("moduleID");
                 String _imagePath = resultSet.getString("imagePath");
-                
+
                 moduleImages.add(new ModuleImage(_moduleID, _imagePath));
             }
-            
+
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return moduleImages;
     }
 

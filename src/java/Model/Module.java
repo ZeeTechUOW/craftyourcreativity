@@ -2,10 +2,6 @@ package Model;
 
 import java.time.LocalDateTime;
 
-/**
- *
- * @author Andree Yosua
- */
 public class Module {
 
     private int moduleID;

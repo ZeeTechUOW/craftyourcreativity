@@ -19,25 +19,25 @@ public class ErrorServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // Initialize variable
         int errorID;
         String message;
-        
+
         // Parse Parameter
         try {
             errorID = Integer.parseInt(request.getParameter("code"));
         } catch (NumberFormatException ex) {
             errorID = 500;
         }
-        
+
         // Get Message
         message = HttpErrorList.getMessages(errorID);
-        
+
         // Set Attribute
         request.setAttribute("errorID", errorID);
         request.setAttribute("message", message);
-        
+
         request.getRequestDispatcher("error.jsp").forward(request, response);
     }
 

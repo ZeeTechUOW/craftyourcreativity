@@ -22,14 +22,14 @@ public class CreatePostServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         int threadID;
-        
+
         try {
             threadID = Integer.parseInt(request.getParameter("threadID"));
         } catch (NumberFormatException ex) {
             response.sendError(404);
             return;
         }
-        
+
         User loggedUser = (User) request.getSession().getAttribute("loggedUser");
         String message = request.getParameter("summerNoteText");
 
@@ -42,7 +42,7 @@ public class CreatePostServlet extends HttpServlet {
             // Calculating Last Page
             int postCount = DBAdmin.getThreadPostCount(threadID);
             int lastPage;
-            
+
             if (postCount % 10 == 0) {
                 lastPage = postCount / 10;
             } else {

@@ -72,10 +72,10 @@ public class ThreadServlet extends HttpServlet {
             return;
         }
         posts = DBAdmin.getThreadPost(id, pageNum);
-        
+
         // Get username for every post
         userList = new ArrayList<>();
-        for(Post p : posts) {
+        for (Post p : posts) {
             userList.add(DBAdmin.getUser(p.getUserID()));
         }
 

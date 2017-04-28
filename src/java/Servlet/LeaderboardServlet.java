@@ -1,4 +1,3 @@
-
 package Servlet;
 
 import Model.DBAdmin;
@@ -24,13 +23,13 @@ public class LeaderboardServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // Initialize variable
         int moduleID;
         Module module;
         ArrayList<ModuleUserData> userDatas = new ArrayList<>();
         ArrayList<User> userList = new ArrayList<>();
-        
+
         // Parse all parameter
         try {
             moduleID = Integer.parseInt(request.getParameter("mid"));
@@ -39,27 +38,27 @@ public class LeaderboardServlet extends HttpServlet {
             response.sendRedirect("error?code=404");
             return;
         }
-        
+
         // Fetch module
         module = DBAdmin.getModule(moduleID);
-        if(module == null) {
+        if (module == null) {
             response.sendRedirect("error?code=404");
             return;
         }
-        
+
         // Fetch Highscore
         userDatas.addAll(DBAdmin.getModuleHighScore(moduleID));
-        
+
         // Fetch Userlist
         for (ModuleUserData ud : userDatas) {
             userList.add(DBAdmin.getUser(ud.getUserID()));
         }
-        
+
         // Set Attribute
         request.setAttribute("module", module);
         request.setAttribute("userDatas", userDatas);
         request.setAttribute("userList", userList);
-        
+
         // Forward to view
         request.getRequestDispatcher("leaderboard.jsp").forward(request, response);
     }
