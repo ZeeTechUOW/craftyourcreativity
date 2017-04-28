@@ -25,23 +25,29 @@ public class CreatePostServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        // Initialize variable
+        User loggedUser;
         int threadID;
-
-        try {
-            threadID = Integer.parseInt(request.getParameter("threadID"));
-        } catch (NumberFormatException ex) {
-            response.sendError(404);
-            return;
-        }
-
-        User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-        String message = request.getParameter("summerNoteText");
-
+        
+        // Get user session
+        loggedUser = (User) request.getSession().getAttribute("loggedUser");
         if (loggedUser == null) {
             response.sendRedirect("login");
             return;
         }
+        
+        // Parse all parameters
+        try {
+            // Parse thread ID
+            threadID = Integer.parseInt(request.getParameter("threadID"));
+        } catch (NumberFormatException ex) {
+            // Page not found
+            response.sendError(404);
+            return;
+        }
+        String message = request.getParameter("summerNoteText");
 
+        // Create post
         if (DBAdmin.createNewPost(threadID, loggedUser.getUserID(), message)) {
             // Calculating Last Page
             int postCount = DBAdmin.getThreadPostCount(threadID);
@@ -52,9 +58,12 @@ public class CreatePostServlet extends HttpServlet {
             } else {
                 lastPage = (int) Math.floorDiv(postCount, 10) + 1;
             }
+            
+            // Redirect to last page of thread
             response.sendRedirect("thread?tid=" + threadID + "&page=" + lastPage);
         } else {
-            response.sendRedirect("main");
+            // Internal error
+            response.sendError(500);
         }
     }
 
