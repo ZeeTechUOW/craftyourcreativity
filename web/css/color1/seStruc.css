@@ -337,7 +337,7 @@
 }
 
 /*general table*/
-table#{
+table{
 	border-collapse: collapse;
 	border: none;
 	table-layout: fixed;

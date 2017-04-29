@@ -1,0 +1,1297 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 3, 2016, 3:47:40 AM
+    Author     : Deni Barasena
+*/
+
+html {
+    position:relative;
+    min-height:100%;
+    height: 100vh;
+}
+
+body {
+	/*background-color: #7a7a7a;*/
+	font-family: Tahoma;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+    min-height:100%;
+    height: 100vh;
+    overflow: hidden;
+
+}
+
+.h1, .h2, .h3, h1, h2, h3 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.hidden{
+    display: none;
+}
+
+.header {
+    height: 16vh;
+}
+
+.container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.fullHeight {
+    height: 84vh;
+}
+
+.normalHeight {
+    height: 64vh;
+}
+
+.sequenceHeight {
+    height: 20vh;
+}
+
+.scenesHeight {
+    height: 48vh;
+}
+
+.sceneContentHeight {
+    height: 36vh;
+}
+
+#projectCol {
+    display: inline-block; 
+    width: 20%; 
+    float: left;
+}
+
+#mainCol {
+    display: inline-block; 
+    width: 50%; 
+    float: left;
+}
+
+#propertiesCol {
+    display: inline-block; 
+    width: 30%; 
+    float: right;
+}
+
+#fileItemPath {
+    font-size: larger;
+}
+
+#sceneContentName {
+    margin: 5px;
+    margin-left: -5px;
+    font-size: large;
+}
+
+.noHeight {
+    height: 0vh;
+}
+
+.noMargin {
+    margin: 0px;
+}
+
+.noPadding{
+    padding: 0px;
+}
+.row {
+    margin: 0px;
+}
+
+#canvasRow{
+    position: relative;
+}
+
+#canvas {
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+.sequenceCollapseButton {
+    position: absolute;
+    bottom: -1px;
+    left: 0px;
+    cursor: row-resize;
+    z-index: 15;
+    width: 180px;
+    border-bottom: 40px solid #ddd;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    height: 0px;
+}
+.sequenceCollapseButton > span {
+    position: absolute;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+    font-size: 22px;
+    top: 5px;
+}
+
+.projectCollapseButton {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 0px;
+    height: 100%;
+    margin: 0px;
+    border-radius: 0px;
+    cursor: col-resize;
+    z-index: 15;
+}
+
+.propertiesCollapseButton {
+    position: absolute;
+    top: 00px;
+    right: 0px;
+    padding: 0px;
+    height: 100%;
+    margin: 0px;
+    border-radius: 0px;
+    cursor: col-resize;
+    z-index: 15;
+}
+
+.border {
+    border: solid black 1px;
+}
+
+
+#sceneContentRow {
+    overflow: hidden;
+}
+
+#sceneContentData {
+    max-height: none;
+    overflow-x: hidden;
+    text-align: left;
+    padding-left: 20px;
+}
+
+#sceneContentData > ul > li {
+    text-align: left;
+}
+
+.bold {
+    font-weight: bolder;
+}
+
+.sceneContentGhost {
+    background-color: #aaaaaa
+}
+
+#sceneContentList > li {
+    padding: 2px;
+    margin: 2px;
+    border: none;
+}
+
+#sceneContentList > li.activee{
+	border-radius: 0px;
+    border: solid black 1px;
+}
+
+.sceneDiv {
+    margin: 20px 10px 20px 20px; 
+    max-height: none;
+    max-width: none;
+}
+
+.deleteSceneButton {
+    position: absolute;
+    top: 1%;
+    left: 0%;
+}
+
+.sceneThumbnailCanvas {
+    position: absolute;
+    margin-left: 0px;
+    pointer-events: none;
+    width: 100%;
+    height: auto;
+}
+
+.sceneThumbGroup {
+    float: left;
+    position: relative;
+    width: 85%;
+    height: 100px;
+    margin-left: 10px;
+    border: solid black 2px; 
+}
+
+#scenePanel {
+    max-height: none;
+    overflow-x: hidden;
+}
+
+#scenePanelHeading {
+    overflow: hidden;
+    margin: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: solid black 3px;
+}
+
+#sceneContentHeading {
+    overflow: hidden;
+    margin: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: solid black 3px;
+}
+
+#addSceneButton {
+    margin: 20px 10px 20px 20px;
+}
+
+.sceneNameDiv {
+    font-size: x-large;
+    min-height: 10px;
+    height: 30px;
+    text-align: left;
+    margin: 0;
+}
+
+.propertiesRow {
+    margin: 3px 0px 3px 0px;
+}
+
+#propertiesPanel {
+    overflow-x: hidden;
+    max-height: none;
+    padding-left: 10px;
+}
+
+#propertiesHeading {
+    margin: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: solid black 3px;
+}
+
+.propertiesRowGroupHeader {
+    text-align: left;
+    display: block;
+    margin-top: 10px;
+    width: 98%;
+    background-color: #fff;
+}
+
+.propertiesRowGroupHeader:focus {
+    outline: 0;
+}
+
+#sequenceRow {
+    overflow-x: scroll;
+    text-align: left;
+    white-space: nowrap;
+    padding: 10px;
+    padding-left: 15px;
+    margin-top: 1px;
+}
+
+.actionRow {
+    margin: 3px;
+}
+
+.sequenceList {
+    float: left;
+}
+
+.frameListItemActive {
+    border-top: 10px solid #e2e2e2;
+    vertical-align: top;
+    padding-right: 20px;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+.frameListItem {
+    border-top: 10px solid #f2f2f2;
+    vertical-align: top;
+    padding-right: 20px;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+.frameListItemHead {
+    vertical-align: top;
+    margin-top: 20px;
+    margin-left: 15px;
+}
+
+.frameGroup {
+    position: relative;
+    text-align: left;
+    margin-top: -22px;
+    margin-left: -20px;
+}
+
+.frameButton {
+    position: relative; 
+    z-index: 1;
+}
+
+.actionGroupCollapseButton {
+    padding: 0px 5px;
+    position: absolute;
+    left: 3px;
+    top: 37px;
+}
+
+.actionBoxActive {
+    padding: 5px;
+    overflow: hidden;
+
+    background-color: #f2f2f2;
+    border: 6px solid #e2e2e2;
+
+    margin-bottom: 10px;
+
+    margin-left: -15px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.actionGroupActive {
+    position: relative;
+    display: inline-block; 
+    min-width: 100px;
+    max-width: 200px;
+
+    margin-right: 15px;
+    margin-top: 15px;
+    vertical-align: top;
+    border-left: 10px solid #e2e2e2 !important;
+    padding-left: 5px;
+    padding-bottom: 0px;
+    z-index: 0;
+}
+
+.actionBox {
+    padding: 5px;
+    overflow: hidden;
+
+    background-color: #ffffff;
+    border: 6px solid #f2f2f2;
+
+    margin-bottom: 10px;
+
+    margin-left: -15px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.actionGroup {
+    position: relative;
+    display: inline-block; 
+    min-width: 100px;
+    max-width: 200px;
+
+
+    margin-right: 15px;
+    margin-top: 15px;
+    vertical-align: top;
+    border-left: 5px solid #f2f2f2 !important;
+    padding-left: 10px;
+    padding-bottom: 0px;
+    z-index: 0;
+}
+
+.actionGroup:focus {
+    background-color: activeborder; 
+}
+
+.actionObject {
+    font-weight: bold;
+}
+
+.actionOp {
+    font-style: italic;
+}
+
+.actionVal {
+
+}
+
+.modal-backdrop {
+    opacity: .1;
+}
+
+.modal-header {
+    border-bottom: none;
+    background-color: #eee;
+    padding-bottom: 0px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.modal-title {
+    text-align: left;
+}
+
+.modal-body {
+    background-color: #eee;
+    padding: 5px 10px 10px 10px;
+}
+
+.modal-content-title {
+    background-color: #eee;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.modal-container {
+    background: #fefefe;
+    min-height: 250px;
+    margin: 5px;
+    padding: 5px;
+    border: solid 1px black;
+}
+
+.modal-footer {
+    padding-top: 0px;
+    background-color: #eee;
+    border-top: none;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.modal-content {
+    border-radius: 20px;
+}
+
+.fileList {
+    text-align: left;
+    margin: 0px;
+    padding: 0px;
+}
+
+.fileItem {
+    width: 100px;
+    min-height: 100px;
+    vertical-align: top;
+    text-align: center;
+    padding: 5px;
+    margin: 4px;
+    border: solid 1px transparent;
+}
+
+.fileItem:hover{
+    border: solid 1px blue;
+}
+
+.itemActive {
+    border: solid 1px blue;
+    background-color: #fcfcfc;
+}
+
+.fileItemLabel {
+    min-width: 90px;
+    word-wrap: break-word;
+    margin-bottom: 0px;
+    margin-top: 2px;
+}
+
+.fileItemImage {
+    vertical-align: middle;
+    max-height: 70px;
+}
+
+.fileItemFolder {
+    vertical-align: middle;
+    border: none;
+    max-height: 70px;
+}
+
+.fileItemFileContainer {
+    height: 70px;
+    line-height: 70px;
+}
+
+.propertiesImagePreview {
+    margin: auto; 
+    border: 2px solid black; 
+    max-height: 200px; 
+    min-width: 150px;
+    width: auto;
+}
+
+.breadcrumbButton {
+    margin: 3px;
+    padding: 5px;
+}
+
+#toolbarRow {
+    position: relative;
+}
+
+#toolbar {
+    font-size: 18px;
+    position: absolute;
+    bottom: 0px;
+    border-top: 5px solid black;
+    width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin: 0px;
+}
+
+#toolbarPuller {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+}
+
+#rootContent {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+}
+
+.sceneThumbGroup.active {
+    border: solid blue 3px;
+}
+
+.noSelect {     
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;  
+}
+
+selectable {
+    -webkit-touch-callout: text;
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;  
+}
+
+html {     
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;  
+}
+
+input, textarea {
+    -webkit-touch-callout: text;
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;  
+}
+
+.dropbox {
+    border: dashed black 1px;
+}
+
+.leftOfActionGroup {
+    position: absolute;
+    left: -20px;
+    height: 100%;
+    width: 20px;
+}
+
+.rightOfActionGroup {
+    position: absolute;
+    right: -20px;
+    height: 100%;
+    width: 20px;
+}
+
+#tabRow {
+    text-align: left;
+    background-color: #999;
+}
+
+#toolRow {
+    text-align: left;
+}
+
+.toolItem {
+    display: inline-block;
+    float: left;
+
+    margin: 0px 2px;
+    width: 40px;
+}
+
+.tabItem {
+    display: inline-block;
+    float: left;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.tabListItem {
+    color: black;
+    margin: 0px 5px;
+}
+
+.trapezium {
+    display: inline !important;
+    border-bottom: 30px solid #aaa;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    height: 0;
+    width: auto;
+}
+
+.trapezium:hover {
+    border-bottom: 30px solid #eee;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    height: 0;
+    width: auto;
+}
+
+
+.trapezium.activee{
+    border-bottom: 30px solid #ddd;
+    pointer-events: none;
+}
+
+.trapezium > a {
+    padding-top: 4px !important;
+    pointer-events: none;
+    color: #ccc;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.trapezium:hover > a{
+    color: black;
+}
+
+.trapezium.activee > a{
+    color: #222;
+    font-weight: 900;
+}
+
+.toolSeperator {
+    font-size: large;
+    height: 20px;
+    float: left;
+}
+
+#title {
+    margin: .1%; 
+    display: inline-block; 
+    float: left; 
+    font-size: 32px;
+    width: auto;
+    height: 10vh;
+}
+
+#subtitle {
+    margin: .1%; 
+    margin-top: 2%; 
+    display: inline-block; 
+    float: left; 
+    font-size: 16px;
+}
+
+#accountBar {
+    position: absolute;
+    right: 0px;
+    padding: 1%;
+}
+
+#copyrightBar {
+    position: absolute;
+    right: 0px;
+    bottom: 30px;
+    padding: 10px;
+}
+
+.modal-dialog {
+    width: auto;
+    min-width: 600px;
+    display: inline-block;
+}
+
+.modal-content {
+    display: inline-block;
+    width: 100%;
+}
+
+#toolbarList {
+    background-color: white /*#7a7a7a*/;
+}
+
+#toolbarList > li > a,
+#toolbarList > li > a:hover,
+#toolbarList > li > a:focus {
+	border-radius: 0px;
+    color: #333;
+}
+#toolbarList > .open > a,
+#toolbarList > .open > a:hover,
+#toolbarList > .open > a:focus,
+#toolbarList > li > a:hover,
+#toolbarList > li > a:focus {
+	border-radius: 0px;
+    color: #777;
+    background-color: #ddd;
+    border-color: transparent;
+}
+#toolbarList > li.active > a,
+#toolbarList > li.active > a:hover,
+#toolbarList > li.active > a:focus {
+	border-radius: 0px;
+    color: #555;
+    background-color: #fff;
+    border-color: #ddd;
+    border-bottom-color: transparent;
+}
+#toolbarList > li.dropdown .dropdown-menu {
+    background-color: #f5f5f5;
+    border-color: #ddd;
+}
+#toolbarList > li.dropdown .dropdown-menu > li > a {
+    color: #777;   
+}
+#toolbarList > li.dropdown .dropdown-menu > li > a:hover,
+#toolbarList > li.dropdown .dropdown-menu > li > a:focus {
+    background-color: #ddd;
+}
+#toolbarList > li.dropdown .dropdown-menu > .active > a,
+#toolbarList > li.dropdown .dropdown-menu > .active > a:hover,
+#toolbarList > li.dropdown .dropdown-menu > .active > a:focus {
+    color: #fff;
+    background-color: #555;
+}
+
+
+
+#diagram {
+    position: relative;
+    background-color: #fcfcfc; 
+    width: 100%; 
+    height: 100%;
+
+    background-size: 20px 20px;
+    background-image: linear-gradient(to right, lightgray 1px, transparent 1px), linear-gradient(to bottom, lightgray 1px, transparent 1px);
+
+    overflow: hidden;
+}
+
+#diagramSVG {
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    overflow: visible;
+}
+
+#diagramCamera {
+    position: absolute;
+    zoom: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.diagramNode {
+    position: absolute;
+    min-width: 200px;
+    min-height: 30px;
+    border: 3px solid black;
+    border-radius: 10px; 
+    background-color: rgba(210,210,210,0.9);
+
+}
+
+.diagramNode.small {
+    min-width: 100px; 
+    font-size: 100%;
+}
+
+.flowInput {
+    position: absolute;
+
+    width: 15px;
+    height: 15px;
+    left: -9px;
+    top: 7px;
+    border: 3px solid black;
+    border-radius: 10px;
+    background-color: orange;
+}
+.nodeHeader {
+    position: relative;
+    height: 30px;
+    padding: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+}
+.nodeName {
+    display: inline-block;
+    font-size: large;
+    font-weight: bold;
+    vertical-align: middle;
+
+    float: left;
+}
+.flowOutput {
+    position: absolute;
+
+    width: 15px;
+    height: 15px;
+    right: -8px;
+    top: 7px;
+    border: 3px solid black;
+    border-radius: 10px;
+    background-color: orange;
+
+    cursor: pointer;
+}
+.nodeContent {
+    clear: both;
+    border-top: 3px solid black;
+    background-color: rgba(250,250,250,0.7);
+
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 8px;
+    width: 100%;
+}
+
+.nodeLabel {
+    text-align: left;
+    display: block;
+    font-size: larger;
+    width: 100%;
+    overflow: hidden;
+}
+
+.nodeField {
+    display: block;
+    text-align: left;
+    padding: 3px;
+    width: 100%;
+    overflow: hidden;
+}
+.nodeField > input{
+    width: 100%;
+}
+.nodeField > select{
+    width: 100%;
+}
+
+.diagramNode.active {
+    z-index: 10;
+    border: 3px solid blue;
+}
+
+.diagramNode.active > .nodeContent {
+    border-top: 3px solid blue;
+}
+
+.diagramNode.active > .nodeHeader > .flowOutput, 
+.diagramNode.active > .nodeHeader > .flowInput {
+    border: 3px solid blue;
+}
+
+#diagramSVG path{
+    cursor: pointer;
+}
+
+.propFieldContainer {
+    padding: 0 5px 0 0;
+}
+
+.propLabel {
+	margin-top: 3px;
+    text-align: left; 
+    display: block;
+}
+
+.propDualButtonContainer {
+    padding: 0 2px 0 2px;
+}
+
+.propDualFieldContainer {
+    padding: 0 5px 0 0; 
+    text-align: left;
+}
+
+.propField {
+    width: 100%;
+}
+.fieldText {
+    width: 100%;
+}
+.fieldFloat {
+    width: 100%;
+}
+.fieldInt {
+    width: 100%;
+}
+.fieldSlider {
+    width: 100%;
+}
+.fieldDropdown {
+    width: 100%;
+}
+.fieldDropdownItem {
+    width: 100%;
+}
+.fieldLink {
+    width: 75%;
+    float: left;
+}
+.fieldLinkButton {
+    width: 20%;
+    float: right;
+    margin: auto;
+    overflow: hidden;
+}
+.fieldColor {
+    width: 100%;
+}
+.fieldSeperator {
+    width: 100%;
+    padding-right: 10px;
+}
+.fieldLabel {
+    text-align: left;
+}
+.fieldButtonLabel {
+    text-align: left; 
+    margin-left: 10px;
+}
+.fieldButton {
+    width: 90%;
+}
+.fieldImageText {
+    width: 60%; 
+    float: left;
+}
+.fieldImageButton {
+    width: 35%; 
+    float: right; 
+    margin: 3px auto;
+}
+.fieldRichTextButton {
+    width: 100%;
+}
+.fieldRichText {
+    width: 100%;
+}
+
+.fieldActionDropdownGroup {
+    width: 100%;
+}
+
+.fieldActionDropdown {
+    padding: 3px;
+    width: 100%;
+}
+
+.deleteSceneIcon:before{
+	content:"\e020";
+}
+
+.undoIcon:before{
+    content:"\e091"
+}
+
+.redoIcon:before{
+    content:"\e092"
+}
+
+.addShapeIcon:before{
+    content:"\e081"
+}
+
+.addButtonIcon:before{
+    content:"\e067"
+}
+
+.addTextIcon:before{
+    content:"\e243"
+}
+
+.uploadImageIcon:before{
+    content:"\e060"
+}
+
+.bringToFrontIcon:before{
+	content:"\e093";
+}
+
+.bringToBackIcon:before{
+	content:"\e094";
+}
+	
+
+.insertSceneIcon:before{
+	content:"\002b";
+}
+
+.deleteIcon:before{
+	content:"\e020";
+}
+
+.newFolderIcon:before{
+	content:"\e118";
+}
+
+.downloadIcon:before{
+	content:"\e025";
+}
+
+.renameIcon:before{
+	content:"\270f";
+}
+
+
+
+/*//---------------------------
+//---------------------------
+//---------------------------*/
+
+.fieldRichText {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+}
+
+#playerDataTable {
+    width: 100%;
+}
+
+#playerDataTable > tbody > tr > th {
+    text-align: left;
+    width: 25%;
+}
+#playerDataTable > tbody > tr > td {
+    text-align: left;
+    width: 25%;
+}
+
+#inputPromptField {
+    font-size: larger;
+    min-height: 40px;
+    padding: 10px;
+    width: 100%;
+}
+
+#inputPromptModal > .modal-dialog {
+    margin-top: 35vh;
+}
+
+.fieldAudioText {
+    width: 60%; 
+    float: left;
+}
+.fieldAudioButton {
+    width: 35%; 
+    float: right; 
+    margin: auto;
+}
+
+.fileItemAudio {
+    vertical-align: middle;
+    border: none;
+    max-height: 70px;
+}
+.propActArrContent {
+    
+}
+.propArrContent {
+    
+}
+
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    right: 0;
+    margin-top: -6px;
+    margin-right: -1px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px;
+    border-radius: 6px 0 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    margin-right: -10px;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px ;
+    border-left-color: #ccc;
+    margin-top: 5px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
+
+.fieldAddActionButton {
+    width: 90%;
+    margin-left: 5% !important;
+}
+
+.propActionGroup {
+    margin: 10px;
+    padding: 5px;
+    padding-top: 2px;
+    border: solid 1px lightgray;
+    border-radius: 5px;
+}
+.propActionGroupName {
+    display: inline-block;
+    text-align: center;
+    font-size: large;
+}
+.propActionGroupContextMenu {
+    display: inline-block;
+    float: right;
+}
+
+.fieldAddActionDropdown {
+    left: 5%;
+    right: 5%;
+}
+
+.propActionGroup > div:first-child {
+    padding-bottom: 3px;
+    margin-bottom: 8px;
+    border-bottom: solid 1px lightgray;
+    
+}
+
+#propertiesPanel > div > div > div > h2 {
+    font-size: large;
+}
+
+.flowDataOutput {
+    position: absolute;
+
+    width: 15px;
+    height: 15px;
+    right: -16px;
+    top: 10%;
+
+    border: 3px solid black;
+    border-radius: 10px;
+    background-color: lightblue;
+
+    cursor: pointer;
+}
+
+.flowDataInput {
+    position: absolute;
+
+    left: -16px;
+    top: 10%;
+    width: 15px;
+    height: 15px;
+
+    border: 3px solid black;
+    border-radius: 10px;
+    background-color: lightblue;
+
+    cursor: pointer;
+}
+
+.nodeContentItem {
+    position: relative;
+    margin-top: 2px;
+    margin-bottom: 4px;
+}
+
+.diagramNode.active > .nodeContent > .flowOutputLabel > .flowOutput, 
+.diagramNode.active > .nodeContent > .flowOutputLabel > .flowInput {
+    border: 3px solid blue;
+}
+
+.diagramNode.active > .nodeContent > .nodeContentItem > .flowDataOutput, 
+.diagramNode.active > .nodeContent > .nodeContentItem > .flowDataInput {
+    border: 3px solid blue;
+}
+
+.flowOutputLabel {
+    position: relative;
+    padding-right: 3px;
+    text-align: right;
+    font-size: larger;
+}
+
+.flowOutputLabel > .flowOutput {
+    right: -16px;
+    top: 5px;
+}
+.nodeContent > .seperator {
+    height: 1px;
+    border: 1px solid lightgray;
+    margin-top: 4px;
+}
+
+.fieldImageRowContainer {
+    padding: 8px;
+    border: solid black 3px;
+    background-image: linear-gradient(45deg, #c0c0c0 25%, transparent 25%), linear-gradient(-45deg, #c0c0c0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #c0c0c0 75%), linear-gradient(-45deg, transparent 75%, #c0c0c0 75%);
+    background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+.rightDropdown {
+    left: 100%; 
+    border-top-left-radius: 0px !important; 
+    border-top-right-radius: 6px !important;
+}

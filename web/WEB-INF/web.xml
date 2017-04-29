@@ -80,6 +80,54 @@
         <servlet-name>AboutServlet</servlet-name>
         <servlet-class>Servlet.AboutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DirectoryServlet</servlet-name>
+        <servlet-class>Editor.DirectoryServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadServlet</servlet-name>
+        <servlet-class>Editor.LoadServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveServlet</servlet-name>
+        <servlet-class>Editor.SaveServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UploadServlet</servlet-name>
+        <servlet-class>Editor.UploadServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PlayServlet</servlet-name>
+        <servlet-class>Editor.PlayServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RequestImageServlet</servlet-name>
+        <servlet-class>Editor.RequestImageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DirectoryServlet</servlet-name>
+        <url-pattern>/DirectoryServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadServlet</servlet-name>
+        <url-pattern>/LoadServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveServlet</servlet-name>
+        <url-pattern>/SaveServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PlayServlet</servlet-name>
+        <url-pattern>/PlayServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RequestImageServlet</servlet-name>
+        <url-pattern>/RequestImageServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadServlet</servlet-name>
+        <url-pattern>/UploadServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ForumServlet</servlet-name>
         <url-pattern>/forum</url-pattern>
