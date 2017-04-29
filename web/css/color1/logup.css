@@ -1,100 +1,101 @@
 body{
-	background-color: #1e5543;
+    background-color: white;
 }
 
 #upSpacer{
-	height: 13%;
-	width: 100%;
+    height: 13%;
+    width: 100%;
 }
 
 #container{
-	display: flex;
-	flex-direction: column;
-	
-	margin: auto;
-	padding: 30px;
-	background-color: #4fa78b;
-	width: 450px;
-	min-height: 650px;
-	
-	border-radius: 5px;
-	border: solid 3px black;
+    display: flex;
+    flex-direction: column;
+
+    margin: auto;
+    padding: 30px;
+    background-color: #CCFFCC;
+    width: 450px;
+    min-height: 650px;
+
+    border-radius: 5px;
+    border: solid 3px black;
 }
 
 #logo{
-	margin-top: 10px;
-	width: 450px;
-	height: 200px;
+    margin-top: 10px;
+    width: 450px;
+    height: 200px;
 }
 
 img{
-	max-width: 85%;
+    max-width: 85%;
     max-height: 80%;
 }
 
 .logo{
-	width: 450px;
-	height: 200px;
+    width: 450px;
+    height: 200px;
 }
 
 #title{
-	width: 100%;	
-	text-align: center;
-	font-size: 50px;
-	font-weight: bold;
+    width: 100%;	
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
 }
 
 #buttonBox{
-	width: 100%;
-	height: 50px;
-	margin: 15px 5px;	
-	text-align: center;
-	font-size: 25px;
-	font-weight: bold;
+    width: 100%;
+    height: 50px;
+    margin: 15px 5px;	
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    padding-right: 10px;
 }
 
 #Button{
-	position: relative;
+    position: relative;
     background-color: rgb(127, 212, 168);
     color: #004a04;
     font-family: Tahoma;
     width: 80%;
-    font-size: 25;
+    font-size: 25px;
 }
 
 #util{
-	font-size: 25px;
-	width: 100%;
-	margin: 10px auto;
+    font-size: 25px;
+    width: 100%;
+    margin: 10px auto;
 }
 
 #socmedLogo{
-	margin: auto;
-	width: 50px;
-	height: 50px;
+    margin: auto;
+    width: 50px;
+    height: 50px;
 }
 
 .socmed{
-	width: 50px;
-	height: 50px;
+    width: 50px;
+    height: 50px;
 }
 
 table#soc{
-	text-align: center;
-	font-size: 30px;
-	table-layout: fixed;
-	
-	margin: auto;
+    text-align: center;
+    font-size: 30px;
+    table-layout: fixed;
+
+    margin: auto;
 }
 
 table#subs{
-	font-size: 25px;
-	table-layout: fixed;
-	
-	margin: auto;
+    font-size: 25px;
+    table-layout: fixed;
+
+    margin: auto;
 }
 
 td#subs{
-	overflow-x: hidden;
-	padding: 25px 0px 25px 25px;
+    overflow-x: hidden;
+    padding: 25px 0px 25px 25px;
 }

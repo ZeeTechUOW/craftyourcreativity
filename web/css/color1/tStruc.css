@@ -25,7 +25,9 @@
 	padding: 1%;
 	padding-bottom: 2pc;
 	font-weight: bold;
-	background-color: #458e77;
+	border-style: solid;
+ 	border-color: #9aad96;
+ 	border-width: 0px 1% 1% 1%;
 }
 
 #tHead{

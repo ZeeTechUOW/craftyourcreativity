@@ -37,7 +37,7 @@
                     <img src="resource/fb.png" alt="fbLogo">
                 </button>
                 <button type="submit" style="border: 0; background: transparent">
-                    <img id="socmedLogo" src="resource/tw.png" alt="twLogo">
+                    <img src="resource/tw.png" alt="twLogo">
                 </button>                        
             </div>
         </div>
