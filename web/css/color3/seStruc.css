@@ -47,18 +47,10 @@
 	font-size: 1.5vw;
 }
 
-#seBox{
-	width: 100%;
-	/*background-color: gray;*/
-	padding: 4% 5% 0px 5%;
-	min-height: 50px;
-	font-size: 1.5vw;
-}
-
 #teBox{
-	width: 100%;
+	width: 60.38%;
 	/*background-color: gray;*/
-	padding: 4% 25% 0px 5%;
+	margin: 4% 0px 0px 5%;
 	min-height: 50px;
 	font-size: 1.5vw;
 }
@@ -97,8 +89,8 @@
 	width: 10.28vw;
 	height: 20vh;
 	*/
-	max-width: 200px;
-	max-height: 200px;
+	max-width: 205px;
+	max-height: 205px;
 	background-color: #a3b79f;
 	border: solid 3px white;
 	margin: auto;
@@ -110,10 +102,66 @@
 }
 
 #seAvatarSelect{
+	margin-top: 10px;
 	float: left;
-	margin: 0px 5%;
 	min-height: 100px;
 	font-size: 30px;
+}
+
+#seAvatarSelectBox{
+	padding: 10px 0px;
+	height: 193.5px;
+	font-size: 30px;
+	width: 639px;
+	background-color: #a3b79f;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+#seAvatarSelectDisp{
+	position: relative;
+	border-radius: 5px;
+	/* put into consideration
+	width: 10.28vw;
+	height: 20vh;
+	*/
+	max-width: 150px;
+	max-height: 150px;
+	background-color: #a3b79f;
+	border: solid 3px white;
+	margin: auto;
+}
+
+#seAvatarSelectDisp:active{
+	position: relative;
+	border-radius: 5px;
+	/* put into consideration
+	width: 10.28vw;
+	height: 20vh;
+	*/
+	max-width: 150px;
+	max-height: 150px;
+	background-color: #a3b79f;
+	border: solid 3px #333;
+	margin: auto;
+}
+
+.avatarselect{
+	width: 140px;
+	height: 140px;
+}
+
+#sumpelan{
+	height: 150;
+	width: 5px;
+}
+
+#seAvatarSelectButtonBox{
+	padding: 10px 0px 10px 0px;
+	margin-left: 257px;
+	height: 60px;
+	font-size: 30px;
+	width: 125px;
 }
 
 /*theme page*/
@@ -176,6 +224,13 @@
 	max-height: 113px;
 }
 
+.tema:active{
+	max-width: 150px;
+	max-height: 113px;
+	border-radius: 5px;
+	border: solid 3px white;
+}
+
 #thmButtonContainer{
 	display: flex;
 	flex-wrap: wrap;
@@ -199,7 +254,6 @@
 	/*background-color: green;*/
 	text-align: center;
 	padding: 30px 5%;
-	text-decoration: underline;
 	font-size: 40px;
 }
 

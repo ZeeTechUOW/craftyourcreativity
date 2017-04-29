@@ -44,6 +44,15 @@
 	margin: 10px 0px;
 }
 
+#aSFrame:active{
+	position: relative;
+	border-radius: 5px;
+	width: 100%;
+	background-color: #a3b79f;
+	border: solid 3px #333;
+	margin: 10px 0px;
+}
+
 #aSPic{
 	position: relative;
 	border-radius: 5px;
@@ -82,6 +91,16 @@ td:nth-child(2){
 
 td:last-child{
 	padding-right: 10px;
+	padding-bottom: 10px;
+	vertical-align: bottom;
 	text-align: right;
+	font-size: 21px;
 	width: 40%;
+}
+
+br{
+	content: "";
+	margin: 10px;
+	display: block;
+	font-size: 24%;
 }
