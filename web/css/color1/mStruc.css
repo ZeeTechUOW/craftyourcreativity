@@ -26,22 +26,10 @@
 	position: relative;
 	padding: 5px 0.5%;
 	height: 34px;
-	width: 7%;		
+	min-width: 7%;		
 	background-color: #61b29b;
 	color: #004a04;
 	font-family: Tahoma;
-}
-
-@media (max-width: 1366px) {
-	#sButton{
-		position: relative;
-		padding: 5px 0.5%;
-		height: 50px;
-		width: 7%;		
-		background-color: #61b29b;
-		color: #004a04;
-		font-family: Tahoma;
-	}
 }
 
 #sDisp{

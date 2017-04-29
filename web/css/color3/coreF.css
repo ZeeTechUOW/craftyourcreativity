@@ -56,13 +56,16 @@ img{
 }
 
 #container{
+        position: absolute;
+        left: 10%;
+        right: 10%;
+        width: 80%;
+        min-height: calc(100% - 78px);
 	display: flex;
 	flex-direction: column;
-	position: relative;
-	margin-right: 10%;
-	margin-left: 10%;
 	background-color: #aad0c5;
-	min-height: 650px;
+        border-left: solid 1px black;
+        border-right: solid 1px black;
 }
 
 button:focus {outline:0;}

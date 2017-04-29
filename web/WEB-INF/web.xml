@@ -232,6 +232,10 @@
         <error-code>504</error-code>
         <location>/error?code=504</location>
     </error-page>
+    <servlet>
+        <servlet-name>NewProjectServlet</servlet-name>
+        <servlet-class>Editor.NewProjectServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CreatePostServlet</servlet-name>
         <url-pattern>/createpost</url-pattern>
@@ -263,6 +267,10 @@
     <servlet-mapping>
         <servlet-name>AddThreadServlet</servlet-name>
         <url-pattern>/addthread</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewProjectServlet</servlet-name>
+        <url-pattern>/NewProjectServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
