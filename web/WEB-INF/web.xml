@@ -104,6 +104,10 @@
         <servlet-name>RequestImageServlet</servlet-name>
         <servlet-class>Editor.RequestImageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddThreadServlet</servlet-name>
+        <servlet-class>Servlet.AddThreadServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DirectoryServlet</servlet-name>
         <url-pattern>/DirectoryServlet</url-pattern>
@@ -255,6 +259,10 @@
     <servlet-mapping>
         <servlet-name>AboutServlet</servlet-name>
         <url-pattern>/about</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddThreadServlet</servlet-name>
+        <url-pattern>/addthread</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

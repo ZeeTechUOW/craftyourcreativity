@@ -1,5 +1,7 @@
 package Servlet;
 
+import Model.DBAdmin;
+import Model.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Andree Yosua
  */
-public class CreateThreadServlet extends HttpServlet {
+public class AddThreadServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -22,8 +24,37 @@ public class CreateThreadServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        // Initialize variable
+        User loggedUser;
+        String threadTitle;
+        String threadType;
+        String threadPost;
+        Model.Thread thread;
 
-        request.getRequestDispatcher("createthread.jsp").forward(request, response);
+        // Get user session
+        loggedUser = (User) request.getSession().getAttribute("loggedUser");
+        if (loggedUser == null) {
+            response.sendRedirect("login");
+            return;
+        }
+        
+        // Parse all parameters
+        threadTitle = request.getParameter("threadTitle");
+        threadType = request.getParameter("threadType");
+        threadPost = request.getParameter("threadPost");
+        
+        System.out.println(threadTitle);
+        System.out.println(threadType);
+        System.out.println(threadPost);
+
+        // Create Thread
+        if (DBAdmin.createNewThread(loggedUser.getUserID(), threadTitle, threadType, threadPost)) {
+            response.sendRedirect("forum");
+        } else {
+            // Internal server error
+            response.sendError(500);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

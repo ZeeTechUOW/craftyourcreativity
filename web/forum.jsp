@@ -100,6 +100,58 @@
                 </div>
                 <div id="fListContainer">
                     <table>
+                        <tr><th>General</th><th></th><th></th><th></th><th></th></tr>
+                        <tr>
+                            <td>Topic</td></td><td>
+                            <td>Created By</td>
+                            <td>Posts</td>
+                            <td>Time</td>
+                        </tr>
+                        <%
+                            for (int i = 0; i < threads.size(); i++) {
+                                if (threads.get(i).getThreadType().equalsIgnoreCase("general")) {
+                                    out.println("<tr>");
+                                    out.println("<td><a href=\"" + url + "thread?tid=" + threads.get(i).getThreadID() + "\">" + threads.get(i).getThreadTitle() + "</a></td></td><td>");
+                                    out.println("<td>" + userList.get(i).getUsername() + "</td>");
+                                    out.println("<td>" + threads.get(i).getReplyCount() + "</td>");
+                                    out.println("<td>" + threads.get(i).getThreadTimeFormatted()+ "</td>");
+                                    out.println("</tr>");
+                                }
+                            }
+                        %>
+                        <tr>
+                            <td></td><td><a href="<% out.println(url + "forum?type=general"); %>">See All Threads</a></td><td></td><td></td><td></td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="fListContainer">
+                    <table>
+                        <tr><th>Module</th><th></th><th></th><th></th><th></th></tr>
+                        <tr>
+                            <td>Topic</td></td><td>
+                            <td>Created By</td>
+                            <td>Posts</td>
+                            <td>Time</td>
+                        </tr>
+                        <%
+                            for (int i = 0; i < threads.size(); i++) {
+                                if (threads.get(i).getThreadType().equalsIgnoreCase("module")) {
+                                    out.println("<tr>");
+                                    out.println("<td><a href=\"" + url + "thread?tid=" + threads.get(i).getThreadID() + "\">" + threads.get(i).getThreadTitle() + "</a></td></td><td>");
+                                    out.println("<td>" + userList.get(i).getUsername() + "</td>");
+                                    out.println("<td>" + threads.get(i).getReplyCount() + "</td>");
+                                    out.println("<td>" + threads.get(i).getThreadTimeFormatted()+ "</td>");
+                                    out.println("</tr>");
+                                }
+                            }
+                        %>
+                        <tr>
+                            <td></td><td><a href="<% out.println(url + "forum?type=module"); %>">See All Threads</td><td></td><td></td><td></td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="fListContainer">
+                    <table>
                         <tr><th>Discussion</th><th></th><th></th><th></th><th></th></tr>
                         <tr>
                             <td>Topic</td></td><td>
@@ -120,33 +172,7 @@
                             }
                         %>
                         <tr>
-                            <td></td><td><a href="<% out.println(url + "forum?type=discussion"); %>">See All Threads</a></td><td></td><td></td><td></td>
-                        </tr>
-                    </table>
-                </div>
-                <div id="fListContainer">
-                    <table>
-                        <tr><th>Funny</th><th></th><th></th><th></th><th></th></tr>
-                        <tr>
-                            <td>Topic</td></td><td>
-                            <td>Created By</td>
-                            <td>Posts</td>
-                            <td>Time</td>
-                        </tr>
-                        <%
-                            for (int i = 0; i < threads.size(); i++) {
-                                if (threads.get(i).getThreadType().equalsIgnoreCase("funny")) {
-                                    out.println("<tr>");
-                                    out.println("<td><a href=\"" + url + "thread?tid=" + threads.get(i).getThreadID() + "\">" + threads.get(i).getThreadTitle() + "</a></td></td><td>");
-                                    out.println("<td>" + userList.get(i).getUsername() + "</td>");
-                                    out.println("<td>" + threads.get(i).getReplyCount() + "</td>");
-                                    out.println("<td>" + threads.get(i).getThreadTimeFormatted()+ "</td>");
-                                    out.println("</tr>");
-                                }
-                            }
-                        %>
-                        <tr>
-                            <td></td><td><a href="<% out.println(url + "forum?type=funny"); %>">See All Threads</td><td></td><td></td><td></td>
+                            <td></td><td><a href="<% out.println(url + "forum?type=discussion"); %>">See All Threads</td><td></td><td></td><td></td>
                         </tr>
                     </table>
                 </div>
@@ -173,32 +199,6 @@
                         %>
                         <tr>
                             <td></td><td><a href="<% out.println(url + "forum?type=bug"); %>">See All Threads</td><td></td><td></td><td></td>
-                        </tr>
-                    </table>
-                </div>
-                <div id="fListContainer">
-                    <table>
-                        <tr><th>Other</th><th></th><th></th><th></th><th></th></tr>
-                        <tr>
-                            <td>Topic</td></td><td>
-                            <td>Created By</td>
-                            <td>Posts</td>
-                            <td>Time</td>
-                        </tr>
-                        <%
-                            for (int i = 0; i < threads.size(); i++) {
-                                if (threads.get(i).getThreadType().equalsIgnoreCase("other")) {
-                                    out.println("<tr>");
-                                    out.println("<td><a href=\"" + url + "thread?tid=" + threads.get(i).getThreadID() + "\">" + threads.get(i).getThreadTitle() + "</a></td></td><td>");
-                                    out.println("<td>" + userList.get(i).getUsername() + "</td>");
-                                    out.println("<td>" + threads.get(i).getReplyCount() + "</td>");
-                                    out.println("<td>" + threads.get(i).getThreadTimeFormatted()+ "</td>");
-                                    out.println("</tr>");
-                                }
-                            }
-                        %>
-                        <tr>
-                            <td></td><td><a href="<% out.println(url + "forum?type=other"); %>">See All Threads</td><td></td><td></td><td></td>
                         </tr>
                     </table>
                 </div>

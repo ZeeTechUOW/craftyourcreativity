@@ -70,10 +70,10 @@ public class ForumServlet extends HttpServlet {
 
         // Retrieve thread
         if (type.equalsIgnoreCase("default")) {
+            threads.addAll(DBAdmin.getXForumSortedBy("general", "new", 5, 1));
+            threads.addAll(DBAdmin.getXForumSortedBy("module", "new", 5, 1));
             threads.addAll(DBAdmin.getXForumSortedBy("discussion", "new", 5, 1));
             threads.addAll(DBAdmin.getXForumSortedBy("bug", "new", 5, 1));
-            threads.addAll(DBAdmin.getXForumSortedBy("funny", "new", 5, 1));
-            threads.addAll(DBAdmin.getXForumSortedBy("other", "new", 5, 1));
         } else {
             threads.addAll(DBAdmin.getXForumSortedBy(type, sort, 10, pageNum));
         }
