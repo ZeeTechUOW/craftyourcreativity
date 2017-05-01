@@ -10,12 +10,12 @@
 <%
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
     Module module = (Module) request.getAttribute("module");
-    
-    if( loggedUser == null || "player".equals(loggedUser.getUserType())) {
+
+    if (loggedUser == null || "player".equals(loggedUser.getUserType())) {
         response.sendRedirect("login");
         return;
     }
-    if( module == null ) {
+    if (module == null) {
         response.sendError(500, "Unauthorized Access");
         return;
     }
@@ -53,8 +53,8 @@
                                 <li class="divider"></li>
                                 <li><a onmousedown="saveToLocal(this)">Save to Local</a></li>
                                 <li><a onmousedown="loadFromLocal(this)">Load from Local</a></li>
-<!--                                <li class="divider"></li>
-                                <li><a onmousedown="window.open('editmodule?mid=' + projectID)">Publish</a></li>-->
+                                <!--                                <li class="divider"></li>
+                                                                <li><a onmousedown="window.open('editmodule?mid=' + projectID)">Publish</a></li>-->
                                 <li class="divider"></li>
                                 <li><a onmousedown="location.href = 'editmodule?mid=' + projectID">Exit</a></li>
                             </ul>
@@ -94,37 +94,9 @@
                                         <li><a onmousedown="addNode(this, 'achievement')">Achievement</a></li>
                                         <li><a onmousedown="addNode(this, 'setProjectData')">Set Project Data</a></li>
                                         <li><a onmousedown="addNode(this, 'getProjectData')">Get Project Data</a></li>
-                                        <li class="dropdown-submenu ">
-                                            <a onmousedown="addNode(this, 'arithmeticNode')">
-                                                Arithmetic (TBA)
-                                            </a>
-                                            <ul class="dropdown-menu rightDropdown" role="menu">
-                                                <li><a onmousedown="addNode(this, 'addNode')">Addition</a></li>
-                                                <li><a onmousedown="addNode(this, 'subtractNode')">Subtraction</a></li>
-                                                <li><a onmousedown="addNode(this, 'multiplicationNode')">Multiplication</a></li>
-                                                <li><a onmousedown="addNode(this, 'divisionNode')">Division</a></li>
-                                                <li><a onmousedown="addNode(this, 'exponentNode')">Exponent</a></li>
-                                                <li><a onmousedown="addNode(this, 'moduloNode')">Modulo</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="dropdown-submenu">
-                                            <a onmousedown="addNode(this, 'comparisonNode')">Comparisons (TBA)</a>
-                                            <ul class="dropdown-menu rightDropdown" role="menu">
-                                                <li><a onmousedown="addNode(this, 'equalsNode')">Equals</a></li>
-                                                <li><a onmousedown="addNode(this, 'lesserThanNode')">Lesser Than</a></li>
-                                                <li><a onmousedown="addNode(this, 'greaterThanNode')">Greater Than</a></li>
-                                                <li><a onmousedown="addNode(this, 'lesserEqualsNode')">Equals/Lesser Than</a></li>
-                                                <li><a onmousedown="addNode(this, 'greaterEqualsNode')">Equals/Greater Than</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="dropdown-submenu">
-                                            <a onmousedown="addNode(this, 'logicalNode')">Logical (TBA)</a>
-                                            <ul class="dropdown-menu rightDropdown" role="menu">
-                                                <li><a onmousedown="addNode(this, 'andNode')">And</a></li>
-                                                <li><a onmousedown="addNode(this, 'orNode')">Or</a></li>
-                                                <li><a onmousedown="addNode(this, 'n')">Not</a></li>
-                                            </ul>
-                                        </li>
+                                        <li><a onmousedown="addNode(this, 'arithmetics')">Maths</a></li>
+                                        <li><a onmousedown="addNode(this, 'comparison')">Comparison</a></li>
+                                        <li><a onmousedown="addNode(this, 'logical')">Logical</a></li>
                                     </ul>
                                 </li>
                                 <li class="divider"></li>
@@ -214,37 +186,9 @@
                                             <li><a onmousedown="addNode(this, 'achievement')">Achievement</a></li>
                                             <li><a onmousedown="addNode(this, 'setProjectData')">Set Project Data</a></li>
                                             <li><a onmousedown="addNode(this, 'getProjectData')">Get Project Data</a></li>
-                                            <li class="dropdown-submenu">
-                                                <a onmousedown="addNode(this, 'arithmeticNode')">
-                                                    Arithmetic (TBA)
-                                                </a>
-                                                <ul class="dropdown-menu rightDropdown" role="menu">
-                                                    <li><a onmousedown="addNode(this, 'addNode')">Addition</a></li>
-                                                    <li><a onmousedown="addNode(this, 'subtractNode')">Subtraction</a></li>
-                                                    <li><a onmousedown="addNode(this, 'multiplicationNode')">Multiplication</a></li>
-                                                    <li><a onmousedown="addNode(this, 'divisionNode')">Division</a></li>
-                                                    <li><a onmousedown="addNode(this, 'exponentNode')">Exponent</a></li>
-                                                    <li><a onmousedown="addNode(this, 'moduloNode')">Modulo</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="dropdown-submenu">
-                                                <a onmousedown="addNode(this, 'comparisonNode')">Comparisons (TBA)</a>
-                                                <ul class="dropdown-menu rightDropdown" role="menu">
-                                                    <li><a onmousedown="addNode(this, 'equalsNode')">Equals</a></li>
-                                                    <li><a onmousedown="addNode(this, 'lesserThanNode')">Lesser Than</a></li>
-                                                    <li><a onmousedown="addNode(this, 'greaterThanNode')">Greater Than</a></li>
-                                                    <li><a onmousedown="addNode(this, 'lesserEqualsNode')">Equals/Lesser Than</a></li>
-                                                    <li><a onmousedown="addNode(this, 'greaterEqualsNode')">Equals/Greater Than</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="dropdown-submenu">
-                                                <a onmousedown="addNode(this, 'logicalNode')">Logical (TBA)</a>
-                                                <ul class="dropdown-menu rightDropdown" role="menu">
-                                                    <li><a onmousedown="addNode(this, 'andNode')">And</a></li>
-                                                    <li><a onmousedown="addNode(this, 'orNode')">Or</a></li>
-                                                    <li><a onmousedown="addNode(this, 'n')">Not</a></li>
-                                                </ul>
-                                            </li>
+                                            <li><a onmousedown="addNode(this, 'arithmetics')">Maths</a></li>
+                                            <li><a onmousedown="addNode(this, 'comparison')">Comparison</a></li>
+                                            <li><a onmousedown="addNode(this, 'logical')">Logical</a></li>
                                         </ul>
                                     </div>
                                     <button id='refreshDiagramTool' class="btn btn-default toolItem" onclick="refreshDiagram(this)"><span class='glyphicon glyphicon-refresh'></span></button>
@@ -968,7 +912,7 @@
 
                                         editor.diagramPanel.updateDiagramPanel();
                                     }
-                                    
+
                                     editor.loadProject();
                                     editor.hideLoader();
                                     editor.hideSmallLoader();

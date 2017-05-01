@@ -162,7 +162,7 @@ function DiagramNode(context, opt) {
             modelContext.insert(paneler.createLabel("Value List"));
             for (var k in this.content) {
                 var c = this.content[k];
-                if(c.contextField ) {
+                if (c.contextField) {
                     modelContext.insert(c.contextField());
                 }
             }
@@ -540,14 +540,18 @@ DiagramNode.NodeTypes = {
 
                 for (var k in editor.project.dataVariables) {
                     var din = true;
+                    var val = null;
 
                     if (this.content["projVar_" + k]) {
                         din = this.content["projVar_" + k].dataInput;
+                        val = this.content["projVar_" + k].value;
                     }
+                    
                     this.content["projVar_" + k] = {
                         label: "Set #" + k,
                         dataInput: din,
                         dataOutput: false,
+                        value: val,
                         contextField: function () {
                             return InputRenderer.createAnyField(this.label, this, "value", {
                                 onCompleted: function () {
@@ -601,6 +605,147 @@ DiagramNode.NodeTypes = {
                 for (var k in exContents) {
                     if (exContents[k]) {
                         delete this.content[k];
+                    }
+                }
+            }
+        };
+    },
+    arithmetics: function () {
+        return {
+            nodeName: "Math",
+            nodeSize: "small",
+            content: {
+                lhs: {
+                    label: "Left Value",
+                    dataInput: true,
+                    value: null,
+                    contextField: function () {
+                        return InputRenderer.createFloatField(this.label, this, "value", {
+                            onCompleted: function () {
+                                editor.diagramPanel.updateDiagramPanel();
+                                editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            }
+                        });
+                    }
+                },
+                operator: {
+                    label: "Operator",
+                    value: "+",
+                    dataOutput: true,
+                    contextField: function () {
+                        return InputRenderer.createDropdownField(this.label, this, "value", {
+                            data: ["+", "-", "*", "/", "^", "%"],
+                            onCompleted: function () {
+                                editor.diagramPanel.updateDiagramPanel();
+                            }
+                        });
+                    }
+                },
+                rhs: {
+                    label: "Right Value",
+                    dataInput: true,
+                    value: null,
+                    contextField: function () {
+                        return InputRenderer.createFloatField(this.label, this, "value", {
+                            onCompleted: function () {
+                                editor.diagramPanel.updateDiagramPanel();
+                                editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            }
+                        });
+                    }
+                }
+            }
+        };
+    },
+    comparison: function () {
+        return {
+            nodeName: "Compare",
+            nodeSize: "small",
+            content: {
+                lhs: {
+                    label: "Left Value",
+                    dataInput: true,
+                    value: null,
+                    contextField: function () {
+                        return InputRenderer.createAnyField(this.label, this, "value", {
+                            onCompleted: function () {
+                                editor.diagramPanel.updateDiagramPanel();
+                                editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            }
+                        });
+                    }
+                },
+                operator: {
+                    label: "Operator",
+                    value: "==",
+                    dataOutput: true,
+                    contextField: function () {
+                        return InputRenderer.createDropdownField(this.label, this, "value", {
+                            data: ["<=", "==", ">=", "<", ">"],
+                            onCompleted: function () {
+                                editor.diagramPanel.updateDiagramPanel();
+                            }
+                        });
+                    }
+                },
+                rhs: {
+                    label: "Right Value",
+                    dataInput: true,
+                    value: null,
+                    contextField: function () {
+                        return InputRenderer.createAnyField(this.label, this, "value", {
+                            onCompleted: function () {
+                                editor.diagramPanel.updateDiagramPanel();
+                                editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            }
+                        });
+                    }
+                }
+            }
+        };
+    },
+    logical: function () {
+        return {
+            nodeName: "Logic",
+            nodeSize: "small",
+            content: {
+                lhs: {
+                    label: "Left Value",
+                    dataInput: true,
+                    value: null,
+                    contextField: function () {
+                        return InputRenderer.createAnyField(this.label, this, "value", {
+                            onCompleted: function () {
+                                editor.diagramPanel.updateDiagramPanel();
+                                editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            }
+                        });
+                    }
+                },
+                operator: {
+                    label: "Operator",
+                    value: "AND",
+                    dataOutput: true,
+                    contextField: function () {
+                        return InputRenderer.createDropdownField(this.label, this, "value", {
+                            data: ["AND", "OR", "NOT"],
+                            onCompleted: function () {
+                                editor.diagramPanel.updateDiagramPanel();
+                            }
+                        });
+                    }
+                },
+                rhs: {
+                    label: "Right Value",
+                    dataInput: true,
+                    value: null,
+                    contextField: function () {
+                        return InputRenderer.createAnyField(this.label, this, "value", {
+                            onCompleted: function () {
+                                editor.diagramPanel.updateDiagramPanel();
+                                editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            }
+                        });
                     }
                 }
             }

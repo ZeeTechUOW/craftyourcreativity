@@ -341,6 +341,7 @@ Player.Game = function (context, input) {
         var projValues = this.dataVariables;
         var sceneValues = this.activeScene.dataVariables;
 
+        console.log(varName, targetValue);
 
         if (varName) {
             targetValue = this.resolveValue(targetValue);
@@ -376,11 +377,11 @@ Player.Game = function (context, input) {
         if (scene) {
             sceneValues = scene.dataVariables;
         }
-        
-        if( value === true ) {
+
+        if (value === true) {
             return true;
         }
-        if( value === false ) {
+        if (value === false) {
             return false;
         }
 
@@ -482,8 +483,8 @@ Player.Game = function (context, input) {
     this.changeNode = function (node) {
 
         this.currentNode = node;
-        
-        if( this.currentNode ) {
+
+        if (this.currentNode) {
             this.currentNode.startNode();
             this.currentNode.updateNode(this);
         }
@@ -513,7 +514,6 @@ Player.Game = function (context, input) {
             xhr.open('GET', "UnlockAchievementServlet?aid=" + achievementID, true);
             xhr.onload = function () {
                 if (xhr.responseText !== "") {
-                    console.log("Achievement Unlocked! ");
                     if (_notifyAchievement) {
                         _notifyAchievement(JSON.parse(xhr.responseText));
                     }
@@ -526,10 +526,10 @@ Player.Game = function (context, input) {
         var certCanvas = document.getElementById("certCanvas");
         if (certCanvas && _RENDER_TO_PDF) {
             var state = {};
-            for( var k in scene.startState ) {
+            for (var k in scene.startState) {
                 state[k] = {};
-                
-                for( var j in scene.startState[k] ) {
+
+                for (var j in scene.startState[k]) {
                     state[k][j] = scene.startState[k][j];
                 }
             }
@@ -546,18 +546,18 @@ Player.Game = function (context, input) {
 
             for (var k in state) {
                 var sk = state[k];
-                
-                for( var j in sk ) {
+
+                for (var j in sk) {
                     sk[j] = this.resolveValue(sk[j], scene);
-                    
-                    if( sk[j] != scene.startState[k][j] ) {
+
+                    if (sk[j] != scene.startState[k][j]) {
                         scene.startState[k][j] = sk[j];
                     }
                 }
             }
-            
-            scene.setSceneState( scene.startState );
-            
+
+            scene.setSceneState(scene.startState);
+
             var stage = new PIXI.Container();
             var renderer = new PIXI.CanvasRenderer(this.windowSize.x, this.windowSize.y, {
                 view: certCanvas,
@@ -672,14 +672,10 @@ Player.Node = function (context, input) {
 
         for (var k in that.content) {
             var node = game.getNode(that.content[k].dataInputNodeID);
-            console.log(node);
-            console.log(that.content[k].dataInputNodeID);
             if (node) {
                 data[k] = node.calc(game, that.content[k].dataInputDataTarget);
-                console.log(data[k]);
             }
         }
-        console.log(data);
 
         if (_ON_GAME_FINISHED) {
             if (!data.score || isNaN(data.score)) {
@@ -695,15 +691,24 @@ Player.Node = function (context, input) {
     };
 
     this.flow["setProjectData"] = function (game) {
-        for (var k in this.content) {
-            var pd = this.content[k];
-
+        for (var k in that.content) {
+            var pd = that.content[k];
+            
+            console.log(pd);
+            
             if (pd.dataInputNodeID) {
-                var value = game.getNode(pd.dataInputNodeID).calc(game, pd.dataInputDataTarget);
-                if (!value || value.length <= 0) {
-                    value = pd.value;
+                var node = game.getNode(pd.dataInputNodeID);
+
+                if (node) {
+                    var value = node.calc(game, pd.dataInputDataTarget);
+                    if (!value || value.length <= 0) {
+                        value = pd.value;
+                    } else if(value.value) {
+                        value = value.value;
+                    }
+                    game.setGameVariable("#" + (k.substring("projVar_".length)), value);
                 }
-                game.setGameVariable("#" + (k.substring("projVar_".length)), value);
+
             } else if (pd.value) {
                 game.setGameVariable("#" + (k.substring("projVar_".length)), pd.value);
             }
@@ -751,38 +756,101 @@ Player.Node = function (context, input) {
         game.unlockAchievement(that.content.achievementName.value);
     };
 
+    this.defCalc = function (game, dataTarget) {
+        var dt = that.content[dataTarget];
+        if (dt.dataInputNodeID) {
+            that.calcGuard = that;
+            var val = game.getNode(dt.dataInputNodeID).calc(game, dt.dataInputDataTarget);
+            that.calcGuard = false;
+
+            if (val) {
+                return val;
+            } else {
+                if (dt.value && dt.value.value) {
+                    return dt.value.value;
+                } else {
+                    return dt.value;
+                }
+            }
+        } else {
+            if (dt.value && dt.value.value) {
+                return dt.value.value;
+            } else {
+                return dt.value;
+            }
+        }
+    };
+
     this.calc = function (game, dataTarget) {
         if (that.content[dataTarget] && !that.calcGuard) {
 
             if (that.calc[that.nodeType]) {
                 return that.calc[that.nodeType](game, dataTarget);
             } else {
-                var dt = that.content[dataTarget];
-                if (dt.dataInputNodeID) {
-                    that.calcGuard = that;
-                    var val = game.getNode(dt.dataInputNodeID).calc(game, dt.dataInputDataTarget);
-                    that.calcGuard = false;
-
-                    if (val) {
-                        return val;
-                    } else {
-                        if (dt.value && dt.value.value) {
-                            return dt.value.value;
-                        } else {
-                            return dt.value;
-                        }
-                    }
-                } else {
-                    if (dt.value && dt.value.value) {
-                        return dt.value.value;
-                    } else {
-                        return dt.value;
-                    }
-                }
+                return that.defCalc(game, dataTarget);
             }
 
         }
         return null;
+    };
+
+    this.calc["arithmetics"] = function (game, dataTarget) {
+        var op = that.content.operator.value;
+
+        var lhs = parseFloat(that.defCalc(game, "lhs"));
+        var rhs = parseFloat(that.defCalc(game, "rhs"));
+
+        switch (op) {
+            case "+":
+                return lhs + rhs;
+            case "-":
+                return lhs - rhs;
+            case "*":
+                return lhs * rhs;
+            case "/":
+                return lhs / rhs;
+            case "^":
+                return Math.pow(lhs, rhs);
+            case "%":
+                return lhs % rhs;
+        }
+        return lhs;
+    };
+    this.calc["comparison"] = function (game, dataTarget) {
+        var op = that.content.operator.value;
+
+        var lhs = that.defCalc(game, "lhs");
+        var rhs = that.defCalc(game, "rhs");
+
+        switch (op) {
+            case "<=":
+                return lhs <= rhs;
+            case "==":
+                return lhs == rhs;
+            case ">=":
+                return lhs >= rhs;
+            case "<":
+                return lhs < rhs;
+            case ">":
+                return lhs > rhs;
+        }
+        return lhs;
+    };
+    this.calc["logical"] = function (game, dataTarget) {
+        var op = that.content.operator.value;
+
+        var lhs = that.defCalc(game, "lhs");
+        var rhs = that.defCalc(game, "rhs");
+
+        switch (op) {
+            case "AND":
+                return lhs && rhs;
+            case "OR":
+                return lhs || rhs;
+            case "NOT":
+                return !rhs;
+        }
+        return lhs;
     };
 
     this.calc["getProjectData"] = function (game, dataTarget) {
@@ -993,7 +1061,7 @@ Player.Scene = function (context, input) {
         if (!state) {
             state = this.startState;
         }
-        
+
 
         for (var k in this.entities) {
             var entity = this.entities[k];
@@ -1001,7 +1069,7 @@ Player.Scene = function (context, input) {
 
             var stateData = state[eid];
 
-        
+
             if (stateData && stateData.isAnEntity) {
                 cpy(stateData, entity, Player.Entity.serializable);
                 cpy(stateData, entity, Player.Entity.propSerializable);
@@ -1870,7 +1938,6 @@ Player.QText.decorate = function (parent, input) {
 
             parent.addListener(parent, "text", function (newValue, res) {
                 var s = res.sprite;
-                console.log(newValue);
                 if (s) {
                     res.text = newValue;
                     s.text = newValue;
