@@ -5,7 +5,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    String url = DBAdmin.WEB_URL;
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
 
     ArrayList<Module> modules = (ArrayList<Module>) request.getAttribute("modules");
@@ -37,7 +36,7 @@
                             for (int i = 0; i < modules.size(); i++) {
                         %>
                         <li id="sFrame">
-                            <a href="<% out.print(url + "module?mid=" + modules.get(i).getModuleID());%>">
+                            <a href="module?mid=<%=modules.get(i).getModuleID()%>">
                                 <div class="frame">
                                     <jsp:include page="moduleThumb.jsp">
                                         <jsp:param name="moduleID" value="<%=modules.get(i).getModuleID()%>"></jsp:param>

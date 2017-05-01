@@ -499,7 +499,6 @@ Player.Game = function (context, input) {
 
             xhr.open('GET', "UnlockAchievementServlet?aid=" + achievementID, true);
             xhr.onload = function () {
-                console.log(xhr.responseText);
                 if( xhr.responseText !== "" ) {
                     console.log("Achievement Unlocked! " );
                     if(_notifyAchievement) {
@@ -588,7 +587,6 @@ Player.Node = function (context, input) {
         this.isFlown = false;
         this.toNextNode = true;
 
-
         if (this.start[this.nodeType]) {
             this.start[this.nodeType]();
         }
@@ -601,6 +599,7 @@ Player.Node = function (context, input) {
                 this.flow[this.nodeType](game);
             }
         }
+        
 
         if (this.toNextNode && this.flowOutput && this.flowOutput._def) {
             game.changeNode(game.getNode(this.flowOutput._def));

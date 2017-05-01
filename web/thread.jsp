@@ -8,7 +8,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    String url = DBAdmin.WEB_URL;
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
     
     int pageNum = (int) request.getAttribute("pageNum");
@@ -54,7 +53,7 @@
                     %>
                     <div id="tThreadHeader">
                         <div id="tHead">
-                            <a style='text-decoration: none;' href=<% out.print(url + "forum"); %>>Forum</a> ►  <a style='text-decoration: none;' href='<% out.print(url + "forum?type=" + thread.getThreadType()); %>'><% out.print(StringUtils.capitalize(thread.getThreadType())); %></a> ►  <a style='text-decoration: none;' href="<% out.print(url + "thread?tid=" + Integer.toString(thread.getThreadID())); %>"><% out.print(thread.getThreadTitle()); %></a> 
+                            <a style='text-decoration: none;' href="forum">Forum</a> ►  <a style='text-decoration: none;' href='forum?type=<%=thread.getThreadType()%>'><% out.print(StringUtils.capitalize(thread.getThreadType())); %></a> ►  <a style='text-decoration: none;' href="thread?tid=<%=Integer.toString(thread.getThreadID())%>"><% out.print(thread.getThreadTitle()); %></a> 
                         </div>
 
                         <div id="tHeadPage">
@@ -85,7 +84,7 @@
                 %>
                 <div id="tThreadBot">
                     <div id="tBot">
-                        <a style='text-decoration: none;' href=<% out.print(url + "forum"); %>>Forum</a> ►  <a style='text-decoration: none;' href='<% out.print(url + "forum?type=" + thread.getThreadType()); %>'><% out.print(StringUtils.capitalize(thread.getThreadType())); %></a> ►  <a style='text-decoration: none;' href="<% out.print(url + "thread?tid=" + Integer.toString(thread.getThreadID())); %>"><% out.print(thread.getThreadTitle()); %></a> 
+                        <a style='text-decoration: none;' href="forum">Forum</a> ►  <a style='text-decoration: none;' href='forum?type=<%=thread.getThreadType()%>'><% out.print(StringUtils.capitalize(thread.getThreadType())); %></a> ►  <a style='text-decoration: none;' href="thread?tid=<%=Integer.toString(thread.getThreadID()) %>"><% out.print(thread.getThreadTitle()); %></a> 
                     </div>
                     <div id="tBotPage">
                         <%

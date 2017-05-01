@@ -6,7 +6,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    String url = DBAdmin.WEB_URL;
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
 
     Module module = (Module) request.getAttribute("module");
@@ -27,7 +26,12 @@
         <jsp:include page="header.jsp"/>
         <div id="container">
             <div id="descSeparator"></div>
-            <div id="descTitle"><% out.print(module.getModuleName()); %></div>
+            <div id="descTitle" style="padding-left: 10%"><% out.print(module.getModuleName()); %></div>
+            
+            <%
+                if( moduleImages != null && moduleImages.size() > 0 ) {
+            %>
+            
             <div id="descImg">
                 <div id="myCarousel" class="carousel slide" data-ride="carousel">
                     <!-- Indicators -->
@@ -81,7 +85,12 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
-            </div>
+            </div>   
+            
+            <%
+                }
+            %>
+            
             <div style="text-align: left; padding: 0px 10%">
                 <button id="Button" onclick="location.href = 'achievement?mid=<%=module.getModuleID()%>'" type="button" class="btn btn-default">Achievements</button>
                 <button id="Button" onclick="location.href = 'leaderboard?mid=<%=module.getModuleID()%>'" type="button" class="btn btn-default">Leaderboards</button>

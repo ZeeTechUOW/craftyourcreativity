@@ -18,14 +18,10 @@ import java.util.logging.Logger;
  */
 public class DBAdmin {
 
-    /**
-     *
-     */
-    public static final String WEB_URL = "http://localhost:8084/cycfrontend/"; // Local machine web url
-//    public static final String WEB_URL = "http://35.187.198.153/cycfrontend/"; // GCP machine web url
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cyc";
     private static final String DB_USER = "root";
     private static final String DB_PASS = ""; // Local machine DB Pass
+//    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
 //    private static final String DB_PASS = "cK3rMeyG"; // GCP machine DB Pass
 
     // <editor-fold defaultstate="collapsed" desc="Query String. Click + sign on the left to expand the code">
@@ -166,7 +162,7 @@ public class DBAdmin {
     private static final String UPDATE_MODULE
             = "UPDATE `module` "
             + "SET `moduleName` = ? "
-            + "SET `moduleDescription` = ? "
+            + ", `moduleDescription` = ? "
             + "WHERE `moduleID` = ?";
     private static final String DELETE_MODULE_BY_ID
             = "DELETE FROM `module` "
@@ -212,6 +208,10 @@ public class DBAdmin {
     private static final String UNLOCK_ACHIEVEMENT
             = "INSERT INTO `userachievement` (`userID`, `achievementID`, `time`) "
             + "VALUES (?, ?, CURRENT_TIMESTAMP)";
+    private static final String CHECK_ACHIEVEMENT
+            = "SELECT * FROM `userachievement` "
+            + "WHERE `userID` = ? "
+            + "AND `achievementID` = ? ";
     private static final String GET_ACHIEVEMENT
             = "SELECT * FROM `achievement` WHERE `achievementID` = ?";
 
@@ -1155,12 +1155,21 @@ public class DBAdmin {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(UNLOCK_ACHIEVEMENT);
-            preparedStatement.setInt(1, userID);
-            preparedStatement.setInt(2, achievementID);
+            PreparedStatement preparedStatement1 = connection.prepareStatement(CHECK_ACHIEVEMENT);
+            preparedStatement1.setInt(1, userID);
+            preparedStatement1.setInt(2, achievementID);
 
-            return preparedStatement.execute();
+            ResultSet rs = preparedStatement1.executeQuery();
+            if( rs.next() ) {
+                return false;
+            }
+            
+            PreparedStatement preparedStatement2 = connection.prepareStatement(UNLOCK_ACHIEVEMENT);
+            preparedStatement2.setInt(1, userID);
+            preparedStatement2.setInt(2, achievementID);
 
+            preparedStatement2.execute();
+            return true;
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
             return false;

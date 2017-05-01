@@ -177,15 +177,15 @@ public class ForumServlet extends HttpServlet {
 
         for (String s : pageCount) {
             if (s.equalsIgnoreCase("<<")) {
-                pageCountUrl.add(DBAdmin.WEB_URL + "forum?type=" + type + "&sort=" + sort + "&page=" + Integer.toString(1));
+                pageCountUrl.add("forum?type=" + type + "&sort=" + sort + "&page=" + Integer.toString(1));
             } else if (s.equalsIgnoreCase("<")) {
-                pageCountUrl.add(DBAdmin.WEB_URL + "forum?type=" + type + "&sort=" + sort + "&page=" + Integer.toString(page - 1));
+                pageCountUrl.add("forum?type=" + type + "&sort=" + sort + "&page=" + Integer.toString(page - 1));
             } else if (s.equalsIgnoreCase(">")) {
-                pageCountUrl.add(DBAdmin.WEB_URL + "forum?type=" + type + "&sort=" + sort + "&page=" + Integer.toString(page + 1));
+                pageCountUrl.add("forum?type=" + type + "&sort=" + sort + "&page=" + Integer.toString(page + 1));
             } else if (s.equalsIgnoreCase(">>")) {
-                pageCountUrl.add(DBAdmin.WEB_URL + "forum?type=" + type + "&sort=" + sort + "&page=" + Integer.toString(lastPage));
+                pageCountUrl.add("forum?type=" + type + "&sort=" + sort + "&page=" + Integer.toString(lastPage));
             } else {
-                pageCountUrl.add(DBAdmin.WEB_URL + "forum?type=" + type + "&sort=" + sort + "&page=" + s);
+                pageCountUrl.add("forum?type=" + type + "&sort=" + sort + "&page=" + s);
             }
         }
 

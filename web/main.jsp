@@ -5,7 +5,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    String url = DBAdmin.WEB_URL;
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
 
     ArrayList<Module> modulesPopular = (ArrayList<Module>) request.getAttribute("modulesPopular");
@@ -47,7 +46,7 @@
                             %>
                             <td>
                                 <div id="sFrame" style='margin: 13px 5px;'>
-                                    <a href="<% out.print(url + "module?mid=" + m.getModuleID()); %>">
+                                    <a href="module?mid=<%=m.getModuleID()%>">
                                         <jsp:include page="moduleThumb.jsp">
                                             <jsp:param name="moduleID" value="<%=m.getModuleID()%>"></jsp:param>
                                             <jsp:param name="moduleName" value="<%=m.getModuleName()%>"></jsp:param>
@@ -77,7 +76,7 @@
                             %>
                             <td>
                                 <div id="sFrame" style='margin: 13px 5px;'>
-                                    <a href="<% out.print(url + "module?mid=" + m.getModuleID());%>">
+                                    <a href="module?mid=<%=m.getModuleID()%>">
                                         <jsp:include page="moduleThumb.jsp">
                                             <jsp:param name="moduleID" value="<%=m.getModuleID()%>"></jsp:param>
                                             <jsp:param name="moduleName" value="<%=m.getModuleName()%>"></jsp:param>
@@ -107,7 +106,7 @@
                             %>
                             <td>
                                 <div id="sFrame" style='margin: 13px 5px;'>
-                                    <a href="<% out.print(url + "module?mid=" + m.getModuleID()); %>">
+                                    <a href="module?mid=<%=m.getModuleID()%>">
                                         <jsp:include page="moduleThumb.jsp">
                                             <jsp:param name="moduleID" value="<%=m.getModuleID()%>"></jsp:param>
                                             <jsp:param name="moduleName" value="<%=m.getModuleName()%>"></jsp:param>

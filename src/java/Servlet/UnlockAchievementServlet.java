@@ -47,12 +47,18 @@ public class UnlockAchievementServlet extends HttpServlet {
             return;
         }
 
-        if(DBAdmin.unlockAchievement(achievementID, loggedUser.getUserID())) {
+        System.out.println("CHECKING ACHIEVEMENT");
+
+        if (DBAdmin.unlockAchievement(achievementID, loggedUser.getUserID())) {
+            System.out.println("AA");
             Achievement achievement = DBAdmin.getAchievement(achievementID);
             try (PrintWriter pw = response.getWriter()) {
                 pw.println("{\"name\":\"" + achievement.getAchievementName() + "\", \"path\":\"" + achievement.getImagePath() + "\"}");
             }
+
         }
+        System.out.println("BBB");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

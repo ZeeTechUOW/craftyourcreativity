@@ -7,7 +7,7 @@
 function GamePlayer(moduleID, userID) {
     this.context = new Player.Context(this, function (value) {
         if( value.startsWith("Assets") ) {
-            value = "published" + value;
+            value = "Published/" + value;
         }
         return "module/" + moduleID + "/" + value;
     });

@@ -58,9 +58,12 @@ public class PublishModuleServlet extends HttpServlet {
 
             File f = new File(getServletContext().getRealPath("/module/" + moduleID + "/save.json"));
             File f2 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Assets"));
-            File f3 = new File(getServletContext().getRealPath("/module/" + moduleID + "/PublishedAssets"));
+            File f3 = new File(getServletContext().getRealPath("/module/" + moduleID));
+            DirectoryAdmin.createNewDirectory(f3, "Published");
             DirectoryAdmin.copyAndRenameFile(f, "publishedSave.json");
-            DirectoryAdmin.copyFiles(f2, f3);
+            
+            File f4 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Published"));
+            DirectoryAdmin.copyFiles(f2, f4);
         }
 
     }

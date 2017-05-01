@@ -495,9 +495,12 @@ DiagramNode.NodeTypes = {
                     label: "Achievement Name",
                     value: 0,
                     contextField: function () {
-
+                        var d = editor.getAchievementData();
+                        if( !editor.getAchievementDataLabel(this.value) ) {
+                            this.value = d[0];
+                        }
                         return InputRenderer.createDropdownField(this.label, this, "value", {
-                            data: editor.getAchievementData(),
+                            data: d,
                             formatValueToElem: function (newValue) {
                                 return editor.getAchievementDataLabel(newValue);
                             },

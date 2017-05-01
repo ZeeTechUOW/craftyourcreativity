@@ -70,27 +70,39 @@ public class EditModuleServlet extends HttpServlet {
             response.sendRedirect("main");
             return;
         }
-
+        
         if ("publish".equalsIgnoreCase(op)) {
             if (loggedUser.getUserID() == module.getUserID()) {
                 DBAdmin.moduleReleased(moduleID);
 
                 File f = new File(getServletContext().getRealPath("/module/" + moduleID + "/save.json"));
                 File f2 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Assets"));
-                File f3 = new File(getServletContext().getRealPath("/module/" + moduleID + "/PublishedAssets"));
+                File f3 = new File(getServletContext().getRealPath("/module/" + moduleID));
+                DirectoryAdmin.createNewDirectory(f3, "Published");
                 DirectoryAdmin.copyAndRenameFile(f, "publishedSave.json");
-                DirectoryAdmin.copyFiles(f2, f3);
+
+                File f4 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Published"));
+                DirectoryAdmin.copyFiles(f2, f4);
             }
         } else if ("edit".equalsIgnoreCase(op)) {
             String newName = request.getParameter("moduleName");
             String newDescription = request.getParameter("moduleDescription");
-            
+
             DBAdmin.editModule(moduleID, newName, newDescription);
+
+            module.setModuleName(newName);
+            module.setModuleDescription(newDescription);
+
         } else if ("del".equalsIgnoreCase(op)) {
             DBAdmin.deleteModule(moduleID);
+            DirectoryAdmin.deleteDirectory(new File(getServletContext().getRealPath("/module/" + moduleID)));
+            
             response.sendRedirect("my_modules");
             return;
         }
+
+        boolean isSaveExist = new File(getServletContext().getRealPath("/module/" + moduleID + "/save.json")).exists();
+        boolean isPublishedSaveExist = new File(getServletContext().getRealPath("/module/" + moduleID + "/publishedSave.json")).exists();
 
         // Get Module Image
         moduleImages.addAll(DBAdmin.getModuleImage(moduleID));
@@ -98,6 +110,8 @@ public class EditModuleServlet extends HttpServlet {
         // Set Attribute
         request.setAttribute("module", module);
         request.setAttribute("moduleImages", moduleImages);
+        request.setAttribute("isPublished", isPublishedSaveExist);
+        request.setAttribute("isSaved", isSaveExist);
 
         request.getRequestDispatcher("editmodule.jsp").forward(request, response);
     }

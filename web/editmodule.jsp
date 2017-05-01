@@ -6,12 +6,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    String url = DBAdmin.WEB_URL;
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
 
     Module module = (Module) request.getAttribute("module");
     ArrayList<ModuleImage> moduleImages = (ArrayList<ModuleImage>) request.getAttribute("moduleImages");
-    boolean isPublished = module.getReleaseTime() != null;
+    boolean isPublished = (Boolean) request.getAttribute("isPublished");
+    boolean isSaved = (Boolean) request.getAttribute("isSaved");
 %>
 
 <!DOCTYPE>
@@ -40,7 +40,9 @@
             <div style="text-align: center; padding: 0px 10%">
                 <button id="Button" onclick="location.href = 'editachievement?mid=<%=module.getModuleID()%>'" type="button" class="btn btn-default pull-left">Edit Achievements</button>
                 <button id="Button" onclick="$('#editModuleModal').modal('show');" type="button" class="btn btn-default pull-left" style="margin-left: 20px">Edit Module</button>
-                <button id="Button" onclick="$('#publishModal').modal('show');" type="button" class="btn btn-default pull-right">Publish</button>
+                <%if( isSaved ) {
+                %><button id="Button" onclick="$('#publishModal').modal('show');" type="button" class="btn btn-default pull-right">Publish</button><%
+                }%>
             </div>
             <div id="descBox" >
                 <div id="sFrame" class="aFrame" style="display: inline-block">

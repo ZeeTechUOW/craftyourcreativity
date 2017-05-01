@@ -156,15 +156,15 @@ public class ThreadServlet extends HttpServlet {
 
         for (String s : pageCount) {
             if (s.equalsIgnoreCase("<<")) {
-                pageCountUrl.add(DBAdmin.WEB_URL + "thread?tid=" + Integer.toString(id) + "&page=1");
+                pageCountUrl.add("thread?tid=" + Integer.toString(id) + "&page=1");
             } else if (s.equalsIgnoreCase("<")) {
-                pageCountUrl.add(DBAdmin.WEB_URL + "thread?tid=" + Integer.toString(id) + "&page=" + Integer.toString(page - 1));
+                pageCountUrl.add("thread?tid=" + Integer.toString(id) + "&page=" + Integer.toString(page - 1));
             } else if (s.equalsIgnoreCase(">")) {
-                pageCountUrl.add(DBAdmin.WEB_URL + "thread?tid=" + Integer.toString(id) + "&page=" + Integer.toString(page + 1));
+                pageCountUrl.add("thread?tid=" + Integer.toString(id) + "&page=" + Integer.toString(page + 1));
             } else if (s.equalsIgnoreCase(">>")) {
-                pageCountUrl.add(DBAdmin.WEB_URL + "thread?tid=" + Integer.toString(id) + "&page=" + Integer.toString(lastPage));
+                pageCountUrl.add("thread?tid=" + Integer.toString(id) + "&page=" + Integer.toString(lastPage));
             } else {
-                pageCountUrl.add(DBAdmin.WEB_URL + "thread?tid=" + Integer.toString(id) + "&page=" + s);
+                pageCountUrl.add("thread?tid=" + Integer.toString(id) + "&page=" + s);
             }
         }
 
