@@ -39,7 +39,7 @@
             </div>
             <div style="text-align: center; padding: 0px 10%">
                 <button id="Button" onclick="location.href = 'editachievement?mid=<%=module.getModuleID()%>'" type="button" class="btn btn-default pull-left">Edit Achievements</button>
-                <button id="Button" onclick="$('#editModuleModal').modal('show');" type="button" class="btn btn-default pull-left" style="margin-left: 20px">Edit Module</button>
+                <button id="Button" onclick="$('#editModuleModal').modal('show');" type="button" class="btn btn-default pull-left" style="margin-left: 20px">Edit Details</button>
                 <%if( isSaved ) {
                 %><button id="Button" onclick="$('#publishModal').modal('show');" type="button" class="btn btn-default pull-right">Publish</button><%
                 }%>
@@ -50,13 +50,13 @@
                         <jsp:param name="moduleName" value="<%=module.getModuleName()%>"></jsp:param>
                         <jsp:param name="moduleID" value="<%=module.getModuleID()%>"></jsp:param>
                     </jsp:include>
-<!--                    <div class="overlay">
+                    <div class="overlay">
                         <div class="text">
                             <button onclick="$('#uploadImageFile').click();" id="Button" class="btn btn-default">
                                 Edit
                             </button>
                         </div>
-                    </div>-->
+                    </div>
                 </div>
                 <div style="
                      display: inline-block;

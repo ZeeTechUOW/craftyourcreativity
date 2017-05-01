@@ -65,8 +65,9 @@ function DiagramNode(context, opt) {
                     res += "<div class=\"nodeLabel\">" + c.label + "</div>";
                 }
 
-                res += c.contextField().printField();
-
+                if (c.contextField) {
+                    res += c.contextField().printField();
+                }
                 if (c.dataInput) {
                     res += "<div id='fdi" + id + "0" + k + "' qid='" + this.nodeID + "' qvarname='" + k + "' class=\"flowDataInput\" onmouseup='endFlowDrag(this, event, \"DATA\")' onmousedown='startFlowInputDrag(this, event, \"DATA\"); event.stopPropagation();'></div>";
 
@@ -161,7 +162,9 @@ function DiagramNode(context, opt) {
             modelContext.insert(paneler.createLabel("Value List"));
             for (var k in this.content) {
                 var c = this.content[k];
-                modelContext.insert(c.contextField());
+                if(c.contextField ) {
+                    modelContext.insert(c.contextField());
+                }
             }
 
         }
@@ -227,7 +230,14 @@ DiagramNode.NodeTypes = {
         return {
             nodeName: "End",
             nodeSize: "small",
-            flowInput: true
+            flowInput: true,
+            content: {
+                score: {
+                    label: "Score",
+                    dataInput: true,
+                    value: 0
+                }
+            }
         };
     },
     playScene: function () {
@@ -496,7 +506,7 @@ DiagramNode.NodeTypes = {
                     value: 0,
                     contextField: function () {
                         var d = editor.getAchievementData();
-                        if( !editor.getAchievementDataLabel(this.value) ) {
+                        if (!editor.getAchievementDataLabel(this.value)) {
                             this.value = d[0];
                         }
                         return InputRenderer.createDropdownField(this.label, this, "value", {

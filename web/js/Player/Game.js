@@ -608,6 +608,28 @@ Player.Node = function (context, input) {
     };
 
     var that = this;
+    this.flow["end"] = function (game) {
+        var data = {};
+        
+        for( var k in that.content ) {
+            var node = game.getNode(that.content[k].dataInputNodeID);
+            console.log(node);
+            console.log(that.content[k].dataInputNodeID);
+            if( node ) {
+                data[k] = node.calc(game, that.content[k].dataInputDataTarget);
+                console.log(data[k]);
+            }
+        }
+        console.log(data);
+        
+        if(_ON_GAME_FINISHED) {
+            if( !data.score || isNaN(data.score) ) {
+                data.score = 100;
+            }
+            _ON_GAME_FINISHED(data);
+        }
+    };
+    
     this.flow["playScene"] = function (game) {
         game.changeScene(that.scene);
         that.toNextNode = false;

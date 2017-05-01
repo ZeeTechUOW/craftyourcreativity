@@ -132,6 +132,14 @@
         <servlet-name>PublishModuleServlet</servlet-name>
         <servlet-class>Editor.PublishModuleServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GameFinishedServlet</servlet-name>
+        <servlet-class>Servlet.GameFinishedServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ImageUploadServlet</servlet-name>
+        <servlet-class>Servlet.ImageUploadServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DirectoryServlet</servlet-name>
         <url-pattern>/DirectoryServlet</url-pattern>
@@ -351,6 +359,14 @@
     <servlet-mapping>
         <servlet-name>PublishModuleServlet</servlet-name>
         <url-pattern>/PublishModuleServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GameFinishedServlet</servlet-name>
+        <url-pattern>/GameFinishedServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ImageUploadServlet</servlet-name>
+        <url-pattern>/ImageUploadServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

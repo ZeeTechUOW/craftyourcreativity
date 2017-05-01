@@ -7,7 +7,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    String url = DBAdmin.WEB_URL;
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
 
     Module module = (Module) request.getAttribute("module");
@@ -28,7 +27,7 @@
         <jsp:include page="header.jsp"/>
         <div id="container">
             <div id="aStructure">
-                <div id="aSTitle" style="width: 100%">Game: <a style="text-decoration: none;" href="<% out.print(url + "editmodule?mid=" + module.getModuleID()); %>"><% out.print(module.getModuleName()); %></a></div>
+                <div id="aSTitle" style="width: 100%">Game: <a style="text-decoration: none;" href="editmodule?mid=<%=module.getModuleID()%>"><% out.print(module.getModuleName()); %></a></div>
                 <div id="aSDisp">
                     <%
                         for (Achievement a : achievements) {

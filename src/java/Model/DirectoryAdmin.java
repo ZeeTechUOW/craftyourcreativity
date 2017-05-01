@@ -64,13 +64,13 @@ public class DirectoryAdmin {
         OutputStream outStream;
         try (InputStream inStream = new FileInputStream(file)) {
             outStream = new FileOutputStream(new File(file.getParentFile(), newName));
-            
+
             byte[] buffer = new byte[1024];
             int length;
             while ((length = inStream.read(buffer)) > 0) {
                 outStream.write(buffer, 0, length);
             }
-            
+
             outStream.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DirectoryAdmin.class.getName()).log(Level.SEVERE, null, ex);
@@ -234,14 +234,17 @@ public class DirectoryAdmin {
     }
 
     public static void deleteDirectory(File folder) {
-        for (File f : folder.listFiles()) {
-            if (f.isDirectory()) {
-                deleteDirectory(f);
-            } else {
-                f.delete();
+        if (folder != null) {
+            for (File f : folder.listFiles()) {
+                if (f.isDirectory()) {
+                    deleteDirectory(f);
+                } else {
+                    f.delete();
+                }
             }
+            folder.delete();
+
         }
-        folder.delete();
     }
 
     private static String quote(String string) {

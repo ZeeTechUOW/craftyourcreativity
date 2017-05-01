@@ -20,8 +20,8 @@ public class DBAdmin {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cyc";
     private static final String DB_USER = "root";
-    private static final String DB_PASS = ""; // Local machine DB Pass
-//    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
+//    private static final String DB_PASS = ""; // Local machine DB Pass
+    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
 //    private static final String DB_PASS = "cK3rMeyG"; // GCP machine DB Pass
 
     // <editor-fold defaultstate="collapsed" desc="Query String. Click + sign on the left to expand the code">
@@ -225,6 +225,12 @@ public class DBAdmin {
             = "SELECT * "
             + "FROM `moduleuserdata` "
             + "WHERE userID=? AND mKey=?";
+
+    private static final String UPDATE_SCORE
+            = "INSERT INTO `moduleuserdata` (`userID`, `moduleID`, `mKey`, `mValue`) "
+            + "VALUES (?, ?, 'score', ?) "
+            + "ON DUPLICATE KEY UPDATE "
+            +  "mValue = GREATEST(mValue, VALUES(mValue))";
     // </editor-fold>
 
     // User method
@@ -1014,7 +1020,7 @@ public class DBAdmin {
 
             PreparedStatement preparedStatement = connection.prepareCall(GET_USER_DATA_FROM_MODULE_ID);
             preparedStatement.setInt(1, userID);
-            preparedStatement.setString(2, "progress");
+            preparedStatement.setString(2, "score");
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -1263,6 +1269,24 @@ public class DBAdmin {
 
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_MODULE_BY_ID);
             preparedStatement.setInt(1, moduleID);
+
+            return preparedStatement.execute();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public static boolean updateUserModuleScore(int userID, int moduleID, int score) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SCORE);
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setInt(2, moduleID);
+            preparedStatement.setInt(3, score);
 
             return preparedStatement.execute();
 

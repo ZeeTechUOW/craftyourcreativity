@@ -70,7 +70,7 @@ public class EditModuleServlet extends HttpServlet {
             response.sendRedirect("main");
             return;
         }
-        
+
         if ("publish".equalsIgnoreCase(op)) {
             if (loggedUser.getUserID() == module.getUserID()) {
                 DBAdmin.moduleReleased(moduleID);
@@ -78,10 +78,12 @@ public class EditModuleServlet extends HttpServlet {
                 File f = new File(getServletContext().getRealPath("/module/" + moduleID + "/save.json"));
                 File f2 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Assets"));
                 File f3 = new File(getServletContext().getRealPath("/module/" + moduleID));
+                File f4 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Published"));
+                DirectoryAdmin.deleteDirectory(f4);
                 DirectoryAdmin.createNewDirectory(f3, "Published");
                 DirectoryAdmin.copyAndRenameFile(f, "publishedSave.json");
 
-                File f4 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Published"));
+                f4 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Published"));
                 DirectoryAdmin.copyFiles(f2, f4);
             }
         } else if ("edit".equalsIgnoreCase(op)) {
@@ -96,7 +98,7 @@ public class EditModuleServlet extends HttpServlet {
         } else if ("del".equalsIgnoreCase(op)) {
             DBAdmin.deleteModule(moduleID);
             DirectoryAdmin.deleteDirectory(new File(getServletContext().getRealPath("/module/" + moduleID)));
-            
+
             response.sendRedirect("my_modules");
             return;
         }

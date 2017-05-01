@@ -3,13 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Editor;
+package Servlet;
 
 import Model.DBAdmin;
-import Model.DirectoryAdmin;
-import Model.Module;
 import Model.User;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -21,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Deni Barasena
  */
-public class PublishModuleServlet extends HttpServlet {
+public class GameFinishedServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,42 +29,32 @@ public class PublishModuleServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        int moduleID;
-        int userID;
-        User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-        if (loggedUser == null) {
-            return;
-        }
 
-        // Parse all parameter
+        int score;
+        int moduleID;
+        User loggedUser = (User) request.getSession().getAttribute("loggedUser");
+
         try {
             moduleID = Integer.parseInt(request.getParameter("mid"));
-            userID = Integer.parseInt(request.getParameter("uid"));
-        } catch (NumberFormatException ex) {
+        } catch (NumberFormatException e) {
+            response.sendRedirect("main");
             return;
         }
-        
-        Module module = DBAdmin.getModule(moduleID);
-        
-        if( userID == loggedUser.getUserID() && userID == module.getUserID() ) {
-            DBAdmin.moduleReleased(moduleID);
 
-            File f = new File(getServletContext().getRealPath("/module/" + moduleID + "/save.json"));
-            File f2 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Assets"));
-            File f3 = new File(getServletContext().getRealPath("/module/" + moduleID));
-            File f4 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Published"));
-            DirectoryAdmin.deleteDirectory(f4);
-            DirectoryAdmin.createNewDirectory(f3, "Published");
-            DirectoryAdmin.copyAndRenameFile(f, "publishedSave.json");
-            
-            f4 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Published"));
-            DirectoryAdmin.copyFiles(f2, f4);
+        if (loggedUser != null) {
+            int userID = loggedUser.getUserID();
+
+            try {
+                score = Integer.parseInt(request.getParameter("score"));
+
+                DBAdmin.updateUserModuleScore(userID, moduleID, score);
+            } catch (NumberFormatException e) {
+            }
         }
-
+        
+        response.sendRedirect("module?mid=" + moduleID);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

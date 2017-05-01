@@ -78,6 +78,11 @@
             function _notifyAchievement(json) {
                 $.notify("Achievement Unlocked " + json.name, {position: "bottom right", className: "success"});
             }
+            
+            function _ON_GAME_FINISHED(data) {
+                console.log(data);
+//                location.href = "GameFinishedServlet?mid=<%=module.getModuleID()%>&score=" + data.score;
+            }
             <%
                 }
             %>
