@@ -230,7 +230,7 @@ public class DBAdmin {
             = "INSERT INTO `moduleuserdata` (`userID`, `moduleID`, `mKey`, `mValue`) "
             + "VALUES (?, ?, 'score', ?) "
             + "ON DUPLICATE KEY UPDATE "
-            +  "mValue = GREATEST(mValue, VALUES(mValue))";
+            + "mValue = GREATEST(mValue, VALUES(mValue))";
     // </editor-fold>
 
     // User method
@@ -716,10 +716,18 @@ public class DBAdmin {
                 String _moduleVersion = resultSet.getString("moduleVersion");
                 String _moduleName = resultSet.getString("moduleName");
                 String _moduleDescription = resultSet.getString("moduleDescription");
-                LocalDateTime _releaseTime = resultSet.getTimestamp("releaseTime").toLocalDateTime();
                 LocalDateTime _lastEdited = resultSet.getTimestamp("lastEdited").toLocalDateTime();
 
-                modules.add(new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, _releaseTime, _lastEdited));
+                Timestamp t = resultSet.getTimestamp("releaseTime");
+
+                if (t != null) {
+                    LocalDateTime _releaseTime = t.toLocalDateTime();
+                    modules.add(new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, _releaseTime, _lastEdited));
+                } else {
+                    modules.add(new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, null, _lastEdited));
+                }
+                
+                
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
@@ -1166,10 +1174,10 @@ public class DBAdmin {
             preparedStatement1.setInt(2, achievementID);
 
             ResultSet rs = preparedStatement1.executeQuery();
-            if( rs.next() ) {
+            if (rs.next()) {
                 return false;
             }
-            
+
             PreparedStatement preparedStatement2 = connection.prepareStatement(UNLOCK_ACHIEVEMENT);
             preparedStatement2.setInt(1, userID);
             preparedStatement2.setInt(2, achievementID);

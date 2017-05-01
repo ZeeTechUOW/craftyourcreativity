@@ -5,20 +5,15 @@
  */
 package Servlet;
 
-import Editor.DirectoryServlet;
-import Model.DBAdmin;
-import Model.DirectoryAdmin;
 import Model.User;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Base64;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sun.misc.BASE64Decoder;
 
 /**
  *

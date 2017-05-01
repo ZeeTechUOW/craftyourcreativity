@@ -38,9 +38,9 @@ public class MainServlet extends HttpServlet {
         modulesUpdate.addAll(DBAdmin.getModuleSortBy("update"));
 
         // Remove newest module if releasedate = lastedited
-        for (int i = (modulesNewest.size() - 1); i >= 0; i--) {
-            if (modulesNewest.get(i).getLastEdited().isEqual(modulesNewest.get(i).getReleaseTime())) {
-                modulesNewest.remove(i);
+        for (int i = (modulesUpdate.size() - 1); i >= 0; i--) {
+            if (modulesUpdate.get(i).getLastEdited().isEqual(modulesUpdate.get(i).getReleaseTime())) {
+                modulesUpdate.remove(i);
             }
         }
 
