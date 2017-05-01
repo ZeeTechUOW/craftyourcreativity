@@ -3,6 +3,8 @@ package Servlet;
 import Model.DBAdmin;
 import Model.Module;
 import Model.ModuleImage;
+import Model.User;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -17,7 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 public class ModuleServlet extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -48,11 +51,18 @@ public class ModuleServlet extends HttpServlet {
             response.sendRedirect("error?code=404");
             return;
         }
+        
+        boolean isCertificated = false;
+        User loggedUser = (User) request.getSession().getAttribute("loggedUser");
+        if (loggedUser != null) {
+            isCertificated = new File(getServletContext().getRealPath("/users/" + loggedUser.getUsername() + "/certs/" + module.getModuleID() + ".pdf")).exists();
+        }
 
         // Get Module Image
         moduleImages.addAll(DBAdmin.getModuleImage(moduleID));
 
         // Set Attribute
+        request.setAttribute("isCertificated", isCertificated);
         request.setAttribute("module", module);
         request.setAttribute("moduleImages", moduleImages);
 

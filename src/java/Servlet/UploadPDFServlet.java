@@ -5,22 +5,26 @@
  */
 package Servlet;
 
-import Model.Achievement;
+import Editor.DirectoryServlet;
 import Model.DBAdmin;
-import Model.Module;
+import Model.DirectoryAdmin;
 import Model.User;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Base64;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sun.misc.BASE64Decoder;
 
 /**
  *
  * @author Deni Barasena
  */
-public class UnlockAchievementServlet extends HttpServlet {
+public class UploadPDFServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,27 +38,30 @@ public class UnlockAchievementServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        int achievementID;
+        int moduleID;
         User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-        if (loggedUser == null) {
-            return;
-        }
+        String data = request.getParameter("data");
 
-        // Parse all parameter
-        try {
-            achievementID = Integer.parseInt(request.getParameter("aid"));
-        } catch (NumberFormatException ex) {
-            return;
-        }
+        System.out.println(data);
 
-        if (DBAdmin.unlockAchievement(achievementID, loggedUser.getUserID())) {
-            Achievement achievement = DBAdmin.getAchievement(achievementID);
-            try (PrintWriter pw = response.getWriter()) {
-                pw.println("{\"name\":\"" + achievement.getAchievementName() + "\", \"path\":\"" + achievement.getImagePath() + "\"}");
+        if (loggedUser != null) {
+            String userName = loggedUser.getUsername();
+
+            try {
+                moduleID = Integer.parseInt(request.getParameter("mid"));
+            } catch (NumberFormatException e) {
+                return;
             }
 
-        }
+            File f = new File(request.getServletContext().getRealPath("/users/" + userName + "/certs"));
+            if (!f.exists()) {
+                f.mkdirs();
+            }
 
+            try (FileOutputStream fos = new FileOutputStream(new File(f, moduleID + ".pdf"))) {
+                fos.write(Base64.getDecoder().decode(data));
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

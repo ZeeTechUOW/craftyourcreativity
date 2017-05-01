@@ -36,10 +36,12 @@
                         Loading Game
                     </div>
                 </div>
+                <div class="hidden">
+                    <canvas id="certCanvas" width="800" height="600"></canvas>
+                </div>
+
             </div>
-
         </div>
-
 
         <div id="footer">
             Powered by ZeeTech
@@ -47,6 +49,7 @@
 
         <script src="jquery/jquery-3.2.1.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/jspdf.js"></script>
         <script src="js/pixi.js"></script>
         <script src="js/pixi-multistyle-text.js"></script>
         <script src="js/notify.js"></script>
@@ -63,6 +66,7 @@
             var player = new GamePlayer(moduleID, userID);
 
             player.startGame(function () {
+                player.game.dataVariables.username = '<%=(loggedUser == null ? "anonymous" : loggedUser.getUsername())%>';
                 hideLoader();
             });
 
@@ -78,10 +82,25 @@
             function _notifyAchievement(json) {
                 $.notify("Achievement Unlocked " + json.name, {position: "bottom right", className: "success"});
             }
-            
+
             function _ON_GAME_FINISHED(data) {
                 console.log(data);
 //                location.href = "GameFinishedServlet?mid=<%=module.getModuleID()%>&score=" + data.score;
+            }
+
+            function _RENDER_TO_PDF(imageData, w, h) {
+                var pdf = new jsPDF('l', 'px', [w, h]);
+
+                pdf.addImage(imageData, 'JPEG', 0, 0, w, h);
+                pdf.save("download.pdf");
+
+                $.ajax({
+                    method: "POST",
+                    url: "UploadPDFServlet?mid=<%=module.getModuleID()%>&uid=<%=loggedUser.getUserID()%>",
+                    data: {data: btoa(pdf.output())}
+                }).done(function (data) {
+                    console.log(data);
+                });
             }
             <%
                 }

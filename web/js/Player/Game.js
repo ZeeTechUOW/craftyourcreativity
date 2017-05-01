@@ -14,7 +14,6 @@ if (!Player) {
     function Player() {
 
     }
-    ;
 }
 
 Player.Game = function (context, input) {
@@ -365,13 +364,24 @@ Player.Game = function (context, input) {
         }
     };
 
-    this.resolveValue = function (value) {
+    this.resolveValue = function (value, scene) {
         var projValues = this.dataVariables;
         var sceneValues;
         if (this.activeScene) {
             sceneValues = this.activeScene.dataVariables;
         } else {
             sceneValues = {};
+        }
+
+        if (scene) {
+            sceneValues = scene.dataVariables;
+        }
+        
+        if( value === true ) {
+            return true;
+        }
+        if( value === false ) {
+            return false;
         }
 
         var res = ("" + value).replace(/({=([@#a-z \-+\*\/0-9A-Z\?:'()]*)})/g, function (a, b, capture) {
@@ -472,8 +482,11 @@ Player.Game = function (context, input) {
     this.changeNode = function (node) {
 
         this.currentNode = node;
-        this.currentNode.startNode();
-        this.currentNode.updateNode(this);
+        
+        if( this.currentNode ) {
+            this.currentNode.startNode();
+            this.currentNode.updateNode(this);
+        }
     };
 
     this.nextNode = function () {
@@ -499,20 +512,66 @@ Player.Game = function (context, input) {
 
             xhr.open('GET', "UnlockAchievementServlet?aid=" + achievementID, true);
             xhr.onload = function () {
-                if( xhr.responseText !== "" ) {
-                    console.log("Achievement Unlocked! " );
-                    if(_notifyAchievement) {
+                if (xhr.responseText !== "") {
+                    console.log("Achievement Unlocked! ");
+                    if (_notifyAchievement) {
                         _notifyAchievement(JSON.parse(xhr.responseText));
-                    } 
+                    }
                 }
             };
             xhr.send();
         }
     };
     this.printCertificate = function (scene) {
-        var $certCanvas = $("#certCanvas");
-        if ($certCanvas) {
+        var certCanvas = document.getElementById("certCanvas");
+        if (certCanvas && _RENDER_TO_PDF) {
+            var state = {};
+            for( var k in scene.startState ) {
+                state[k] = {};
+                
+                for( var j in scene.startState[k] ) {
+                    state[k][j] = scene.startState[k][j];
+                }
+            }
 
+            for (var k in scene.frames) {
+                var frm = scene.frames[k];
+
+                for (var j in frm.actions) {
+                    for (var l in frm.actions[j]) {
+                        frm.actions[j][l].doState(state);
+                    }
+                }
+            }
+
+            for (var k in state) {
+                var sk = state[k];
+                
+                for( var j in sk ) {
+                    sk[j] = this.resolveValue(sk[j], scene);
+                    
+                    if( sk[j] != scene.startState[k][j] ) {
+                        scene.startState[k][j] = sk[j];
+                    }
+                }
+            }
+            
+            scene.setSceneState( scene.startState );
+            
+            var stage = new PIXI.Container();
+            var renderer = new PIXI.CanvasRenderer(this.windowSize.x, this.windowSize.y, {
+                view: certCanvas,
+                resolution: 1
+            });
+            stage.addChild(scene.viewportContainer);
+            scene.viewportContainer.position.x = this.windowSize.x / 2;
+            scene.viewportContainer.position.y = this.windowSize.y / 2;
+
+            renderer.backgroundColor = 0xffffff;
+            renderer.render(stage);
+            renderer.render(stage);
+
+            _RENDER_TO_PDF(certCanvas.toDataURL("image/jpeg", 1.0), this.windowSize.x, this.windowSize.y);
         }
     };
 
@@ -599,7 +658,7 @@ Player.Node = function (context, input) {
                 this.flow[this.nodeType](game);
             }
         }
-        
+
 
         if (this.toNextNode && this.flowOutput && this.flowOutput._def) {
             game.changeNode(game.getNode(this.flowOutput._def));
@@ -610,26 +669,26 @@ Player.Node = function (context, input) {
     var that = this;
     this.flow["end"] = function (game) {
         var data = {};
-        
-        for( var k in that.content ) {
+
+        for (var k in that.content) {
             var node = game.getNode(that.content[k].dataInputNodeID);
             console.log(node);
             console.log(that.content[k].dataInputNodeID);
-            if( node ) {
+            if (node) {
                 data[k] = node.calc(game, that.content[k].dataInputDataTarget);
                 console.log(data[k]);
             }
         }
         console.log(data);
-        
-        if(_ON_GAME_FINISHED) {
-            if( !data.score || isNaN(data.score) ) {
+
+        if (_ON_GAME_FINISHED) {
+            if (!data.score || isNaN(data.score)) {
                 data.score = 100;
             }
             _ON_GAME_FINISHED(data);
         }
     };
-    
+
     this.flow["playScene"] = function (game) {
         game.changeScene(that.scene);
         that.toNextNode = false;
@@ -684,7 +743,7 @@ Player.Node = function (context, input) {
     };
 
     this.flow["printCertificate"] = function (game) {
-        game.printCertificate(that.content.sceneName.value);
+        game.printCertificate(that.scene);
 
     };
 
@@ -930,10 +989,11 @@ Player.Scene = function (context, input) {
         }
     };
 
-    this.setSceneState = function (state) {
+    this.setSceneState = function (state, debug) {
         if (!state) {
             state = this.startState;
         }
+        
 
         for (var k in this.entities) {
             var entity = this.entities[k];
@@ -941,6 +1001,7 @@ Player.Scene = function (context, input) {
 
             var stateData = state[eid];
 
+        
             if (stateData && stateData.isAnEntity) {
                 cpy(stateData, entity, Player.Entity.serializable);
                 cpy(stateData, entity, Player.Entity.propSerializable);
@@ -1809,6 +1870,7 @@ Player.QText.decorate = function (parent, input) {
 
             parent.addListener(parent, "text", function (newValue, res) {
                 var s = res.sprite;
+                console.log(newValue);
                 if (s) {
                     res.text = newValue;
                     s.text = newValue;

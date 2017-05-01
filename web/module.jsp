@@ -10,6 +10,7 @@
 
     Module module = (Module) request.getAttribute("module");
     ArrayList<ModuleImage> moduleImages = (ArrayList<ModuleImage>) request.getAttribute("moduleImages");
+    boolean isCertificated = (Boolean) request.getAttribute("isCertificated");
 %>
 
 <!DOCTYPE>
@@ -106,7 +107,10 @@
                 <p style="font-size:30px; margin-top: 30px">Module Description</p>
                 <p style="font-size:25px"><% out.print(module.getModuleDescription());%></p>
                 <div id="descButtonBox">
-                    <a href="<%="nowplaying?mid=" + module.getModuleID()%>"> <div id="buttonBox" style='float: right'><button id="Button" type="button" class="btn btn-default" style="font-weight: bold;">Play</button></div></a>
+                    <%if( isCertificated ) {%>
+                    <a href="users/<%=loggedUser.getUsername()%>/certs/<%=module.getModuleID()%>.pdf" download="<%=module.getModuleName()%> Certificate.pdf"> <div id="buttonBox" style='float: left'><button id="Button" type="button" class="btn btn-default">Certificate</button></div></a>
+                    <%}%>
+                    <a href="nowplaying?mid=<%=module.getModuleID()%>"> <div id="buttonBox" style='float: right'><button id="Button" type="button" class="btn btn-default" style="font-weight: bold;">Play</button></div></a>
                 </div>
             </div>
         </div>

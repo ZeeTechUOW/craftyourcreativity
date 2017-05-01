@@ -140,6 +140,10 @@
         <servlet-name>ImageUploadServlet</servlet-name>
         <servlet-class>Servlet.ImageUploadServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UploadPDFServlet</servlet-name>
+        <servlet-class>Servlet.UploadPDFServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DirectoryServlet</servlet-name>
         <url-pattern>/DirectoryServlet</url-pattern>
@@ -367,6 +371,10 @@
     <servlet-mapping>
         <servlet-name>ImageUploadServlet</servlet-name>
         <url-pattern>/ImageUploadServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadPDFServlet</servlet-name>
+        <url-pattern>/UploadPDFServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
