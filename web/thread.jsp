@@ -117,7 +117,7 @@
                 <form action="createpost" method="post" id="myForm">
                     <input type="hidden" name="threadID" value="<% out.print(thread.getThreadID()); %>">
                     <textarea id="summerNoteTextID" name="summerNoteText" style="display: none;"></textarea>
-                    <button type="button" onclick="submitPost()">Submit</button>
+                    <button id="Button" class="btn btn-default pull-right" type="button" onclick="submitPost()">Add Post</button>
                 </form>
             </div>
         </div>

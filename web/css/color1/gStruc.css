@@ -1,28 +1,71 @@
 #gTitle{
-    float: left;
-    width: 37%;
     margin-left: 10%;
-    margin-top: 1.5%;
-    font-size: 2.5vw;
+    margin-right: 10%;
+    font-size: 32px;
     color: #333333;
     min-height: 10%;
 }
  
 #gFullscreen{
     float: right;
-    width: 22%;
-    margin-left: 20%;
+    display: inline-block;
     margin-right: 8%;
-    margin-top:  2.5%;
-    font-size: 1.5vw;
+    margin-top: 1%;
+    font-size: 22px;
     color: #333333;
     min-height: 10%;
 }
  
 #gDisp{
-    margin-top: 5%;
-    margin-right: 10%;
-    margin-left: 10%;
+    position: relative;
+    text-align: center;
+    margin-top: 30px;
     background-color: #aad0c5;
-    height: 78%;
+    width: 100%;
+}
+
+#canvasLoader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 32px;
+    color: whitesmoke;
+}
+#canvasLoader > span {
+    margin: 5px;
+    display: block;
+    font-size: 64px;
+}
+
+#gameCanvas {
+    border: solid .3vw white;
+    max-width: 90%;
+    height: auto;
+    background-color: slategrey;
+}
+
+.glyphicon-spin {
+    -webkit-animation: spin 1000ms infinite linear;
+    animation: spin 1000ms infinite linear;
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
 }

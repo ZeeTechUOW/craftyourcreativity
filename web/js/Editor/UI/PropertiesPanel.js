@@ -98,14 +98,30 @@ function PropertiesPanel(context) {
                     );
                 }
             }));
+
+
             modelContext.insert(paneler.createSeperator());
-            modelContext.insert(paneler.createLabel("Project"));
+            var sceneDataGroup = paneler.createGroup("Scene Data");
+            sceneDataGroup.insert(paneler.createObjectField("Scene Data", scene.dataVariables, {
+                type: "ANY",
+                modifyable: true,
+                onCompleted: function () {
+                    editor.diagramPanel.updateDiagramPanel();
+                }
+            }));
+            modelContext.insert(sceneDataGroup);
 
-            var aboutGroup = paneler.createGroup("About");
-            aboutGroup.insert(paneler.createTextField("Project Name", p, "projectName"));
-            aboutGroup.insert(paneler.createTextField("Version", p, "version"));
-            modelContext.insert(aboutGroup);
-
+            var projectDataGroup = paneler.createGroup("Project Data");
+            projectDataGroup.insert(paneler.createObjectField("Project Data", p.dataVariables, {
+                type: "ANY",
+                modifyable: true,
+                onCompleted: function () {
+                    editor.diagramPanel.updateDiagramPanel();
+                }
+            }));
+            modelContext.insert(projectDataGroup);
+            
+            modelContext.insert(paneler.createSeperator());
             var projectSettingsGroup = paneler.createGroup("Project Settings");
             projectSettingsGroup.insert(paneler.createDropdownField("Window Size", p, "windowSize", {
                 data: [{x: 845, y: 480}, {x: 800, y: 600}, {x: 1024, y: 768}, {x: 1280, y: 720}],
@@ -129,27 +145,6 @@ function PropertiesPanel(context) {
                 }
             }));
             modelContext.insert(projectSettingsGroup);
-
-            modelContext.insert(paneler.createSeperator());
-            var sceneDataGroup = paneler.createGroup("Scene Data");
-            sceneDataGroup.insert(paneler.createObjectField("Scene Data", scene.dataVariables, {
-                type: "ANY",
-                modifyable: true,
-                onCompleted: function () {
-                    editor.diagramPanel.updateDiagramPanel();
-                }
-            }));
-            modelContext.insert(sceneDataGroup);
-
-            var projectDataGroup = paneler.createGroup("Project Data");
-            projectDataGroup.insert(paneler.createObjectField("Project Data", p.dataVariables, {
-                type: "ANY",
-                modifyable: true,
-                onCompleted: function () {
-                    editor.diagramPanel.updateDiagramPanel();
-                }
-            }));
-            modelContext.insert(projectDataGroup);
         });
     };
 

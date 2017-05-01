@@ -445,12 +445,6 @@ DiagramNode.NodeTypes = {
                         exContents[k] = true;
                     }
                 }
-                var exFlows = {};
-                for (var k in this.flowOutput) {
-                    if (k !== "_def") {
-                        exFlows[k] = true;
-                    }
-                }
 
                 if (!this.content.sceneName.value) {
                     this.content.sceneName.value = this.content.sceneName.data()[0];
@@ -486,22 +480,6 @@ DiagramNode.NodeTypes = {
                             delete this.content[k];
                         }
                     }
-
-                    var sceneLinks = this.content.sceneName.value.getAllSceneLinks();
-                    for (var k in sceneLinks) {
-
-                        if (!exFlows[k]) {
-                            this.flowOutput[k] = true;
-                        }
-
-                        exFlows[k] = false;
-                    }
-
-                    for (var k in exFlows) {
-                        if (exFlows[k]) {
-                            delete this.flowOutput[k];
-                        }
-                    }
                 }
             }
         };
@@ -513,12 +491,16 @@ DiagramNode.NodeTypes = {
             flowInput: true,
             flowOutput: {_def: true},
             content: {
-                sceneName: {
+                achievementName: {
                     label: "Achievement Name",
-                    value: "Achievement 1",
+                    value: 0,
                     contextField: function () {
+
                         return InputRenderer.createDropdownField(this.label, this, "value", {
-                            data: ["Achievement 1", "Achievement 2", "Achievement 3"],
+                            data: editor.getAchievementData(),
+                            formatValueToElem: function (newValue) {
+                                return editor.getAchievementDataLabel(newValue);
+                            },
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
                             }
@@ -592,8 +574,12 @@ DiagramNode.NodeTypes = {
                         dataOutput: true,
                         contextField: function () {
                             return {
-                                print: function () {return "";},
-                                printField: function () {return "";}
+                                print: function () {
+                                    return "";
+                                },
+                                printField: function () {
+                                    return "";
+                                }
                             };
                         }
                     };

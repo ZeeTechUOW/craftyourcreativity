@@ -44,6 +44,19 @@ public class ForumServlet extends HttpServlet {
         if (type == null) {
             type = "default";
         }
+        String tType = type;
+        
+        switch(type.toUpperCase()) {
+            case "GENERAL":
+            case "BUG":
+            case "MODULE":
+            case "DEFAULT":
+            case "DISCUSSION":
+                break;
+            default:
+                type = "discussion_" + type;
+                break;
+        }
 
         sort = (String) request.getParameter("sort");
         if (sort == null) {
@@ -96,7 +109,7 @@ public class ForumServlet extends HttpServlet {
         pageCountUrl = generatePageCountUrl(pageCount, type, sort, pageNum, lastPage);
 
         // Set Attribute
-        request.setAttribute("type", type);
+        request.setAttribute("type", tType);
         request.setAttribute("sort", sort);
         request.setAttribute("sortFormatted", sortFormatted);
         request.setAttribute("pageNum", pageNum);

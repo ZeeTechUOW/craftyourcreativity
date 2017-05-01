@@ -125,14 +125,18 @@ function DiagramPanel(context) {
                     var data = toStr.split("|");
 
                     if (data.length > 1) {
-                        var from = this.getNodeById(parseInt(data[0])).getFlowDataOutputPos(data[1]);
-                        var to = fromNode.getFlowDataInputPos(j);
+                        var from = this.getNodeById(parseInt(data[0]));
+                        if (from) {
+                            from = from.getFlowDataOutputPos(data[1]);
+                            var to = fromNode.getFlowDataInputPos(j);
 
-                        var midFromX = from.x + (to.x - from.x) * .5 * (to.x > from.x ? 1 : -1);
-                        var midToX = to.x + (from.x - to.x) * .5 * (to.x > from.x ? 1 : -1);
+                            var midFromX = from.x + (to.x - from.x) * .5 * (to.x > from.x ? 1 : -1);
+                            var midToX = to.x + (from.x - to.x) * .5 * (to.x > from.x ? 1 : -1);
 
-                        res += "<path id='fdp" + node.nodeID + "0" + j + "' qid='" + data[0] + "' qrid='" + node.nodeID + "' qvarname='" + j + "' onmousedown='startFlowDrag(this, event, \"DATA\");' stroke=\"#8e8e8e\" stroke-width=\"4\" fill=\"none\" d=\"M" + from.x + "," + from.y + " C" + midFromX + "," + from.y + " " + midToX + "," + to.y + " " + to.x + "," + to.y + "\"></path>";
-
+                            res += "<path id='fdp" + node.nodeID + "0" + j + "' qid='" + data[0] + "' qrid='" + node.nodeID + "' qvarname='" + j + "' onmousedown='startFlowDrag(this, event, \"DATA\");' stroke=\"#8e8e8e\" stroke-width=\"4\" fill=\"none\" d=\"M" + from.x + "," + from.y + " C" + midFromX + "," + from.y + " " + midToX + "," + to.y + " " + to.x + "," + to.y + "\"></path>";
+                        } else {
+                            c.dataInput = true;
+                        }
                     }
                 }
             }
@@ -141,7 +145,7 @@ function DiagramPanel(context) {
         this.svgDom.innerHTML = res;
     };
 
-    this.setSelected = function (node) {
+    this.setSelected = function (node, skipRerender) {
         if (this.selectedNode) {
             if (node === this.selectedNode) {
                 $("#Node" + this.selectedNode.nodeID).addClass("active");
@@ -158,7 +162,7 @@ function DiagramPanel(context) {
             $("#Node" + this.selectedNode.nodeID).addClass("active");
             this.context.changeToNodeModelContext(this.selectedNode);
         } else {
-            this.context.changeToSceneModelContext();
+            if(!skipRerender) this.context.changeToSceneModelContext();
         }
     };
 
@@ -241,7 +245,10 @@ function DiagramPanel(context) {
             var y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop - Math.floor(canoffset.top * canzoom) + 1;
 
             if (type === "DATA") {
-                this.getNodeById(parseInt(elem.getAttribute("qrid"))).content[dataTarget].dataInput = true;
+                var knode = this.getNodeById(parseInt(elem.getAttribute("qrid")));
+                if(knode) {
+                    knode.content[dataTarget].dataInput = true;
+                }
             }
 
             this.startConnectionDrag(node, dataTarget, type, x / canzoom, y / canzoom, event);

@@ -173,8 +173,13 @@ function Context(editor) {
                 delete this.actionData;
             }
         }
+        var aScene = (scene ? scene : this.editor.activeScene);
         this.editor.viewport.setSelected(null, true);
-        this.propertiesContext = this.editor.propertiesPanel.SceneModelContext((scene ? scene : this.editor.activeScene));
+        this.propertiesContext = this.editor.propertiesPanel.SceneModelContext(aScene);
+        
+        if( aScene ) {
+            aScene.changeFrame(null, false, true);
+        }
     };
 
     this.changeToEntityModelContext = function (entity) {
@@ -215,14 +220,14 @@ function Context(editor) {
 
     this.changeToActionModelContext = function (action) {
         if (action) {
-            this.editor.diagramPanel.setSelected(null);
+            this.editor.diagramPanel.setSelected(null, true);
             this.editor.viewport.setSelected(null, true);
             this.propertiesContext = this.editor.propertiesPanel.ActionModelContext(action);
         }
     };
     this.changeToFrameModelContext = function (action) {
         if (action) {
-            this.editor.diagramPanel.setSelected(null);
+            this.editor.diagramPanel.setSelected(null, true);
             this.editor.viewport.setSelected(null, true);
             this.propertiesContext = this.editor.propertiesPanel.FrameModelContext(action);
         }

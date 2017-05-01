@@ -4,12 +4,27 @@
     Author     : Deni Barasena
 --%>
 
+<%@page import="Model.Module"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="Model.User"%>
+<%
+    User loggedUser = (User) request.getSession().getAttribute("loggedUser");
+    Module module = (Module) request.getAttribute("module");
+    
+    if( loggedUser == null || "player".equals(loggedUser.getUserType())) {
+        response.sendRedirect("login");
+        return;
+    }
+    if( module == null ) {
+        response.sendError(500, "Unauthorized Access");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Module Editor - </title>
 
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <!--<link href="css/editor.css" rel="stylesheet">-->
@@ -24,11 +39,9 @@
                 <div id="logo">
                     <img id='title' src="resource/CYC Logo.PNG" class="img-responsive">
                     <div id='subtitle'>an E-training Web App</div>
-
-
                 </div>
-                <div id="accountBar">
-                    <button class='btn btn-default' id="signButton"> Account </button>
+                <div id="signBar">
+                    <span id="poweredBy"> Powered by ZeeTech </span>
                 </div>
                 <div id='toolbar'>
                     <ul id='toolbarList' class="nav nav-tabs">
@@ -36,15 +49,14 @@
                             <a href='#' id='file' onclick='toolbarDropdown(this);' onfocusout="toolbarDropdownHide(this)">File</a>
                             <ul id='fileDropdown' class="dropdown-menu" role="menu">
                                 <li><a onmousedown="save(this)">Save</a></li>
-                                <li><a onmousedown="saveAs(this)">Save As</a></li>
                                 <li><a onmousedown="load(this)">Load</a></li>
                                 <li class="divider"></li>
                                 <li><a onmousedown="saveToLocal(this)">Save to Local</a></li>
                                 <li><a onmousedown="loadFromLocal(this)">Load from Local</a></li>
+<!--                                <li class="divider"></li>
+                                <li><a onmousedown="window.open('editmodule?mid=' + projectID)">Publish</a></li>-->
                                 <li class="divider"></li>
-                                <li><a onmousedown="publish(this)">Publish</a></li>
-                                <li class="divider"></li>
-                                <li><a onmousedown="exit(this)">Exit</a></li>
+                                <li><a onmousedown="location.href = 'editmodule?mid=' + projectID">Exit</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -507,6 +519,9 @@
 
         %>
         <script type="text/javascript">
+                                    var username = "<%=loggedUser.getUsername()%>";
+                                    var userID = <%=loggedUser.getUserID()%>;
+                                    var projectID = <%=module.getModuleID()%>;
 
                                     var editor = new Editor();
                                     function save(elem) {
@@ -685,7 +700,6 @@
                                     function openTagEditor() {
                                         $("#tagEditorModal").modal("show");
                                     }
-                                    ;
 
                                     function openFileChooser(title, type, funcID) {
                                         editor.openFileChooser(title, type, funcID);
@@ -768,11 +782,14 @@
                                     }
 
                                     function createNewFolder(name) {
+                                        console.log("AKKKKK", name);
                                         if (!name) {
                                             editor.prompt("New Folder Name", "", function (newValue) {
                                                 if (!newValue) {
                                                     return;
                                                 }
+                                                console.log("CCCCd", newValue);
+                                                console.trace();
 
                                                 editor.createNewFolder(null, newValue, function () {
                                                     refreshFileChooser();
@@ -951,7 +968,8 @@
 
                                         editor.diagramPanel.updateDiagramPanel();
                                     }
-
+                                    
+                                    editor.loadProject();
                                     editor.hideLoader();
                                     editor.hideSmallLoader();
 

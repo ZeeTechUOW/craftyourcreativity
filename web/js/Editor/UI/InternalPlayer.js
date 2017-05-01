@@ -17,7 +17,6 @@ function InternalPlayer(context) {
 
     this.canvas;
     this.renderer;
-    this.stage;
 
     this.game;
 
@@ -55,7 +54,9 @@ function InternalPlayer(context) {
     this.loadData = function () {
         var data = this.context.editor.project.serialize();
         
-        this.game = new Player.Game(new Player.Context(this), JSON.parse(JSON.stringify(data)));
+        this.game = new Player.Game(new Player.Context(this, function (value) {
+            return editor.projectPath(value);
+        }), JSON.parse(JSON.stringify(data)));
     };
 
     this.update = function () {

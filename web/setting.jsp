@@ -50,7 +50,7 @@
                         </table>
                     </div>
 
-                    <div id="seBox">
+<!--                    <div id="seBox">
                         <div id="seAvatarBox">
                             <table>
                                 <tr><td id="avatar">Avatar Icon</td></tr>
@@ -64,7 +64,7 @@
                         <div id="seAvatarSelect">
                             This is Avatar Selection Container
                         </div>
-                    </div>
+                    </div>-->
 
                     <div id="seBoxUnderline">
                         UPDATE YOUR EMAIL

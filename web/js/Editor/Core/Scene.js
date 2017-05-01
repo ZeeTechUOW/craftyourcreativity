@@ -59,7 +59,7 @@ function Scene(context, sceneName) {
         }
     };
 
-    this.changeFrame = function (frame, skipRerender) {
+    this.changeFrame = function (frame, skipRerender, skipContextRerender) {
         if (this.context.actionData) {
             delete this.context.actionData;
         }
@@ -73,10 +73,10 @@ function Scene(context, sceneName) {
 
         this.context.editor.sequencePanel.updateSequencePanel();
         if (this.activeFrame) {
-            this.context.changeToFrameModelContext(this.activeFrame);
+            if(!skipContextRerender) this.context.changeToFrameModelContext(this.activeFrame);
             this.setSceneStateOnFrame(this.activeFrame);
         } else {
-            this.context.changeToSceneModelContext();
+            if(!skipContextRerender) this.context.changeToSceneModelContext();
             this.setSceneState();
         }
     };
@@ -131,10 +131,12 @@ function Scene(context, sceneName) {
 
             return true;
         });
+        this.changeFrame(null, false, true);
 
         var sprite = entity.getSprite();
         sprite.zIndex = this.viewportContainer.children.length;
         this.viewportContainer.addChild(sprite);
+        
 
         this.sceneContentEditedCallback();
 

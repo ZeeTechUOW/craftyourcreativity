@@ -53,6 +53,10 @@ public class Thread {
         this.replyCount = replyCount;
     }
 
+    public boolean isDiscussionThread() {
+        return threadType.startsWith("discussion_");
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="Getter and Setter. Click + sign on the left to expand the code">
 
     /**
@@ -92,6 +96,7 @@ public class Thread {
      * @return
      */
     public String getThreadTitle() {
+        
         return threadTitle;
     }
 
@@ -108,7 +113,7 @@ public class Thread {
      * @return
      */
     public String getThreadType() {
-        return threadType;
+        return threadType.replace("discussion_", "");
     }
 
     /**

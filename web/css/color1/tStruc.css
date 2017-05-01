@@ -60,19 +60,28 @@
 	padding: 10px 1.5%;
 	font-weight: bold;
 	background-color: #458e77;
+        overflow: hidden;
 }
 
 #tBot{
 	float: left;
-	width: 47%;
+	width: 87%;
 	height: 20px;
 	padding: 0px 1.5%;
+	padding-left: 0px;
 	font-weight: bold;
+}
+
+#tBot > a{
+    color: #d8e2d6;
+}
+#tBotPage > a{
+    color: #d8e2d6;
 }
 
 #tBotPage{
 	float: left;
-	width: 47%;
+	width: 10%;
 	height: 20px;
 	padding: 0px 1.5%;
 	font-weight: bold;

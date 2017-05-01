@@ -44,17 +44,27 @@ public class AddThreadServlet extends HttpServlet {
         threadType = request.getParameter("threadType");
         threadPost = request.getParameter("threadPost");
         
-        System.out.println(threadTitle);
-        System.out.println(threadType);
-        System.out.println(threadPost);
-
-        // Create Thread
-        if (DBAdmin.createNewThread(loggedUser.getUserID(), threadTitle, threadType, threadPost)) {
-            response.sendRedirect("forum");
-        } else {
-            // Internal server error
-            response.sendError(500);
+        if( threadType == null ) {
+            response.sendRedirect("main");
+            return;
         }
+        
+        switch(threadType.toUpperCase()) {
+            case "GENERAL":
+            case "BUG":
+            case "MODULE":
+            case "DEFAULT":
+            case "DISCUSSION":
+                break;
+            default:
+                threadType = "discussion_" + threadType;
+                break;
+        }
+        
+        // Create Thread
+        
+        int newThreadID = DBAdmin.createNewThread(loggedUser.getUserID(), threadTitle, threadType, threadPost);
+        response.sendRedirect("thread?tid=" + newThreadID);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

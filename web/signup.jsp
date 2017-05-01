@@ -15,7 +15,6 @@
             <div id="logo">
                 <div class="logo"><img src="resource/blogo.png" alt="logo"></div>
             </div>
-            <div id="title">Sign Up</div>
             <form action="signupauth" method="post" style="margin-bottom: 0em">
                 <div class="input-lg">
                     <input type="text" class="form-control" placeholder="Username" name="usernameRegister" style="width: 100%;"/>
@@ -27,7 +26,8 @@
                     <input type="password" class="form-control" placeholder="Password" name="passwordRegister" style="width: 100%;"/>
                 </div>
                 <div id="buttonBox">
-                    <button id="Button" type="submit" class="btn btn-default">Create Account</button>
+                    <button id="Button" type="submit" class="btn btn-default" name="userType" value="player">Create Account</button>
+                    <button id="Button" type="submit" class="btn btn-default" name="userType" value="trainer">Create Account As Trainer</button>
                 </div>
             </form>
 <!--            <div id="util">

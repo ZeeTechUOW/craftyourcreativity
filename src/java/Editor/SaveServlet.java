@@ -5,6 +5,8 @@
  */
 package Editor;
 
+import Model.DBAdmin;
+import Model.User;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -31,46 +33,52 @@ public class SaveServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processGetRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        String data = request.getParameter("data");
-
-        File outputFile = new File(getServletContext().getRealPath("/").replace("build\\", "") + "save.json");
-        FileWriter fout = new FileWriter(outputFile);
-        fout.write(data + "\n");
-        fout.close();
-
-        PrintWriter out = response.getWriter();
-        try {
-            out.write(getServletContext().getRealPath("/").replace("build\\", "") + "save.json\nDone");
-        } finally {
-            out.close();
+        
+        String username;
+        int moduleID;
+        int userID;
+        
+        User loggedUser = (User) request.getSession().getAttribute("loggedUser");
+        if (loggedUser != null) {
+            username = loggedUser.getUsername();
+        } else {
+            response.sendRedirect("error?code=404");
+            return;
         }
-    }
-
-    protected void processPostRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
+        
         StringBuilder data = new StringBuilder();
         String line;
         try {
             BufferedReader reader = request.getReader();
+            moduleID = Integer.parseInt(reader.readLine());
+            userID = Integer.parseInt(reader.readLine());
             while ((line = reader.readLine()) != null) {
                 data.append(line);
             }
-        } catch (Exception e) {
-            data.append("ERROR!");
+        } catch (IOException | NumberFormatException e) {
+            response.sendError(404, e.getMessage());
+            return;
         }
 
-        File outputFile = new File(getServletContext().getRealPath("/").replace("build\\", "") + "save.json");
+        if (userID != loggedUser.getUserID() || "player".equals(loggedUser.getUserType())) {
+            response.sendRedirect("error?code=404");
+            return;
+        }
+
+        String path = getServletContext().getRealPath("/") + "module/"+ moduleID + "/save.json";
+
+        File outputFile = new File(path);
         FileWriter fout = new FileWriter(outputFile);
         fout.write(data.toString() + "\n");
         fout.close();
+        
+        DBAdmin.moduleUpdated(moduleID);
 
         PrintWriter out = response.getWriter();
         try {
-            out.write(getServletContext().getRealPath("/").replace("build\\", "") + "save.json\nDone");
+            out.write(path);
         } finally {
             out.close();
         }
@@ -88,7 +96,7 @@ public class SaveServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processGetRequest(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -102,7 +110,7 @@ public class SaveServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processPostRequest(request, response);
+        processRequest(request, response);
     }
 
     /**

@@ -1,8 +1,10 @@
 package Servlet;
 
 import Model.DBAdmin;
+import Model.DirectoryAdmin;
 import Model.User;
 import java.io.IOException;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,11 +31,21 @@ public class SignupAuthServlet extends HttpServlet {
         String password = request.getParameter("passwordRegister");
         String email = request.getParameter("emailRegister");
 
+        if (Pattern.compile("[^a-zA-Z0-9]").matcher(username).find()) {
+            String error = "Username should be alphanumeric with no spaces.";
+
+            response.sendRedirect("signup?em=" + error);
+            return;
+        }
+        
         if (DBAdmin.isUsernameTaken(username)) {
             String error = "Username already used, Please user other username";
 
             response.sendRedirect("signup?em=" + error);
+            return;
         }
+        
+        String userType = request.getParameter("userType");
 
         User user = new User(0, username, password, email, "");
 
@@ -45,10 +57,12 @@ public class SignupAuthServlet extends HttpServlet {
             String error = "Password must be 8 chars long, contain at least 1 number, and no whitespace allowed";
 
             response.sendRedirect("signup?em=" + error);
-        } else if (DBAdmin.register(username, email, password, "player")) {
+        } else if (DBAdmin.register(username, email, password, ("trainer".equalsIgnoreCase(userType)? "trainer" : "player"))) {
             user = DBAdmin.login(username, username, password);
 
             request.getSession().setAttribute("loggedUser", user);
+            
+            DirectoryAdmin.prepNewUserDirectory(request.getServletContext().getRealPath("/users/" + username));
 
             response.sendRedirect("main");
         } else {

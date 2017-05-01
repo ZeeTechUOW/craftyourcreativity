@@ -5,6 +5,7 @@
  */
 package Editor;
 
+import Model.User;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,22 +30,44 @@ public class LoadServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        
+        int projectID;
+        int userID;
+        String username;
+        
+        User loggedUser = (User) request.getSession().getAttribute("loggedUser");
+        if( loggedUser != null ) {
+            username = loggedUser.getUsername();
+        } else {
+            response.sendError(500, "NO USER");
+            return;
+        }
+        
         try {
-            /* TODO output your page here. You may use following sample code. */
-            File inputFile = new File(getServletContext().getRealPath("/").replace("build\\", "") + "save.json");
-            Scanner scanner = new Scanner(inputFile);
+            projectID = Integer.parseInt(request.getParameter("mid"));
+            userID = Integer.parseInt(request.getParameter("uid"));
+        } catch (NumberFormatException ex) {
+            response.sendError(500, "NO PARAMS " + request.getParameter("mid") + " | " + request.getParameter("uid"));
+            return;
+        }
+        
+        if( userID != loggedUser.getUserID() || "player".equals(loggedUser.getUserType()) ) {
+            response.sendError(500, "User Not Matched " + userID + " | " + loggedUser.getUserID());
+            return;
+        }
+        
+        try (PrintWriter out = response.getWriter()) {
+            File inputFile = new File(getServletContext().getRealPath("/") + "module/" + projectID + "/save.json");
             
-            while( scanner.hasNextLine() ) {
-                out.println(scanner.nextLine());
+            if(inputFile.exists()) {
+                try (Scanner scanner = new Scanner(inputFile)) {
+                    while( scanner.hasNextLine() ) {
+                        out.println(scanner.nextLine());
+                    }
+                }
             }
-            
-            scanner.close();
-        } finally {
-            out.close();
         }
     }
 

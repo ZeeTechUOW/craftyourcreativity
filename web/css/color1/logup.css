@@ -1,11 +1,13 @@
-body{
-    background-color: white;
-}
 
+body{
+    background-image: url("../../resource/bg.png") !important;
+    font-family: Tahoma;
+}
 #upSpacer{
     height: 13%;
     width: 100%;
 }
+
 
 #container{
     display: flex;
@@ -13,12 +15,10 @@ body{
 
     margin: auto;
     padding: 30px;
-    background-color: #CCFFCC;
     width: 450px;
     min-height: 650px;
 
     border-radius: 5px;
-    border: solid 3px black;
 }
 
 #logo{
@@ -46,7 +46,6 @@ img{
 
 #buttonBox{
     width: 100%;
-    height: 50px;
     margin: 15px 5px;	
     text-align: center;
     font-size: 25px;
@@ -56,11 +55,11 @@ img{
 
 #Button{
     position: relative;
-    background-color: rgb(127, 212, 168);
     color: #004a04;
     font-family: Tahoma;
     width: 80%;
     font-size: 25px;
+    margin-bottom: 10px;
 }
 
 #util{

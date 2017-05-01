@@ -47,54 +47,36 @@ function Editor(opts) {
         if (project) {
             var postData = project.serialize();
             console.log(postData);
+
             var xhr = new XMLHttpRequest();
-            var data = JSON.stringify(postData, null, "");
+            var data = JSON.stringify(postData, null, "\t");
+            data = projectID + "\n" + userID + "\n" + data;
             console.log(data);
+
             xhr.open('POST', "SaveServlet", true);
             xhr.setRequestHeader('Content-Type', 'application/json;');
             xhr.onload = function () {
                 console.log(this.responseText);
-                if (onSave)
-                    onSave();
             };
             xhr.send(data);
         }
     };
 
-    this.saveCurrentProjectAs = function (newName) {
-        var project = this.project;
-
-        if (project) {
-            var postData = project.serialize();
-            postData.newProjectName = newName;
-            console.log(postData);
-            var xhr = new XMLHttpRequest();
-            var data = JSON.stringify(postData, null, "\t");
-            console.log(data);
-            xhr.open('POST', "SaveServlet?", true);
-            xhr.setRequestHeader('Content-Type', 'application/json;');
-            xhr.onload = function () {
-                console.log(this.responseText);
-            };
-            xhr.send(data);
-        }
-    };
-
-    this.loadProject = function (projectID) {
-        if (this.viewport) {
-            this.viewport.reset();
-        }
-
-        this.activeScene = null;
+    this.loadProject = function () {
 
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'LoadServlet?projectID=' + projectID, true);
+        xhr.open('GET', 'LoadServlet?mid=' + projectID + "&uid=" + userID, true);
         xhr.onload = (function (c) {
             return function () {
-                var json = JSON.parse(xhr.responseText);
                 console.log(xhr.responseText);
+                var json = JSON.parse(xhr.responseText);
                 console.log(json);
 
+                if (this.viewport) {
+                    this.viewport.reset();
+                }
+
+                this.activeScene = null;
                 c.resetActions();
                 c.editor.diagramPanel.reset();
 
@@ -115,7 +97,6 @@ function Editor(opts) {
     };
 
     this.saveToLocal = function () {
-
         var project = this.project;
 
         if (project) {
@@ -132,13 +113,19 @@ function Editor(opts) {
     this.loadFromLocal = function () {
         $("#saveFileUpload").click();
     };
-    
+
     this.loadProjectFromFile = function (file) {
         var reader = new FileReader();
         reader.onload = function (event) {
+
             var json = JSON.parse(event.target.result);
             var c = editor.context;
-            
+
+            if (this.viewport) {
+                this.viewport.reset();
+            }
+
+            this.activeScene = null;
             c.resetActions();
             c.editor.diagramPanel.reset();
 
@@ -155,6 +142,29 @@ function Editor(opts) {
             console.log("loaded");
         };
         reader.readAsText(file);
+    };
+
+    this.achievementData = [];
+    this.achievementDataLabel = {};
+    this.getAchievementData = function () {
+        var xhr = new XMLHttpRequest();
+        var that = this;
+        
+        xhr.open('GET', "GetAchievementServlet?mid=" + projectID, true);
+        xhr.onload = function () {
+            that.achievementDataLabel = JSON.parse(xhr.responseText);
+            that.achievementData = [];
+            for( var k in that.achievementDataLabel ) {
+                that.achievementData.push(k);
+            }
+        };
+        xhr.send();
+        
+        return this.achievementData;
+    };
+    
+    this.getAchievementDataLabel = function (value) {
+        return this.achievementDataLabel[value];
     };
 
     this.runCurrentProject = function () {
@@ -504,10 +514,14 @@ function Editor(opts) {
             path = this.fileChooserLastPath;
         }
 
+        console.log("ANJING", path, name);
+
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'DirectoryServlet?op=newFolder&path=' + this.projectPath(path) + '&newName=' + name, true);
         if (onComplete) {
             xhr.onload = function () {
+                console.log("COMPLETE ", path, name);
+
                 onComplete();
             };
         }
@@ -579,7 +593,11 @@ function Editor(opts) {
                     return v;
                 }
             });
-            return eval(str);
+            try {
+                return eval(str);
+            } catch (e) {
+                return "";
+            }
         });
 
         return res;
@@ -619,18 +637,18 @@ function Editor(opts) {
             }
         }
     };
-    
+
     this.projectPath = function (path) {
-        return "users/" + this.project.author + "/p" + this.project.projectID + "/" + path;
+        return "module/" + projectID + "/" + path;
     };
-    
+
     this.removeProjectPath = function (path) {
-        if( path ) {
-            if( path.startsWith("/") ) {
+        if (path) {
+            if (path.startsWith("/")) {
                 path.substring(1);
             }
-            
-            return path.replace("users/vimaxx/p1/", "");
+
+            return path.replace("module/" + projectID + "/", "");
         }
         return null;
     };
@@ -680,11 +698,12 @@ function Editor(opts) {
         $("#inputPromptModalLabel").html(message);
         $("#inputPromptField").val(defaultValue);
         $("#inputPromptSubmitButton").on("click.inputPrompt", function () {
+            console.log("AJAJAJA");
             if (onComplete) {
                 onComplete($("#inputPromptField").val());
             }
             $("#inputPromptModal").modal("hide");
-            $("#inputPromptSubmitButton").on("click.inputPrompt", function () {});
+            $("#inputPromptSubmitButton").off("click.inputPrompt");
         });
         $("#inputPromptModal").modal("show");
 
@@ -972,6 +991,8 @@ function Editor(opts) {
     $('#playModal').on('hidden.bs.modal', function () {
         editor.closeInternalPlayer();
     });
+    
+    this.getAchievementData();
 
     this.projectPanel.updateSceneList();
     this.update();

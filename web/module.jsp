@@ -8,7 +8,7 @@
 <%
     String url = DBAdmin.WEB_URL;
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-    
+
     Module module = (Module) request.getAttribute("module");
     ArrayList<ModuleImage> moduleImages = (ArrayList<ModuleImage>) request.getAttribute("moduleImages");
 %>
@@ -24,7 +24,7 @@
         <script src="js/bootstrap.min.js"></script>
     </head>
     <body>
-        <jsp:include page="header.jsp"></jsp:include>
+        <jsp:include page="header.jsp"/>
         <div id="container">
             <div id="descSeparator"></div>
             <div id="descTitle"><% out.print(module.getModuleName()); %></div>
@@ -37,14 +37,14 @@
                                 if (i == 0) {
                         %>
                         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        <%   
-                                } else {
-                        %>
+                            <%
+                            } else {
+                            %>
                         <li data-target="#myCarousel" data-slide-to="<% out.print(i); %>"></li>
-                        <%            
+                            <%
+                                    }
                                 }
-                            }
-                        %>
+                            %>
                     </ol>
 
                     <!-- Wrapper for slides -->
@@ -57,15 +57,15 @@
                             <img src="<% out.print(moduleImages.get(i).getImagePath()); %>" alt="">
                         </div>
                         <%
-                                } else {
+                        } else {
                         %>
                         <div class="item">
                             <img src="<% out.print(moduleImages.get(i).getImagePath()); %>" alt="">
                         </div>
                         <%
-                                }
+                            }
                         %>
-                        
+
                         <%
                             }
                         %>
@@ -82,25 +82,22 @@
                     </a>
                 </div>
             </div>
+            <div style="text-align: left; padding: 0px 10%">
+                <button id="Button" onclick="location.href = 'achievement?mid=<%=module.getModuleID()%>'" type="button" class="btn btn-default">Achievements</button>
+                <button id="Button" onclick="location.href = 'leaderboard?mid=<%=module.getModuleID()%>'" type="button" class="btn btn-default">Leaderboards</button>
+                <button id="Button" onclick="location.href = 'forum?type=<%=module.getModuleName()%>'" type="button" class="btn btn-default">Forums</button>
+            </div>
+
             <div id="descBox">
-                <p style="font-size:30px">Module Version</p>
-                <p style="font-size:25px"><% out.print(module.getModuleVersion()); %></p>
-                <p style="font-size:30px">Release Date</p>
-                <p style="font-size:25px"><% out.print(module.getReleaseTimeFormatted()); %></p>
-                <p style="font-size:30px">Last Updated</p>
-                <p style="font-size:25px"><% out.print(module.getLastUpdatedFormatted()); %></p>
-                <p style="font-size:30px">Module Description</p>
-                <p style="font-size:25px"><% out.print(module.getModuleDescription()); %></p>
+                <div id='moduleReleaseDate' style='width: 50%; display: inline-block;'>
+                    <p style="font-size:30px">Release Date</p>
+                    <p style="font-size:25px"><% out.print(module.getReleaseTimeFormatted()); %></p>
+                </div>
+
+                <p style="font-size:30px; margin-top: 30px">Module Description</p>
+                <p style="font-size:25px"><% out.print(module.getModuleDescription());%></p>
                 <div id="descButtonBox">
-                    <table>
-                        <tr>
-                            <td><a href="<% out.print(url + "achievement?mid=" + module.getModuleID()); %>"><div id="buttonBox"><button id="Button" type="button" class="btn btn-default" style="font-weight: bold; width: 100%; font-size: 1vw;">Achievements</button></div></a></td>
-                            <td style="padding-left: 15px;"><a href="<% out.print(url + "leaderboard?mid=" + module.getModuleID()); %>"><div id="buttonBox"><button id="Button" type="button" class="btn btn-default" style="font-weight: bold; width: 100%; font-size: 1vw;">Leaderboards</button></div></a></td>
-                            <td></td>
-                            <td></td>
-                            <td><div id="buttonBox"><button id="Button" type="button" class="btn btn-default" style="font-weight: bold; width: 50%; font-size: 1vw;">Play</button></div></td>
-                        </tr>
-                    </table>
+                    <a href="<%="nowplaying?mid=" + module.getModuleID()%>"> <div id="buttonBox" style='float: right'><button id="Button" type="button" class="btn btn-default" style="font-weight: bold;">Play</button></div></a>
                 </div>
             </div>
         </div>

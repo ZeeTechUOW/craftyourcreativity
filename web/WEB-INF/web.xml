@@ -108,6 +108,30 @@
         <servlet-name>AddThreadServlet</servlet-name>
         <servlet-class>Servlet.AddThreadServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditorServlet</servlet-name>
+        <servlet-class>Editor.EditorServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddModuleServlet</servlet-name>
+        <servlet-class>Servlet.AddModuleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditAchievementServlet</servlet-name>
+        <servlet-class>Servlet.EditAchievementServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetAchievementServlet</servlet-name>
+        <servlet-class>Editor.GetAchievementServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UnlockAchievementServlet</servlet-name>
+        <servlet-class>Servlet.UnlockAchievementServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PublishModuleServlet</servlet-name>
+        <servlet-class>Editor.PublishModuleServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DirectoryServlet</servlet-name>
         <url-pattern>/DirectoryServlet</url-pattern>
@@ -236,6 +260,22 @@
         <servlet-name>NewProjectServlet</servlet-name>
         <servlet-class>Editor.NewProjectServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MyModuleServlet</servlet-name>
+        <servlet-class>Servlet.MyModuleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditModuleServlet</servlet-name>
+        <servlet-class>Servlet.EditModuleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NowPlayingServlet</servlet-name>
+        <servlet-class>Servlet.NowPlayingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RunGameServlet</servlet-name>
+        <servlet-class>Servlet.RunGameServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CreatePostServlet</servlet-name>
         <url-pattern>/createpost</url-pattern>
@@ -271,6 +311,46 @@
     <servlet-mapping>
         <servlet-name>NewProjectServlet</servlet-name>
         <url-pattern>/NewProjectServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyModuleServlet</servlet-name>
+        <url-pattern>/my_modules</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditModuleServlet</servlet-name>
+        <url-pattern>/editmodule</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NowPlayingServlet</servlet-name>
+        <url-pattern>/nowplaying</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RunGameServlet</servlet-name>
+        <url-pattern>/RunGameServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditorServlet</servlet-name>
+        <url-pattern>/editor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddModuleServlet</servlet-name>
+        <url-pattern>/addmodule</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditAchievementServlet</servlet-name>
+        <url-pattern>/editachievement</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetAchievementServlet</servlet-name>
+        <url-pattern>/GetAchievementServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UnlockAchievementServlet</servlet-name>
+        <url-pattern>/UnlockAchievementServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PublishModuleServlet</servlet-name>
+        <url-pattern>/PublishModuleServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

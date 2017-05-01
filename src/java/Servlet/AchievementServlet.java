@@ -56,9 +56,9 @@ public class AchievementServlet extends HttpServlet {
 
         // Fetch achievement
         if (loggedUser == null) {
-            achievements = DBAdmin.getAchievement(moduleID);
+            achievements = DBAdmin.getAllAchievement(moduleID);
         } else {
-            achievements = DBAdmin.getAchievement(moduleID, loggedUser.getUserID());
+            achievements = DBAdmin.getAllAchievement(moduleID, loggedUser.getUserID());
         }
 
         // Count unlocked achievement

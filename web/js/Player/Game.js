@@ -17,33 +17,6 @@ if (!Player) {
     ;
 }
 
-//function Player() {
-//    this.context = new Player.Context(this);
-//    this.game;
-//
-//    this.loadProject = function (projectID) {
-//        var xhr = new XMLHttpRequest();
-//        xhr.open('GET', 'LoadServlet?projectID=' + projectID, true);
-//        xhr.onload = (function (c) {
-//            return function () {
-//                var json = JSON.parse(xhr.responseText);
-//                console.log(json);
-//                
-//                c.player.game = new Game(c, json);
-//                console.log(c.player.game);
-//            };
-//        }(this.context));
-//        
-//        xhr.send();
-//    };
-//
-//    this.update = function () {
-//        requestAnimationFrame(this.update.bind(this));
-//
-//        this.game.update();
-//    };
-//}
-
 Player.Game = function (context, input) {
     this.context = context;
     this.context.game = this;
@@ -134,7 +107,6 @@ Player.Game = function (context, input) {
         if (this.currentNode) {
             this.currentNode.updateNode(this);
         }
-
         if (this.activeScene) {
             var frame = this.activeScene.activeFrame;
 
@@ -206,7 +178,7 @@ Player.Game = function (context, input) {
     this.nextFrame = function () {
         if (!this.goToFrame(this.currentFrameIndex + 1)) {
             if (this.currentNode) {
-                this.currentNode.nextNode = true;
+                this.currentNode.toNextNode = true;
             }
         }
     };
@@ -231,12 +203,12 @@ Player.Game = function (context, input) {
             this.stage.removeChild(this.activeScene.viewportContainer);
         }
 
+
         this.activeScene = scene;
         this.activeScene.setSceneState(this.activeScene.startState);
 
         this.stage.addChild(this.activeScene.viewportContainer);
         this.goToFrame(0);
-
         return;
     };
 
@@ -247,6 +219,10 @@ Player.Game = function (context, input) {
             }
         }
         return null;
+    };
+
+    this.gamePath = function (value) {
+        return this.context.gamePath(value);
     };
 
 
@@ -321,10 +297,17 @@ Player.Game = function (context, input) {
     };
 
     this.userInput = function () {
-        return this.keyDowns[32] || this.keyDowns[13] || this.leftMouseDown;
+        var b = this.keyDowns[32] || this.keyDowns[13] || this.leftMouseUp;
+        if (b) {
+            this.keyDowns[32] = false;
+            this.keyDowns[13] = false;
+            this.leftMouseUp = false;
+        }
+        return b;
     };
 
     this.resolveLink = function (link) {
+        link = this.resolveValue(link);
         if (link.startsWith(">")) {
             var linkContent = link.substring(1);
             var scene = this.activeScene;
@@ -408,7 +391,11 @@ Player.Game = function (context, input) {
                     return v;
                 }
             });
-            return eval(str);
+            try {
+                return eval(str);
+            } catch (e) {
+                return "";
+            }
         });
 
         return res;
@@ -445,11 +432,8 @@ Player.Game = function (context, input) {
         }
         this.activeSounds.push(sound);
 
+
         return sound;
-    };
-    
-    this.gamePath = function (path) {
-        return "users/vimaxx/p1/" + path;
     };
 
     this.removeSound = function (sound) {
@@ -460,7 +444,6 @@ Player.Game = function (context, input) {
             sound.unload();
             this.activeSounds.splice(index, 1);
 
-            console.log("Removed", sound);
         }
     };
 
@@ -487,7 +470,6 @@ Player.Game = function (context, input) {
     };
 
     this.changeNode = function (node) {
-        console.log(node);
 
         this.currentNode = node;
         this.currentNode.startNode();
@@ -496,7 +478,7 @@ Player.Game = function (context, input) {
 
     this.nextNode = function () {
         if (this.currentNode) {
-            this.currentNode.nextNode = true;
+            this.currentNode.toNextNode = true;
         }
     };
 
@@ -508,6 +490,31 @@ Player.Game = function (context, input) {
             }
         }
         return null;
+    };
+
+    this.unlockAchievement = function (achievementID) {
+        if (_UNLOCK_ACHIEVEMENT) {
+            var xhr = new XMLHttpRequest();
+            var that = this;
+
+            xhr.open('GET', "UnlockAchievementServlet?aid=" + achievementID, true);
+            xhr.onload = function () {
+                console.log(xhr.responseText);
+                if( xhr.responseText !== "" ) {
+                    console.log("Achievement Unlocked! " );
+                    if(_notifyAchievement) {
+                        _notifyAchievement(JSON.parse(xhr.responseText));
+                    } 
+                }
+            };
+            xhr.send();
+        }
+    };
+    this.printCertificate = function (scene) {
+        var $certCanvas = $("#certCanvas");
+        if ($certCanvas) {
+
+        }
     };
 
     for (var s in input.scenes) {
@@ -537,6 +544,7 @@ Player.Game = function (context, input) {
 };
 
 Player.Node = function (context, input) {
+
     this.context = context;
 
     this.nodeID = input.nodeID;
@@ -545,9 +553,10 @@ Player.Node = function (context, input) {
     this.flowOutput = input.flowOutput;
     this.content = {};
 
-    this.init = [];
-    this.flow = [];
-    this.calc = [];
+    this.init = {};
+    this.start = {};
+    this.flow = {};
+    this.calc = {};
     this.isFlown = false;
     this.toNextNode = false;
     this.calcGuard = false;
@@ -578,10 +587,14 @@ Player.Node = function (context, input) {
     this.startNode = function (game) {
         this.isFlown = false;
         this.toNextNode = true;
+
+
+        if (this.start[this.nodeType]) {
+            this.start[this.nodeType]();
+        }
     };
 
     this.updateNode = function (game) {
-        console.log(this.nodeType);
         if (!this.isFlown) {
             this.isFlown = true;
             if (this.flow[this.nodeType]) {
@@ -650,11 +663,12 @@ Player.Node = function (context, input) {
     };
 
     this.flow["printCertificate"] = function (game) {
+        game.printCertificate(that.content.sceneName.value);
 
     };
 
     this.flow["achievement"] = function (game) {
-
+        game.unlockAchievement(that.content.achievementName.value);
     };
 
     this.calc = function (game, dataTarget) {
@@ -692,15 +706,42 @@ Player.Node = function (context, input) {
     };
 
     this.calc["getProjectData"] = function (game, dataTarget) {
-        return game.dataVariables[ dataTarget.substring("projVar_".length) ].value;
+        return game.dataVariables[ dataTarget.replace("projVar_", "") ].value;
     };
     this.calc["playScene"] = function (game, dataTarget) {
-        return that.scene.dataVariables[ dataTarget.substring("sceneVar_".length) ].value;
+        var dt = that.content[dataTarget];
+
+        if (dt.dataInputNodeID) {
+            that.calcGuard = that;
+            var val = game.getNode(dt.dataInputNodeID).calc(game, dt.dataInputDataTarget);
+            that.calcGuard = false;
+
+            if (val) {
+                return val;
+            } else {
+                return that.scene.dataVariables[ dataTarget.replace("sceneVar_", "") ].value;
+            }
+        } else {
+            return that.scene.dataVariables[ dataTarget.replace("sceneVar_", "") ].value;
+        }
     };
 
     this.init["playScene"] = function () {
         that.scene = context.game.cloneSceneByID(that.content.sceneName.value);
+    };
+    this.init["printCertificate"] = function () {
+        that.scene = context.game.cloneSceneByID(that.content.sceneName.value);
+    };
+    this.start["playScene"] = function () {
+        for (var k in that.content) {
+            if (k.startsWith("sceneVar_")) {
+                var svar = k.substring("sceneVar_".length);
 
+                that.scene.dataVariables[svar].value = that.calc(context.game, k);
+            }
+        }
+    };
+    this.start["printCertificate"] = function () {
         for (var k in that.content) {
             if (k.startsWith("sceneVar_")) {
                 var svar = k.substring("sceneVar_".length);
@@ -716,7 +757,7 @@ Player.Node = function (context, input) {
     }
 };
 
-Player.Context = function (player) {
+Player.Context = function (player, gamePath) {
     this.resources = {};
 
     this.propCallbacks = [];
@@ -726,10 +767,12 @@ Player.Context = function (player) {
         var c = this;
 
         if (!isDefined(c.resources, resourceName)) {
-            c.resources[resourceName] = PIXI.Texture.fromImage( this.game.gamePath(resourceName) );
+            c.resources[resourceName] = PIXI.Texture.fromImage(this.gamePath(resourceName));
         }
         return c.resources[resourceName];
     };
+
+    this.gamePath = gamePath;
 };
 
 Player.Scene = function (context, input) {
@@ -782,8 +825,6 @@ Player.Scene = function (context, input) {
     this.addEntityToScene = function (entity) {
         this.entities.push(entity);
         entity.originalScene = this;
-
-        console.log(this.startState);
 
         var stateData = this.startState["ss" + entity.entityID];
         cpy(stateData, entity, Player.Entity.serializable);
@@ -1069,12 +1110,10 @@ Player.Action = function (frame, input) {
             if (state["ss" + this.targetID]) {
                 state["ss" + this.targetID][k] = this.stateMatrix[k];
             } else {
-                //console.log(this);
             }
         }
     };
 
-    //console.log(input);
 
     this.cloneAction = function () {
         return new Player.Action(frame, input);
@@ -1117,10 +1156,10 @@ Player.Action = function (frame, input) {
         }
     };
     this.endAction = function (game) {
-        this.isRunning = false;
         if (this.end[ this.type ]) {
             this.end[this.type](game);
         }
+        this.isRunning = false;
     };
 
     var that = this;
@@ -1138,18 +1177,13 @@ Player.Action = function (frame, input) {
     this.start["ENTITY"] = function (game) {
         var entity = game.getEntityByID(that.targetID);
 
-        this.prevMatrix = {};
+        that.prevMatrix = {};
         for (var k in that.stateMatrix) {
             that.prevMatrix[k] = Player.Interpolator.setFromString(k, game.resolveValue(entity[k]));
         }
     };
     this.end["ENTITY"] = function (game) {
-        if (!this.isRunning) {
-            return;
-        }
-
         var entity = game.getEntityByID(that.targetID);
-
 
         for (var k in that.stateMatrix) {
             entity.set(k, Player.Interpolator.setFromString(k, game.resolveValue(that.stateMatrix[k])), that);
@@ -1218,7 +1252,9 @@ Player.Interpolator = {
             var realText = endValue.replace(/(<([^>]+)>)/gi, "");
             ;
             var n = Math.floor(realText.length * step);
-
+            if (n < 1) {
+                return "";
+            }
             var j = 0;
             var b = 0;
             var i = 0;
@@ -1236,7 +1272,6 @@ Player.Interpolator = {
                     }
                 }
             }
-
             return endValue.substring(0, i);
         } else if (this.imgTypes.indexOf(key) >= 0) {
             return endValue;

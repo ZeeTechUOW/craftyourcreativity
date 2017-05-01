@@ -7,7 +7,7 @@
 <%
     String url = DBAdmin.WEB_URL;
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-    
+
     ArrayList<Module> modules = (ArrayList<Module>) request.getAttribute("modules");
 %>
 
@@ -22,8 +22,8 @@
         <script src="js/bootstrap.min.js"></script>
     </head>
     <body>
-        <jsp:include page="header.jsp"></jsp:include>
-        <div id="container"  style='position: absolute; min-height: calc(100% - 78px);'>
+        <jsp:include page="header.jsp"/>
+        <div id="container" >
             <div id="structure">
                 <div id="sTitle">
                     My Library
@@ -31,29 +31,25 @@
                 <div id="sMore">
                 </div>
                 <div id="sDisp">
-                    <table>
+                    <ul class="list-inline list-unstyled">
+
                         <%
                             for (int i = 0; i < modules.size(); i++) {
-                                if(i % 6 == 0) {
                         %>
-                        <tr>
-                        <%
-                                }
-                        %>
-                            <td>
-                                <div id="sFrame">
-                                    <a href="<% out.print(url + "module?mid=" + modules.get(i).getModuleID()); %>"><div class="frame"><img src="<% out.print(modules.get(i).getThumbnailPath()); %>" alt="f1" id="team"></div></a>
+                        <li id="sFrame">
+                            <a href="<% out.print(url + "module?mid=" + modules.get(i).getModuleID());%>">
+                                <div class="frame">
+                                    <jsp:include page="moduleThumb.jsp">
+                                        <jsp:param name="moduleID" value="<%=modules.get(i).getModuleID()%>"></jsp:param>
+                                        <jsp:param name="moduleName" value="<%=modules.get(i).getModuleName()%>"></jsp:param>
+                                    </jsp:include>
                                 </div>
-                            </td>
+                            </a>
+                        </li>
                         <%
-                                if(i % 6 == 5) {
-                        %>
-                        </tr>
-                        <%
-                                }
                             }
                         %>
-                    </table>
+                    </ul>
                 </div>
             </div>
         </div>
