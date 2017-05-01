@@ -67,7 +67,8 @@
                     height: 300,
                     minHeight: null,
                     maxHeight: null,
-                    focus: true
+                    focus: true,
+                    dialogsInBody: true
                 });
             });
 

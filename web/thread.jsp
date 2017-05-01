@@ -33,9 +33,7 @@
         <script src="js/bootstrap.js"></script>
         
         <link rel="stylesheet" href="summernote/0.8.3/summernote.css">
-        <script src="summernote/0.8.3/summernote.js">
-            
-        <script src="js/bootstrap.min.js"></script>
+        <script src="summernote/0.8.3/summernote.js"></script>
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
@@ -104,7 +102,8 @@
                             width: 1500,
                             minHeight: null,
                             maxHeight: null,
-                            focus: true
+                            focus: true,
+                            dialogsInBody: true
                         });
                     });
                     

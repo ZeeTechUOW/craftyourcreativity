@@ -234,7 +234,7 @@ public class DirectoryAdmin {
     }
 
     public static void deleteDirectory(File folder) {
-        if (folder != null) {
+        if (folder != null && folder.exists()) {
             for (File f : folder.listFiles()) {
                 if (f.isDirectory()) {
                     deleteDirectory(f);
