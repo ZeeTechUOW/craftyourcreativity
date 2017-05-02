@@ -28,7 +28,7 @@
         </style>
     </head>
     <body>
-        <jsp:include page="header.jsp"></jsp:include>
+        <jsp:include page="header.jsp"/>
 
             <div id="container">
                 <div id="structure">
@@ -36,7 +36,7 @@
                         Popular
                     </div>
                     <div id="sMore">
-                        <button id="Button" class="btn btn-default">See More</button>
+                        <button onclick="location.href = 'modulelist?type=popular'" id="Button" class="btn btn-default">See More</button>
                     </div>
                     <div id="sDisp">
                         <table>
@@ -65,7 +65,7 @@
                     New Release
                 </div>
                 <div id="sMore">
-                    <button id="Button" class="btn btn-default">See More</button>
+                    <button onclick="location.href = 'modulelist?type=newest'" id="Button" class="btn btn-default">See More</button>
                 </div>
                 <div id="sDisp">
                     <table>
@@ -94,7 +94,7 @@
                     Recently Updated
                 </div>
                 <div id="sMore">
-                    <button id="Button" class="btn btn-default">See More</button>
+                    <button onclick="location.href = 'modulelist?type=update'" id="Button" class="btn btn-default">See More</button>
                 </div>
                 <div id="sDisp">
                     <table>

@@ -346,7 +346,7 @@ function DiagramPanel(context) {
     };
 
     this.deleteSelectedNode = function () {
-        if (this.selectedNode && this.selectedNode.nodeName !== "Start" && this.selectedNode.nodeName !== "End") {
+        if (this.selectedNode && this.selectedNode.nodeName !== "Start") {
             this.nodes.splice(this.nodes.indexOf(this.selectedNode), 1);
         }
 

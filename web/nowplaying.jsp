@@ -19,6 +19,7 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/color1/coreF.css">
         <link rel="stylesheet" type="text/css" href="css/color1/gStruc.css">
+        <script src="jquery/jquery-3.2.1.js"></script>
     </head>
     <body>
         <jsp:include page="header.jsp"/>
@@ -47,7 +48,6 @@
             Powered by ZeeTech
         </div>
 
-        <script src="jquery/jquery-3.2.1.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jspdf.js"></script>
         <script src="js/pixi.js"></script>
@@ -84,8 +84,8 @@
             }
 
             function _ON_GAME_FINISHED(data) {
-                console.log(data);
-//                location.href = "GameFinishedServlet?mid=<%=module.getModuleID()%>&score=" + data.score;
+                console.log("GAME FINISHED " + data);
+                location.href = "GameFinishedServlet?mid=<%=module.getModuleID()%>&score=" + data.score;
             }
 
             function _RENDER_TO_PDF(imageData, w, h) {

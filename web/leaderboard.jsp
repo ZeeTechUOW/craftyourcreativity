@@ -27,7 +27,7 @@
         <jsp:include page="header.jsp"></jsp:include>
         <div id="container">
             <div id="lStructure">
-                <div id="lSTitle">Game: <a style="text-decoration: none;" href="module?mid=<%=module.getModuleID()%>"><% out.print(module.getModuleName()); %></a></div>
+                <div id="lSTitle" style="width: 100%">Game: <a style="text-decoration: none;" href="module?mid=<%=module.getModuleID()%>"><% out.print(module.getModuleName()); %></a></div>
                 <div id="lSDisp">
                     <table><tr><td><b>Rank</b></td><td><b>Online ID</b></td><td><b>Score</b></td></tr></table>
                     <%

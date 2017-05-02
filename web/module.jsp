@@ -53,7 +53,7 @@
                             for (int i = 0; i < moduleImages.size(); i++) {
                                 if (i == 0) {
                         %>
-                        <div class="item active">
+                        <div class="item">
                             <img src="<% out.print(moduleImages.get(i).getImagePath()); %>" alt="">
                         </div>
                         <%

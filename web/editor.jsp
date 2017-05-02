@@ -38,7 +38,7 @@
             <div id='toolbarRow' class="row header border">
                 <div id="logo">
                     <img id='title' src="resource/CYC Logo.PNG" class="img-responsive">
-                    <div id='subtitle'>an E-training Web App</div>
+                    <!--<div id='subtitle'>an E-training Web App</div>-->
                 </div>
                 <div id="signBar">
                     <span id="poweredBy"> Powered by ZeeTech </span>
@@ -97,6 +97,7 @@
                                         <li><a onmousedown="addNode(this, 'arithmetics')">Maths</a></li>
                                         <li><a onmousedown="addNode(this, 'comparison')">Comparison</a></li>
                                         <li><a onmousedown="addNode(this, 'logical')">Logical</a></li>
+                                        <li><a onmousedown="addNode(this, 'end')">End Node</a></li>
                                     </ul>
                                 </li>
                                 <li class="divider"></li>
@@ -189,6 +190,7 @@
                                             <li><a onmousedown="addNode(this, 'arithmetics')">Maths</a></li>
                                             <li><a onmousedown="addNode(this, 'comparison')">Comparison</a></li>
                                             <li><a onmousedown="addNode(this, 'logical')">Logical</a></li>
+                                            <li><a onmousedown="addNode(this, 'end')">End Node</a></li>
                                         </ul>
                                     </div>
                                     <button id='refreshDiagramTool' class="btn btn-default toolItem" onclick="refreshDiagram(this)"><span class='glyphicon glyphicon-refresh'></span></button>

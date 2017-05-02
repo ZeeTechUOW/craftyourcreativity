@@ -235,7 +235,15 @@ DiagramNode.NodeTypes = {
                 score: {
                     label: "Score",
                     dataInput: true,
-                    value: 0
+                    value: 0,
+                    contextField: function () {
+                        return InputRenderer.createFloatField(this.label, this, "value", {
+                            onCompleted: function () {
+                                editor.diagramPanel.updateDiagramPanel();
+                                editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            }
+                        });
+                    }
                 }
             }
         };

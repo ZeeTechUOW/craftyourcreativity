@@ -16,7 +16,7 @@
 <!DOCTYPE>
 <html>
     <head>
-        <title><% out.print(module.getModuleName()); %> Achievements</title>
+        <title>My Module: <% out.print(module.getModuleName()); %> Achievements</title>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/color1/coreF.css">
         <link rel="stylesheet" type="text/css" href="css/color1/aStruc.css">

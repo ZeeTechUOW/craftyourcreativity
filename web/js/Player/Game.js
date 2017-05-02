@@ -670,16 +670,39 @@ Player.Node = function (context, input) {
     this.flow["end"] = function (game) {
         var data = {};
 
-        for (var k in that.content) {
-            var node = game.getNode(that.content[k].dataInputNodeID);
-            if (node) {
-                data[k] = node.calc(game, that.content[k].dataInputDataTarget);
-            }
-        }
 
         if (_ON_GAME_FINISHED) {
-            if (!data.score || isNaN(data.score)) {
-                data.score = 100;
+            for (var k in that.content) {
+                var node = game.getNode(that.content[k].dataInputNodeID);
+                if (node) {
+                    data[k] = node.calc(game, that.content[k].dataInputDataTarget);
+                } else {
+                    if(that.content[k].value) {
+                        if(that.content[k].value.value) {
+                            data[k] = that.content[k].value.value;
+                        } else {
+                            data[k] = that.content[k].value;
+                        }
+                    } else {
+                        data[k] = 0;
+                    }
+                }
+            }
+            
+            if (!data.score) {
+
+
+                try {
+                    if (isNaN(data.score)) {
+                        data.score = +data.score;
+                    }
+
+                    if (isNaN(data.score)) {
+                        data.score = 100;
+                    }
+                } catch (e) {
+                    data.score = 100;
+                }
             }
             _ON_GAME_FINISHED(data);
         }
