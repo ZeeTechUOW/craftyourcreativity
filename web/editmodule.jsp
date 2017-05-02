@@ -30,26 +30,23 @@
             <div id="descSeparator"></div>
             <div id="descTitle" style="margin: 20px 8%"> <a href="my_modules">My Modules</a>:
                 <b>
-                    <%if(isPublished) {%>
+                    <%if (isPublished) {%>
                     <a href="module?mid=<%=module.getModuleID()%>"><% out.print(module.getModuleName());%></a>
-                    <%}else{
-                        out.print(module.getModuleName());
-                    }%>
+                    <%} else {
+                            out.print(module.getModuleName());
+                        }%>
                 </b>
             </div>
             <div style="text-align: center; padding: 0px 10%">
                 <button id="Button" onclick="location.href = 'editachievement?mid=<%=module.getModuleID()%>'" type="button" class="btn btn-default pull-left">Edit Achievements</button>
                 <button id="Button" onclick="$('#editModuleModal').modal('show');" type="button" class="btn btn-default pull-left" style="margin-left: 20px">Edit Details</button>
-                <%if( isSaved ) {
+                <%if (isSaved) {
                 %><button id="Button" onclick="$('#publishModal').modal('show');" type="button" class="btn btn-default pull-right">Publish</button><%
-                }%>
+                    }%>
             </div>
             <div id="descBox" >
                 <div id="sFrame" class="aFrame" style="display: inline-block">
-                    <jsp:include page="moduleThumb.jsp">
-                        <jsp:param name="moduleName" value="<%=module.getModuleName()%>"></jsp:param>
-                        <jsp:param name="moduleID" value="<%=module.getModuleID()%>"></jsp:param>
-                    </jsp:include>
+                    <img src="module/<%=module.getModuleID()%>/thumbnail" onerror="this.onerror = null; this.src='resource/thumbnail.png'; " alt="<%=module.getModuleName()%>">
                     <div class="overlay">
                         <div class="text">
                             <button onclick="$('#uploadImageFile').click();" id="Button" class="btn btn-default">
@@ -58,11 +55,7 @@
                         </div>
                     </div>
                 </div>
-                <div style="
-                     display: inline-block;
-                     position: absolute;
-                     top: 4%;">
-
+                <div style="display: inline-block; vertical-align: top; margin-top: 8px;">
                     <div id='moduleReleaseDate' style='width: 100%; display: inline-block;'>
                         <p style="font-size:30px">Release Date</p>
                         <p style="font-size:25px"><% out.print(module.getReleaseTimeFormatted()); %></p>
@@ -77,7 +70,7 @@
                 <p style="font-size:25px"><% out.print(module.getModuleDescription());%></p>
                 <div id="descButtonBox">
                     <button onclick="location.href = 'editmodule?op=del&mid=<%=module.getModuleID()%>';" id="Button" class="btn btn-default pull-left"><span class="glyphicon glyphicon-trash"></span></button>
-                                    
+
                     <a href="<%="editor?mid=" + module.getModuleID()%>"> <div id="buttonBox" style='float: right; margin-left: 10px'><button id="Button" type="button" class="btn btn-default" style="font-weight: bold;">Module Editor</button></div></a>
                     <%
                         if (isPublished) {
@@ -158,14 +151,15 @@
                 </div>
             </div>
         </div>
-                    
+
         <div class="hidden">
-            <form action="uploadModuleImage" method="">
+            <form id="imageUploadForm" action="UploadImageServlet" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="mid" value="<%=module.getModuleID()%>">
-                <input id="uploadImageFile" type="file" name="image" value="">
+                <input type="hidden" name="uploadType" value="MODULE_THUMBNAIL">
+                <input id="uploadImageFile" type="file" name="imageUpload" onchange="document.getElementById('imageUploadForm').submit();">
             </form>
         </div>
-                    
+
         <div id="footer">
             Powered by ZeeTech
         </div>

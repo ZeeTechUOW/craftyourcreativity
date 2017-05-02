@@ -8,7 +8,7 @@
 
 <%
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-    
+
     Module module = (Module) request.getAttribute("module");
     ArrayList<Achievement> achievements = (ArrayList<Achievement>) request.getAttribute("achievements");
     int unlockedModuleCount = (int) request.getAttribute("unlockedModuleCount");
@@ -16,7 +16,7 @@
 <!DOCTYPE>
 <html>
     <head>
-        <title><% out.print(module.getModuleName()); %> Achievements</title>
+        <title><% out.print(module.getModuleName());%> Achievements</title>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/color1/coreF.css">
         <link rel="stylesheet" type="text/css" href="css/color1/aStruc.css">
@@ -25,9 +25,9 @@
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-        <div id="container">
-            <div id="aStructure">
-                <div id="aSTitle">Game: <a style="text-decoration: none;" href="module?mid=<%=module.getModuleID()%>"><% out.print(module.getModuleName()); %></a></div>
+            <div id="container">
+                <div id="aStructure">
+                    <div id="aSTitle">Game: <a style="text-decoration: none;" href="module?mid=<%=module.getModuleID()%>"><% out.print(module.getModuleName()); %></a></div>
                 <div id="aSList"><% out.print(unlockedModuleCount); %> of <% out.print(achievements.size()); %> unlocked</div>
                 <div id="aSDisp">
                     <%
@@ -36,14 +36,30 @@
                     <div id="aSFrame">
                         <table>
                             <tr>
-                                <td><div id="aSpic"><div class="aFrame"><img src="<% out.print(a.getImagePath()); %>" alt="a1"></div></div></td>
+                                <td>
+                                    <div id="aSpic">
+                                        <div class="aFrame">
+                                            <%
+                                                if (a.getUnlockTime() == LocalDateTime.MIN) {
+                                            %>
+                                            <img src="resource/lock.png" alt="a1">
+                                            <%
+                                            } else {
+                                            %>
+                                            <img src="achievementThumbs/<% out.print(a.getAchievementID());%>thumbnail" onerror="this.onerror = null; this.src = 'resource/trophy.png';" alt="a1">
+                                            <%
+                                                }
+                                            %>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td><b><% out.print(a.getAchievementName()); %></b><br><% out.print(a.getAchievementDescription()); %></td>
-                                <%
-                                    if (a.getUnlockTime() == LocalDateTime.MIN) {
-                                %>
+                                    <%
+                                        if (a.getUnlockTime() == LocalDateTime.MIN) {
+                                    %>
                                 <td>Locked</td>
                                 <%
-                                    } else {
+                                } else {
                                 %>
                                 <td>Unlocked <% out.print(a.getUnlockTime().getDayOfMonth() + "/" + a.getUnlockTime().getMonthValue() + "/" + a.getUnlockTime().getYear()); %></td>
                                 <%

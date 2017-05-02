@@ -38,10 +38,9 @@
                         <li id="sFrame">
                             <a href="editmodule?mid=<%=modules.get(i).getModuleID()%>">
                                 <div class="frame">
-                                    <jsp:include page="moduleThumb.jsp">
-                                        <jsp:param name="moduleID" value="<%=modules.get(i).getModuleID()%>"></jsp:param>
-                                        <jsp:param name="moduleName" value="<%=modules.get(i).getModuleName()%>"></jsp:param>
-                                    </jsp:include>
+                                        <div>
+                                            <img src="module/<%=modules.get(i).getModuleID()%>/thumbnail" onerror="this.onerror = null; this.src='resource/thumbnail.png'; " alt="<%=modules.get(i).getModuleName()%>">
+                                        </div>
                                 </div>
                             </a>
                         </li>

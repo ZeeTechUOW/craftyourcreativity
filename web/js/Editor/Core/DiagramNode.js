@@ -381,7 +381,7 @@ DiagramNode.NodeTypes = {
                     value: "==",
                     contextField: function () {
                         return InputRenderer.createDropdownField(this.label, this, "value", {
-                            data: ["<=", "==", ">=", "<", ">"],
+                            data: ["<=", "==", "!=", ">=", "<", ">"],
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
                             }
@@ -679,9 +679,10 @@ DiagramNode.NodeTypes = {
                     label: "Operator",
                     value: "==",
                     dataOutput: true,
+                    dataInput: true,
                     contextField: function () {
                         return InputRenderer.createDropdownField(this.label, this, "value", {
-                            data: ["<=", "==", ">=", "<", ">"],
+                            data: ["<=", "==", "!=", ">=", "<", ">"],
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
                             }

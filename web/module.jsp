@@ -29,31 +29,26 @@
             <div id="descSeparator"></div>
             <div id="descTitle" style="padding-left: 10%"><% out.print(module.getModuleName()); %></div>
             
-            <%
-                if( moduleImages != null && moduleImages.size() > 0 ) {
-            %>
             
             <div id="descImg">
                 <div id="myCarousel" class="carousel slide" data-ride="carousel">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                         <%
                             for (int i = 0; i < moduleImages.size(); i++) {
-                                if (i == 0) {
                         %>
-                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="<%=(i+1)%>"></li>
                             <%
-                            } else {
-                            %>
-                        <li data-target="#myCarousel" data-slide-to="<% out.print(i); %>"></li>
-                            <%
-                                    }
                                 }
                             %>
                     </ol>
 
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <img src="module/<%=module.getModuleID()%>/thumbnail" alt="">
+                        </div>
                         <%
                             for (int i = 0; i < moduleImages.size(); i++) {
                                 if (i == 0) {
@@ -88,9 +83,6 @@
                 </div>
             </div>   
             
-            <%
-                }
-            %>
             
             <div style="text-align: left; padding: 0px 10%">
                 <button id="Button" onclick="location.href = 'achievement?mid=<%=module.getModuleID()%>'" type="button" class="btn btn-default">Achievements</button>

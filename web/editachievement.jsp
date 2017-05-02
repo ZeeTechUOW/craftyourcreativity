@@ -38,7 +38,7 @@
                                 <td>
                                     <div id="aSpic">
                                         <div class="aFrame">
-                                            <img src="<% out.print(a.getImagePath()); %>" alt="a1">
+                                            <img src="achievementThumbs/<% out.print(a.getAchievementID());%>thumbnail" onerror="this.onerror = null; this.src = 'resource/trophy.png';" alt="a1">
                                             <div class="overlay">
                                                 <div class="text">
                                                     <button onclick="$('#uploadAchievementID').val('<%=a.getAchievementID()%>'); $('#uploadImageFile').click();"  id="Button" class="btn btn-default">
@@ -149,9 +149,11 @@
         </div>
 
         <div class="hidden">
-            <form action="uploadAchievement" method="">
-                <input id="uploadAchievementID" type="hidden" name="aid" value="">
-                <input id="uploadImageFile" type="file" name="image" value="">
+            <form id="imageUploadForm" action="UploadImageServlet" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="mid" value="<%=module.getModuleID()%>">
+                <input type="hidden" id="uploadAchievementID" name="aid" value="">
+                <input type="hidden" name="uploadType" value="ACHIEVEMENT_THUMBNAIL">
+                <input id="uploadImageFile" type="file" name="imageUpload" onchange="document.getElementById('imageUploadForm').submit();">
             </form>
         </div>
 

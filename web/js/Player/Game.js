@@ -693,9 +693,9 @@ Player.Node = function (context, input) {
     this.flow["setProjectData"] = function (game) {
         for (var k in that.content) {
             var pd = that.content[k];
-            
+
             console.log(pd);
-            
+
             if (pd.dataInputNodeID) {
                 var node = game.getNode(pd.dataInputNodeID);
 
@@ -703,7 +703,7 @@ Player.Node = function (context, input) {
                     var value = node.calc(game, pd.dataInputDataTarget);
                     if (!value || value.length <= 0) {
                         value = pd.value;
-                    } else if(value.value) {
+                    } else if (value.value) {
                         value = value.value;
                     }
                     game.setGameVariable("#" + (k.substring("projVar_".length)), value);
@@ -716,13 +716,32 @@ Player.Node = function (context, input) {
     };
 
     this.flow["condition"] = function (game) {
-        var lhv = that.calc(game, "lhsCondition");
-        var rhv = that.calc(game, "rhsCondition");
+
+        if (that.content.operator.dataInputNodeID) {
+            var node = game.getNode(that.content.operator.dataInputNodeID);
+
+            if (node) {
+                bool = ("" + node.calc(game, that.content.operator.dataInputDataTarget)) === "true";
+
+                if (bool) {
+                    game.changeNode(game.getNode(that.flowOutput.True));
+                } else {
+                    game.changeNode(game.getNode(that.flowOutput.False));
+                }
+                return;
+            }
+        }
+
+        var lhv = "" + that.calc(game, "lhsCondition");
+        var rhv = "" + that.calc(game, "rhsCondition");
 
         var bool = false;
         switch (that.content.operator.value) {
             case "==":
                 bool = lhv == rhv;
+                break;
+            case "!=":
+                bool = lhv != rhv;
                 break;
             case "<=":
                 bool = parseFloat(lhv) <= parseFloat(rhv);
@@ -819,28 +838,30 @@ Player.Node = function (context, input) {
     this.calc["comparison"] = function (game, dataTarget) {
         var op = that.content.operator.value;
 
-        var lhs = that.defCalc(game, "lhs");
-        var rhs = that.defCalc(game, "rhs");
+        var lhs = "" + that.defCalc(game, "lhs");
+        var rhs = "" + that.defCalc(game, "rhs");
 
         switch (op) {
             case "<=":
-                return lhs <= rhs;
+                return parseFloat(lhs) <= parseFloat(rhs);
             case "==":
                 return lhs == rhs;
+            case "!=":
+                return lhs != rhs;
             case ">=":
-                return lhs >= rhs;
+                return parseFloat(lhs) >= parseFloat(rhs);
             case "<":
-                return lhs < rhs;
+                return parseFloat(lhs) < parseFloat(rhs);
             case ">":
-                return lhs > rhs;
+                return parseFloat(lhs) > parseFloat(rhs);
         }
         return lhs;
     };
     this.calc["logical"] = function (game, dataTarget) {
         var op = that.content.operator.value;
 
-        var lhs = that.defCalc(game, "lhs");
-        var rhs = that.defCalc(game, "rhs");
+        var lhs = ("" + that.defCalc(game, "lhs")) === "true";
+        var rhs = ("" + that.defCalc(game, "rhs")) === "true";
 
         switch (op) {
             case "AND":

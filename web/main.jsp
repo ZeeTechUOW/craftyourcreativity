@@ -47,10 +47,9 @@
                             <td>
                                 <div id="sFrame" style='margin: 13px 5px;'>
                                     <a href="module?mid=<%=m.getModuleID()%>">
-                                        <jsp:include page="moduleThumb.jsp">
-                                            <jsp:param name="moduleID" value="<%=m.getModuleID()%>"></jsp:param>
-                                            <jsp:param name="moduleName" value="<%=m.getModuleName()%>"></jsp:param>
-                                        </jsp:include>
+                                        <div>
+                                            <img src="module/<%=m.getModuleID()%>/thumbnail" onerror="this.onerror = null; this.src='resource/thumbnail.png'; " alt="<%=m.getModuleName()%>">
+                                        </div>
                                     </a>
                                 </div>
                             </td>
@@ -77,10 +76,9 @@
                             <td>
                                 <div id="sFrame" style='margin: 13px 5px;'>
                                     <a href="module?mid=<%=m.getModuleID()%>">
-                                        <jsp:include page="moduleThumb.jsp">
-                                            <jsp:param name="moduleID" value="<%=m.getModuleID()%>"></jsp:param>
-                                            <jsp:param name="moduleName" value="<%=m.getModuleName()%>"></jsp:param>
-                                        </jsp:include>
+                                        <div>
+                                            <img src="module/<%=m.getModuleID()%>/thumbnail" onerror="this.onerror = null; this.src='resource/thumbnail.png'; " alt="<%=m.getModuleName()%>">
+                                        </div>
                                     </a>
                                 </div>
                             </td>
@@ -107,10 +105,9 @@
                             <td>
                                 <div id="sFrame" style='margin: 13px 5px;'>
                                     <a href="module?mid=<%=m.getModuleID()%>">
-                                        <jsp:include page="moduleThumb.jsp">
-                                            <jsp:param name="moduleID" value="<%=m.getModuleID()%>"></jsp:param>
-                                            <jsp:param name="moduleName" value="<%=m.getModuleName()%>"></jsp:param>
-                                        </jsp:include>
+                                        <div>
+                                            <img src="module/<%=m.getModuleID()%>/thumbnail" onerror="this.onerror = null; this.src='resource/thumbnail.png'; " alt="<%=m.getModuleName()%>">
+                                        </div>
                                     </a>
                                 </div>
                             </td>
