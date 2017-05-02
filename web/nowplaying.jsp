@@ -66,7 +66,7 @@
             var player = new GamePlayer(moduleID, userID);
 
             player.startGame(function () {
-                player.game.dataVariables.username = '<%=(loggedUser == null ? "anonymous" : loggedUser.getUsername())%>';
+                player.game.dataVariables.username = {type:"TEXT", value:'<%=(loggedUser == null ? "Anonymous" : loggedUser.getUsername())%>'};
                 hideLoader();
             });
 

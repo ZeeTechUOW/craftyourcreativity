@@ -341,8 +341,6 @@ Player.Game = function (context, input) {
         var projValues = this.dataVariables;
         var sceneValues = this.activeScene.dataVariables;
 
-        console.log(varName, targetValue);
-
         if (varName) {
             targetValue = this.resolveValue(targetValue);
             var targetValues = sceneValues;
@@ -716,8 +714,6 @@ Player.Node = function (context, input) {
     this.flow["setProjectData"] = function (game) {
         for (var k in that.content) {
             var pd = that.content[k];
-
-            console.log(pd);
 
             if (pd.dataInputNodeID) {
                 var node = game.getNode(pd.dataInputNodeID);

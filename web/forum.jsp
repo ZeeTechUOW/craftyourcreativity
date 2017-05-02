@@ -67,7 +67,7 @@
                 </div>
                 <div id="fListContainer">
                     <table>
-                        <tr><th colspan="3">Module</th><th colspan="2"><button id="Button" class="btn btn-default pull-right">Create Thread</button></th></tr>
+                        <tr><th colspan="3">Module</th><th colspan="2"><button onclick="location.href = 'createthread?type=Module';" id="Button" class="btn btn-default pull-right">Create Thread</button></th></tr>
                         <tr>
                             <td>Topic</td></td><td>
                             <td>Created By</td>
@@ -119,7 +119,7 @@
                 </div>
                 <div id="fListContainer">
                     <table>
-                        <tr><th colspan="3">Bug</th><th colspan="2"><button id="Button" class="btn btn-default pull-right">Create Thread</button></th></tr>
+                        <tr><th colspan="3">Bug</th><th colspan="2"><button onclick="location.href = 'createthread?type=Bug';" id="Button" class="btn btn-default pull-right">Create Thread</button></th></tr>
                         <tr>
                             <td>Topic</td></td><td>
                             <td>Created By</td>
@@ -166,7 +166,7 @@
                     <table>
                         <tr>
                             <th colspan="3">
-                                <a href="<% out.print("forum"); %>">Forum</a> ►  <a href="<% out.print("forum?type=" + type); %>"><% out.print(StringUtils.capitalize(type)); %>
+                                <a href="<% out.print("forum"); %>" style="color: #294139;">Forum</a> ►  <a href="<% out.print("forum?type=" + type); %>" style="color: #294139;"><% out.print(StringUtils.capitalize(type)); %>
                                 </a>
                             </th>
                             <th colspan="2">

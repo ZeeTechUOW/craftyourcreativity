@@ -14,6 +14,10 @@
 	font-size: 40px;
 }
 
+a {
+    color: #294139;
+}
+
 #fListContainer{
 	display: flex;
 	flex-wrap: wrap;

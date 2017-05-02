@@ -8,6 +8,13 @@
 	min-height: 250px;
 }
 
+#tHead > a {
+     color: #294139 !important;
+}
+#tHeadPage > a {
+     color: #294139 !important;
+}
+
 #tSTitle{
     padding: 5px 2% 15px 2%;
 	width: 96%;

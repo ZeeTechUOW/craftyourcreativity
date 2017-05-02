@@ -27,7 +27,7 @@
                 </div>
                 <div id="buttonBox">
                     <button id="Button" type="submit" class="btn btn-default" name="userType" value="player">Create Account</button>
-                    <button id="Button" type="submit" class="btn btn-default" name="userType" value="trainer">Create Account As Trainer</button>
+                    <!--<button id="Button" type="submit" class="btn btn-default" name="userType" value="trainer">Create Account As Trainer</button>-->
                 </div>
             </form>
 <!--            <div id="util">

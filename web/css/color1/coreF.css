@@ -267,31 +267,31 @@ nav.navbar-findcond span.badge.new {
     width: 100%; 
     max-width: 700px; 
     margin-right: 100px;
-    background-color: rgb(54, 90, 78);
+    background-color: whitesmoke;
     border: 2px solid black;
     border-radius: 10px;
     padding: 8px;
-    color: white;
+    color: black;
 }
 #searchbar > input:focus {
-    background-color: rgb(54, 90, 78);
-    border: 2px solid blue;
+    border: 2px solid green;
     border-radius: 10px;
     padding: 8px;
-    color: white;
     outline: none;
 }
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: white;
+    color: black;
+   opacity:  .7;
 }
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   color: white;
-   opacity:  1;
+   color: black;
+   opacity:  .7;
 }
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-   color: white;
-   opacity:  1;
+   color: black;
+   opacity:  .7;
 }
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color: white;
+   color: black;
+   opacity:  .7;
 }
