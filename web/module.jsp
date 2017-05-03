@@ -1,4 +1,3 @@
-<%@page import="Model.ModuleImage"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Model.DBAdmin"%>
 <%@page import="Model.User"%>
@@ -9,7 +8,6 @@
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
 
     Module module = (Module) request.getAttribute("module");
-    ArrayList<ModuleImage> moduleImages = (ArrayList<ModuleImage>) request.getAttribute("moduleImages");
     boolean isCertificated = (Boolean) request.getAttribute("isCertificated");
 %>
 

@@ -8,11 +8,9 @@ package Servlet;
 import Model.DBAdmin;
 import Model.DirectoryAdmin;
 import Model.Module;
-import Model.ModuleImage;
 import Model.User;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -49,7 +47,6 @@ public class EditModuleServlet extends HttpServlet {
         int userID;
         Module module;
         String op = request.getParameter("op");
-        ArrayList<ModuleImage> moduleImages = new ArrayList<>();
 
         // Parse all parameter
         try {
@@ -107,11 +104,9 @@ public class EditModuleServlet extends HttpServlet {
         boolean isPublishedSaveExist = new File(getServletContext().getRealPath("/module/" + moduleID + "/publishedSave.json")).exists();
 
         // Get Module Image
-        moduleImages.addAll(DBAdmin.getModuleImage(moduleID));
 
         // Set Attribute
         request.setAttribute("module", module);
-        request.setAttribute("moduleImages", moduleImages);
         request.setAttribute("isPublished", isPublishedSaveExist);
         request.setAttribute("isSaved", isSaveExist);
 

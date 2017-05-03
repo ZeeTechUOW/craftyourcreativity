@@ -144,10 +144,6 @@ public class DBAdmin {
             = "SELECT * "
             + "FROM `module` "
             + "WHERE moduleID=?";
-    private static final String GET_MODULE_IMAGE_FROM_MODULE_ID
-            = "SELECT * "
-            + "FROM `moduleimages` "
-            + "WHERE moduleID=?";
     private static final String ADD_VIEW_TO_MODULE
             = "INSERT INTO `views` (`userID`, `moduleID`, `time`) "
             + "VALUES (?, ?, CURRENT_TIMESTAMP)";
@@ -845,40 +841,6 @@ public class DBAdmin {
         return genres;
     }
 
-    /**
-     * Return an <code>ArrayList</code> of <code>ModuleImage</code> from
-     * specified <code>Module</code> ID.
-     *
-     * @param moduleID target ID
-     * @return a non-empty <code>ArrayList</code> of <code>ModuleImage</code> if
-     * operation success, otherwise empty <code>ArrayList</code> of
-     * <code>ModuleImage</code>.
-     */
-    public static ArrayList<ModuleImage> getModuleImage(int moduleID) {
-        ArrayList<ModuleImage> moduleImages = new ArrayList<>();
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_MODULE_IMAGE_FROM_MODULE_ID);
-            preparedStatement.setInt(1, moduleID);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                int _moduleID = resultSet.getInt("moduleID");
-                String _imagePath = resultSet.getString("imagePath");
-
-                moduleImages.add(new ModuleImage(_moduleID, _imagePath));
-            }
-
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return moduleImages;
-    }
 
     // Achievement method
     /**

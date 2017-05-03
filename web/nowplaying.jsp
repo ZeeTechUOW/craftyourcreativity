@@ -1,4 +1,3 @@
-<%@page import="Model.ModuleImage"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Model.Module"%>
 <%@page import="Model.DBAdmin"%>
@@ -9,7 +8,6 @@
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
 
     Module module = (Module) request.getAttribute("module");
-    ArrayList<ModuleImage> moduleImages = (ArrayList<ModuleImage>) request.getAttribute("moduleImages");
 %>
 
 <!DOCTYPE html><!DOCTYPE>
@@ -78,14 +76,14 @@
                 if (loggedUser != null) {
             %>
             var _UNLOCK_ACHIEVEMENT = true;
-
+            var _isCertified = false;
             function _notifyAchievement(json) {
                 $.notify("Achievement Unlocked " + json.name, {position: "bottom right", className: "success"});
             }
 
             function _ON_GAME_FINISHED(data) {
                 console.log("GAME FINISHED " + data);
-                location.href = "GameFinishedServlet?mid=<%=module.getModuleID()%>&score=" + data.score;
+                location.href = "GameFinishedServlet?mid=<%=module.getModuleID()%>&score=" + data.score + (isCertified?"&certs=true" : "");
             }
 
             function _RENDER_TO_PDF(imageData, w, h) {
@@ -98,9 +96,8 @@
                     method: "POST",
                     url: "UploadPDFServlet?mid=<%=module.getModuleID()%>&uid=<%=loggedUser.getUserID()%>",
                     data: {data: btoa(pdf.output())}
-                }).done(function (data) {
-                    console.log(data);
                 });
+                isCertified = true;
             }
             <%
                 }

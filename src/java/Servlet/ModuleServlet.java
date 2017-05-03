@@ -2,7 +2,6 @@ package Servlet;
 
 import Model.DBAdmin;
 import Model.Module;
-import Model.ModuleImage;
 import Model.User;
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +32,6 @@ public class ModuleServlet extends HttpServlet {
         // Initialize variable
         int moduleID;
         Module module;
-        ArrayList<ModuleImage> moduleImages = new ArrayList<>();
 
         // Parse all parameter
         try {
@@ -57,14 +55,16 @@ public class ModuleServlet extends HttpServlet {
         if (loggedUser != null) {
             isCertificated = new File(getServletContext().getRealPath("/users/" + loggedUser.getUsername() + "/certs/" + module.getModuleID() + ".pdf")).exists();
         }
+        
+        if("true".equals(request.getParameter("certs"))) {
+            isCertificated = true;
+        }
 
         // Get Module Image
-        moduleImages.addAll(DBAdmin.getModuleImage(moduleID));
 
         // Set Attribute
         request.setAttribute("isCertificated", isCertificated);
         request.setAttribute("module", module);
-        request.setAttribute("moduleImages", moduleImages);
 
         request.getRequestDispatcher("module.jsp").forward(request, response);
     }

@@ -7,7 +7,6 @@ package Servlet;
 
 import Model.DBAdmin;
 import Model.Module;
-import Model.ModuleImage;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,7 +38,6 @@ public class NowPlayingServlet extends HttpServlet {
         // Initialize variable
         int moduleID;
         Module module;
-        ArrayList<ModuleImage> moduleImages = new ArrayList<>();
 
         // Parse all parameter
         try {
@@ -59,11 +57,9 @@ public class NowPlayingServlet extends HttpServlet {
         }
 
         // Get Module Image
-        moduleImages.addAll(DBAdmin.getModuleImage(moduleID));
 
         // Set Attribute
         request.setAttribute("module", module);
-        request.setAttribute("moduleImages", moduleImages);
         
         
         User loggedUser = (User) request.getSession().getAttribute("loggedUser");
