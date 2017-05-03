@@ -54,7 +54,7 @@ public class ForumServlet extends HttpServlet {
             case "DISCUSSION":
                 break;
             default:
-                type = "discussion_" + type;
+                type = "module_" + type;
                 break;
         }
 

@@ -48,6 +48,7 @@ public class AddThreadServlet extends HttpServlet {
             response.sendRedirect("main");
             return;
         }
+        threadType = threadType.toLowerCase();
         
         switch(threadType.toUpperCase()) {
             case "GENERAL":
@@ -57,7 +58,7 @@ public class AddThreadServlet extends HttpServlet {
             case "DISCUSSION":
                 break;
             default:
-                threadType = "discussion_" + threadType;
+                threadType = "module_" + threadType;
                 break;
         }
         

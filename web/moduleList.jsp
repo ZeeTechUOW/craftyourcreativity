@@ -40,18 +40,16 @@
                     <%
                         for (Module m : modules) {
                     %>
-                    <div id="aSFrame">
+                    <div id="aSFrame" onclick="location.href = 'module?mid=<%=m.getModuleID()%>';" style="cursor: pointer">
                         <div style="display: flex; flex-direction: row; padding: 20px; position:relative">
                             <div id="sFrame" style='margin: 5px 5px; flex: 0 0 200px;'>
-                                <a href="module?mid=<%=m.getModuleID()%>">
-                                    <div class="frame">
-                                        <div>
-                                            <img src="module/<%=m.getModuleID()%>/thumbnail" onerror="this.onerror = null; this.src='resource/thumbnail.png'; " alt="<%=m.getModuleName()%>">
-                                        </div>
+                                <div class="frame">
+                                    <div>
+                                        <img src="module/<%=m.getModuleID()%>/thumbnail" onerror="this.onerror = null; this.src='resource/thumbnail.png'; " alt="<%=m.getModuleName()%>">
                                     </div>
-                                </a>
+                                </div>
                             </div>
-                                        <div style="margin-left: 20px; margin-top: 5px">
+                            <div style="margin-left: 20px; margin-top: 5px">
                                 <span style="font-size: 25px"><b><%=m.getModuleName()%></b></span>
                                 <p style="font-size: 18px; margin: 10px"><%=m.getModuleDescription()%></p>
                             </div>

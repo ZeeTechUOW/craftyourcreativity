@@ -73,8 +73,9 @@
 </nav>
 
 <script>
-    function animate() {
-        requestAnimationFrame(animate);
+    
+    function headerAnimate() {
+        requestAnimationFrame(headerAnimate);
 
 
         var left = $("#logoElem").width() + $("#menuElem").width();
@@ -92,5 +93,5 @@
         $("#searchbar").width(width);
     }
 
-    animate();
+    headerAnimate();
 </script>

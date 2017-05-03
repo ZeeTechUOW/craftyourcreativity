@@ -67,7 +67,7 @@
                 </div>
                 <div id="fListContainer">
                     <table>
-                        <tr><th colspan="3">Module</th><th colspan="2"><button onclick="location.href = 'createthread?type=Module';" id="Button" class="btn btn-default pull-right">Create Thread</button></th></tr>
+                        <tr><th colspan="3">Discussion</th><th colspan="2"><button onclick="location.href = 'createthread?type=Discussion';" id="Button" class="btn btn-default pull-right">Create Thread</button></th></tr>
                         <tr>
                             <td>Topic</td></td><td>
                             <td>Created By</td>
@@ -76,7 +76,7 @@
                         </tr>
                         <%
                             for (int i = 0; i < threads.size(); i++) {
-                                if (threads.get(i).getThreadType().equalsIgnoreCase("module")) {
+                                if (threads.get(i).getThreadType().equalsIgnoreCase("discussion")) {
                                     out.println("<tr>");
                                     out.println("<td><a href=\"thread?tid=" + threads.get(i).getThreadID() + "\">" + threads.get(i).getThreadTitle() + "</a></td></td><td>");
                                     out.println("<td>" + userList.get(i).getUsername() + "</td>");
@@ -87,13 +87,13 @@
                             }
                         %>
                         <tr>
-                            <td colspan="5" style="text-align: center"><a href="forum?type=module">See All Threads</td>
+                            <td colspan="5" style="text-align: center"><a href="forum?type=discussion">See All Threads</td>
                         </tr>
                     </table>
                 </div>
                 <div id="fListContainer">
                     <table>
-                        <tr><th colspan="3">Discussion</th><th colspan="2"></th></tr>
+                        <tr><th colspan="3">Module</th><th colspan="2"></th></tr>
                         <tr>
                             <td>Topic</td></td><td>
                             <td>Created By</td>
@@ -102,9 +102,9 @@
                         </tr>
                         <%
                             for (int i = 0; i < threads.size(); i++) {
-                                if (threads.get(i).isDiscussionThread()) {
+                                if (threads.get(i).isModuleThread()) {
                                     out.println("<tr>");
-                                    out.println("<td><a href='forum?type=" + threads.get(i).getThreadType() + "'>[" + threads.get(i).getThreadType() + "]</a> <a href=\"thread?tid=" + threads.get(i).getThreadID() + "\">"+threads.get(i).getThreadTitle() + "</a></td></td><td>");
+                                    out.println("<td><a href='forum?type=" + threads.get(i).getThreadType() + "'>[" + threads.get(i).getThreadType() + "]</a> <a href=\"thread?tid=" + threads.get(i).getThreadID() + "\">" + threads.get(i).getThreadTitle() + "</a></td></td><td>");
                                     out.println("<td>" + userList.get(i).getUsername() + "</td>");
                                     out.println("<td>" + threads.get(i).getReplyCount() + "</td>");
                                     out.println("<td>" + threads.get(i).getThreadTimeFormatted() + "</td>");
@@ -113,7 +113,7 @@
                             }
                         %>
                         <tr>
-                            <td colspan="5" style="text-align: center"><a href="forum?type=discussion">See All Threads</td>
+                            <td colspan="5" style="text-align: center"><a href="forum?type=module">See All Threads</td>
                         </tr>
                     </table>
                 </div>
@@ -148,7 +148,15 @@
                 %>
                 <div id="fSTitle">
                     <div>
-                        <% out.println("<B>" + StringUtils.capitalize(type) + "</b>"); %>
+                        <b>
+                            
+                                <% if(!type.equalsIgnoreCase("Module")) {%>
+                                <button onclick="location.href = 'createthread?type=<%=type%>'" id="Button" class="btn btn-default pull-right">Create Thread</button>
+                                <%} else {%>
+                                <a href='#'><button onclick="location.href = 'createthread?type=<%=type%>'" id="Button" class="btn btn-default pull-right">Create Thread</button></a>
+                                <%}%>
+                            <%=StringUtils.capitalize(type)%>
+                        </b>
                     </div>
                     <div class="dropdown" style="">
                         <button id="colorOverride" class="btn dropdown-toggle" type="button" data-toggle="dropdown">Sort by <% out.print(sortFormatted); %>
@@ -170,8 +178,8 @@
                                 </a>
                             </th>
                             <th colspan="2">
-                                <% if(!type.equalsIgnoreCase("Discussion")) {
-                                    %><button onclick="location.href = 'createthread?type=<%=type%>'" id="Button" class="btn btn-default pull-right">Create Thread</button><%
+                                <% if(!type.equalsIgnoreCase("Module")) {
+                                %><button onclick="location.href = 'createthread?type=<%=type%>'" id="Button" class="btn btn-default pull-right">Create Thread</button><%
                                 } %>
                             </th>
                         </tr>
@@ -184,7 +192,7 @@
                         <%
                             for (int i = 0; i < threads.size(); i++) {
                                 out.println("<tr>");
-                                out.println("<td>" + (type.equalsIgnoreCase("Discussion") ? "<a href='forum?type=" + threads.get(i).getThreadType() + "'>[" + threads.get(i).getThreadType() + "]</a> " : "") + "<a href=\"thread?tid=" + threads.get(i).getThreadID() + "\">" + threads.get(i).getThreadTitle() + "</a></td></td><td>");
+                                out.println("<td>" + (type.equalsIgnoreCase("Module") ? "<a href='forum?type=" + threads.get(i).getThreadType() + "'>[" + threads.get(i).getThreadType() + "]</a> " : "") + "<a href=\"thread?tid=" + threads.get(i).getThreadID() + "\">" + threads.get(i).getThreadTitle() + "</a></td></td><td>");
                                 out.println("<td>" + userList.get(i).getUsername() + "</td>");
                                 out.println("<td>" + threads.get(i).getReplyCount() + "</td>");
                                 out.println("<td>" + threads.get(i).getThreadTimeFormatted() + "</td>");

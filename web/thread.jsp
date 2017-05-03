@@ -36,8 +36,8 @@
         <script src="summernote/0.8.3/summernote.js"></script>
     </head>
     <body>
-        <jsp:include page="header.jsp"></jsp:include>
-        <div id="container" style='position: absolute; min-height: calc(100% - 78px);'>
+        <jsp:include page="header.jsp"/>
+        <div id="container">
             <div id="tStructure">
                 <div id="tSTitle">
                     <% out.print(thread.getThreadTitle());%>

@@ -20,6 +20,7 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/color1/coreF.css">
         <link rel="stylesheet" type="text/css" href="css/color1/mStruc.css">
+
         <script src="jquery/jquery-3.2.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
     </head>
@@ -27,63 +28,19 @@
         <jsp:include page="header.jsp"/>
         <div id="container">
             <div id="descSeparator"></div>
-            <div id="descTitle" style="padding-left: 10%"><% out.print(module.getModuleName()); %></div>
-            
-            
-            <div id="descImg">
-                <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        <%
-                            for (int i = 0; i < moduleImages.size(); i++) {
-                        %>
-                        <li data-target="#myCarousel" data-slide-to="<%=(i+1)%>"></li>
-                            <%
-                                }
-                            %>
-                    </ol>
+            <div id="descTitle" style="padding-left: 10%"><% out.print(module.getModuleName());%></div>
 
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <img src="module/<%=module.getModuleID()%>/thumbnail" alt="">
-                        </div>
-                        <%
-                            for (int i = 0; i < moduleImages.size(); i++) {
-                                if (i == 0) {
-                        %>
-                        <div class="item">
-                            <img src="<% out.print(moduleImages.get(i).getImagePath()); %>" alt="">
-                        </div>
-                        <%
-                        } else {
-                        %>
-                        <div class="item">
-                            <img src="<% out.print(moduleImages.get(i).getImagePath()); %>" alt="">
-                        </div>
-                        <%
-                            }
-                        %>
 
-                        <%
-                            }
-                        %>
-                    </div>
-
-                    <!-- Left and right controls -->
-                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
+            <div id="descImg" style="text-align: center;">
+                <img style="
+                     border: solid white .4vw;
+                     border-radius: .4vw;
+                     height: 400px;
+                     max-width: none; 
+                     width: auto;"src="module/<%=module.getModuleID()%>/thumbnail" alt="">
             </div>   
-            
-            
+
+
             <div style="text-align: left; padding: 0px 10%">
                 <button id="Button" onclick="location.href = 'achievement?mid=<%=module.getModuleID()%>'" type="button" class="btn btn-default">Achievements</button>
                 <button id="Button" onclick="location.href = 'leaderboard?mid=<%=module.getModuleID()%>'" type="button" class="btn btn-default">Leaderboards</button>
@@ -99,7 +56,7 @@
                 <p style="font-size:30px; margin-top: 30px">Module Description</p>
                 <p style="font-size:25px"><% out.print(module.getModuleDescription());%></p>
                 <div id="descButtonBox">
-                    <%if( isCertificated ) {%>
+                    <%if (isCertificated) {%>
                     <a href="users/<%=loggedUser.getUsername()%>/certs/<%=module.getModuleID()%>.pdf" download="<%=module.getModuleName()%> Certificate.pdf"> <div id="buttonBox" style='float: left'><button id="Button" type="button" class="btn btn-default">Certificate</button></div></a>
                     <%}%>
                     <a href="nowplaying?mid=<%=module.getModuleID()%>"> <div id="buttonBox" style='float: right'><button id="Button" type="button" class="btn btn-default" style="font-weight: bold;">Play</button></div></a>
@@ -110,5 +67,18 @@
         <div id="footer">
             Powered by ZeeTech
         </div>
+
+        <script>
+            
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                var left = ($("#container").width() - $("#descImg").width())/2;
+                $("#descImg").css("margin-left", left + "px");
+            }
+            
+            animate();
+            
+        </script>
     </body>
 </html>

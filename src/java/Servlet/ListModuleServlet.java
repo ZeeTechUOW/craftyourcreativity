@@ -75,7 +75,7 @@ public class ListModuleServlet extends HttpServlet {
             for (int i = 0; i < modules.size(); i++) {
                 Module module = modules.get(i);
 
-                if(!module.getModuleName().contains(search)) {
+                if(!module.getModuleName().toUpperCase().contains(search.toUpperCase())) {
                     modules.remove(i);
                     i--;
                 }

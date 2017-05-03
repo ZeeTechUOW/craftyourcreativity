@@ -3,10 +3,42 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+(function () {
+    var lastTime = 0;
+    var vendors = ['webkit', 'moz'];
+    for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+        window.cancelAnimationFrame =
+                window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
+    }
+
+    if (!window.requestAnimationFrame)
+        window.requestAnimationFrame = function (callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function () {
+                callback(currTime + timeToCall);
+            },
+                    timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+
+    if (!window.cancelAnimationFrame)
+        window.cancelAnimationFrame = function (id) {
+            clearTimeout(id);
+        };
+}());
 
 if (typeof String.prototype.endsWith !== 'function') {
     String.prototype.endsWith = function (suffix) {
         return this.indexOf(suffix, this.length - suffix.length) !== -1;
+    };
+}
+if (typeof String.prototype.startsWith !== 'function') {
+    String.prototype.startsWith = function (searchString, position) {
+        position = position || 0;
+        return this.indexOf(searchString, position) === position;
     };
 }
 
@@ -225,8 +257,11 @@ function setupListener(model) {
 }
 
 function cpy(from, target, keys, filter) {
-    if(!filter) filter = function (r) {return r;};
-    
+    if (!filter)
+        filter = function (r) {
+            return r;
+        };
+
     for (var j in keys) {
         var key = keys[j];
 
@@ -275,6 +310,7 @@ function uuid() {
     return _lastUniqueIdentifier;
 }
 function reset_uid(val) {
-    if (!val) val = 0;
+    if (!val)
+        val = 0;
     _lastUniqueIdentifier = val + 1;
 }
