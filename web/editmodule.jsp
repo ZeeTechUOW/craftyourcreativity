@@ -45,9 +45,9 @@
                     }%>
             </div>
             <div id="descBox" >
-                <div id="sFrame" class="aFrame" style="display: inline-block">
+                <div id="sFrame" class="aFrame" style="display: inline-block; width: 200px; height: 200px;">
                     <img src="module/<%=module.getModuleID()%>/thumbnail" onerror="this.onerror = null; this.src='resource/thumbnail.png'; " alt="<%=module.getModuleName()%>">
-                    <div class="overlay">
+                    <div class="overlay" style="width: 200px; height: 200px;">
                         <div class="text">
                             <button onclick="$('#uploadImageFile').click();" id="Button" class="btn btn-default">
                                 Edit

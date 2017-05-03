@@ -41,7 +41,7 @@
 #gameCanvas {
     border: solid .3vw white;
     max-width: 90%;
-    height: auto;
+    height: auto !important;
     background-color: slategrey;
 }
 

@@ -12,8 +12,6 @@ body{
 }
 
 .aFrame > img {
-    height: 200px;
-    width: 200px;   
 }
 
 .overlay {
@@ -22,8 +20,6 @@ body{
     bottom: 0;
     left: 0;
     right: 0;
-    height: 200px;
-    width: 200px;
     opacity: 0;
     transition: opacity .5s ease;
     background-color: #105a14;
