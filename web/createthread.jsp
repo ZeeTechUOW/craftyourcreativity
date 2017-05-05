@@ -36,13 +36,9 @@
             <div id="ctStructure">
                 <div id="ctTitle" style="padding: 20px"><b>Create Thread - <%=threadType%></b></div>
                 <div id="ctAlertBox">
-                    <div class="alert alert-warning fade in alert-dismissable">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                        <strong>Warning!</strong> Indicates a warning that might need attention.
-                    </div>
                 </div>
                 <div id="ctContent">
-                    <form action="addthread" method="post" id="myForm">
+                    <form action="addthread" method="post" id="myForm" onsubmit="return checkInput();">
                         <table>
                             <tr>
                                 <td style="padding-top: 10px;">
@@ -50,7 +46,7 @@
                                 </td>
                                 <td>
                                     <div class="input-lg">
-                                        <input type="text" class="form-control" placeholder="Thread Title" name="threadTitle" style="width: 100%;"/>
+                                        <input id="titleValue" type="text" class="form-control" placeholder="Thread Title" name="threadTitle" style="width: 100%;"/>
                                     </div>
                                 </td>
                             </tr>
@@ -77,11 +73,44 @@
                     dialogsInBody: true
                 });
             });
+            
+            function checkInput() {
+                var value = $('#titleValue').val();
+                if (value.length > 0) {
+                    return true;
+                } else {
+                    $("#ctAlertBox").html($("#blankTitleError").html());
+                    return false;
+                }
+            }
 
             function submitPost() {
-                $('#summerNoteTextID').html($('#summernote').summernote('code'));
-                $('#myForm').submit();
+                var value = $('#summernote').summernote('code');
+                var noWhiteSpace = value.replace(" ", "").replace(/&nbsp;/gi, "");
+
+                if (value && $(noWhiteSpace).text().length > 0) {
+                    $('#summerNoteTextID').html(value);
+                    $('#myForm').submit();
+                } else {
+                    $("#ctAlertBox").html($("#blankPostError").html());
+                }
             }
         </script>
+        <div class="hidden">
+            <div id="blankTitleError">
+                <div class="alert alert-warning fade in alert-dismissable"> 
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
+                    <strong>Warning!</strong> Your thread title cannot be blank. 
+                </div>
+            </div>
+        </div>
+        <div class="hidden">
+            <div id="blankPostError">
+                <div class="alert alert-warning fade in alert-dismissable"> 
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
+                    <strong>Warning!</strong> Your thread post cannot be blank. 
+                </div>
+            </div>
+        </div>
     </body>
 </html>

@@ -9,7 +9,7 @@
 
 <%
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-    
+
     int pageNum = (int) request.getAttribute("pageNum");
     int lastPage = (int) request.getAttribute("lastPage");
     ArrayList<String> pageCount = (ArrayList<String>) request.getAttribute("pageCount");
@@ -27,11 +27,11 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/color1/coreF.css">
         <link rel="stylesheet" type="text/css" href="css/color1/tStruc.css">
-        
+
         <link rel="stylesheet" href="css/bootstrap.css">
         <script src="jquery/jquery-3.2.1.js"></script>
         <script src="js/bootstrap.js"></script>
-        
+
         <link rel="stylesheet" href="summernote/0.8.3/summernote.css">
         <script src="summernote/0.8.3/summernote.js"></script>
     </head>
@@ -51,7 +51,7 @@
                     %>
                     <div id="tThreadHeader">
                         <div id="tHead">
-                            <a style='text-decoration: none;' href="forum">Forum</a> ►  <a style='text-decoration: none;' href='forum?type=<%=thread.getThreadType()%>'><% out.print(StringUtils.capitalize(thread.getThreadType())); %></a> ►  <a style='text-decoration: none;' href="thread?tid=<%=Integer.toString(thread.getThreadID())%>"><% out.print(thread.getThreadTitle()); %></a> 
+                            <a style='text-decoration: none;' href="forum">Forum</a> ►  <a style='text-decoration: none;' href='forum?type=<%=thread.getThreadType()%>'><% out.print(StringUtils.capitalize(thread.getThreadType()));%></a> ►  <a style='text-decoration: none;' href="thread?tid=<%=Integer.toString(thread.getThreadID())%>"><% out.print(thread.getThreadTitle()); %></a> 
                         </div>
 
                         <div id="tHeadPage">
@@ -70,7 +70,7 @@
                     %>
                     <div id="tPostHeader">
                         <table>
-                            <tr><td><% out.print(userList.get(i).getUsername()); %></td><td><% out.print(posts.get(i).getPostTimeFormatted()); %></td></tr>
+                            <tr id="postNo<%=i%>"><td><% out.print(userList.get(i).getUsername()); %></td><td><% out.print(posts.get(i).getPostTimeFormatted()); %></td></tr>
                         </table>
                     </div>
                     <div id="tPostContent">
@@ -82,7 +82,7 @@
                 %>
                 <div id="tThreadBot">
                     <div id="tBot">
-                        <a style='text-decoration: none;' href="forum">Forum</a> ►  <a style='text-decoration: none;' href='forum?type=<%=thread.getThreadType()%>'><% out.print(StringUtils.capitalize(thread.getThreadType())); %></a> ►  <a style='text-decoration: none;' href="thread?tid=<%=Integer.toString(thread.getThreadID()) %>"><% out.print(thread.getThreadTitle()); %></a> 
+                        <a style='text-decoration: none;' href="forum">Forum</a> ►  <a style='text-decoration: none;' href='forum?type=<%=thread.getThreadType()%>'><% out.print(StringUtils.capitalize(thread.getThreadType()));%></a> ►  <a style='text-decoration: none;' href="thread?tid=<%=Integer.toString(thread.getThreadID())%>"><% out.print(thread.getThreadTitle()); %></a> 
                     </div>
                     <div id="tBotPage">
                         <%
@@ -95,14 +95,10 @@
                     </div>
                 </div>
                 <div id="tAlertBox">
-                    <div class="alert alert-warning fade in alert-dismissable">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                        <strong>Warning!</strong> Indicates a warning that might need attention.
-                    </div>
                 </div>
                 <div id="summernote"></div>
                 <script>
-                    $(document).ready(function() {
+                    $(document).ready(function () {
                         $('#summernote').summernote({
                             height: 300,
                             width: 1500,
@@ -111,15 +107,24 @@
                             focus: true,
                             dialogsInBody: true
                         });
+
+                        window.scrollTo(0, 0);
                     });
-                    
-                    function submitPost () {
-                        $('#summerNoteTextID').html($('#summernote').summernote('code'));
-                        $('#myForm').submit();
+
+                    function submitPost() {
+                        var value = $('#summernote').summernote('code');
+                        var noWhiteSpace = value.replace(" ", "").replace(/&nbsp;/gi, "");
+
+                        if (value && $(noWhiteSpace).text().length > 0) {
+                            $('#summerNoteTextID').html(value);
+                            $('#myForm').submit();
+                        } else {
+                            $("#tAlertBox").html($("#blankPostError").html());
+                        }
                     }
                 </script>
                 <form action="createpost" method="post" id="myForm">
-                    <input type="hidden" name="threadID" value="<% out.print(thread.getThreadID()); %>">
+                    <input type="hidden" name="threadID" value="<% out.print(thread.getThreadID());%>">
                     <textarea id="summerNoteTextID" name="summerNoteText" style="display: none;"></textarea>
                     <button id="Button" class="btn btn-default pull-right" type="button" onclick="submitPost()">Add Post</button>
                 </form>
@@ -127,6 +132,14 @@
         </div>
         <div id="footer">
             Powered by ZeeTech
+        </div>
+        <div class="hidden">
+            <div id="blankPostError">
+                <div class="alert alert-warning fade in alert-dismissable"> 
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
+                    <strong>Warning!</strong> Your post cannot be blank. 
+                </div>
+            </div>
         </div>
     </body>
 </html>
