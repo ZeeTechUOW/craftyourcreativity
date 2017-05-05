@@ -15,6 +15,10 @@
             <div id="logo">
                 <div class="logo"><img src="resource/blogo.png" alt="logo"></div>
             </div>
+            <div class="alert alert-warning fade in alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                <strong>Warning!</strong> Indicates a warning that might need attention.
+            </div>
             <form action="loginauth" method="post" style="margin-bottom: 0em">
                 <div class="input-lg">
                     <input type="text" class="form-control" placeholder="Username" name="usernameLogin" style="width: 100%;"/>

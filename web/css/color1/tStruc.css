@@ -1,82 +1,82 @@
 #tStructure{
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
-	position: relative;
-	margin: 15px 2.5%;
-	width: 95%;
-	min-height: 250px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    position: relative;
+    margin: 15px 2.5%;
+    width: 95%;
+    min-height: 250px;
 }
 
 #tHead > a {
-     color: #294139 !important;
+    color: #294139 !important;
 }
 #tHeadPage > a {
-     color: #294139 !important;
+    color: #294139 !important;
 }
 
 #tSTitle{
     padding: 5px 2% 15px 2%;
-	width: 96%;
-	font-size: 40px;
+    width: 96%;
+    font-size: 40px;
 }
 
 #tThreadCore{
-	width: 99%;
-	margin: 0px 0.5%;
-	background-color: #b8cab5;
-	margin-bottom: 20px;
+    width: 99%;
+    margin: 0px 0.5%;
+    background-color: #b8cab5;
+    margin-bottom: 20px;
 }
 
 #tThreadHeader{
-	padding: 1%;
-	padding-bottom: 2pc;
-	font-weight: bold;
-	border-style: solid;
- 	border-color: #9aad96;
- 	border-width: 0px 1% 1% 1%;
+    padding: 1%;
+    padding-bottom: 2pc;
+    font-weight: bold;
+    border-style: solid;
+    border-color: #9aad96;
+    border-width: 0px 1% 1% 1%;
 }
 
 #tHead{
-	float: left;
-	font-weight: bold;
+    float: left;
+    font-weight: bold;
 }
 
 #tHeadPage{
-	float: right;
-	font-weight: bold;
-	text-align: right;
+    float: right;
+    font-weight: bold;
+    text-align: right;
 }
 
 #tPostHeader{
-	padding: 10px 1%;
-	background-color: #9aad96;
+    padding: 10px 1%;
+    background-color: #9aad96;
 }
 
 #tPostContent{
-	min-height: 160px;
-	border-style: solid;
-	border-color: #9aad96;
-	border-width: 0px 1% 1% 1%;
-	padding: 10px 1%;
+    min-height: 160px;
+    border-style: solid;
+    border-color: #9aad96;
+    border-width: 0px 1% 1% 1%;
+    padding: 10px 1%;
 }
 
 #tThreadBot{
-	width: 99%;
-	margin: 20px auto;
-	padding: 10px 1.5%;
-	font-weight: bold;
-	background-color: #458e77;
-        overflow: hidden;
+    width: 99%;
+    margin: 20px auto;
+    padding: 10px 1.5%;
+    font-weight: bold;
+    background-color: #458e77;
+    overflow: hidden;
 }
 
 #tBot{
-	float: left;
-	width: 87%;
-	height: 20px;
-	padding: 0px 1.5%;
-	padding-left: 0px;
-	font-weight: bold;
+    float: left;
+    width: 87%;
+    height: 20px;
+    padding: 0px 1.5%;
+    padding-left: 0px;
+    font-weight: bold;
 }
 
 #tBot > a{
@@ -87,31 +87,35 @@
 }
 
 #tBotPage{
-	float: left;
-	width: 10%;
-	height: 20px;
-	padding: 0px 1.5%;
-	font-weight: bold;
-	text-align: right;
+    float: left;
+    width: 10%;
+    height: 20px;
+    padding: 0px 1.5%;
+    font-weight: bold;
+    text-align: right;
+}
+
+#tAlertBox{
+    width: 99%;
 }
 
 #quillBox{
-	width: 99%;
-	height: 200px;
-	margin: 0px 0.5%;
-	margin-bottom: 20px;
-	background-color: white;
-	overflow-y: hidden;
+    width: 99%;
+    height: 200px;
+    margin: 0px 0.5%;
+    margin-bottom: 20px;
+    background-color: white;
+    overflow-y: hidden;
 }
 
 #quill{
-	width: 100%;
-	overflow-y: auto;
+    width: 100%;
+    overflow-y: auto;
 }
 
 #quill .ql-editor {
-  overflow-y: auto;
-  height: unset;
+    overflow-y: auto;
+    height: unset;
 }
 
 .ql-container.ql-snow {
@@ -120,17 +124,17 @@
 
 /*table configuration starts*/
 table, tr, td {
-	font-size: 20px;
-	width: 100%;
-	border-collapse: collapse;
+    font-size: 20px;
+    width: 100%;
+    border-collapse: collapse;
 }
 
 td:first-child{
-	width: 50%;
-	text-align: left;
+    width: 50%;
+    text-align: left;
 }
 
 td:last-child{
-	width: 50%;
-	text-align: right;
+    width: 50%;
+    text-align: right;
 }

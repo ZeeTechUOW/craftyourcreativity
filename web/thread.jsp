@@ -94,6 +94,12 @@
                         %>
                     </div>
                 </div>
+                <div id="tAlertBox">
+                    <div class="alert alert-warning fade in alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                        <strong>Warning!</strong> Indicates a warning that might need attention.
+                    </div>
+                </div>
                 <div id="summernote"></div>
                 <script>
                     $(document).ready(function() {

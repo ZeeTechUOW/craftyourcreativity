@@ -31,7 +31,12 @@
                                 About
                         </div>
                 </div>-->
-
+                <div id="seAlertBox">
+                    <div class="alert alert-warning fade in alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                        <strong>Warning!</strong> Indicates a warning that might need attention.
+                    </div>
+                </div>
                 <div id="seContent">
                     <div id="teBox">
                         <table id="setting">
@@ -64,7 +69,6 @@
                             This is Avatar Selection Container
                         </div>
                     </div>-->
-
                     <div id="seBoxUnderline">
                         UPDATE YOUR EMAIL
                     </div>

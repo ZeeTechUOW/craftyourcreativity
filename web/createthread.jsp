@@ -35,6 +35,12 @@
         <div id="container">
             <div id="ctStructure">
                 <div id="ctTitle" style="padding: 20px"><b>Create Thread - <%=threadType%></b></div>
+                <div id="ctAlertBox">
+                    <div class="alert alert-warning fade in alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                        <strong>Warning!</strong> Indicates a warning that might need attention.
+                    </div>
+                </div>
                 <div id="ctContent">
                     <form action="addthread" method="post" id="myForm">
                         <table>
