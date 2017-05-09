@@ -46,11 +46,11 @@ public class ChangePasswordServlet extends HttpServlet {
         // Check new pass1 and pass2 field
         if (!newPassword1.equals(newPassword2)) {
             // Redirect to setting page with error message
-            response.sendRedirect("setting");
+            response.sendRedirect("setting?error=notmatchpass");
             return;
         }
 
-        // Change user email
+        // Change user password
         if (DBAdmin.updateUserPassword(loggedUser.getUserID(), oldPassword, newPassword1)) {
             // Get updated user
             loggedUser = (User) DBAdmin.getUser(loggedUser.getUserID());
@@ -61,8 +61,8 @@ public class ChangePasswordServlet extends HttpServlet {
             // Redirect to setting page
             response.sendRedirect("setting");
         } else {
-            // Send to Error 500
-            response.sendError(500);
+            // Wrong password
+            response.sendRedirect("setting?error=wrongpass");
         }
     }
 

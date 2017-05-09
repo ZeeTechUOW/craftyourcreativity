@@ -41,6 +41,14 @@ public class ChangeEmailServlet extends HttpServlet {
         email = request.getParameter("emailSetting");
         password = request.getParameter("passwordSetting");
 
+        // Email validation
+        User temp = new User(0, "", "", email, "");
+        System.out.println(temp.isEmailValid());
+        if (!temp.isEmailValid()) {
+            response.sendRedirect("setting?error=invalidemail");
+            return;
+        }
+
         // Change user email
         if (DBAdmin.updateUserEmail(loggedUser.getUserID(), password, email)) {
             // Get updated user
@@ -52,8 +60,8 @@ public class ChangeEmailServlet extends HttpServlet {
             // Redirect to setting page
             response.sendRedirect("setting");
         } else {
-            // Send to Error 500
-            response.sendError(500);
+            // Wrong password
+            response.sendRedirect("setting?error=wrongpass");
         }
     }
 
