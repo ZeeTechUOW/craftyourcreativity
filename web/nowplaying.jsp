@@ -32,7 +32,7 @@
             .thumbsUp:hover,.thumbsDown:hover{
                 color: #105a14;
             }
-            <%}else{%>
+            <%} else {%>
             .thumbsUp,.thumbsDown {
                 pointer-events: none;
             }
@@ -50,25 +50,25 @@
                     Now Playing: <a href="module?mid=<%=module.getModuleID()%>"><%=module.getModuleName()%></a>
                 </div>
 
+                <div id="buttonBar" class="text-center" style="width: 100%; margin: -20px 0px;">
+                    <div style="width: 90%; display: inline-block; max-width: 800px; margin-top: 15px;">
+                        <div class="pull-right">
+                            <span style="margin: 2px 5px; font-size: 28px;"><span id="likeAmount"><%=module.getLikes()%></span> <a id='thumbsUp' href="#" onclick="if (likeClicked)
+                                        likeClicked()" class="thumbsUp <%=("like".equals(userLikeState) ? "active" : "")%>"><span class="glyphicon glyphicon-thumbs-up"></span></a>
+                            </span>
+                                        <span style="margin: 2px 5px; font-size: 28px;"><span id="dislikeAmount"><%=module.getDislikes()%></span> <a id='thumbsDown' href="#" onclick="if (dislikeClicked)
+                                        dislikeClicked()" class="thumbsDown <%=("dislike".equals(userLikeState) ? "active" : "")%>"><span class="glyphicon glyphicon-thumbs-down"></span></a>
+                            </span>
+                            <button id="Button" class="btn btn-default pull-right" style="margin-left: 5px;">Share</button>
+                        </div>
+                    </div>
+                </div>
                 <div id="gDisp">
                     <canvas id="gameCanvas" width="800" height="600">
                     </canvas>
                     <div id="canvasLoader">
                         <span class="glyphicon glyphicon-repeat glyphicon-spin"></span>
                         Loading Game
-                    </div>
-                </div>
-                <div id="buttonBar" class="text-center" style="width: 100%;">
-                    <div style="width: 90%; display: inline-block; max-width: 800px; margin-top: 5px;">
-                        <button id="Button" class="btn btn-default pull-left">Share</button>
-                        <div class="pull-right">
-                            <span style="margin: 2px 5px; font-size: 28px;"><span id="likeAmount"><%=module.getLikes()%></span> <a id='thumbsUp' href="#" onclick="if (likeClicked)
-                                        likeClicked()" class="thumbsUp <%=("like".equals(userLikeState) ? "active" : "")%>"><span class="glyphicon glyphicon-thumbs-up"></span></a>
-                            </span>
-                            <span style="margin: 2px 5px; font-size: 28px;"><span id="dislikeAmount"><%=module.getDislikes()%></span> <a id='thumbsDown' href="#" onclick="if (dislikeClicked)
-                                        dislikeClicked()" class="thumbsDown <%=("dislike".equals(userLikeState) ? "active" : "")%>"><span class="glyphicon glyphicon-thumbs-down"></span></a>
-                            </span>
-                        </div>
                     </div>
                 </div>
                 <div class="hidden">
@@ -118,9 +118,9 @@
             <%
                 if (loggedUser != null) {
             %>
-                                <%=("like".equals(userLikeState) ? "likeAmount--;" : "")%>
-                                <%=("dislike".equals(userLikeState) ? "dislikeAmount--;" : "")%>
-                                    
+            <%=("like".equals(userLikeState) ? "likeAmount--;" : "")%>
+            <%=("dislike".equals(userLikeState) ? "dislikeAmount--;" : "")%>
+
                                 function likeClicked() {
                                     var $thumbsUp = $("#thumbsUp");
                                     var $thumbsDown = $("#thumbsDown");
@@ -129,7 +129,7 @@
                                     if ($thumbsUp.hasClass("active")) {
                                         $thumbsUp.removeClass("active");
                                         $likeAmount.html(likeAmount);
-                                        
+
                                         $.ajax({url: "LikeServlet?mid=<%=module.getModuleID()%>&value=none"});
 
                                     } else {
@@ -148,7 +148,7 @@
                                     var $thumbsDown = $("#thumbsDown");
                                     var $likeAmount = $("#likeAmount");
                                     var $dislikeAmount = $("#dislikeAmount");
-                                    
+
                                     if ($thumbsDown.hasClass("active")) {
                                         $thumbsDown.removeClass("active");
                                         $dislikeAmount.html(dislikeAmount);

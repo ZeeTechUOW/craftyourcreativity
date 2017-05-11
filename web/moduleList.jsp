@@ -40,7 +40,7 @@
                     <%
                         for (Module m : modules) {
                     %>
-                    <div id="aSFrame" onclick="location.href = 'module?mid=<%=m.getModuleID()%>';" style="cursor: pointer">
+                    <div id="aSFrame" onclick="location.href = 'module?mid=<%=m.getModuleID()%>';" style="cursor: pointer; overflow: hidden;">
                         <div style="display: flex; flex-direction: row; padding: 20px; position:relative">
                             <div id="sFrame" style='margin: 5px 5px; flex: 0 0 200px;'>
                                 <div class="frame">
@@ -65,9 +65,9 @@
                     %>
                 </div>
             </div>
-
-            <div id="footer">
-                Powered by ZeeTech
-            </div>
+        </div>
+        <div id="footer">
+            Powered by ZeeTech
+        </div>
     </body>
 </html>

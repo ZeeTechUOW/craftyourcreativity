@@ -34,16 +34,16 @@ public class ListModuleServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String type = request.getParameter("type");
         String search = request.getParameter("search");
         String title = "";
         ArrayList<Module> modules = new ArrayList<>();
-        
-        if("lib".equalsIgnoreCase(type)) {
+
+        if ("lib".equalsIgnoreCase(type)) {
             User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-            
-            if( loggedUser == null ) {
+
+            if (loggedUser == null) {
                 response.sendRedirect("login");
                 return;
             }
@@ -52,36 +52,45 @@ public class ListModuleServlet extends HttpServlet {
 
             // Get all module information
             for (ModuleUserData ud : userDatas) {
-                modules.add(DBAdmin.getModule(ud.getModuleID()));
+                boolean isFound = false;
+                for (Module m : modules) {
+                    if (m.getModuleID() == ud.getModuleID()) {
+                        isFound = true;
+                        break;
+                    }
+                }
+                if (!isFound) {
+                    modules.add(DBAdmin.getModule(ud.getModuleID()));
+                }
             }
-            
+
             title = "My Library";
-        } else if("popular".equalsIgnoreCase(type)) {
+        } else if ("popular".equalsIgnoreCase(type)) {
             modules.addAll(DBAdmin.getModuleSortBy("popular"));
             title = "Popular Modules";
-        } else if("newest".equalsIgnoreCase(type)) {
+        } else if ("newest".equalsIgnoreCase(type)) {
             modules.addAll(DBAdmin.getModuleSortBy("newest"));
             title = "Newest Release";
-        } else if("update".equalsIgnoreCase(type)) {
+        } else if ("update".equalsIgnoreCase(type)) {
             modules.addAll(DBAdmin.getModuleSortBy("update"));
             title = "Modules Sorted By Latest Update";
         } else {
             modules.addAll(DBAdmin.getModuleSortBy("newest"));
         }
-        
-        if( search != null && search.length() >= 1 ) {
+
+        if (search != null && search.length() >= 1) {
             title = "Search - " + search;
-            
+
             for (int i = 0; i < modules.size(); i++) {
                 Module module = modules.get(i);
 
-                if(!module.getModuleName().toUpperCase().contains(search.toUpperCase())) {
+                if (!module.getModuleName().toUpperCase().contains(search.toUpperCase())) {
                     modules.remove(i);
                     i--;
                 }
             }
         }
-        
+
         request.setAttribute("title", title);
         request.setAttribute("modules", modules);
         request.getRequestDispatcher("moduleList.jsp").forward(request, response);

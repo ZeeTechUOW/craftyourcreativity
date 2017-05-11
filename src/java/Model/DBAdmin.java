@@ -987,9 +987,8 @@ public class DBAdmin {
                 int _moduleID = resultSet.getInt("moduleID");
                 String _achievementName = resultSet.getString("achievementName");
                 String _achievementDescription = resultSet.getString("achievementDescription");
-                String _imagePath = resultSet.getString("imagePath");
 
-                achievements.add(new Achievement(_achievementID, moduleID, _achievementName, _achievementDescription, _imagePath));
+                achievements.add(new Achievement(_achievementID, moduleID, _achievementName, _achievementDescription, ""));
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);

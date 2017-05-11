@@ -41,10 +41,6 @@
         <servlet-class>Servlet.LogoutAuthServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>LibraryServlet</servlet-name>
-        <servlet-class>Servlet.LibraryServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ModuleServlet</servlet-name>
         <servlet-class>Servlet.ModuleServlet</servlet-class>
     </servlet>
@@ -223,10 +219,6 @@
     <servlet-mapping>
         <servlet-name>LogoutAuthServlet</servlet-name>
         <url-pattern>/logoutauth</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LibraryServlet</servlet-name>
-        <url-pattern>/library</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ModuleServlet</servlet-name>
