@@ -19,30 +19,30 @@
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
                 <strong>Warning!</strong> Indicates a warning that might need attention.
             </div>
-            <form action="loginauth" method="post" style="margin-bottom: 0em">
+            <form action="loginauth" method="post">
                 <div class="input-lg">
                     <input type="text" class="form-control" placeholder="Username" name="usernameLogin" style="width: 100%;"/>
                 </div>
                 <div class="input-lg">
                     <input type="password" class="form-control" placeholder="Password" name="passwordLogin" style="width: 100%;"/>
                 </div>
-                <div id="buttonBox">
-                    <button id="Button" type="submit" class="btn btn-default">Login</button>
+                <div id="buttonBox" style="margin-top: 10px">
+                    <button id="Button" type="submit" class="btn btn-default" style="margin-bottom: 0px">Login</button>
                 </div>
             </form>
-            <form action="signup" method="post" style="margin-bottom: 0em">
+            <form action="signup" method="post">
                 <div id="buttonBox">
                     <button id="Button" type="submit" class="btn btn-default">Create new Account</button>
                 </div>
             </form>
-<!--            <div id="util">
+            <div id="util">
                 <button type="submit" style="border: 0; background: transparent">
                     <img src="resource/fb.png" alt="fbLogo">
                 </button>
                 <button type="submit" style="border: 0; background: transparent">
                     <img src="resource/tw.png" alt="twLogo">
                 </button>                        
-            </div>-->
+            </div>
         </div>
     </body>
 </html>

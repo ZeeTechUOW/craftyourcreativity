@@ -42,7 +42,7 @@ public class ChangeEmailServlet extends HttpServlet {
         password = request.getParameter("passwordSetting");
 
         // Email validation
-        User temp = new User(0, "", "", email, "");
+        User temp = new User(0, "", "", email, "", "", "");
         System.out.println(temp.isEmailValid());
         if (!temp.isEmailValid()) {
             response.sendRedirect("setting?error=invalidemail");

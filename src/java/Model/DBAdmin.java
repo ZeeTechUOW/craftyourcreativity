@@ -33,8 +33,8 @@ public class DBAdmin {
             + "FROM `user` "
             + "WHERE (username=? OR email=?) AND password=SHA1(?)";
     private static final String REGISTER_QUERY
-            = "INSERT INTO `user` (`userID`, `username`, `password`, `email`, `userType`, `receiveUpdates`) "
-            + "VALUES (NULL, ?, SHA1(?), ?, ?, '0')";
+            = "INSERT INTO `user` (`userID`, `username`, `password`, `email`, `userType`, `fullname`, `organization`) "
+            + "VALUES (NULL, ?, SHA1(?), ?, ?, ?, ?)";
     private static final String GET_USER_FROM_USERNAME
             = "SELECT * "
             + "FROM `user` "
@@ -51,7 +51,9 @@ public class DBAdmin {
             = "UPDATE `user` "
             + "SET password=SHA1(?) "
             + "WHERE userID=? AND password=SHA1(?)";
-
+    private static final String GET_ADMIN_EMAIL
+            = "SELECT `email` FROM `user` " 
+            + "WHERE userType = 'admin'";
     // Thread Query
     private static final String CREATE_NEW_THREAD
             = "INSERT INTO `thread` (`threadID`, `userID`, `threadTitle`, `threadType`) "
@@ -258,8 +260,9 @@ public class DBAdmin {
                 String _username = resultSet.getString("username");
                 String _email = resultSet.getString("email");
                 String _userType = resultSet.getString("userType");
-
-                return new User(_userID, _username, "", _email, _userType);
+                String _fullName = resultSet.getString("fullname");
+                String _organization = resultSet.getString("organization");
+                return new User(_userID, _username, "", _email, _userType, _fullName, _organization);
             } else {
                 return null;
             }
@@ -280,7 +283,7 @@ public class DBAdmin {
      * @return <code>true</code> if user successfully registered to the
      * database, otherwise <code>false</code>.
      */
-    public static boolean register(String username, String email, String password, String userType) {
+    public static boolean register(String username, String email, String password, String userType, String fullName, String organization) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
@@ -290,6 +293,8 @@ public class DBAdmin {
             preparedStatement.setString(2, password);
             preparedStatement.setString(3, email);
             preparedStatement.setString(4, userType);
+            preparedStatement.setString(5, fullName);
+            preparedStatement.setString(6, organization);
 
             return preparedStatement.executeUpdate() > 0;
         } catch (ClassNotFoundException | SQLException ex) {
@@ -345,8 +350,10 @@ public class DBAdmin {
                 String _username = resultSet.getString("username");
                 String _email = resultSet.getString("email");
                 String _userType = resultSet.getString("userType");
+                String _fullName = resultSet.getString("fullname");
+                String _organization = resultSet.getString("organization");
 
-                return new User(_userID, _username, "", _email, _userType);
+                return new User(_userID, _username, "", _email, _userType, _fullName, _organization);
             } else {
                 return null;
             }
@@ -1263,6 +1270,26 @@ public class DBAdmin {
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
             return false;
+        }
+    }
+    
+    public static String getAdminEmail() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_ADMIN_EMAIL);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if(rs.next()) {
+                return rs.getString("email");
+            } else {
+                return null;
+            }
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
 }

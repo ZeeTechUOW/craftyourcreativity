@@ -23,7 +23,14 @@ public class SignupServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        request.getRequestDispatcher("signup.jsp").forward(request, response);
+        String as = request.getParameter("as");
+        
+        if( "trainer".equals(as) ) {
+            request.getRequestDispatcher("signuptrainer.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("signup.jsp").forward(request, response);
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

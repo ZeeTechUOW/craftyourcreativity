@@ -152,6 +152,10 @@
         <servlet-name>ListModuleServlet</servlet-name>
         <servlet-class>Servlet.ListModuleServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegisterTrainerServlet</servlet-name>
+        <servlet-class>Servlet.RegisterTrainerServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DirectoryServlet</servlet-name>
         <url-pattern>/DirectoryServlet</url-pattern>
@@ -391,6 +395,10 @@
     <servlet-mapping>
         <servlet-name>ListModuleServlet</servlet-name>
         <url-pattern>/modulelist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisterTrainerServlet</servlet-name>
+        <url-pattern>/RegisterTrainerServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

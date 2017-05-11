@@ -14,7 +14,11 @@ public class User {
     private String password;
     private String email;
     private String userType;
+    private String fullName;
+    private String organization;
 
+    private String activationLink;
+    
     /**
      *
      * @param userID
@@ -22,13 +26,17 @@ public class User {
      * @param password
      * @param email
      * @param userType
+     * @param fullName
+     * @param organization
      */
-    public User(int userID, String username, String password, String email, String userType) {
+    public User(int userID, String username, String password, String email, String userType, String fullName, String organization) {    
         this.userID = userID;
         this.username = username;
         this.password = password;
         this.email = email;
         this.userType = userType;
+        this.fullName = fullName;
+        this.organization = organization;
     }
 
     /**
@@ -37,7 +45,7 @@ public class User {
      * @return true if pattern is valid; otherwise false.
      */
     public boolean isEmailValid() {
-//        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        //        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
         String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+)*@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
 
         Pattern pattern = Pattern.compile(regex);
@@ -61,6 +69,14 @@ public class User {
 
     // <editor-fold defaultstate="collapsed" desc="Getter and Setter. Click + sign on the left to expand the code">
 
+    public void setActivationLink(String activationLink) {
+        this.activationLink = activationLink;
+    }
+
+    public String getActivationLink() {
+        return activationLink;
+    }
+    
     /**
      *
      * @return
@@ -77,6 +93,22 @@ public class User {
         this.userID = userID;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+    
     /**
      *
      * @return
