@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 03, 2017 at 01:58 PM
+-- Generation Time: May 11, 2017 at 05:49 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -243,6 +243,29 @@ INSERT INTO `post` (`postID`, `threadID`, `userID`, `openingPost`, `message`, `t
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `postuserdata`
+--
+
+CREATE TABLE IF NOT EXISTS `postuserdata` (
+  `postID` int(11) NOT NULL,
+  `userID` int(11) NOT NULL,
+  `mKey` varchar(100) NOT NULL,
+  `mValue` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`postID`,`userID`,`mKey`),
+  KEY `userID` (`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `postuserdata`
+--
+
+INSERT INTO `postuserdata` (`postID`, `userID`, `mKey`, `mValue`) VALUES
+(27, 1, 'state', 'Like'),
+(29, 1, 'state', 'Dislike');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `thread`
 --
 
@@ -283,7 +306,8 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` char(64) NOT NULL,
   `email` varchar(100) NOT NULL,
   `userType` varchar(100) NOT NULL,
-  `receiveUpdates` tinyint(1) NOT NULL,
+  `fullname` varchar(100) NOT NULL,
+  `organization` varchar(100) NOT NULL,
   PRIMARY KEY (`userID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
@@ -291,14 +315,14 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`userID`, `username`, `password`, `email`, `userType`, `receiveUpdates`) VALUES
-(1, 'admin', '459ff8ddc3d877b86573aa391746824c9c1d5c9a', 'andree.yosua@gmail.com', 'admin', 0),
-(17, 'Metakaku', 'f58cf5e7e10f195e21b553096d092c763ed18b0e', 'mharitsa@gmail.com', 'trainer', 0),
-(18, 'maniman', 'f58cf5e7e10f195e21b553096d092c763ed18b0e', 'JeanneDucx@gmail.com', 'player', 0),
-(19, 'superpenguin', '02c828262fc9a955df850b99d5983c4f2356b8d1', 'andree.yosua@gmail.com', 'player', 0),
-(20, 'Bijukaku', 'f58cf5e7e10f195e21b553096d092c763ed18b0e', 'asdf@gmail.com', 'player', 0),
-(21, 'TzarMoraei', 'f58cf5e7e10f195e21b553096d092c763ed18b0e', 'mharitsa@gmail.com', 'player', 0),
-(22, 'john', 'f58cf5e7e10f195e21b553096d092c763ed18b0e', 'john@gmail.com', 'player', 0);
+INSERT INTO `user` (`userID`, `username`, `password`, `email`, `userType`, `fullname`, `organization`) VALUES
+(1, 'admin', '459ff8ddc3d877b86573aa391746824c9c1d5c9a', 'andree.yosua@gmail.com', 'admin', 'The Admin', 'cyc'),
+(17, 'Metakaku', 'f58cf5e7e10f195e21b553096d092c763ed18b0e', 'mharitsa@gmail.com', 'trainer', 'Met Akaku', 'James Ketjap Tomat'),
+(18, 'maniman', 'f58cf5e7e10f195e21b553096d092c763ed18b0e', 'JeanneDucx@gmail.com', 'player', 'M Animan', 'James Ketjap Tomat'),
+(19, 'superpenguin', '02c828262fc9a955df850b99d5983c4f2356b8d1', 'andree.yosua@gmail.com', 'player', 'Sup Erp. Enguin', 'James Ketjap Tomat'),
+(20, 'Bijukaku', 'f58cf5e7e10f195e21b553096d092c763ed18b0e', 'asdf@gmail.com', 'player', 'Bi Jukaku', 'James Ketjap Tomat'),
+(21, 'TzarMoraei', 'f58cf5e7e10f195e21b553096d092c763ed18b0e', 'mharitsa@gmail.com', 'player', 'Tzar Moraei', 'James Ketjap Tomat'),
+(22, 'john', 'f58cf5e7e10f195e21b553096d092c763ed18b0e', 'john@gmail.com', 'player', 'Jonjon', 'James Ketjap Tomat');
 
 -- --------------------------------------------------------
 
@@ -400,6 +424,13 @@ ALTER TABLE `moduleuserdata`
 ALTER TABLE `post`
   ADD CONSTRAINT `fk_post_thread1` FOREIGN KEY (`threadID`) REFERENCES `thread` (`threadID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_post_user1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `postuserdata`
+--
+ALTER TABLE `postuserdata`
+  ADD CONSTRAINT `postuserdata_ibfk_1` FOREIGN KEY (`postID`) REFERENCES `post` (`postID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `postuserdata_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `thread`

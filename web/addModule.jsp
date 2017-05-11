@@ -1,4 +1,3 @@
-<%@page import="Model.ModuleImage"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Model.DBAdmin"%>
 <%@page import="Model.User"%>
