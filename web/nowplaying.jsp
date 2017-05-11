@@ -6,8 +6,9 @@
 
 <%
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-
+    String userLikeState = (String) request.getAttribute("likeState");
     Module module = (Module) request.getAttribute("module");
+
 %>
 
 <!DOCTYPE html><!DOCTYPE>
@@ -18,6 +19,28 @@
         <link rel="stylesheet" type="text/css" href="css/color1/coreF.css">
         <link rel="stylesheet" type="text/css" href="css/color1/gStruc.css">
         <script src="jquery/jquery-3.2.1.js"></script>
+
+        <style>
+            .thumbsUp,.thumbsDown {
+                color: black;
+            }
+
+            <%if (loggedUser != null) {%>
+            .thumbsUp.active,.thumbsDown.active {
+                color: #398439;
+            }
+            .thumbsUp:hover,.thumbsDown:hover{
+                color: #105a14;
+            }
+            <%}else{%>
+            .thumbsUp,.thumbsDown {
+                pointer-events: none;
+            }
+            .thumbsUp:hover,.thumbsDown:hover{
+                color: black;
+            }
+            <%}%>
+        </style>
     </head>
     <body>
         <jsp:include page="header.jsp"/>
@@ -33,6 +56,19 @@
                     <div id="canvasLoader">
                         <span class="glyphicon glyphicon-repeat glyphicon-spin"></span>
                         Loading Game
+                    </div>
+                </div>
+                <div id="buttonBar" class="text-center" style="width: 100%;">
+                    <div style="width: 90%; display: inline-block; max-width: 800px; margin-top: 5px;">
+                        <button id="Button" class="btn btn-default pull-left">Share</button>
+                        <div class="pull-right">
+                            <span style="margin: 2px 5px; font-size: 28px;"><span id="likeAmount"><%=module.getLikes()%></span> <a id='thumbsUp' href="#" onclick="if (likeClicked)
+                                        likeClicked()" class="thumbsUp <%=("like".equals(userLikeState) ? "active" : "")%>"><span class="glyphicon glyphicon-thumbs-up"></span></a>
+                            </span>
+                            <span style="margin: 2px 5px; font-size: 28px;"><span id="dislikeAmount"><%=module.getDislikes()%></span> <a id='thumbsDown' href="#" onclick="if (dislikeClicked)
+                                        dislikeClicked()" class="thumbsDown <%=("dislike".equals(userLikeState) ? "active" : "")%>"><span class="glyphicon glyphicon-thumbs-down"></span></a>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="hidden">
@@ -58,47 +94,102 @@
         <script src="js/Player/Game.js"></script>
         <script src="js/Player/player.js"></script>
         <script>
-            var moduleID = <%=module.getModuleID()%>;
-            var userID = <%=(loggedUser == null ? -1 : loggedUser.getUserID())%>;
+                                var moduleID = <%=module.getModuleID()%>;
+                                var userID = <%=(loggedUser == null ? -1 : loggedUser.getUserID())%>;
 
-            var player = new GamePlayer(moduleID, userID);
+                                var likeAmount = <%=module.getLikes()%>;
+                                var dislikeAmount = <%=module.getDislikes()%>;
 
-            player.startGame(function () {
-                player.game.dataVariables.username = {type:"TEXT", value:'<%=(loggedUser == null ? "Anonymous" : loggedUser.getUsername())%>'};
-                hideLoader();
-            });
+                                var player = new GamePlayer(moduleID, userID);
 
-            function hideLoader() {
-                $("#canvasLoader").fadeOut(500);
-            }
+                                player.startGame(function () {
+                                    player.game.dataVariables.username = {type: "TEXT", value: '<%=(loggedUser == null ? "Anonymous" : loggedUser.getUsername())%>'};
+                                    hideLoader();
+
+                                    $("#buttonBar>div").css("max-width", player.game.windowSize.x + "px");
+                                });
+
+                                function hideLoader() {
+                                    $("#canvasLoader").fadeOut(500);
+                                }
+
+
 
             <%
                 if (loggedUser != null) {
             %>
-            var _UNLOCK_ACHIEVEMENT = true;
-            var _isCertified = false;
-            function _notifyAchievement(json) {
-                $.notify("Achievement Unlocked " + json.name, {position: "bottom right", className: "success"});
-            }
+                                <%=("like".equals(userLikeState) ? "likeAmount--;" : "")%>
+                                <%=("dislike".equals(userLikeState) ? "dislikeAmount--;" : "")%>
+                                    
+                                function likeClicked() {
+                                    var $thumbsUp = $("#thumbsUp");
+                                    var $thumbsDown = $("#thumbsDown");
+                                    var $likeAmount = $("#likeAmount");
+                                    var $dislikeAmount = $("#dislikeAmount");
+                                    if ($thumbsUp.hasClass("active")) {
+                                        $thumbsUp.removeClass("active");
+                                        $likeAmount.html(likeAmount);
+                                        
+                                        $.ajax({url: "LikeServlet?mid=<%=module.getModuleID()%>&value=none"});
 
-            function _ON_GAME_FINISHED(data) {
-                console.log("GAME FINISHED " + data);
-                location.href = "GameFinishedServlet?mid=<%=module.getModuleID()%>&score=" + data.score + (isCertified?"&certs=true" : "");
-            }
+                                    } else {
+                                        $likeAmount.html(likeAmount + 1);
+                                        $thumbsUp.addClass("active");
 
-            function _RENDER_TO_PDF(imageData, w, h) {
-                var pdf = new jsPDF('l', 'px', [w, h]);
+                                        if ($thumbsDown.hasClass("active")) {
+                                            $thumbsDown.removeClass("active");
+                                            $dislikeAmount.html(dislikeAmount);
+                                        }
+                                        $.ajax({url: "LikeServlet?mid=<%=module.getModuleID()%>&value=like"});
+                                    }
+                                }
+                                function dislikeClicked() {
+                                    var $thumbsUp = $("#thumbsUp");
+                                    var $thumbsDown = $("#thumbsDown");
+                                    var $likeAmount = $("#likeAmount");
+                                    var $dislikeAmount = $("#dislikeAmount");
+                                    
+                                    if ($thumbsDown.hasClass("active")) {
+                                        $thumbsDown.removeClass("active");
+                                        $dislikeAmount.html(dislikeAmount);
+                                        $.ajax({url: "LikeServlet?mid=<%=module.getModuleID()%>&value=none"});
 
-                pdf.addImage(imageData, 'JPEG', 0, 0, w, h);
-                pdf.save("download.pdf");
+                                    } else {
+                                        $dislikeAmount.html(dislikeAmount + 1);
+                                        $thumbsDown.addClass("active");
 
-                $.ajax({
-                    method: "POST",
-                    url: "UploadPDFServlet?mid=<%=module.getModuleID()%>&uid=<%=loggedUser.getUserID()%>",
-                    data: {data: btoa(pdf.output())}
-                });
-                isCertified = true;
-            }
+                                        if ($thumbsDown.hasClass("active")) {
+                                            $thumbsUp.removeClass("active");
+                                            $likeAmount.html(likeAmount);
+                                        }
+                                        $.ajax({url: "LikeServlet?mid=<%=module.getModuleID()%>&value=dislike"});
+                                    }
+                                }
+
+                                var _UNLOCK_ACHIEVEMENT = true;
+                                var _isCertified = false;
+                                function _notifyAchievement(json) {
+                                    $.notify("Achievement Unlocked " + json.name, {position: "bottom right", className: "success"});
+                                }
+
+                                function _ON_GAME_FINISHED(data) {
+                                    console.log("GAME FINISHED " + data);
+                                    location.href = "GameFinishedServlet?mid=<%=module.getModuleID()%>&score=" + data.score + (isCertified ? "&certs=true" : "");
+                                }
+
+                                function _RENDER_TO_PDF(imageData, w, h) {
+                                    var pdf = new jsPDF('l', 'px', [w, h]);
+
+                                    pdf.addImage(imageData, 'JPEG', 0, 0, w, h);
+                                    pdf.save("download.pdf");
+
+                                    $.ajax({
+                                        method: "POST",
+                                        url: "UploadPDFServlet?mid=<%=module.getModuleID()%>&uid=<%=loggedUser.getUserID()%>",
+                                        data: {data: btoa(pdf.output())}
+                                    });
+                                    isCertified = true;
+                                }
             <%
                 }
             %>

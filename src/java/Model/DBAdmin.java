@@ -20,8 +20,8 @@ public class DBAdmin {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cyc";
     private static final String DB_USER = "root";
-//    private static final String DB_PASS = ""; // Local machine DB Pass
-    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
+    private static final String DB_PASS = ""; // Local machine DB Pass
+//    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
 //    private static final String DB_PASS = "cK3rMeyG"; // GCP machine DB Pass
 
     // <editor-fold defaultstate="collapsed" desc="Query String. Click + sign on the left to expand the code">
@@ -111,9 +111,44 @@ public class DBAdmin {
             = "INSERT INTO `post` (`postID`, `threadID`, `userID`, `openingPost`, `message`, `timestamp`) "
             + "VALUES (NULL, (SELECT threadID FROM thread WHERE userID=? ORDER BY threadID DESC LIMIT 1), ?, ?, ?, CURRENT_TIMESTAMP)";
     private static final String GET_POST_FROM_THREAD_ID_LIMIT_BY_X
-            = "SELECT * "
-            + "FROM `post` "
-            + "WHERE threadID=? "
+            = "SELECT *, " 
+            + "(SELECT COUNT(*) " 
+                + "FROM `postuserdata` d " 
+                + "WHERE p.postID = d.postID " 
+                + "AND d.mKey = 'lstate' " 
+                + "AND d.mValue = 'like') "
+            + "AS likes, " 
+            + "(SELECT COUNT(*) " 
+                + "FROM `postuserdata` d " 
+                + "WHERE p.postID = d.postID " 
+                + "AND d.mKey = 'lstate' " 
+                + "AND d.mValue = 'dislike') " 
+            + "AS dislikes " 
+            + "FROM `post` p " 
+            + "WHERE p.threadID = ? "
+            + "LIMIT ?, ?";
+    private static final String GET_POST_FROM_THREAD_ID_WITH_USER_LIKES_LIMIT_BY_X
+            = "SELECT *, " 
+            + "(SELECT COUNT(*) " 
+                + "FROM `postuserdata` d " 
+                + "WHERE p.postID = d.postID " 
+                + "AND d.mKey = 'lstate' " 
+                + "AND d.mValue = 'like') "
+            + "AS likes, " 
+            + "(SELECT COUNT(*) " 
+                + "FROM `postuserdata` d " 
+                + "WHERE p.postID = d.postID " 
+                + "AND d.mKey = 'lstate' " 
+                + "AND d.mValue = 'dislike') " 
+            + "AS dislikes, " 
+            + "(SELECT mValue " 
+                + "FROM `postuserdata` d " 
+                + "WHERE p.postID = d.postID " 
+                + "AND d.mKey = 'lstate' " 
+                + "AND d.userID = ?) " 
+            + "AS userLikes " 
+            + "FROM `post` p " 
+            + "WHERE p.threadID = ? "
             + "LIMIT ?, ?";
 
     // Module Query
@@ -143,9 +178,21 @@ public class DBAdmin {
             + "WHERE userID = ? "
             + "ORDER BY `lastEdited` DESC";
     private static final String GET_MODULE_FROM_MODULE_ID
-            = "SELECT * "
-            + "FROM `module` "
-            + "WHERE moduleID=?";
+            = "SELECT *, "
+            + "(SELECT COUNT(*) " 
+                + "FROM `moduleuserdata` d " 
+                + "WHERE m.moduleID = d.moduleID " 
+                + "AND d.mKey = 'lstate' " 
+                + "AND d.mValue = 'like') "
+            + "AS likes, " 
+            + "(SELECT COUNT(*) " 
+                + "FROM `moduleuserdata` d " 
+                + "WHERE m.moduleID = d.moduleID " 
+                + "AND d.mKey = 'lstate' " 
+                + "AND d.mValue = 'dislike') " 
+            + "AS dislikes " 
+            + "FROM `module` m "
+            + "WHERE m.moduleID=?";
     private static final String ADD_VIEW_TO_MODULE
             = "INSERT INTO `views` (`userID`, `moduleID`, `time`) "
             + "VALUES (?, ?, CURRENT_TIMESTAMP)";
@@ -222,13 +269,34 @@ public class DBAdmin {
     private static final String GET_USER_DATA_FROM_MODULE_ID
             = "SELECT * "
             + "FROM `moduleuserdata` "
-            + "WHERE userID=? AND mKey=?";
+            + "WHERE userID=?";
 
     private static final String UPDATE_SCORE
             = "INSERT INTO `moduleuserdata` (`userID`, `moduleID`, `mKey`, `mValue`) "
             + "VALUES (?, ?, 'score', ?) "
             + "ON DUPLICATE KEY UPDATE "
             + "mValue = GREATEST(mValue, VALUES(mValue))";
+    
+    private static final String SET_LIKE_TO_MODULE
+            = "INSERT INTO `moduleuserdata` (`userID`, `moduleID`, `mKey`, `mValue`) "
+            + "VALUES (?, ?, 'lstate', ?) "
+            + "ON DUPLICATE KEY UPDATE "
+            + "mValue = ?";
+    private static final String SET_LIKE_TO_POST
+            = "INSERT INTO `postuserdata` (`userID`, `postID`, `mKey`, `mValue`) "
+            + "VALUES (?, ?, 'lstate', ?) "
+            + "ON DUPLICATE KEY UPDATE "
+            + "mValue = ?";
+    private static final String GET_MODULE_USER_DATA
+            = "SELECT * FROM `moduleuserdata` "
+            + "WHERE moduleID = ? "
+            + "AND userID = ? "
+            + "AND mKey = ?";
+    private static final String GET_POST_USER_DATA
+            = "SELECT * FROM `postuserdata` "
+            + "WHERE postID = ? "
+            + "AND userID = ? "
+            + "AND mKey = ?";
     // </editor-fold>
 
     // User method
@@ -635,10 +703,51 @@ public class DBAdmin {
                 int _threadID = resultSet.getInt("threadID");
                 int _userID = resultSet.getInt("userID");
                 int _openingPost = resultSet.getInt("openingPost");
+                int _likes = resultSet.getInt("likes");
+                int _dislikes = resultSet.getInt("dislikes");
                 String _message = resultSet.getString("message");
                 LocalDateTime _postTime = resultSet.getTimestamp("timestamp").toLocalDateTime();
 
-                posts.add(new Post(_postID, threadID, _userID, _message, _postTime));
+                posts.add(new Post(_postID, threadID, _userID, _message, _postTime, _likes, _dislikes));
+            }
+
+            return posts;
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return posts;
+    }
+    
+    public static ArrayList<Post> getThreadPost(int userID, int threadID, int page) {
+        ArrayList<Post> posts = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_POST_FROM_THREAD_ID_WITH_USER_LIKES_LIMIT_BY_X);
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setInt(2, threadID);
+            preparedStatement.setInt(3, 10 * (page - 1));
+            preparedStatement.setInt(4, 10);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int _postID = resultSet.getInt("postID");
+                int _threadID = resultSet.getInt("threadID");
+                int _userID = resultSet.getInt("userID");
+                int _openingPost = resultSet.getInt("openingPost");
+                int _likes = resultSet.getInt("likes");
+                int _dislikes = resultSet.getInt("dislikes");
+                String _userLikes = resultSet.getString("userLikes");
+                String _message = resultSet.getString("message");
+                LocalDateTime _postTime = resultSet.getTimestamp("timestamp").toLocalDateTime();
+
+                Post p = new Post(_postID, threadID, _userID, _message, _postTime, _likes, _dislikes);
+                p.setUserLikes(_userLikes);
+                posts.add(p);
             }
 
             return posts;
@@ -725,9 +834,9 @@ public class DBAdmin {
 
                 if (t != null) {
                     LocalDateTime _releaseTime = t.toLocalDateTime();
-                    modules.add(new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, _releaseTime, _lastEdited));
+                    modules.add(new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, _releaseTime, _lastEdited, 0, 0));
                 } else {
-                    modules.add(new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, null, _lastEdited));
+                    modules.add(new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, null, _lastEdited, 0, 0));
                 }
                 
                 
@@ -762,13 +871,15 @@ public class DBAdmin {
                 String _moduleName = resultSet.getString("moduleName");
                 String _moduleDescription = resultSet.getString("moduleDescription");
                 LocalDateTime _lastEdited = resultSet.getTimestamp("lastEdited").toLocalDateTime();
+                int _likes = resultSet.getInt("likes");
+                int _dislikes = resultSet.getInt("dislikes");
                 Timestamp t = resultSet.getTimestamp("releaseTime");
 
                 if (t != null) {
                     LocalDateTime _releaseTime = t.toLocalDateTime();
-                    return new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, _releaseTime, _lastEdited);
+                    return new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, _releaseTime, _lastEdited, _likes, _dislikes);
                 } else {
-                    return new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, null, _lastEdited);
+                    return new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, null, _lastEdited, _likes, _dislikes);
                 }
 
             }
@@ -997,7 +1108,6 @@ public class DBAdmin {
 
             PreparedStatement preparedStatement = connection.prepareCall(GET_USER_DATA_FROM_MODULE_ID);
             preparedStatement.setInt(1, userID);
-            preparedStatement.setString(2, "score");
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -1061,9 +1171,9 @@ public class DBAdmin {
                 Timestamp ts = resultSet.getTimestamp("releaseTime");
                 if (ts != null) {
                     LocalDateTime _releaseTime = resultSet.getTimestamp("releaseTime").toLocalDateTime();
-                    modules.add(new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, _releaseTime, _lastEdited));
+                    modules.add(new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, _releaseTime, _lastEdited, 0, 0));
                 } else {
-                    modules.add(new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, null, _lastEdited));
+                    modules.add(new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, null, _lastEdited, 0, 0));
                 }
 
             }
@@ -1290,6 +1400,81 @@ public class DBAdmin {
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        }
+    }
+    
+    public static boolean setLikeToPost(int userID, int postID, String value) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(SET_LIKE_TO_POST);
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setInt(2, postID);
+            preparedStatement.setString(3, value);
+            preparedStatement.setString(4, value);
+
+            return preparedStatement.execute();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    public static boolean setLikeToModule(int userID, int moduleID, String value) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(SET_LIKE_TO_MODULE);
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setInt(2, moduleID);
+            preparedStatement.setString(3, value);
+            preparedStatement.setString(4, value);
+
+            return preparedStatement.execute();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public static String getUserModuleData(int userID, int moduleID, String key) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_MODULE_USER_DATA);
+            preparedStatement.setInt(1, moduleID);
+            preparedStatement.setInt(2, userID);
+            preparedStatement.setString(3, key);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            rs.next();
+            return rs.getString("mValue");
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
+    }
+
+    public static String getUserPostData(int userID, int postID, String key) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_POST_USER_DATA);
+            preparedStatement.setInt(1, postID);
+            preparedStatement.setInt(2, userID);
+            preparedStatement.setString(3, key);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            rs.next();
+            return rs.getString("mValue");
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
         }
     }
 }

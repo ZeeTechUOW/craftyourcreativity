@@ -6,11 +6,9 @@
 package Servlet;
 
 import Model.DBAdmin;
-import Model.Module;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Deni Barasena
  */
-public class NowPlayingServlet extends HttpServlet {
+public class LikeServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,43 +33,33 @@ public class NowPlayingServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        // Initialize variable
-        int moduleID;
-        Module module;
-
-        // Parse all parameter
-        try {
-            moduleID = Integer.parseInt(request.getParameter("mid"));
-        } catch (NumberFormatException ex) {
-            // Redirect to 404
-            response.sendRedirect("error?code=404");
-            return;
-        }
-
-        // Get Module
-        module = DBAdmin.getModule(moduleID);
-        if (module == null) {
-            // Redirect to 404
-            response.sendRedirect("error?code=404");
-            return;
-        }
-
-        // Get Module Image
-
-        // Set Attribute
-        request.setAttribute("module", module);
-        
-        
         User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-        if( loggedUser != null ) {
-            DBAdmin.addView(loggedUser.getUserID(), module.getModuleID());
-            request.setAttribute("likeState", DBAdmin.getUserModuleData(loggedUser.getUserID(), moduleID, "lstate"));
-        } else {
-            DBAdmin.addView(module.getModuleID());
+        if( loggedUser == null ) {
+            return;
         }
         
-
-        request.getRequestDispatcher("nowplaying.jsp").forward(request, response);
+        String postID = request.getParameter("pid");
+        String moduleID = request.getParameter("mid");
+        String value = request.getParameter("value");
+        
+        System.out.println(value);
+        
+        if( postID != null ) {
+            try {
+                int pID = Integer.parseInt(postID);
+                DBAdmin.setLikeToPost(loggedUser.getUserID(), pID, value);
+            } catch (NumberFormatException ex) {
+                
+            }
+        }
+        if( moduleID != null ) {
+            try {
+                int mID = Integer.parseInt(moduleID);
+                DBAdmin.setLikeToModule(loggedUser.getUserID(), mID, value);
+            } catch (NumberFormatException ex) {
+                
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

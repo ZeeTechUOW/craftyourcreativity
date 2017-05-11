@@ -14,10 +14,13 @@ public class Post {
     private int postID;
     private int threadID;
     private int userID;
+    private int likes;
+    private int dislikes;
     private String postMessage;
     private LocalDateTime postTime;
     private PrettyTime p = new PrettyTime();
 
+    private String userLikes;
     /**
      *
      * @param postID
@@ -26,16 +29,26 @@ public class Post {
      * @param postMessage
      * @param postTime
      */
-    public Post(int postID, int threadID, int userID, String postMessage, LocalDateTime postTime) {
+    public Post(int postID, int threadID, int userID, String postMessage, LocalDateTime postTime, int likes, int dislikes) {
         this.postID = postID;
         this.threadID = threadID;
         this.userID = userID;
         this.postMessage = postMessage;
         this.postTime = postTime;
+        this.likes = likes;
+        this.dislikes = dislikes;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Getter and Setter. Click + sign on the left to expand the code">
 
+    public String getUserLikes() {
+        return userLikes;
+    }
+
+    public void setUserLikes(String userLikes) {
+        this.userLikes = userLikes;
+    }
+    
     /**
      *
      * @return
@@ -83,6 +96,24 @@ public class Post {
     public void setUserID(int userID) {
         this.userID = userID;
     }
+
+    public int getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(int dislikes) {
+        this.dislikes = dislikes;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+    
+    
 
     /**
      *

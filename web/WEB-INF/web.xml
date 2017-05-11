@@ -156,6 +156,10 @@
         <servlet-name>RegisterTrainerServlet</servlet-name>
         <servlet-class>Servlet.RegisterTrainerServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LikeServlet</servlet-name>
+        <servlet-class>Servlet.LikeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DirectoryServlet</servlet-name>
         <url-pattern>/DirectoryServlet</url-pattern>
@@ -399,6 +403,10 @@
     <servlet-mapping>
         <servlet-name>RegisterTrainerServlet</servlet-name>
         <url-pattern>/RegisterTrainerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LikeServlet</servlet-name>
+        <url-pattern>/LikeServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

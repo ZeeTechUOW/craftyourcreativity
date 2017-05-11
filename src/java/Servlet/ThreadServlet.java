@@ -28,6 +28,8 @@ public class ThreadServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        User loggedUser = (User) request.getSession().getAttribute("loggedUser");
+        
         // Initialize variable
         int id;
         int pageNum;
@@ -75,8 +77,13 @@ public class ThreadServlet extends HttpServlet {
             response.sendRedirect("error?code=404");
             return;
         }
-        posts = DBAdmin.getThreadPost(id, pageNum);
-
+        
+        if( loggedUser != null ) {
+            posts = DBAdmin.getThreadPost(loggedUser.getUserID(), id, pageNum);
+        } else {
+            posts = DBAdmin.getThreadPost(id, pageNum);
+        }
+        
         // Get username for every post
         userList = new ArrayList<>();
         for (Post p : posts) {

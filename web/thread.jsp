@@ -32,6 +32,37 @@
         <script src="jquery/jquery-3.2.1.js"></script>
         <script src="js/bootstrap.js"></script>
 
+        <style>
+            .postDropdown > .dropdown-menu > li > a {
+                font-size: 16px;
+            }
+            .postDropdown > .dropdown-menu > li > a:hover{
+                background-color: rgba(0, 0, 0, .1);
+            }
+            .postDropdown > .dropdown-menu > li.divider{
+                background-color: rgba(0, 0, 0, .3);
+            }
+            .thumbsUp,.thumbsDown {
+                color: black;
+            }
+
+            <%if (loggedUser != null) {%>
+            .thumbsUp.active,.thumbsDown.active {
+                color: #398439;
+            }
+            .thumbsUp:hover,.thumbsDown:hover{
+                color: #105a14;
+            }
+            <%} else {%>
+            .thumbsUp:hover,.thumbsDown:hover{
+                color: black;
+            }
+            .thumbsUp,.thumbsDown {
+                pointer-events: none;
+            }
+            <%}%>
+        </style>
+
         <link rel="stylesheet" href="summernote/0.8.3/summernote.css">
         <script src="summernote/0.8.3/summernote.js"></script>
     </head>
@@ -70,11 +101,35 @@
                     %>
                     <div id="tPostHeader">
                         <table>
-                            <tr id="postNo<%=i%>"><td><% out.print(userList.get(i).getUsername()); %></td><td><% out.print(posts.get(i).getPostTimeFormatted()); %></td></tr>
+                            <tr id="postNo<%=i%>">
+                                <td><% out.print(userList.get(i).getUsername()); %></td>
+                                <td><% out.print(posts.get(i).getPostTimeFormatted());%>
+                                    <span class="dropdown postDropdown">
+                                        <span class="caret dropdown-toggle" type="button" data-toggle="dropdown"></span>
+                                        <ul class="dropdown-menu dropdown-menu-right" style="background-color: #bdcdba;">
+                                            <li><a onclick="if (likePost)
+                                                        likePost(<%=posts.get(i).getPostID()%>)">Like</a></li>
+                                            <li><a onclick="if (dislikePost)
+                                                        dislikePost(<%=posts.get(i).getPostID()%>)">Dislike</a></li>
+                                            <li class="divider"></li>
+                                            <li><a>Share</a></li>
+                                        </ul>
+                                    </span>
+
+                                </td>
+                            </tr>
                         </table>
                     </div>
                     <div id="tPostContent">
-                        <% out.print(posts.get(i).getPostMessage()); %>
+                        <% out.print(posts.get(i).getPostMessage());%>
+                    </div>
+                    <div class="text-right" style="background-color: #9aad96">
+                        <span style="margin: 2px 5px;"><%=posts.get(i).getLikes()%> <a id='thumbsUp<%=posts.get(i).getPostID()%>' href="#" onclick='if (likeClicked)
+                                    likeClicked(<%=posts.get(i).getPostID()%>);' class="thumbsUp <%=("like".equals(posts.get(i).getUserLikes()) ? "active" : "")%>"><span class="glyphicon glyphicon-thumbs-up"></span></a>
+                        </span>
+                        <span style="margin: 2px 5px;"><%=posts.get(i).getDislikes()%> <a id='thumbsDown<%=posts.get(i).getPostID()%>' href="#" onclick='if (dislikeClicked)
+                                    dislikeClicked(<%=posts.get(i).getPostID()%>);' class="thumbsDown <%=("dislike".equals(posts.get(i).getUserLikes()) ? "active" : "")%>"><span class="glyphicon glyphicon-thumbs-down"></span></a>
+                        </span>
                     </div>
                 </div>
                 <%
@@ -107,14 +162,11 @@
                             focus: true,
                             dialogsInBody: true
                         });
-
                         window.scrollTo(0, 0);
                     });
-
                     function submitPost() {
                         var value = $('#summernote').summernote('code');
                         var noWhiteSpace = value.replace(" ", "").replace(/&nbsp;/gi, "");
-
                         if (value && $(noWhiteSpace).text().length > 0) {
                             $('#summerNoteTextID').html(value);
                             $('#myForm').submit();
@@ -141,5 +193,43 @@
                 </div>
             </div>
         </div>
+
+        <script>
+
+            <%
+                if (loggedUser != null) {
+            %>
+            function neutralPost(postID) {
+                $.ajax({url: "LikeServlet?pid=" + postID + "&value=none"});
+                window.location.reload(true);
+            }
+            function likePost(postID) {
+                $.ajax({url: "LikeServlet?pid=" + postID + "&value=like"});
+                window.location.reload(true);
+            }
+            function dislikePost(postID) {
+                $.ajax({url: "LikeServlet?pid=" + postID + "&value=dislike"});
+                window.location.reload(true);
+            }
+            function likeClicked(postID) {
+                if ($("#thumbsUp" + postID).hasClass("active")) {
+                    neutralPost(postID);
+                } else {
+                    likePost(postID);
+                }
+            }
+            function dislikeClicked(postID) {
+                if ($("#thumbsDown" + postID).hasClass("active")) {
+                    neutralPost(postID);
+                    window.location.reload(true);
+                } else {
+                    dislikePost(postID);
+                }
+            }
+            <%
+                }
+            %>
+
+        </script>
     </body>
 </html>

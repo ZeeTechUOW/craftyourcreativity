@@ -15,6 +15,8 @@ public class Module {
     private String moduleDescription;
     private LocalDateTime releaseTime;
     private LocalDateTime lastEdited;
+    private int likes;
+    private int dislikes;
 
     /**
      * Class to represent the module details and information.
@@ -26,8 +28,10 @@ public class Module {
      * @param moduleDescription Module description
      * @param releaseTime Module release time
      * @param lastEdited Module last edited time
+     * @param likes Amount of likes
+     * @param dislikes Amount of dislikes
      */
-    public Module(int moduleID, int userID, String moduleVersion, String moduleName, String moduleDescription, LocalDateTime releaseTime, LocalDateTime lastEdited) {
+    public Module(int moduleID, int userID, String moduleVersion, String moduleName, String moduleDescription, LocalDateTime releaseTime, LocalDateTime lastEdited, int likes, int dislikes) {    
         this.moduleID = moduleID;
         this.userID = userID;
         this.moduleVersion = moduleVersion;
@@ -35,6 +39,8 @@ public class Module {
         this.moduleDescription = moduleDescription;
         this.releaseTime = releaseTime;
         this.lastEdited = lastEdited;
+        this.likes = likes;
+        this.dislikes = dislikes;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Getter and Setter. Click + sign on the left to expand the code">
@@ -52,6 +58,22 @@ public class Module {
      */
     public void setModuleID(int moduleID) {
         this.moduleID = moduleID;
+    }
+
+    public int getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(int dislikes) {
+        this.dislikes = dislikes;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
     
     /**
