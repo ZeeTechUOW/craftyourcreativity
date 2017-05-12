@@ -31,7 +31,6 @@
                 </div>
                 <div id="sDisp">
                     <ul class="list-inline list-unstyled">
-
                         <%
                             for (int i = 0; i < modules.size(); i++) {
                         %>

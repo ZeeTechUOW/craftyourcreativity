@@ -38,6 +38,14 @@
                 </div>
                 <div id="aSDisp">
                     <%
+                        if (modules.size() == 0) {
+                    %>
+                    <div class="alert alert-info fade in alert-dismissable"> 
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
+                        <strong>No module in library!</strong> You can browse module and play it to add module in your library.
+                    </div>
+                    <%
+                        }
                         for (Module m : modules) {
                     %>
                     <div id="aSFrame" onclick="location.href = 'module?mid=<%=m.getModuleID()%>';" style="cursor: pointer; overflow: hidden;">
