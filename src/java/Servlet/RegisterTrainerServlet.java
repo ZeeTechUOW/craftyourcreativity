@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Servlet;
 
 import Model.DBAdmin;
@@ -10,7 +5,6 @@ import Model.DirectoryAdmin;
 import Model.MailAdmin;
 import Model.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

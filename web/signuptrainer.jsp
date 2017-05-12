@@ -1,6 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
+    String error = request.getParameter("error");
+    
     String prevEmail = request.getParameter("email");
     if( prevEmail == null ) {
         prevEmail = "";
@@ -23,10 +25,27 @@
             <div id="logo">
                 <div class="logo"><img src="resource/blogo.png" alt="logo"></div>
             </div>
+            <%
+                if (error != null) {
+                    if (error.equalsIgnoreCase("empty")) {
+            %>
             <div class="alert alert-warning fade in alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                <strong>Warning!</strong> Indicates a warning that might need attention.
+                <strong>Warning!</strong> Please fill all required field.
             </div>
+            <%
+                    }
+                    
+                    if (error.equalsIgnoreCase("invalidemail")) {
+            %>
+            <div class="alert alert-warning fade in alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                <strong>Warning!</strong> Email format must be valid.
+            </div>
+            <%
+                    }
+                }
+            %>
             <form action="signuptrainerauth" method="post" style="margin-bottom: 0em">
                 <div class="input-lg">
                     <input type="text" class="form-control" placeholder="Full Name" name="fullName" style="width: 100%;"/>

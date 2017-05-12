@@ -97,7 +97,7 @@
             </form>
             <div style="margin: 10px auto; width: 60%; border-top: solid #aaa 1px; height: 1px;"></div>
             <div id="buttonBox">
-                <button id="Button" type="submit" class="btn btn-default" onclick="location= 'signup?as=trainer&email=' + $('#emailField').val();">Sign Up as Trainer</button>
+                <button id="Button" type="submit" class="btn btn-default" onclick="location= 'signup?as=trainer'">Sign Up as Trainer</button>
             </div>
             <div id="buttonBox">
                 <button id="Button" type="submit" class="btn btn-default" onclick="location= 'login';">Already have an account?</button>

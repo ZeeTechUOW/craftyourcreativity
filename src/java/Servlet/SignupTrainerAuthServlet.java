@@ -32,12 +32,15 @@ public class SignupTrainerAuthServlet extends HttpServlet {
         String fullName = request.getParameter("fullName");
         String organization = request.getParameter("organization");
 
+        if (email.isEmpty() || fullName.isEmpty() || organization.isEmpty()) {
+            response.sendRedirect("signup?as=trainer&error=empty");
+            return;
+        }
+        
         User user = new User(0, "", "", email, "trainer", fullName, organization);
 
         if (!user.isEmailValid()) {
-            String error = "Please use valid email address";
-
-            response.sendRedirect("signup?as=trainer&em=" + error);
+            response.sendRedirect("signup?as=trainer&error=invalidemail");
             return;
         }
 
