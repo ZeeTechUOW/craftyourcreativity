@@ -59,7 +59,7 @@ public class ChangePasswordServlet extends HttpServlet {
             request.getSession().setAttribute("loggedUser", loggedUser);
 
             // Redirect to setting page
-            response.sendRedirect("setting");
+            response.sendRedirect("setting?c=pass");
         } else {
             // Wrong password
             response.sendRedirect("setting?error=wrongpass");

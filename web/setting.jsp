@@ -6,6 +6,7 @@
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
     
     String error = request.getParameter("error");
+    String c = request.getParameter("c");
 %>
 
 <!DOCTYPE>
@@ -55,7 +56,25 @@
                         %>
                         <div class="alert alert-danger fade in alert-dismissable"> 
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
-                            <strong>Warning!</strong>Confirm new password input doesn't match with new password input!
+                            <strong>Warning!</strong> Confirm new password input doesn't match with new password input!
+                        </div>
+                        <%
+                            }
+
+                            if (c != null && c.equalsIgnoreCase("pass")) {
+                        %>
+                        <div class="alert alert-success fade in alert-dismissable"> 
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
+                            <strong>Success!</strong> Password is changed!
+                        </div>
+                        <%
+                            }
+
+                            if (c != null && c.equalsIgnoreCase("email")) {
+                        %>
+                        <div class="alert alert-success fade in alert-dismissable"> 
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
+                            <strong>Success!</strong> Email is changed!
                         </div>
                         <%
                             }
