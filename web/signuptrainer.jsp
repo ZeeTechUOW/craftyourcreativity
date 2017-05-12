@@ -1,4 +1,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    String prevEmail = request.getParameter("email");
+    if( prevEmail == null ) {
+        prevEmail = "";
+    }
+%>
+
 <!DOCTYPE>
 <html>
     <head>
@@ -19,8 +27,7 @@
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
                 <strong>Warning!</strong> Indicates a warning that might need attention.
             </div>
-            <form action="signupauth" method="post" style="margin-bottom: 0em">
-                <input type="hidden" name="as" value="trainer">
+            <form action="signuptrainerauth" method="post" style="margin-bottom: 0em">
                 <div class="input-lg">
                     <input type="text" class="form-control" placeholder="Full Name" name="fullName" style="width: 100%;"/>
                 </div>
@@ -28,7 +35,7 @@
                     <input type="text" class="form-control" placeholder="Organization" name="organization" style="width: 100%;"/>
                 </div>
                 <div class="input-lg">
-                    <input type="text" class="form-control" placeholder="Email" name="emailRegister" style="width: 100%;"/>
+                    <input type="text" class="form-control" placeholder="Email" name="emailRegister" style="width: 100%;" value="<%=prevEmail%>"/>
                 </div>
                 <div id="buttonBox" style="margin-top: 10px">
                     <button id="Button" type="submit" class="btn btn-default" name="userType" value="player">Send Registration</button>

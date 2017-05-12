@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Andree Yosua
  */
-public class SignupAuthServlet extends HttpServlet {
+public class SignupTrainerAuthServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -28,49 +28,25 @@ public class SignupAuthServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String username = request.getParameter("usernameRegister");
-        String password = request.getParameter("passwordRegister");
         String email = request.getParameter("emailRegister");
         String fullName = request.getParameter("fullName");
+        String organization = request.getParameter("organization");
 
-        if (username.isEmpty() || password.isEmpty() || email.isEmpty() || fullName.isEmpty()) {
-            response.sendRedirect("signup?error=empty");
-            return;
-        }
-        
-        User user = new User(0, username, password, email, "player", fullName, "Unaffliated");
+        User user = new User(0, "", "", email, "trainer", fullName, organization);
 
         if (!user.isEmailValid()) {
-            response.sendRedirect("signup?error=invalidemail");
+            String error = "Please use valid email address";
+
+            response.sendRedirect("signup?as=trainer&em=" + error);
             return;
         }
 
-        if (Pattern.compile("[^a-zA-Z0-9]").matcher(username).find()) {
-            response.sendRedirect("signup?error=invaliduser");
-            return;
-        }
+        user.setActivationLink(getURLWithContextPath(request) + "/RegisterTrainerServlet");
 
-        if (DBAdmin.isUsernameTaken(username)) {
-            response.sendRedirect("signup?error=usertaken");
-            return;
-        }
+        MailAdmin.sendAccountRequestMail(user);
+        request.setAttribute("user", user);
 
-        if (!user.isPasswordValid()) {
-            response.sendRedirect("signup?error=invalidpass");
-            return;
-        }
-
-        if (DBAdmin.register(username, email, password, "player", fullName, "Unaffliated")) {
-            user = DBAdmin.login(username, username, password);
-
-            request.getSession().setAttribute("loggedUser", user);
-
-            DirectoryAdmin.prepNewUserDirectory(request.getServletContext().getRealPath("/users/" + username));
-
-            response.sendRedirect("main");
-        } else {
-            response.sendRedirect("signup?error=general");
-        }
+        request.getRequestDispatcher("signuptrainerwait.jsp").forward(request, response);
 
     }
 

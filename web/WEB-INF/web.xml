@@ -29,12 +29,12 @@
         <servlet-class>Servlet.SignupServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>LoginAuthServlet</servlet-name>
-        <servlet-class>Servlet.LoginAuthServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>SignupAuthServlet</servlet-name>
         <servlet-class>Servlet.SignupAuthServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginAuthServlet</servlet-name>
+        <servlet-class>Servlet.LoginAuthServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogoutAuthServlet</servlet-name>
@@ -156,6 +156,10 @@
         <servlet-name>LikeServlet</servlet-name>
         <servlet-class>Servlet.LikeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SignupTrainerAuthServlet</servlet-name>
+        <servlet-class>Servlet.SignupTrainerAuthServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DirectoryServlet</servlet-name>
         <url-pattern>/DirectoryServlet</url-pattern>
@@ -209,12 +213,12 @@
         <url-pattern>/signup</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>LoginAuthServlet</servlet-name>
-        <url-pattern>/loginauth</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>SignupAuthServlet</servlet-name>
         <url-pattern>/signupauth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginAuthServlet</servlet-name>
+        <url-pattern>/loginauth</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogoutAuthServlet</servlet-name>
@@ -399,6 +403,10 @@
     <servlet-mapping>
         <servlet-name>LikeServlet</servlet-name>
         <url-pattern>/LikeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignupTrainerAuthServlet</servlet-name>
+        <url-pattern>/signuptrainerauth</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

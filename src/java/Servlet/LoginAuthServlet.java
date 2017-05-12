@@ -36,7 +36,7 @@ public class LoginAuthServlet extends HttpServlet {
 
         // Cehck parameter
         if (username.isEmpty() || password.isEmpty()) {
-            response.sendRedirect("login");
+            response.sendRedirect("login?error=empty");
             return;
         }
 
@@ -45,7 +45,7 @@ public class LoginAuthServlet extends HttpServlet {
 
         // Check user exist
         if (loggedUser == null) {
-            response.sendRedirect("login");
+            response.sendRedirect("login?error=invalid");
             return;
         }
 

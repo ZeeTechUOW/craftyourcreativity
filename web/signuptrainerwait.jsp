@@ -29,7 +29,7 @@
             <p>An email will be sent to <%=user.getEmail()%> when our team have approved the application.</p>
             <div style="height: 40px"></div>
             <div id="buttonBox">
-                <button id="Button" type="submit" class="btn btn-default" onclick="location = 'login';">Login</button>
+                <button id="Button" class="btn btn-default" onclick="location = 'login';">Login</button>
             </div>
         </div>
     </body>

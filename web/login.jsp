@@ -1,4 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    String error = request.getParameter("error");
+%>
+
 <!DOCTYPE>
 <html>
     <head>
@@ -15,16 +20,33 @@
             <div id="logo">
                 <div class="logo"><img src="resource/blogo.png" alt="logo"></div>
             </div>
+            <%
+                if (error != null) {
+                    if (error.equalsIgnoreCase("empty")) {
+            %>
             <div class="alert alert-warning fade in alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                <strong>Warning!</strong> Indicates a warning that might need attention.
+                <strong>Warning!</strong> Please fill both username and password.
             </div>
+            <%          
+                    }
+                    
+                    if (error.equalsIgnoreCase("invalid")) {
+            %>
+            <div class="alert alert-danger fade in alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                <strong>Login error!</strong> Username or password is invalid.
+            </div>
+            <%
+                    }
+                }
+            %>
             <form action="loginauth" method="post">
                 <div class="input-lg">
-                    <input type="text" class="form-control" placeholder="Username" name="usernameLogin" style="width: 100%;"/>
+                    <input id="usernameLogin" type="text" class="form-control" placeholder="Username" name="usernameLogin" style="width: 100%;"/>
                 </div>
                 <div class="input-lg">
-                    <input type="password" class="form-control" placeholder="Password" name="passwordLogin" style="width: 100%;"/>
+                    <input id="passwordLogin" type="password" class="form-control" placeholder="Password" name="passwordLogin" style="width: 100%;"/>
                 </div>
                 <div id="buttonBox" style="margin-top: 10px">
                     <button id="Button" type="submit" class="btn btn-default" style="margin-bottom: 0px">Login</button>
