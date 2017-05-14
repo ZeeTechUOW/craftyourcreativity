@@ -70,7 +70,14 @@ public class EditModuleServlet extends HttpServlet {
 
         if ("publish".equalsIgnoreCase(op)) {
             if (loggedUser.getUserID() == module.getUserID()) {
-                DBAdmin.moduleReleased(moduleID);
+                if( module.getReleaseTime() == null ) {
+                    System.out.println(module.getModuleName() + " RELEASED");
+                    DBAdmin.moduleReleased(moduleID);
+                } else {
+                    System.out.println(module.getModuleName() + " UPDATED");
+                    DBAdmin.moduleUpdated(moduleID);
+                }
+                module = DBAdmin.getModule(moduleID);
 
                 File f = new File(getServletContext().getRealPath("/module/" + moduleID + "/save.json"));
                 File f2 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Assets"));

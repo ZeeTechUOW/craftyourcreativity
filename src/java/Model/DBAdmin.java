@@ -203,7 +203,7 @@ public class DBAdmin {
     private static final String MODULE_RELEASED
             = "UPDATE `module` "
             + "SET `releaseTime` = CURRENT_TIMESTAMP "
-            + "AND `lastEdited` = CURRENT_TIMESTAMP "
+            + ", `lastEdited` = CURRENT_TIMESTAMP "
             + "WHERE `moduleID` = ?";
     private static final String UPDATE_MODULE
             = "UPDATE `module` "
