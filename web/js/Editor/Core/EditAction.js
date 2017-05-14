@@ -4,25 +4,25 @@
  * and open the template in the editor.
  */
 
-//function EditAction(opt, do_, undo) {
-//    this.opt = opt;
-//    this.name = opt.name;
-//    this.focus = opt.focus;
-//    this._do = do_;
-//    this._undo = undo;
-//
-//    this.do = function () {
-//        return this._do(opt);
-//    };
-//
-//    this.undo = function () {
-//        return this._undo(opt);
-//    };
-//
-//    this.setFocus = function () {
-//
-//    };
-//}
+function EditAction(opt, do_, undo) {
+    this.opt = opt;
+    this.name = opt.name;
+    this.focus = opt.focus;
+    this._do = do_;
+    this._undo = undo;
+
+    this.do = function () {
+        return this._do(opt);
+    };
+
+    this.undo = function () {
+        return this._undo(opt);
+    };
+
+    this.setFocus = function () {
+
+    };
+}
 
 function Edit(ext) {
     
