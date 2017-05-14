@@ -11,7 +11,6 @@ import Model.Module;
 import Model.User;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +53,11 @@ public class PublishModuleServlet extends HttpServlet {
         Module module = DBAdmin.getModule(moduleID);
         
         if( userID == loggedUser.getUserID() && userID == module.getUserID() ) {
-            DBAdmin.moduleReleased(moduleID);
+            if( module.getReleaseTime() == null ) {
+                DBAdmin.moduleReleased(moduleID);
+            } else {
+                DBAdmin.moduleUpdated(moduleID);
+            }
 
             File f = new File(getServletContext().getRealPath("/module/" + moduleID + "/save.json"));
             File f2 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Assets"));

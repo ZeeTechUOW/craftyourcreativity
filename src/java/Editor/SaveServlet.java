@@ -73,8 +73,6 @@ public class SaveServlet extends HttpServlet {
         FileWriter fout = new FileWriter(outputFile);
         fout.write(data.toString() + "\n");
         fout.close();
-        
-        DBAdmin.moduleUpdated(moduleID);
 
         PrintWriter out = response.getWriter();
         try {

@@ -1,10 +1,10 @@
 html{
-     overflow-x: hidden;
-/*        background: url(../../resource/bg2.png) no-repeat center center fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;*/
+    overflow-x: hidden;
+    /*        background: url(../../resource/bg2.png) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;*/
 }
 
 body{
@@ -92,16 +92,30 @@ img{
 
 #container{
     position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0);
-    width: 80%;
+    width: 100%;
     max-width: 1500px;
     min-height: calc(100% - 78px);
     display: flex;
     flex-direction: column;
     background-color: #aad0c5;
-    border-left: solid 8px white;
-    border-right: solid 8px white;
+    border-left: solid 1px white;
+    border-right: solid 1px white;
+}
+
+@media (min-width: 768px) {
+    #container{
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+        width: 80%;
+        max-width: 1500px;
+        min-height: calc(100% - 78px);
+        display: flex;
+        flex-direction: column;
+        background-color: #aad0c5;
+        border-left: solid 8px white;
+        border-right: solid 8px white;
+    }
 }
 
 .note-editable {
@@ -266,17 +280,17 @@ nav.navbar-findcond span.badge.new {
 }
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color: black;
-   opacity:  .7;
+    opacity:  .7;
 }
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   color: black;
-   opacity:  .7;
+    color: black;
+    opacity:  .7;
 }
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-   color: black;
-   opacity:  .7;
+    color: black;
+    opacity:  .7;
 }
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color: black;
-   opacity:  .7;
+    color: black;
+    opacity:  .7;
 }

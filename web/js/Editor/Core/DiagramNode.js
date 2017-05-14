@@ -252,36 +252,38 @@ DiagramNode.NodeTypes = {
                 }
             },
             updateUI: function () {
-//                var exContents = editor.getEndDataContents();
-//                
-//                for (var k in exContents) {
-//                    var d = "";
-//                    var din = true;
-//                    if (this.content["dataEnd_" + k]) {
-//                        d = this.content["dataEnd_" + k].value;
-//                        din = this.content["dataEnd_" + k].dataInput;
-//                    }
-//                    var that = this;
-//                    this.content["dataEnd_" + k] = {
-//                        label: k,
-//                        value: d,
-//                        dataInput: din,
-//                        contextField: function () {
-//                            return InputRenderer.createAnyField(this.label, this, "value", {
-//                                onCompleted: function () {
-//                                    editor.diagramPanel.updateDiagramPanel();
-//                                    editor.context.changeToNodeModelContext(that);
-//                                }
-//                            });
-//                        }
-//                    };
-//                    exContents["dataEnd_" + k] = false;
-//                }
-//                for (var k in exContents) {
-//                    if (exContents[k]) {
-//                        delete this.content[k];
-//                    }
-//                }
+                if( editor ) {
+                    var exContents = editor.getEndData();
+                }
+                
+                for (var k in exContents) {
+                    var d = "";
+                    var din = true;
+                    if (this.content["dataEnd_" + k]) {
+                        d = this.content["dataEnd_" + k].value;
+                        din = this.content["dataEnd_" + k].dataInput;
+                    }
+                    var that = this;
+                    this.content["dataEnd_" + k] = {
+                        label: k,
+                        value: d,
+                        dataInput: din,
+                        contextField: function () {
+                            return InputRenderer.createAnyField(this.label, this, "value", {
+                                onCompleted: function () {
+                                    editor.diagramPanel.updateDiagramPanel();
+                                    editor.context.changeToNodeModelContext(that);
+                                }
+                            });
+                        }
+                    };
+                    exContents[k] = false;
+                }
+                for (var k in exContents) {
+                    if (exContents[k]) {
+                        delete this.content[k];
+                    }
+                }
                 
             }
         };

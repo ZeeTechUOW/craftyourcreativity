@@ -153,10 +153,10 @@ public class DBAdmin {
 
     // Module Query
     private static final String CREATE_NEW_MODULE
-            = "INSERT INTO `module` (`moduleID`, `userID`, `moduleVersion`, `moduleName`, `moduleDescription`, `releaseTime`, `lastEdited`) "
+            = "INSERT INTO `module` (`moduleID`, `userID`, `moduleName`, `moduleDescription`, `releaseTime`, `lastEdited`) "
             + "VALUES (NULL, ?, ?, ?, ?, NULL, CURRENT_TIMESTAMP);";
     private static final String GET_ALL_MODULE_SORT_BY_POPULAR_VIEW
-            = "SELECT m.moduleID, m.userID, m.moduleVersion, m.moduleName, m.moduleDescription, m.releaseTime, m.lastEdited, COUNT(v.moduleID) AS viewCount "
+            = "SELECT m.moduleID, m.userID, m.moduleName, m.moduleDescription, m.releaseTime, m.lastEdited, COUNT(v.moduleID) AS viewCount "
             + "FROM module m, views v "
             + "WHERE m.moduleID = v.moduleID "
             + "AND m.releaseTime > 0 "
@@ -203,6 +203,7 @@ public class DBAdmin {
     private static final String MODULE_RELEASED
             = "UPDATE `module` "
             + "SET `releaseTime` = CURRENT_TIMESTAMP "
+            + "AND `lastEdited` = CURRENT_TIMESTAMP "
             + "WHERE `moduleID` = ?";
     private static final String UPDATE_MODULE
             = "UPDATE `module` "
@@ -271,11 +272,16 @@ public class DBAdmin {
             + "FROM `moduleuserdata` "
             + "WHERE userID=?";
 
-    private static final String UPDATE_SCORE
-            = "INSERT INTO `moduleuserdata` (`userID`, `moduleID`, `mKey`, `mValue`) "
-            + "VALUES (?, ?, 'score', ?) "
+    private static final String GET_ALL_END_DATAS_FROM_MODULE_ID
+            = "SELECT * "
+            + "FROM `moduleenddata` "
+            + "WHERE moduleID=?";
+    
+    private static final String UPDATE_USER_MODULE_DATA
+            = "INSERT INTO `moduleuserdata` (`userID`, `moduleID`, `mKey`, `mValue`, `timestamp`) "
+            + "VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP) "
             + "ON DUPLICATE KEY UPDATE "
-            + "mValue = GREATEST(mValue, VALUES(mValue))";
+            + "mValue = VALUES(mValue)";
     
     private static final String SET_LIKE_TO_MODULE
             = "INSERT INTO `moduleuserdata` (`userID`, `moduleID`, `mKey`, `mValue`) "
@@ -763,22 +769,20 @@ public class DBAdmin {
      * Create new <code>Module</code> into database.
      *
      * @param userID Module owner
-     * @param moduleVersion Module version
      * @param moduleName Module name
      * @param moduleDescription Module Description
      * @return <code>true</code> if operation success, otherwise
      * <code>false</code>.
      */
-    public static int createNewModule(int userID, String moduleVersion, String moduleName, String moduleDescription) {
+    public static int createNewModule(int userID, String moduleName, String moduleDescription) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_NEW_MODULE);
             preparedStatement.setInt(1, userID);
-            preparedStatement.setString(2, moduleVersion);
-            preparedStatement.setString(3, moduleName);
-            preparedStatement.setString(4, moduleDescription);
+            preparedStatement.setString(2, moduleName);
+            preparedStatement.setString(3, moduleDescription);
 
             preparedStatement.execute();
 
@@ -825,7 +829,6 @@ public class DBAdmin {
             while (resultSet.next()) {
                 int _moduleID = resultSet.getInt("moduleID");
                 int _userID = resultSet.getInt("userID");
-                String _moduleVersion = resultSet.getString("moduleVersion");
                 String _moduleName = resultSet.getString("moduleName");
                 String _moduleDescription = resultSet.getString("moduleDescription");
                 LocalDateTime _lastEdited = resultSet.getTimestamp("lastEdited").toLocalDateTime();
@@ -834,9 +837,9 @@ public class DBAdmin {
 
                 if (t != null) {
                     LocalDateTime _releaseTime = t.toLocalDateTime();
-                    modules.add(new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, _releaseTime, _lastEdited, 0, 0));
+                    modules.add(new Module(_moduleID, _userID, _moduleName, _moduleDescription, _releaseTime, _lastEdited, 0, 0));
                 } else {
-                    modules.add(new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, null, _lastEdited, 0, 0));
+                    modules.add(new Module(_moduleID, _userID, _moduleName, _moduleDescription, null, _lastEdited, 0, 0));
                 }
                 
                 
@@ -867,7 +870,6 @@ public class DBAdmin {
             if (resultSet.next()) {
                 int _moduleID = resultSet.getInt("moduleID");
                 int _userID = resultSet.getInt("userID");
-                String _moduleVersion = resultSet.getString("moduleVersion");
                 String _moduleName = resultSet.getString("moduleName");
                 String _moduleDescription = resultSet.getString("moduleDescription");
                 LocalDateTime _lastEdited = resultSet.getTimestamp("lastEdited").toLocalDateTime();
@@ -877,9 +879,9 @@ public class DBAdmin {
 
                 if (t != null) {
                     LocalDateTime _releaseTime = t.toLocalDateTime();
-                    return new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, _releaseTime, _lastEdited, _likes, _dislikes);
+                    return new Module(_moduleID, _userID, _moduleName, _moduleDescription, _releaseTime, _lastEdited, _likes, _dislikes);
                 } else {
-                    return new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, null, _lastEdited, _likes, _dislikes);
+                    return new Module(_moduleID, _userID, _moduleName, _moduleDescription, null, _lastEdited, _likes, _dislikes);
                 }
 
             }
@@ -1161,7 +1163,6 @@ public class DBAdmin {
             while (resultSet.next()) {
                 int _moduleID = resultSet.getInt("moduleID");
                 int _userID = resultSet.getInt("userID");
-                String _moduleVersion = resultSet.getString("moduleVersion");
                 String _moduleName = resultSet.getString("moduleName");
                 String _moduleDescription = resultSet.getString("moduleDescription");
                 LocalDateTime _lastEdited = resultSet.getTimestamp("lastEdited").toLocalDateTime();
@@ -1169,9 +1170,9 @@ public class DBAdmin {
                 Timestamp ts = resultSet.getTimestamp("releaseTime");
                 if (ts != null) {
                     LocalDateTime _releaseTime = resultSet.getTimestamp("releaseTime").toLocalDateTime();
-                    modules.add(new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, _releaseTime, _lastEdited, 0, 0));
+                    modules.add(new Module(_moduleID, _userID, _moduleName, _moduleDescription, _releaseTime, _lastEdited, 0, 0));
                 } else {
-                    modules.add(new Module(_moduleID, _userID, _moduleVersion, _moduleName, _moduleDescription, null, _lastEdited, 0, 0));
+                    modules.add(new Module(_moduleID, _userID, _moduleName, _moduleDescription, null, _lastEdited, 0, 0));
                 }
 
             }
@@ -1363,15 +1364,16 @@ public class DBAdmin {
         }
     }
 
-    public static boolean updateUserModuleScore(int userID, int moduleID, int score) {
+    public static boolean updateUserModuleData(int userID, int moduleID, String dataKey, String dataValue) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SCORE);
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_MODULE_DATA);
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, moduleID);
-            preparedStatement.setInt(3, score);
+            preparedStatement.setString(3, dataKey);
+            preparedStatement.setString(4, dataValue);
 
             return preparedStatement.execute();
 
@@ -1474,6 +1476,31 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
             return "";
         }
+    }
+
+    public static ArrayList<String> getAllEndData(int moduleID) {
+        ArrayList<String> endDatas = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_END_DATAS_FROM_MODULE_ID);
+            preparedStatement.setInt(1, moduleID);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String _endData = resultSet.getString("endData");
+
+                endDatas.add(_endData);
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return endDatas;
+        
     }
 }
 

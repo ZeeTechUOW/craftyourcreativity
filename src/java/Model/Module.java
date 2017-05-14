@@ -10,7 +10,6 @@ public class Module {
 
     private int moduleID;
     private int userID;
-    private String moduleVersion;
     private String moduleName;
     private String moduleDescription;
     private LocalDateTime releaseTime;
@@ -31,10 +30,9 @@ public class Module {
      * @param likes Amount of likes
      * @param dislikes Amount of dislikes
      */
-    public Module(int moduleID, int userID, String moduleVersion, String moduleName, String moduleDescription, LocalDateTime releaseTime, LocalDateTime lastEdited, int likes, int dislikes) {    
+    public Module(int moduleID, int userID, String moduleName, String moduleDescription, LocalDateTime releaseTime, LocalDateTime lastEdited, int likes, int dislikes) {    
         this.moduleID = moduleID;
         this.userID = userID;
-        this.moduleVersion = moduleVersion;
         this.moduleName = moduleName;
         this.moduleDescription = moduleDescription;
         this.releaseTime = releaseTime;
@@ -90,22 +88,6 @@ public class Module {
      */
     public void setUserID(int userID) {
         this.userID = userID;
-    }
-
-    /**
-     * Return this <code>Module</code> version detail in <code>String</code> format.
-     * @return Module version.
-     */
-    public String getModuleVersion() {
-        return moduleVersion;
-    }
-
-    /**
-     * Set this <code>Module</code> version to specified <code>String</code>.
-     * @param moduleVersion Module new version
-     */
-    public void setModuleVersion(String moduleVersion) {
-        this.moduleVersion = moduleVersion;
     }
 
     /**

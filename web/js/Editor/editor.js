@@ -182,14 +182,14 @@ function Editor(opts) {
 
     this.endDatas = {};
     this.getEndData = function () {
-//        var xhr = new XMLHttpRequest();
-//        var that = this;
-//
-//        xhr.open('GET', "GetEndDataServlet?mid=" + projectID, true);
-//        xhr.onload = function () {
-//            that.endDatas = JSON.parse(xhr.responseText);
-//        };
-//        xhr.send();
+        var xhr = new XMLHttpRequest();
+        var that = this;
+
+        xhr.open('GET', "GetEndDataServlet?mid=" + projectID, true);
+        xhr.onload = function () {
+            that.endDatas = JSON.parse(xhr.responseText);
+        };
+        xhr.send();
 
         return this.endDatas;
     };

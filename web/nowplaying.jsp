@@ -173,8 +173,16 @@
                                 }
 
                                 function _ON_GAME_FINISHED(data) {
-                                    console.log("GAME FINISHED " + data);
-                                    location.href = "GameFinishedServlet?mid=<%=module.getModuleID()%>&score=" + data.score + (isCertified ? "&certs=true" : "");
+                                    var otherData = "";
+                                    for( var k in data ) {
+                                        if( k !== "score" ) {
+                                            otherData += "&" + encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
+                                        }
+                                    }
+                                    
+                                    data._isCertified = isCertified;
+                                    data._moduleID = <%=module.getModuleID()%>;
+                                    location.href = "GameFinishedServlet?mid=<%=module.getModuleID()%>&score=" + data.score + (isCertified ? "&certs=true" : "") + otherData;
                                 }
 
                                 function _RENDER_TO_PDF(imageData, w, h) {

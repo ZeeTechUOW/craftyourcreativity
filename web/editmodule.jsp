@@ -54,11 +54,11 @@
                     </div>
                 </div>
                 <div style="display: inline-block; vertical-align: top; margin-top: 8px;">
-                    <div id='moduleReleaseDate' style='width: 100%; display: inline-block;'>
+                    <div id='moduleReleaseDate' style='display: block;'>
                         <p style="font-size:30px">Release Date</p>
                         <p style="font-size:25px"><% out.print(module.getReleaseTimeFormatted()); %></p>
                     </div>
-                    <div id='moduleLastUpdated' style='display: inline-block; margin-top: 20px'>
+                    <div id='moduleLastUpdated' style='display: block; margin-top: 20px'>
                         <p style="font-size:30px">Last Updated</p>
                         <p style="font-size:25px"><% out.print(module.getLastUpdatedFormatted()); %></p>
                     </div>

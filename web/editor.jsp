@@ -1047,8 +1047,6 @@ eg: &lt;sred&gt;, &lt;sblue&gt;, &lt;saquamarine&gt;... &lt;ssilver&gt;, &lt;sgo
                                             editor.diagramPanel.updateDiagramPanel();
                                         }
 
-
-
                                         editor.loadProject(function () {
                                             editor.hideLoader();
                                             editor.hideSmallLoader();

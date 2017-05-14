@@ -45,7 +45,7 @@ public class AddModuleServlet extends HttpServlet {
         if( newModuleName == null || newModuleName.length() < 1 ) {
             request.getRequestDispatcher("addModule.jsp").forward(request, response);
         } else {
-            int moduleID = DBAdmin.createNewModule(loggedUser.getUserID(), "0.0", newModuleName, "");
+            int moduleID = DBAdmin.createNewModule(loggedUser.getUserID(), newModuleName, "");
             if( moduleID >= 0 ) {
                 DirectoryAdmin.prepNewProjectDirectory(request.getServletContext().getRealPath("/module"), "" + moduleID, new File(request.getServletContext().getRealPath("/projectFolderTemplate")));
                 response.sendRedirect("editmodule?mid=" + moduleID);

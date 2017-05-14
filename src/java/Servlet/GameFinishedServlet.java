@@ -9,6 +9,8 @@ import Model.DBAdmin;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +34,6 @@ public class GameFinishedServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        int score;
         int moduleID;
         User loggedUser = (User) request.getSession().getAttribute("loggedUser");
 
@@ -46,12 +47,17 @@ public class GameFinishedServlet extends HttpServlet {
         if (loggedUser != null) {
             int userID = loggedUser.getUserID();
 
-            try {
-                score = Integer.parseInt(request.getParameter("score"));
-
-                DBAdmin.updateUserModuleScore(userID, moduleID, score);
-            } catch (NumberFormatException e) {
+            Map params = request.getParameterMap();
+            Iterator i = params.keySet().iterator();
+            while ( i.hasNext() ) {
+                String key = (String) i.next();
+                
+                if( key.startsWith("enddata_") ) {
+                    String value = ((String[]) params.get( key ))[ 0 ];
+                    DBAdmin.updateUserModuleData(userID, moduleID, key, value);
+                }
             }
+            DBAdmin.updateUserModuleData(userID, moduleID, "score", request.getParameter("score"));
         }
         
         response.sendRedirect("module?mid=" + moduleID);
