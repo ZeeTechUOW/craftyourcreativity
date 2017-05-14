@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2017 at 05:49 AM
+-- Generation Time: May 14, 2017 at 06:07 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `achievement` (
   `achievementDescription` text NOT NULL,
   PRIMARY KEY (`achievementID`,`moduleID`),
   KEY `fk_achievement_module1_idx` (`moduleID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=83 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=85 ;
 
 --
 -- Dumping data for table `achievement`
@@ -107,7 +107,9 @@ INSERT INTO `achievement` (`achievementID`, `moduleID`, `achievementName`, `achi
 (66, 5, 'Such Beautiful Eyes You Have', 'Get Shuu ending.'),
 (67, 5, 'I''ll be waiting...', 'Get BBL ending.'),
 (68, 5, '...at the Dawn', 'Get the BBL epilogue.'),
-(82, 21, 'You Smort', 'Went through the Investigation phase.');
+(82, 21, 'You Smort', 'Went through the Investigation phase.'),
+(83, 21, 'awdawdaw', 'afaffa\r\n'),
+(84, 21, 'awdawdaw', 'afaffa\r\n');
 
 -- --------------------------------------------------------
 
@@ -155,26 +157,46 @@ INSERT INTO `genre` (`moduleID`, `genre`) VALUES
 
 CREATE TABLE IF NOT EXISTS `module` (
   `moduleID` int(11) NOT NULL AUTO_INCREMENT,
-  `userID` int(11) NOT NULL,
   `moduleVersion` varchar(100) NOT NULL,
+  `userID` int(11) NOT NULL,
   `moduleName` varchar(100) NOT NULL,
   `moduleDescription` text NOT NULL,
   `releaseTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `lastEdited` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`moduleID`,`moduleVersion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+  PRIMARY KEY (`moduleID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
 --
 -- Dumping data for table `module`
 --
 
-INSERT INTO `module` (`moduleID`, `userID`, `moduleVersion`, `moduleName`, `moduleDescription`, `releaseTime`, `lastEdited`) VALUES
-(1, 1, '1.1', 'Thimbleweed Park', 'In Thimbleweed Park, a dead body is the least of your problems. Switch between five playable characters to uncover the surreal secrets of this strange town in a modern mystery adventure game from the creators of Monkey Island and Maniac Mansion. The deeper you go, the weirder it gets.', '2017-04-04 08:00:00', '2017-04-30 06:10:20'),
-(2, 1, '1.0', 'Game Dev Tycoon', 'In Game Dev Tycoon you replay the history of the gaming industry by starting your own video game development company in the 80s. Create best selling games. Research new technologies and invent new game types. Become the leader of the market and gain worldwide fans.', '2017-04-04 09:48:14', '2017-05-01 08:13:54'),
-(3, 1, '1.2', 'Papers, Please', 'Congratulations. The October labor lottery is complete. Your name was pulled. For immediate placement, report to the Ministry of Admission at Grestin Border Checkpoint. An apartment will be provided for you and your family in East Grestin. Expect a Class-8 dwelling.', NULL, '2017-04-30 06:12:19'),
-(4, 1, '1.0', 'Bad Dream: Coma', 'Welcome in Bad Dream: Coma. A point&click game where unique minimalistic art style creates an unforgettable and atmospheric experience. Travel through the surreal and disturbing dreamland where everything depends on your actions. You can''t die but you can suffer greatly...', '2017-04-04 09:55:20', '2017-05-01 08:13:57'),
-(5, 1, '1.0', 'Hatoful Boyfriend', 'Congratulations! You’ve been accepted as the only human student at the prestigious St. PigeoNation’s Institute, a school for talented birds! Roam the halls and find love in between classes as a sophomore student at the world’s greatest pigeon high school.', '2017-05-02 02:03:19', '2017-05-02 06:43:13'),
-(21, 17, '0.0', 'Final Twist Off', 'Take control of 3 different characters and discover the truth of the mysterious murder, your decisions will shape the ending of the story.', '2017-05-02 06:51:02', '2017-05-02 08:15:14');
+INSERT INTO `module` (`moduleID`, `moduleVersion`, `userID`, `moduleName`, `moduleDescription`, `releaseTime`, `lastEdited`) VALUES
+(1, '', 1, 'Thimbleweed Park', 'In Thimbleweed Park, a dead body is the least of your problems. Switch between five playable characters to uncover the surreal secrets of this strange town in a modern mystery adventure game from the creators of Monkey Island and Maniac Mansion. The deeper you go, the weirder it gets.', '2017-04-04 08:00:00', '2017-04-30 06:10:20'),
+(2, '', 1, 'Game Dev Tycoon', 'In Game Dev Tycoon you replay the history of the gaming industry by starting your own video game development company in the 80s. Create best selling games. Research new technologies and invent new game types. Become the leader of the market and gain worldwide fans.', '2017-04-04 09:48:14', '2017-05-01 08:13:54'),
+(3, '', 1, 'Papers, Please', 'Congratulations. The October labor lottery is complete. Your name was pulled. For immediate placement, report to the Ministry of Admission at Grestin Border Checkpoint. An apartment will be provided for you and your family in East Grestin. Expect a Class-8 dwelling.', NULL, '2017-04-30 06:12:19'),
+(4, '', 1, 'Bad Dream: Coma', 'Welcome in Bad Dream: Coma. A point&click game where unique minimalistic art style creates an unforgettable and atmospheric experience. Travel through the surreal and disturbing dreamland where everything depends on your actions. You can''t die but you can suffer greatly...', '2017-04-04 09:55:20', '2017-05-01 08:13:57'),
+(5, '', 1, 'Hatoful Boyfriend', 'Congratulations! You’ve been accepted as the only human student at the prestigious St. PigeoNation’s Institute, a school for talented birds! Roam the halls and find love in between classes as a sophomore student at the world’s greatest pigeon high school.', '2017-05-02 02:03:19', '2017-05-02 06:43:13'),
+(21, '', 17, 'Final Twist Off', 'Take control of 3 different characters and discover the truth of the mysterious murder, your decisions will shape the ending of the story.', '2017-05-02 06:51:02', '2017-05-02 08:15:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `moduleenddata`
+--
+
+CREATE TABLE IF NOT EXISTS `moduleenddata` (
+  `moduleID` int(11) NOT NULL,
+  `endData` varchar(100) NOT NULL,
+  PRIMARY KEY (`moduleID`,`endData`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `moduleenddata`
+--
+
+INSERT INTO `moduleenddata` (`moduleID`, `endData`) VALUES
+(1, 'counter'),
+(1, 'timeLimit');
 
 -- --------------------------------------------------------
 
@@ -187,7 +209,8 @@ CREATE TABLE IF NOT EXISTS `moduleuserdata` (
   `userID` int(11) NOT NULL,
   `mKey` varchar(100) NOT NULL,
   `mValue` varchar(100) NOT NULL,
-  PRIMARY KEY (`mKey`,`userID`,`moduleID`),
+  `timestamp` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`mKey`,`userID`,`moduleID`,`timestamp`),
   KEY `fk_moduleuserdata_module1_idx` (`moduleID`),
   KEY `fk_moduleuserdata_user1_idx` (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -196,12 +219,12 @@ CREATE TABLE IF NOT EXISTS `moduleuserdata` (
 -- Dumping data for table `moduleuserdata`
 --
 
-INSERT INTO `moduleuserdata` (`moduleID`, `userID`, `mKey`, `mValue`) VALUES
-(1, 1, 'progress', '25'),
-(2, 1, 'progress', '10'),
-(1, 1, 'score', '1000'),
-(21, 17, 'score', '20'),
-(21, 21, 'score', '20');
+INSERT INTO `moduleuserdata` (`moduleID`, `userID`, `mKey`, `mValue`, `timestamp`) VALUES
+(1, 1, 'lstate', 'like', '0000-00-00 00:00:00'),
+(21, 1, 'lstate', 'like', '2017-05-13 18:37:36'),
+(1, 1, 'score', '1000', '2017-05-13 18:37:36'),
+(21, 17, 'score', '20', '2017-05-13 18:37:36'),
+(21, 21, 'score', '20', '2017-05-13 18:37:36');
 
 -- --------------------------------------------------------
 
@@ -260,8 +283,13 @@ CREATE TABLE IF NOT EXISTS `postuserdata` (
 --
 
 INSERT INTO `postuserdata` (`postID`, `userID`, `mKey`, `mValue`) VALUES
-(27, 1, 'state', 'Like'),
-(29, 1, 'state', 'Dislike');
+(27, 1, 'lstate', 'like'),
+(29, 1, 'lstate', 'dislike'),
+(34, 1, 'lstate', 'dislike'),
+(34, 20, 'lstate', 'like'),
+(34, 21, 'lstate', 'like'),
+(36, 1, 'lstate', 'dislike'),
+(37, 19, 'lstate', 'like');
 
 -- --------------------------------------------------------
 
@@ -316,6 +344,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`userID`, `username`, `password`, `email`, `userType`, `fullname`, `organization`) VALUES
+(-1, 'Anonymous', 'nopassword', 'no@email.here', 'player', 'No Name', 'Null'),
 (1, 'admin', '459ff8ddc3d877b86573aa391746824c9c1d5c9a', 'andree.yosua@gmail.com', 'admin', 'The Admin', 'cyc'),
 (17, 'Metakaku', 'f58cf5e7e10f195e21b553096d092c763ed18b0e', 'mharitsa@gmail.com', 'trainer', 'Met Akaku', 'James Ketjap Tomat'),
 (18, 'maniman', 'f58cf5e7e10f195e21b553096d092c763ed18b0e', 'JeanneDucx@gmail.com', 'player', 'M Animan', 'James Ketjap Tomat'),
@@ -353,6 +382,30 @@ INSERT INTO `userachievement` (`userID`, `achievementID`, `time`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `userfacebook`
+--
+
+CREATE TABLE IF NOT EXISTS `userfacebook` (
+  `userID` int(11) NOT NULL,
+  `facebookID` varchar(100) NOT NULL,
+  PRIMARY KEY (`userID`,`facebookID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `usertwitter`
+--
+
+CREATE TABLE IF NOT EXISTS `usertwitter` (
+  `userID` int(11) NOT NULL,
+  `twitterID` int(11) NOT NULL,
+  PRIMARY KEY (`userID`,`twitterID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `views`
 --
 
@@ -370,21 +423,76 @@ CREATE TABLE IF NOT EXISTS `views` (
 --
 
 INSERT INTO `views` (`userID`, `moduleID`, `time`) VALUES
+(-1, 1, '2017-05-11 08:04:40'),
 (1, 1, '2017-04-04 10:44:18'),
 (1, 1, '2017-05-01 14:55:08'),
+(1, 1, '2017-05-11 09:07:38'),
+(1, 1, '2017-05-12 01:27:11'),
+(1, 1, '2017-05-12 01:37:46'),
+(1, 1, '2017-05-14 03:41:55'),
+(1, 1, '2017-05-14 03:42:26'),
+(-1, 2, '2017-05-11 08:04:46'),
+(-1, 2, '2017-05-11 09:25:10'),
+(-1, 2, '2017-05-11 09:25:11'),
+(-1, 2, '2017-05-11 09:25:32'),
+(-1, 2, '2017-05-11 09:26:04'),
+(-1, 2, '2017-05-11 09:26:21'),
+(-1, 2, '2017-05-11 09:26:32'),
+(-1, 2, '2017-05-11 09:26:55'),
+(-1, 2, '2017-05-11 09:26:58'),
+(-1, 2, '2017-05-11 09:27:41'),
+(-1, 2, '2017-05-11 09:27:45'),
+(-1, 2, '2017-05-11 09:28:04'),
+(-1, 2, '2017-05-11 09:29:05'),
+(-1, 2, '2017-05-11 09:29:23'),
+(-1, 2, '2017-05-11 09:29:36'),
+(-1, 2, '2017-05-11 09:30:00'),
+(-1, 2, '2017-05-11 09:30:25'),
+(-1, 2, '2017-05-11 09:30:49'),
+(-1, 2, '2017-05-11 09:31:23'),
+(-1, 2, '2017-05-11 09:31:33'),
+(-1, 2, '2017-05-11 09:31:37'),
+(-1, 2, '2017-05-11 09:31:54'),
+(-1, 2, '2017-05-11 09:32:16'),
+(-1, 2, '2017-05-11 09:32:34'),
+(-1, 2, '2017-05-12 01:26:58'),
 (1, 2, '2017-04-04 10:44:18'),
 (1, 2, '2017-05-01 09:42:01'),
+(1, 2, '2017-05-11 08:04:24'),
 (1, 3, '2017-04-04 10:44:18'),
 (1, 3, '2017-04-30 09:00:43'),
 (1, 4, '2017-04-04 10:44:18'),
 (1, 4, '2017-04-30 10:17:46'),
 (17, 4, '2017-05-01 14:31:23'),
+(-1, 5, '2017-05-11 05:57:15'),
 (1, 5, '2017-04-04 10:44:18'),
 (1, 5, '2017-05-02 01:59:14'),
 (1, 5, '2017-05-02 02:07:16'),
+(1, 5, '2017-05-11 09:44:16'),
 (20, 5, '2017-05-02 05:26:23'),
 (21, 5, '2017-05-02 05:42:29'),
+(-1, 21, '2017-05-11 05:56:06'),
+(-1, 21, '2017-05-11 06:07:01'),
+(-1, 21, '2017-05-11 06:07:53'),
+(-1, 21, '2017-05-11 06:08:01'),
+(-1, 21, '2017-05-11 06:08:11'),
+(-1, 21, '2017-05-11 06:08:27'),
+(-1, 21, '2017-05-11 06:08:51'),
+(-1, 21, '2017-05-11 06:08:59'),
+(-1, 21, '2017-05-11 06:26:12'),
+(-1, 21, '2017-05-11 06:26:28'),
 (1, 21, '2017-05-02 05:34:14'),
+(1, 21, '2017-05-11 09:40:49'),
+(1, 21, '2017-05-11 09:40:51'),
+(1, 21, '2017-05-11 09:40:55'),
+(1, 21, '2017-05-11 09:40:58'),
+(1, 21, '2017-05-11 09:41:52'),
+(1, 21, '2017-05-11 09:41:55'),
+(1, 21, '2017-05-11 09:42:47'),
+(1, 21, '2017-05-11 09:42:51'),
+(1, 21, '2017-05-11 09:43:33'),
+(1, 21, '2017-05-11 09:43:46'),
+(1, 21, '2017-05-11 09:43:58'),
 (17, 21, '2017-05-02 01:58:01'),
 (17, 21, '2017-05-02 05:03:05'),
 (17, 21, '2017-05-02 05:48:08'),
@@ -410,6 +518,12 @@ ALTER TABLE `achievement`
 --
 ALTER TABLE `genre`
   ADD CONSTRAINT `fk_genre_module1` FOREIGN KEY (`moduleID`) REFERENCES `module` (`moduleID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `moduleenddata`
+--
+ALTER TABLE `moduleenddata`
+  ADD CONSTRAINT `moduleenddata_ibfk_1` FOREIGN KEY (`moduleID`) REFERENCES `module` (`moduleID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `moduleuserdata`
@@ -446,11 +560,23 @@ ALTER TABLE `userachievement`
   ADD CONSTRAINT `fk_userachievement_user1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `userfacebook`
+--
+ALTER TABLE `userfacebook`
+  ADD CONSTRAINT `userfacebook_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `usertwitter`
+--
+ALTER TABLE `usertwitter`
+  ADD CONSTRAINT `usertwitter_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `views`
 --
 ALTER TABLE `views`
   ADD CONSTRAINT `fk_views_module1` FOREIGN KEY (`moduleID`) REFERENCES `module` (`moduleID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_views_user1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_views_user1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -149,12 +149,6 @@
                 <div id="fSTitle">
                     <div>
                         <b>
-                            
-                                <% if(!type.equalsIgnoreCase("Module")) {%>
-                                <button onclick="location.href = 'createthread?type=<%=type%>'" id="Button" class="btn btn-default pull-right">Create Thread</button>
-                                <%} else {%>
-                                <a href='#'><button onclick="location.href = 'createthread?type=<%=type%>'" id="Button" class="btn btn-default pull-right">Create Thread</button></a>
-                                <%}%>
                             <%=StringUtils.capitalize(type)%>
                         </b>
                     </div>
