@@ -11,6 +11,7 @@ function Context(editor) {
 
     this.propertiesContext = null;
     this.propCallbacks = [];
+    this.recordedActions = {};
     this.editor = editor;
 
     this.getResource = function (resourceName) {
@@ -25,12 +26,9 @@ function Context(editor) {
     this.onDragStart = (function (c) {
         return function (event) {
             var mode = c.editor.viewport.mode;
-            var selectedShape = c.editor.viewport.selectedShape;
-
-            if (mode !== 0)
+            if (mode !== 0 || event.data.originalEvent.button !== 0)
                 return;
-            if (selectedShape)
-                selectedShape.alpha = 1;
+
             this.data = event.data;
 
             var lastPos = event.data.getLocalPosition(this.parent);
@@ -40,6 +38,7 @@ function Context(editor) {
             this.anchorPosY = this.position.y - lastPos.y;
 //            this.alpha = 0.5;
             this.dragging = true;
+            this.hasMoved = false;
 
             c.editor.viewport.setSelected(this);
             c.editor.viewport.updateLayerOrder();
@@ -48,7 +47,7 @@ function Context(editor) {
     }(this));
 
     this.onDragEnd = function () {
-        if (this.position.x !== this.originalPosX && this.position.y !== this.originalPosY) {
+        if (this.position.x !== this.originalPosX || this.position.y !== this.originalPosY) {
             this.model.context.registerAction(new EditAction({
                 name: "Move " + this.name,
                 focus: this.model,
@@ -74,9 +73,14 @@ function Context(editor) {
     this.onDragMove = function () {
         if (this.dragging) {
             var newPosition = this.data.getLocalPosition(this.parent);
-//            console.log("D");
-            this.setPosX(Math.floor(this.anchorPosX + newPosition.x));
-            this.setPosY(Math.floor(this.anchorPosY + newPosition.y));
+            var posx = Math.floor(this.anchorPosX + newPosition.x);
+            var posy = Math.floor(this.anchorPosY + newPosition.y);
+            
+            if (this.hasMoved || posx !== this.originalPosX || posy !== this.originalPosY) {
+                this.setPosX(posx);
+                this.setPosY(posy);
+                this.hasMoved = true;
+            }
         }
     };
 
@@ -176,8 +180,8 @@ function Context(editor) {
         var aScene = (scene ? scene : this.editor.activeScene);
         this.editor.viewport.setSelected(null, true);
         this.propertiesContext = this.editor.propertiesPanel.SceneModelContext(aScene);
-        
-        if( aScene ) {
+
+        if (aScene && aScene.activeFrame) {
             aScene.changeFrame(null, false, true);
         }
     };
@@ -213,7 +217,9 @@ function Context(editor) {
     };
     this.changeToNodeModelContext = function (node) {
         if (node) {
-            this.editor.activeScene.changeFrame(null);
+            if(this.editor.activeScene && this.editor.activeScene.activeFrame) {
+                this.editor.activeScene.changeFrame(null);
+            }
             this.propertiesContext = this.editor.propertiesPanel.NodeModelContext(node);
         }
     };

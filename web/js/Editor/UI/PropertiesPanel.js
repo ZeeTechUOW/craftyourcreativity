@@ -31,9 +31,6 @@ function PropertiesPanel(context) {
             modelContext.insert(paneler.createEntityPropField(entity, "tint", "Tint Color"));
             modelContext.insert(paneler.createEntityPropField(entity, "alpha", "Alpha"));
             modelContext.insert(paneler.createSeperator());
-            modelContext.insert(paneler.createLabel("Components"));
-            modelContext.insert(paneler.createButton("Add Component"));
-            modelContext.insert(paneler.createSeperator());
             modelContext.insert(paneler.createLabel("Events"));
             modelContext.insert(paneler.createActionArray("Mouse Clicked", entity, "onClickActions"));
             modelContext.insert(paneler.createActionArray("Mouse Entered", entity, "onEnterActions"));
@@ -101,29 +98,24 @@ function PropertiesPanel(context) {
 
 
             modelContext.insert(paneler.createSeperator());
-            var sceneDataGroup = paneler.createGroup("Scene Data");
-            sceneDataGroup.insert(paneler.createObjectField("Scene Data", scene.dataVariables, {
+            modelContext.insert(paneler.createObjectField("Scene Data", scene.dataVariables, {
                 type: "ANY",
                 modifyable: true,
                 onCompleted: function () {
                     editor.diagramPanel.updateDiagramPanel();
                 }
             }));
-            modelContext.insert(sceneDataGroup);
 
-            var projectDataGroup = paneler.createGroup("Project Data");
-            projectDataGroup.insert(paneler.createObjectField("Project Data", p.dataVariables, {
+            modelContext.insert(paneler.createObjectField("Project Data", p.dataVariables, {
                 type: "ANY",
                 modifyable: true,
                 onCompleted: function () {
                     editor.diagramPanel.updateDiagramPanel();
                 }
             }));
-            modelContext.insert(projectDataGroup);
             
             modelContext.insert(paneler.createSeperator());
-            var projectSettingsGroup = paneler.createGroup("Project Settings");
-            projectSettingsGroup.insert(paneler.createDropdownField("Window Size", p, "windowSize", {
+            modelContext.insert(paneler.createDropdownField("Window Size", p, "windowSize", {
                 data: [{x: 845, y: 480}, {x: 800, y: 600}, {x: 1024, y: 768}, {x: 1280, y: 720}],
                 formatValueToElem: function (d) {
                     return d.x + " x " + d.y;
@@ -144,7 +136,6 @@ function PropertiesPanel(context) {
                     return newValue;
                 }
             }));
-            modelContext.insert(projectSettingsGroup);
         });
     };
 

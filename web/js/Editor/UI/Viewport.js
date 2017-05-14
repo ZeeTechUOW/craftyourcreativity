@@ -27,23 +27,28 @@ function Viewport(context, scene) {
 
     this.widget;
     this.createWidget = function () {
-
         var onMove = function (event) {
-            if (this.selectedShape && this.dragging) {
-                switch (this.mode) {
-                    case 0: // Grab
-                        if (this.selectedShape.data) {
+            if (this.selectedShape ) {
+                if(this.dragging) {
+                    switch (this.mode) {
+                        case 0: // Grab
+                            if (this.selectedShape.data) {
 
-                            var newPosition = this.selectedShape.data.getLocalPosition(this.selectedShape.parent);
-                            this.selectedShape.setPosX(Math.floor(this.selectedShape.anchorPosX + newPosition.x));
-                            this.selectedShape.setPosY(Math.floor(this.selectedShape.anchorPosY + newPosition.y));
-                        }
-                        break;
+                                var newPosition = this.selectedShape.data.getLocalPosition(this.selectedShape.parent);
+                                this.selectedShape.setPosX(Math.floor(this.selectedShape.anchorPosX + newPosition.x));
+                                this.selectedShape.setPosY(Math.floor(this.selectedShape.anchorPosY + newPosition.y));
+                                return;
+                            }
+                            break;
 
-                    case 1: //Rotate
-                        break;
-                    case 2: //Resize
-                        break;
+                        case 1: //Rotate
+                            break;
+                        case 2: //Resize
+                            break;
+                            
+                    }
+                    var v = event.data.getLocalPosition(this.selectedShape);
+                    this.regionExec(v);
                 }
             }
         };
@@ -85,7 +90,7 @@ function Viewport(context, scene) {
             this.dragging = false;
             if (this.selectedShape) {
                 var v = event.data.getLocalPosition(this.selectedShape);
-                this.regionExec(v, event);
+                if(this.currentOp) this.currentOp(v, event);
             }
         };
 
@@ -155,7 +160,6 @@ function Viewport(context, scene) {
             this.mode = 3;
         };
         this.widget.onResizeXYStart = function (loc, event) {
-            console.log("Start Resize XY");
             vp.mode = vp.SCALE;
             vp.selectedShape.originalScaleY = vp.selectedShape.scale.y;
             vp.selectedShape.originalScaleX = vp.selectedShape.scale.x;
@@ -188,11 +192,10 @@ function Viewport(context, scene) {
 
             if (this.selectedShape !== this.widget.selectedShape) {
                 w.selectedShape = this.selectedShape;
-                w.lastClicked = +new Date();
                 w.distance = function (p1, p2, r) {
                     var dx = p2.x - p1.x;
                     var dy = p2.y - p1.y;
-                    return dx * dx + dy * dy - r * r < 0;
+                    return dx * dx + dy * dy - r < 0;
                 };
 
             }
@@ -225,8 +228,6 @@ function Viewport(context, scene) {
                 graphics.drawCircle(bx + width / 2, by + height, bw);
                 graphics.drawCircle(bx + width, by + height / 2, bw);
 
-
-
                 graphics.lineStyle(1, 0x000000, 1);
                 graphics.beginFill(0xFFFFFF, .8);
                 graphics.drawRect(width * ax, height * ay + bw * .75, 2 * bw, bw / 2);
@@ -243,15 +244,15 @@ function Viewport(context, scene) {
                 var oy = regionHeight * (ay * 2 - 1) * -1;
 
                 w.cornerPoints = [];
-                if (ax !== 1 || ay !== 1)
-                    w.cornerPoints.push({x: ox + regionWidth, y: oy + regionHeight});
                 if (ax !== 0 || ay !== 1)
                     w.cornerPoints.push({x: ox - regionWidth, y: oy + regionHeight});
                 if (ax !== 1 || ay !== 0)
                     w.cornerPoints.push({x: ox + regionWidth, y: oy - regionHeight});
                 if (ax !== 0 || ay !== 0)
                     w.cornerPoints.push({x: ox - regionWidth, y: oy - regionHeight});
-
+                if (ax !== 1 || ay !== 1)
+                    w.cornerPoints.push({x: ox + regionWidth, y: oy + regionHeight});
+                
                 w.sideXPoints = [];
                 if (ax !== 1)
                     w.sideXPoints.push({x: ox + regionWidth, y: oy});
@@ -261,51 +262,90 @@ function Viewport(context, scene) {
                 w.sideYPoints = [];
                 if (ay !== 1)
                     w.sideYPoints.push({x: ox, y: oy + regionHeight});
-                if (ax !== 0)
+                if (ay !== 0)
                     w.sideYPoints.push({x: ox, y: oy - regionHeight});
 
-                w.regionExec = function (loc, event) {
+                w.regionExec = function (loc) {
+                    if (
+                            loc.x * .9 > ox + regionWidth || 
+                            loc.x * .9 < ox - regionWidth || 
+                            loc.y * .9 > oy + regionHeight || 
+                            loc.y * .9 < oy - regionHeight) {
+                        $("canvas").css("cursor", "default");
+                        delete this.currentOp;
+                        return;
+                    }
+                    var r = rot * 180 / Math.PI;
+                    while( r < 0 ) r += 360;
+
                     var wt = this.selectedShape.worldTransform;
                     var wx = Math.sqrt(wt.b * wt.b + wt.a * wt.a) / 2;
                     var wy = Math.sqrt(wt.c * wt.c + wt.d * wt.d) / 2;
-
-                    if (loc.x > ox + regionWidth)
-                        loc.x = ox + regionWidth;
-                    if (loc.x < ox - regionWidth)
-                        loc.x = ox - regionWidth;
-                    if (loc.y > oy + regionHeight)
-                        loc.y = oy + regionHeight;
-                    if (loc.y < oy - regionHeight)
-                        loc.y = oy - regionHeight;
-
+                    
                     for (var k in this.cornerPoints) {
                         if (this.distance(loc, this.cornerPoints[k], (this.bulletXRadius / wx + this.bulletYRadius / wy) / 2)) {
-                            this.onRotateStart(loc, event);
+                            
+                            if((r + 45) % 180 < 90) { 
+                                $("canvas").css("cursor", (k > 1? "nwse-resize" : "nesw-resize"));
+                            } else {
+                                $("canvas").css("cursor", (k > 1? "nesw-resize" : "nwse-resize"));
+                            }
+                            this.currentOp = this.onResizeXYStart;
                             return;
                         }
                     }
                     for (var k in this.sideXPoints) {
                         if (this.distance(loc, this.sideXPoints[k], this.bulletXRadius / wx)) {
-                            this.onResizeXStart(loc, event);
+                            if(isIEorEDGE()) $("canvas").css("cursor", "url('resource/rotate.cur'), auto");
+                            else $("canvas").css("cursor", "url('resource/rotate.png') 8 8, auto");
+                            this.currentOp = this.onRotateStart;
                             return;
                         }
                     }
                     for (var k in this.sideYPoints) {
                         if (this.distance(loc, this.sideYPoints[k], this.bulletYRadius / wy)) {
-                            this.onResizeYStart(loc, event);
+                            if(isIEorEDGE()) $("canvas").css("cursor", "url('resource/rotate.cur'), auto");
+                            else $("canvas").css("cursor", "url('resource/rotate.png') 8 8, auto");
+                            this.currentOp = this.onRotateStart;
                             return;
                         }
                     }
-
-                    var clicked = +new Date();
-                    if (this.lastClicked && clicked - this.lastClicked < 200) {
-                        this.lastClicked = 0;
-                        this.onResizeXYStart(loc, event);
+                    
+                    if ( 
+                            (ax !== 1 && Math.abs(loc.x - (ox + regionWidth)) < this.bulletXRadius / wx / 2) || 
+                            (ax !== 0 && Math.abs(loc.x - (ox - regionWidth)) < this.bulletXRadius / wx / 2))  {
+                        if((r + 45) % 180 < 90) { 
+                            $("canvas").css("cursor", "ew-resize");
+                        } else {
+                            $("canvas").css("cursor", "ns-resize");
+                        }
+                        this.currentOp = this.onResizeXStart;
                         return;
                     }
-                    this.lastClicked = clicked;
-
-                    this.onGrabStart(loc, event);
+                    if ( 
+                            (ay !== 1 && Math.abs(loc.y - (oy + regionHeight)) < this.bulletYRadius / wy / 2) || 
+                            (ay !== 0 && Math.abs(loc.y - (oy - regionHeight)) < this.bulletYRadius / wy / 2)) {
+                        if((r + 45) % 180 < 90) { 
+                            $("canvas").css("cursor", "ns-resize");
+                        } else {
+                            $("canvas").css("cursor", "ew-resize");
+                        }
+                        this.currentOp = this.onResizeYStart;
+                        return;
+                    }
+                    
+                    if (
+                            loc.x > ox + regionWidth || 
+                            loc.x < ox - regionWidth || 
+                            loc.y > oy + regionHeight || 
+                            loc.y < oy - regionHeight) {
+                        $("canvas").css("cursor", "default");
+                        delete this.currentOp;
+                        return;
+                    }
+                    
+                    $("canvas").css("cursor", "move");
+                    this.currentOp = this.onGrabStart;
                 };
             }
 
@@ -652,7 +692,7 @@ function Viewport(context, scene) {
     }(this));
     this.onMouseWheel = (function (vp) {
         return function (e) {
-            var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail))) / 20;
+            var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail * 20))) / 20;
 
             if (vp.camera) {
                 var tScale = vp.camera.scale.x + delta;
@@ -674,7 +714,7 @@ function Viewport(context, scene) {
         document.addEventListener("mousemove", vp.onMouseMove, false);
         document.addEventListener("mouseup", vp.onMouseUp, false);
         vp.renderer.view.addEventListener("mousedown", vp.onMouseDown);
-        vp.renderer.view.addEventListener("mousewheel", vp.onMouseWheel);
+        vp.renderer.view.addEventListener(/Firefox/i.test(navigator.userAgent)? "DOMMouseScroll" : "mousewheel", vp.onMouseWheel);
     };
 
     this.init = function () {

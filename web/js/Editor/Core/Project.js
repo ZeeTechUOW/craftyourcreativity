@@ -20,6 +20,8 @@ function Project(context) {
         
     };
     
+    this.textProfiles = {};
+    
     this.lastUpdated;
 
     setupListener(this);
@@ -80,6 +82,7 @@ function Project(context) {
         res.windowSizeY = p.windowSize.y;
         res.initialScene = p.initialScene.sceneID;
         
+        res.textProfiles = p.textProfiles;
         res.dataVariables = p.dataVariables;
         res.lastUniqueID = uuid();
         
@@ -106,6 +109,12 @@ Project.deserialize = function (context, input) {
     context.editor.innerWidth = p.windowSize.x;
     context.editor.innerHeight = p.windowSize.y;
 
+    p.textProfiles = input.textProfiles;
+    if(!p.textProfiles) {
+        p.textProfiles = {};
+    }
+    
+    context.editor.project = p;
     for (var s in input.scenes) {
         var scene = Scene.deserialize(context, input.scenes[s]);
         p.scenes[s] = scene;
@@ -119,7 +128,6 @@ Project.deserialize = function (context, input) {
         var n = DiagramNode.deserialize(context, input.nodes[k]);
         context.editor.diagramPanel.nodes[k] = n;
     }
-    
     p.dataVariables = input.dataVariables;
 
     return p;

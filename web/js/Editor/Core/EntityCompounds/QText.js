@@ -114,6 +114,10 @@ function QText(context, opt) {
         for (var k in QText.textProfiles) {
             defStyle[k] = QText.textProfiles[k];
         }
+        for (var k in c.editor.project.textProfiles) {
+            console.log(k);
+            defStyle[k] = c.editor.project.textProfiles[k];
+        }
         var text = new MultiStyleText(o.text, defStyle);
         text.interactive = true;
         text.buttonMode = true;
@@ -155,6 +159,9 @@ function QText(context, opt) {
             for (var k in QText.textProfiles) {
                 newStyle[k] = QText.textProfiles[k];
             }
+            for (var k in this.context.editor.project.textProfiles) {
+                newStyle[k] = this.context.editor.project.textProfiles[k];
+            }
             this.sprite.styles = newStyle;
 
             this.sprite.dirty = true;
@@ -195,6 +202,13 @@ function QText(context, opt) {
             });
         }
         return this.sprite;
+    };
+
+
+    this.clone = function () {
+        var entity = QText.deserialize(this.context, JSON.parse(JSON.stringify(this.serialize())));
+        entity.entityID = uid();
+        return entity;
     };
 
     this._setAllListeners = this.setAllListeners;

@@ -549,11 +549,25 @@ body {
     font-size: 18px;
     position: absolute;
     bottom: 0px;
-    border-top: 5px solid black;
+    border-top: .4vh solid black;
     width: 100%;
     padding-left: 0px;
     padding-right: 0px;
     margin: 0px;
+}
+
+#toolbar > ul > li > a {
+    margin: 0px;
+    padding: 1vh;
+}
+
+#toolbar > ul > li {
+    margin: 0px;
+}
+
+#accountBar > button {
+    font-size: 1vh;
+    padding: 1vh;
 }
 
 #toolbarPuller {
@@ -711,17 +725,24 @@ input, textarea {
 }
 
 #subtitle {
-    margin: .1%; 
-    margin-top: 2%; 
+    margin: .1vw; 
+    margin-top: 4vh; 
     display: inline-block; 
     float: left; 
     font-size: 16px;
 }
 
+#signBar {
+    position: absolute;
+    right: .6vw;
+    font-size: 1vh;
+    bottom: 6vh;
+}
+
 #accountBar {
     position: absolute;
     right: 0px;
-    padding: 1%;
+    margin: 1vh 1vw;
 }
 
 #copyrightBar {
@@ -734,12 +755,26 @@ input, textarea {
 .modal-dialog {
     width: auto;
     min-width: 600px;
+    max-width: 50vw;
     display: inline-block;
 }
 
 .modal-content {
     display: inline-block;
     width: 100%;
+    max-width: 50vw;
+}
+
+#playerCanvas {
+    max-width: 100%;
+}
+
+.dropdown-menu > li.disabled > a {
+	color: lightgray !important;
+}
+
+.dropdown-menu > li.disabled > a:hover {
+	background-color: transparent !important;
 }
 
 #toolbarList {
@@ -798,8 +833,7 @@ input, textarea {
     height: 100%;
 
     background-size: 20px 20px;
-    background-image: linear-gradient(to right, lightgray 1px, transparent 1px), linear-gradient(to bottom, lightgray 1px, transparent 1px);
-
+    background-image: linear-gradient(to right, lightgray 8%, lightgray 1%, transparent 1%), linear-gradient(to bottom, lightgray 8%, lightgray 1%, transparent 1%);
     overflow: hidden;
 }
 
@@ -966,7 +1000,7 @@ input, textarea {
     width: 100%;
 }
 .fieldLink {
-    width: 75%;
+    width: 100%;
     float: left;
 }
 .fieldLinkButton {
@@ -1294,4 +1328,93 @@ input, textarea {
     left: 100%; 
     border-top-left-radius: 0px !important; 
     border-top-right-radius: 6px !important;
+}
+
+#recordTool.recording {
+	color: red;
+}
+
+#recordToolBadge {
+	font-family: Tahoma;
+}
+
+#tagEditorFields {
+	display: flex;
+	flex-direction: row;
+}
+#tagEditorFields > div {
+	text-align: left;
+	margin: 0px 10px;
+}
+.tagEditorField {
+	margin: 0px 0px 5px 0px;
+}
+.tagEditorField > input {
+	width: 100%;
+}
+.tagEditorField > input[type='checkbox'] {
+	vertical-align: middle;
+    margin-bottom: 6px;
+    margin-left: 3px;
+	width: inherit;
+}
+.tagEditorField > select {
+	width: 100%;
+}
+
+.tagEditorField.disabled > label {
+	color: gray;
+}
+
+.jscolor[disabled] {
+	pointer-events: none;
+    background-color: rgb(235, 235, 228) !important;
+    border: solid #aeaeae 1px;
+    padding: 2px;
+}
+
+select[disabled] {
+	background-color: rgb(235, 235, 228) !important;
+    border: solid #aeaeae 1px;
+}
+
+#tagEditorContent {
+	overflow-y: scroll;
+}
+
+#tagEditorContent > table {
+	width: 100%;
+}
+#tagEditorContent > table > thead > tr > th:first-chlid{
+	width: 160px;
+}
+
+#tagEditorContent {
+	height: 200px;
+	max-height: 200px;
+	min-height: 200px;
+}
+
+#tagEditorContentBody > tr.active {
+	background-color: lightgray;
+}
+
+#tagEditorContentBody > tr > td {
+	text-align: left;
+	color: gray;
+    font-style: italic;
+}
+#tagEditorContentBody > tr.custom > td {
+	color: black;
+    font-style: normal;
+}
+
+#tagEditorContentBody > tr > td:first-child {
+	width: 160px;
+	word-break: break-all;
+	padding-right: 10px;
+}
+#tagEditorContentBody > tr.custom:hover {
+	background-color: whitesmoke;
+	cursor: pointer;
 }

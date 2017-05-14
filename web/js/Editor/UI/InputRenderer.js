@@ -348,11 +348,45 @@ InputRenderer.createLinkField = function (name, valueParent, value, ext) {
     res.type = "text";
     res.className = "fieldLink";
     res.enterListener = "onblur";
-    res._pf = res.printField();
-    res.printField = function () {
-        return res._pf + "<button class='btn btn-default btn-xs fieldLinkButton' onclick='$(\"#" + res.id + "\").val(\">[frameNo]\");'' >H</button>";
-    };
-    return res;
+//    res._pf = res.printField();
+//    res.printField = function () {
+//        return res._pf + "<button class='btn btn-default btn-xs fieldLinkButton' onclick='$(\"#" + res.id + "\").val(\">[frameNo]\");'' >H</button>";
+//    };
+    return InputRenderer.createOptionedField(name, res, {
+        options: [
+            {
+                name: "Link To Frame",
+                onclick: function () {
+                    editor.prompt("Link To Frame", 0, function (newValue) {
+                        if( !newValue || newValue.length < 1 ) {
+                            return;
+                        }
+                        if( newValue === "Start" || newValue === "Next" ) {
+                            $("#" + res.id).val(">" + newValue);
+                            return;
+                        }
+                        var frameNo = parseInt(newValue);
+                        
+                        if( isNaN(frameNo) ) {
+                            return;
+                        }
+                        $("#" + res.id).val(">" + frameNo);
+                    });
+                }
+            }, {
+                name: "Link To Diagram",
+                onclick: function () {
+                    editor.prompt("Link To Diagram", "A", function (newValue) {
+                        if( !newValue || newValue.length < 1 ) {
+                            return;
+                        }
+                        
+                        $("#" + res.id).val("#" + newValue);
+                    });
+                }
+
+            }]
+    });
 };
 InputRenderer.createColorField = function (name, valueParent, value, ext) {
     var res = InputRenderer.initRes(name, valueParent, value, ext, "Color");
@@ -492,7 +526,7 @@ InputRenderer.createRichTextField = function (name, valueParent, value, ext) {
         return "<textarea id='" + res.id + "' name='" + name + "' class='form-control fieldRichText' oninput=\"" + InputRenderer.cb(res.id) + "\">" + v + "</textarea>";
     };
     res.print = function () {
-        return InputRenderer.propertiesRow(InputRenderer.label(name) + InputRenderer.field("<button class='btn btn-default btn-sm fieldRichTextButton' onclick='this.blur(); openRichTextEditor();'>Tags</button>")) +
+        return InputRenderer.propertiesRow(InputRenderer.label(name) + InputRenderer.field("<button class='btn btn-default btn-sm fieldRichTextButton' onclick='this.blur(); openTagEditor();'>Tags</button>")) +
                 InputRenderer.propertiesRow(res.printField());
     };
     return res;
@@ -605,11 +639,6 @@ InputRenderer.createAnyField = function (name, valueParent, value, ext) {
             onclick: function () {
                 valueParent[value].type = "RICHTEXT";
                 $("#" + res.id).html(richTextRes.printField());
-            }
-        }, {
-            name: "Array",
-            onclick: function () {
-                console.log("NOT YET");
             }
         }
     ];
@@ -784,14 +813,12 @@ InputRenderer.createActionArray = function (name, valueParent, value, ext) {
             return str;
         },
         refreshContent: function () {
-            console.log("VV");
             console.log(this.id);
             $("#Content" + this.id).html(this.getRefreshedContent());
         },
         print: function () {
             var res = "<div><div>";
             res += InputRenderer.createLabel(name).print();
-            console.log(this.id);
 
             var that = this;
             var entityActions = [{name: "Position", onclick: function () {

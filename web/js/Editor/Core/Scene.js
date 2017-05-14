@@ -63,7 +63,7 @@ function Scene(context, sceneName) {
         if (this.context.actionData) {
             delete this.context.actionData;
         }
-
+        
         this.activeFrame = frame;
         if (this.activeFrame)
             this.activeFrame.activeAction = null;
@@ -75,10 +75,18 @@ function Scene(context, sceneName) {
         if (this.activeFrame) {
             if(!skipContextRerender) this.context.changeToFrameModelContext(this.activeFrame);
             this.setSceneStateOnFrame(this.activeFrame);
+            $("#recordTool").prop("disabled", false);
         } else {
             if(!skipContextRerender) this.context.changeToSceneModelContext();
             this.setSceneState();
+            $("#recordTool").prop("disabled", true);
         }
+        
+        this.context.editor.toScene(true);
+                
+        $("#recordTool").removeClass("recording");
+        $("#recordToolBadge").html("");
+        context.recordedActions = {};
     };
 
     this.goToFrame = function (frameNo, skipRerender) {
@@ -120,6 +128,29 @@ function Scene(context, sceneName) {
                 if (key === "name") {
                     res.context.editor.sequencePanel.updateSequencePanel();
                 }
+            } else if (activeScene.activeFrame && key !== "name") {
+                if( !res.context.recordedActions["ss" + entity.entityID] ) {
+                    res.context.recordedActions["ss" + entity.entityID] = {};
+                }
+                res.context.recordedActions["ss" + entity.entityID][key] = newValue;
+                
+                var count = 0;
+                for( var k in res.context.recordedActions ) {
+                    var posNo = 0;
+                    var scaleNo = 0;
+                    for( var j in res.context.recordedActions[k] ) {
+                        if( /pos/i.test(j) ) posNo++;
+                        if( /scale/i.test(j) ) scaleNo++;
+                        count++;
+                    }
+                    if(posNo > 1) count--;
+                    if(scaleNo > 1) count--;
+                }
+                if(count > 0) {
+                    $("#recordTool").addClass("recording");
+                }
+                $("#recordToolBadge").html(count);
+                
             }
             if (key === "name" && res === activeScene) {
                 if (!res.startState["ss" + entity.entityID]) {
@@ -128,6 +159,7 @@ function Scene(context, sceneName) {
                 res.startState["ss" + entity.entityID][key] = newValue;
                 res.context.editor.sequencePanel.updateSequencePanel();
             }
+            
 
             return true;
         });
@@ -141,6 +173,15 @@ function Scene(context, sceneName) {
         this.sceneContentEditedCallback();
 
         this.context.editor.viewport.setSelected(sprite);
+    };
+    
+    this.getEntityByID = function (id) {
+        for( var k in this.entities ) {
+            if (this.entities[k].entityID === id) {
+                return this.entities[k];
+            }
+        }
+        return null;
     };
 
     this.removeEntityFromScene = function (entity) {
@@ -177,7 +218,19 @@ function Scene(context, sceneName) {
         this.thumbnailRenderer.backgroundColor = 0xEEEEEE;
     };
 
+    this.thumbnailRendererCounter = 0;
     this.renderThumbnail = function () {
+        if( this.thumbnailRendererCounter > 0 ) {
+            this.thumbnailRendererCounter--;
+            return;
+        } else {
+            if(this.context.editor.activeScene === this) {
+                this.thumbnailRendererCounter = 10;
+            } else {
+                this.thumbnailRendererCounter = 100;
+            }
+        }
+        
         var renderer = this.thumbnailRenderer;
 
         renderer.view = this.thumbnailRenderer.view;

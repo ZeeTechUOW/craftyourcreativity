@@ -160,6 +160,10 @@
         <servlet-name>SignupTrainerAuthServlet</servlet-name>
         <servlet-class>Servlet.SignupTrainerAuthServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetEndDataServlet</servlet-name>
+        <servlet-class>Editor.GetEndDataServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DirectoryServlet</servlet-name>
         <url-pattern>/DirectoryServlet</url-pattern>
@@ -407,6 +411,10 @@
     <servlet-mapping>
         <servlet-name>SignupTrainerAuthServlet</servlet-name>
         <url-pattern>/signuptrainerauth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetEndDataServlet</servlet-name>
+        <url-pattern>/GetEndDataServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

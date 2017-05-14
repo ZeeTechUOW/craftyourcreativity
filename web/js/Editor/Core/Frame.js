@@ -13,15 +13,31 @@ function Frame(scene) {
     this.actions = [];
 
     this.activeAction;
+    
+    this.getSelectedActionNo = function () {
+        if( this.activeAction ) {
+            for( var k in this.actions ) {
+                for( var j in this.actions[k] ) {
+                    if( this.actions[k][j] === this.activeAction ) {
+                        return k;
+                    }
+                }
+            } 
+        }
+        return -1;
+    };
 
     this.addAction = function (action, actionNo, inBetween) {
+        console.log("ADDING - " + action.actionName + " | " + actionNo);
 
         if ((actionNo || actionNo === 0) && actionNo < this.actions.length) {
             if (inBetween) {
+                console.log("INB - " + action.actionName + " | " + actionNo);
                 var as = [];
                 as.push(action);
                 this.actions.splice(actionNo, 0, as);
             } else {
+                console.log("STACK - " + action.actionName + " | " + actionNo);
                 this.actions[actionNo].push(action);
             }
         } else {
@@ -51,10 +67,17 @@ function Frame(scene) {
         if (this.activeAction) {
             this.context.changeToActionModelContext(this.activeAction);
             this.scene.setSceneStateOnAction(action);
+            $("#recordTool").prop("disabled", false);
         } else {
             this.context.changeToFrameModelContext(this);
             this.scene.setSceneStateOnFrame(this);
         }
+        
+        this.context.editor.toScene(true);
+        
+        $("#recordTool").removeClass("recording");
+        $("#recordToolBadge").html("");
+        this.context['recorded' + "Actions"] = {};
     };
     this.removeCurrentAction = function (skipUpdate) {
         if (this.activeAction) {

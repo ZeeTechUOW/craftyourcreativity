@@ -7,9 +7,12 @@ package Editor;
 
 import Model.Achievement;
 import Model.DBAdmin;
+import Model.User;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Deni Barasena
  */
-public class GetAchievementServlet extends HttpServlet {
+public class GetEndDataServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,22 +44,20 @@ public class GetAchievementServlet extends HttpServlet {
             return;
         }
 
-        ArrayList<Achievement> achievements = DBAdmin.getAllAchievement(projectID);
-
-        if (achievements != null && achievements.size() > 0) {
-            try (PrintWriter out = response.getWriter()) {
-                out.print("{");
-                for (int i = 0; i < achievements.size(); i++) {
-                    Achievement achievement = achievements.get(i);
-                    
-                    if(i > 0) {
-                        out.print(",");
-                    }
-                    out.print( "\"" + achievement.getAchievementID() + "\":\"" + achievement.getAchievementName() + "\"");
-                }
-                out.print("}");
-            }
-        }
+//        ArrayList<String> endDatas = DBAdmin.getAllEndData(projectID);
+//
+//        if (endDatas != null && endDatas.size() > 0) {
+//            try (PrintWriter out = response.getWriter()) {
+//                out.print("{");
+//                for (int i = 0; i < endDatas.size(); i++) {
+//                    if(i > 0) {
+//                        out.print(",");
+//                    }
+//                    out.print( "\"" + endDatas.get(i) + "\":\"true\"");
+//                }
+//                out.print("}");
+//            }
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

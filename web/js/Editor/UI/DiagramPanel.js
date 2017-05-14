@@ -19,7 +19,7 @@ function DiagramPanel(context) {
         this.dom = document.getElementById("diagram");
         this.cameraDom = document.getElementById("diagramCamera");
         this.nodeDom = document.getElementById("diagramNodes");
-        this.svgDom = document.getElementById("diagramSVG");
+        this.svgDom = document.getElementById("svgAnchor");
 
         this.nodes.push(new DiagramNode(this.context, {
             x: 50, y: 50, nodeType: "start"
@@ -89,7 +89,7 @@ function DiagramPanel(context) {
                 var toNode = this.getNodeById(node.flowOutput[j]);
 
                 if (this.dragAnchor && fromNode === this.dragAnchor.draggedNodeFrom && this.dragAnchor.dataTarget === j && this.dragAnchor.connectionType === "FLOW") {
-                    var from = fromNode.getFlowOutputPos(j);
+                    var from = fromNode.getFlowOutputPos(j, this.zoomLevel);
 
                     var midFromX = from.x + (x - from.x) * .5 * (x > from.x ? 1 : -1);
                     var midToX = x + (from.x - x) * .5 * (x > from.x ? 1 : -1);
@@ -97,8 +97,8 @@ function DiagramPanel(context) {
                     res += "<path stroke=\"#8e8e8e\" stroke-width=\"4\" fill=\"none\" d=\"M" + from.x + "," + from.y + " C" + midFromX + "," + from.y + " " + midToX + "," + y + " " + x + "," + y + "\"></path>";
 
                 } else if (toNode) {
-                    var from = fromNode.getFlowOutputPos(j);
-                    var to = toNode.getFlowInputPos();
+                    var from = fromNode.getFlowOutputPos(j, this.zoomLevel);
+                    var to = toNode.getFlowInputPos(this.zoomLevel);
 
                     var midFromX = from.x + (to.x - from.x) * .5 * (to.x > from.x ? 1 : -1);
                     var midToX = to.x + (from.x - to.x) * .5 * (to.x > from.x ? 1 : -1);
@@ -113,7 +113,7 @@ function DiagramPanel(context) {
                 var toStr = c.dataInput;
 
                 if (this.dragAnchor && fromNode === this.dragAnchor.draggedNodeFrom && this.dragAnchor.dataTarget === j && this.dragAnchor.connectionType === "DATA") {
-                    var from = fromNode.getFlowDataOutputPos(j);
+                    var from = fromNode.getFlowDataOutputPos(j, this.zoomLevel);
 
                     var midFromX = from.x + (x - from.x) * .5 * (x > from.x ? 1 : -1);
                     var midToX = x + (from.x - x) * .5 * (x > from.x ? 1 : -1);
@@ -127,8 +127,8 @@ function DiagramPanel(context) {
                     if (data.length > 1) {
                         var from = this.getNodeById(parseInt(data[0]));
                         if (from) {
-                            from = from.getFlowDataOutputPos(data[1]);
-                            var to = fromNode.getFlowDataInputPos(j);
+                            from = from.getFlowDataOutputPos(data[1], this.zoomLevel);
+                            var to = fromNode.getFlowDataInputPos(j, this.zoomLevel);
 
                             var midFromX = from.x + (to.x - from.x) * .5 * (to.x > from.x ? 1 : -1);
                             var midToX = to.x + (from.x - to.x) * .5 * (to.x > from.x ? 1 : -1);
@@ -140,9 +140,9 @@ function DiagramPanel(context) {
                     }
                 }
             }
-
         }
-        this.svgDom.innerHTML = res;
+
+        this.svgDom.innerHTML = "<svg id='diagramSVG'>" + res + "</svg>";
     };
 
     this.setSelected = function (node, skipRerender) {
@@ -162,7 +162,8 @@ function DiagramPanel(context) {
             $("#Node" + this.selectedNode.nodeID).addClass("active");
             this.context.changeToNodeModelContext(this.selectedNode);
         } else {
-            if(!skipRerender) this.context.changeToSceneModelContext();
+            if (!skipRerender)
+                this.context.changeToSceneModelContext();
         }
     };
 
@@ -239,14 +240,14 @@ function DiagramPanel(context) {
 
         if (node) {
             var canoffset = $(this.cameraDom).offset();
-            var canzoom = parseFloat($(this.cameraDom).css("zoom"));
+            var canzoom = this.zoomLevel;
 
             var x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - Math.floor(canoffset.left * canzoom);
             var y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop - Math.floor(canoffset.top * canzoom) + 1;
 
             if (type === "DATA") {
                 var knode = this.getNodeById(parseInt(elem.getAttribute("qrid")));
-                if(knode) {
+                if (knode) {
                     knode.content[dataTarget].dataInput = true;
                 }
             }
@@ -268,7 +269,7 @@ function DiagramPanel(context) {
             var p;
 
             if (type === "FLOW") {
-                p = node.getFlowInputPos(dataTarget);
+                p = node.getFlowInputPos(dataTarget, this.zoomLevel);
                 for (var k in this.nodes) {
                     for (var j in this.nodes[k].flowOutput) {
                         if (this.nodes[k].flowOutput[j] === id) {
@@ -288,7 +289,7 @@ function DiagramPanel(context) {
 
                         node.content[dataTarget].dataInput = true;
                         if (fromNode) {
-                            p = node.getFlowDataInputPos(data[1]);
+                            p = node.getFlowDataInputPos(data[1], this.zoomLevel);
                         }
                     }
                 }
@@ -310,9 +311,9 @@ function DiagramPanel(context) {
         if (node) {
             var p;
             if (type === "FLOW") {
-                p = node.getFlowOutputPos(dataTarget);
+                p = node.getFlowOutputPos(dataTarget, this.zoomLevel);
             } else if (type === "DATA") {
-                p = node.getFlowDataOutputPos(dataTarget);
+                p = node.getFlowDataOutputPos(dataTarget, this.zoomLevel);
             }
 
             this.startConnectionDrag(node, dataTarget, type, p.x, p.y, event);
@@ -345,6 +346,21 @@ function DiagramPanel(context) {
         }
     };
 
+    this.addClonedToDiagram = function (node) {
+        var newNode = DiagramNode.deserialize(this.context, JSON.parse(JSON.stringify(node.serialize())));
+        newNode.nodeID = uid();
+        
+        var canoffset = $(this.cameraDom).offset();
+        var canzoom = this.zoomLevel;
+        
+        newNode.x = 500 + document.body.scrollLeft + document.documentElement.scrollLeft - Math.floor(canoffset.left * canzoom);
+        newNode.y = 500 + document.body.scrollTop + document.documentElement.scrollTop - Math.floor(canoffset.top * canzoom) + 1;
+        
+        this.nodes.push(newNode);
+        
+        this.updateDiagramPanel();
+    };
+
     this.deleteSelectedNode = function () {
         if (this.selectedNode && this.selectedNode.nodeName !== "Start") {
             this.nodes.splice(this.nodes.indexOf(this.selectedNode), 1);
@@ -368,32 +384,60 @@ function DiagramPanel(context) {
 
             that.dragAnchor.camX = parseFloat($(that.cameraDom).css("left"));
             that.dragAnchor.camY = parseFloat($(that.cameraDom).css("top"));
+
+            if (isNaN(that.dragAnchor.camX)) {
+                that.dragAnchor.camX = 0;
+            }
+            if (isNaN(that.dragAnchor.camY)) {
+                that.dragAnchor.camY = 0;
+            }
+
         }
     });
-    this.dom.addEventListener("mousewheel", function (event) {
-        var delta = event.deltaY / 1000;
+    this.dom.addEventListener(/Firefox/i.test(navigator.userAgent) ? "DOMMouseScroll" : "mousewheel", function (event) {
+        var delta = -(event.wheelDelta || -event.detail * 20) * 1.0 / 1000;
+
         var z = parseFloat($(that.cameraDom).css("zoom"));
+        if (z > 10) {
+            z /= 100;
+        } else if (isNaN(z)) {
+            z = 1;
+        }
+
         var zoom = z - delta;
+
 
         if (zoom > 1.25) {
             zoom = 1.25;
-            delta = 0;
+            delta = z - zoom;
         }
 
-        if (zoom < .25) {
-            zoom = .25;
-            delta = 0;
+        if (zoom < .4) {
+            zoom = .4;
+            delta = z - zoom;
         }
 
         that.zoomLevel = zoom;
         $(that.cameraDom).css("zoom", zoom);
-        $(that.cameraDom).css("left", parseFloat($(that.cameraDom).css("left")) + (parseFloat($(that.cameraDom).width()) * delta / 2 / z) + "px");
-        $(that.cameraDom).css("top", parseFloat($(that.cameraDom).css("top")) + (parseFloat($(that.cameraDom).height()) * delta / 2 / z) + "px");
+        if (/Firefox/i.test(navigator.userAgent)) {
+            $(that.cameraDom).css("left", parseFloat($(that.cameraDom).css("left")) + (parseFloat($(that.cameraDom).width()) * delta / 2) + "px");
+            $(that.cameraDom).css("top", parseFloat($(that.cameraDom).css("top")) + (parseFloat($(that.cameraDom).height()) * delta / 2) + "px");
+        } else {
+            $(that.cameraDom).css("left", parseFloat($(that.cameraDom).css("left")) + (parseFloat($(that.cameraDom).width()) * delta / 2 / z) + "px");
+            $(that.cameraDom).css("top", parseFloat($(that.cameraDom).css("top")) + (parseFloat($(that.cameraDom).height()) * delta / 2 / z) + "px");
+        }
+
+        that.updateDiagramPanel();
     });
     document.addEventListener("mousemove", function (event) {
         if (that.mode === "DRAG_CAMERA") {
-            $(that.cameraDom).css("left", that.dragAnchor.camX + (event.clientX - that.dragAnchor.x) / that.zoomLevel + "px");
-            $(that.cameraDom).css("top", that.dragAnchor.camY + (event.clientY - that.dragAnchor.y) / that.zoomLevel + "px");
+            if (/Firefox/i.test(navigator.userAgent) || isIE()) {
+                $(that.cameraDom).css("left", that.dragAnchor.camX + (event.clientX - that.dragAnchor.x) + "px");
+                $(that.cameraDom).css("top", that.dragAnchor.camY + (event.clientY - that.dragAnchor.y) + "px");
+            } else {
+                $(that.cameraDom).css("left", that.dragAnchor.camX + (event.clientX - that.dragAnchor.x) / that.zoomLevel + "px");
+                $(that.cameraDom).css("top", that.dragAnchor.camY + (event.clientY - that.dragAnchor.y) / that.zoomLevel + "px");
+            }
 
             event.stopPropagation();
         } else if (that.mode === "DRAG_NODE") {

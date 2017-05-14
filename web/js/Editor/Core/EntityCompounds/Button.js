@@ -194,6 +194,12 @@ function Button(context, opt) {
         });
         return data;
     };
+    
+    this.clone = function () {
+        var entity = Button.deserialize(this.context, JSON.parse(JSON.stringify(this.serialize())));
+        entity.entityID = uid();
+        return entity;
+    };
 
     setupListener(this);
 

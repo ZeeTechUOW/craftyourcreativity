@@ -34,6 +34,7 @@ Player.Game = function (context, input) {
     this.activeScene;
     this.initialScene;
 
+    this.textProfiles = input.textProfiles;
     this.dataVariables = input.dataVariables;
 
     this.currentFrameIndex = -1;
@@ -93,6 +94,14 @@ Player.Game = function (context, input) {
         };
         this.stage.mousemove = function (ev) {
             that.mousePos = ev.data.global;
+        };
+        this.stage.touchstart = function (ev) {
+            that.leftMouseDown = true;
+            that.leftMouse = true;
+        };
+        this.stage.touchend = function (ev) {
+            that.leftMouseUp = true;
+            that.leftMouse = false;
         };
         //this.changeScene(this.initialScene.sceneID);
         this.startGame();
@@ -1767,8 +1776,7 @@ Player.Button.decorate = function (parent, input) {
             }
         };
 
-        button
-                .on('mouseover', onEnter)
+        button  .on('mouseover', onEnter)
                 .on('mouseout', onExit)
                 .on('mousedown', onDown)
                 .on('touchstart', onDown)
@@ -1786,6 +1794,9 @@ Player.Button.decorate = function (parent, input) {
         };
         for (var k in Player.QText.textProfiles) {
             def[k] = Player.QText.textProfiles[k];
+        }
+        for (var k in c.game.textProfiles) {
+            def[k] = c.game.textProfiles[k];
         }
 
         var basicText = new MultiStyleText(o.text, def);
@@ -1917,6 +1928,9 @@ Player.QText.decorate = function (parent, input) {
         for (var k in Player.QText.textProfiles) {
             defStyle[k] = Player.QText.textProfiles[k];
         }
+        for (var k in parent.context.game.textProfiles) {
+            defStyle[k] = parent.context.game.textProfiles[k];
+        }
         var text = new MultiStyleText(o.text, defStyle);
         text.interactive = true;
 
@@ -1964,6 +1978,9 @@ Player.QText.decorate = function (parent, input) {
             };
             for (var k in Player.QText.textProfiles) {
                 newStyle[k] = Player.QText.textProfiles[k];
+            }
+            for (var k in parent.context.game.textProfiles) {
+                newStyle[k] = parent.context.game.textProfiles[k];
             }
             parent.sprite.styles = newStyle;
             parent.sprite.dirty = true;

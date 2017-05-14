@@ -299,6 +299,9 @@ function replaceDom(id, newHTML) {
 function isIEorEDGE() {
     return navigator.appName === 'Microsoft Internet Explorer' || (navigator.appName === "Netscape" && navigator.appVersion.indexOf('Edge') > -1) || (navigator.appName === "Netscape" && navigator.appVersion.indexOf('Trident') > -1);
 }
+function isIE() {
+    return navigator.appName === 'Microsoft Internet Explorer' || (navigator.appName === "Netscape" && navigator.appVersion.indexOf('Trident') > -1);
+}
 
 var _lastUniqueIdentifier = 1;
 
@@ -313,4 +316,43 @@ function reset_uid(val) {
     if (!val)
         val = 0;
     _lastUniqueIdentifier = val + 1;
+}
+
+if (/Firefox/i.test(navigator.userAgent)) {
+    console.log("IS FIREFOx ZOOM HACK")
+    $.cssNumber.zoom = true;
+    if (!("zoom" in document.body.style)) {
+        $.cssHooks.zoom = {
+            get: function (elem, computed, extra) {
+                var value = $(elem).data('zoom');
+                return value !== null ? value : 1;
+            },
+            set: function (elem, value) {
+                var $elem = $(elem);
+                var size = {// without margin
+                    width: $elem.outerWidth(),
+                    height: $elem.outerWidth()
+                };
+                $elem.data('zoom', value);
+                if (value !== 1) {
+                    $elem.css({
+                        transform: 'scale(' + value + ')',
+                        marginLeft: (size.width * value - size.width) / 2,
+                        marginRight: (size.width * value - size.width) / 2,
+                        marginTop: (size.height * value - size.height) / 2,
+                        marginBottom: (size.height * value - size.height) / 2
+                    });
+                } else {
+                    $elem.css({
+                        transform: null,
+                        margin: null
+                    });
+                }
+            }
+        };
+    }
+}
+
+if(PIXI) {
+    PIXI.utils.skipHello();
 }

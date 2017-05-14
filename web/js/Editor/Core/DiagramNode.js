@@ -9,6 +9,7 @@ function DiagramNode(context, opt) {
         opt = {};
     this.context = context;
 
+    this.isANode = true;
     this.nodeID = opt.nodeID ? opt.nodeID : uid();
     this.x = opt.x ? opt.x : 0;
     this.y = opt.y ? opt.y : 0;
@@ -86,19 +87,23 @@ function DiagramNode(context, opt) {
 
         return res;
     };
-
+    this.useZoomLevel = false;
+    if(isIEorEDGE() || /Firefox/i.test(navigator.userAgent)) {
+        this.useZoomLevel = true;
+    }
+    
     var that = this;
-    this.getFlowInputPos = function () {
+    this.getFlowInputPos = function (zoomLevel) {
         return {
             x: that.x,
-            y: that.y + 15
+            y: that.y + 15 
         };
     };
-    this.getFlowOutputPos = function (outputName) {
+    this.getFlowOutputPos = function (outputName, zoomLevel) {
         var y = that.y + 15;
 
         if (outputName !== "_def") {
-            y += $("#foNode" + this.nodeID + "0" + outputName).position().top;
+            y += $("#foNode" + this.nodeID + "0" + outputName).position().top / (that.useZoomLevel?zoomLevel:1);
         }
 
         return {
@@ -106,16 +111,16 @@ function DiagramNode(context, opt) {
             y: y
         };
     };
-    this.getFlowDataOutputPos = function (dataTarget) {
-        var y = that.y + 15 + $("#nciNode" + this.nodeID + "0" + dataTarget).position().top;
+    this.getFlowDataOutputPos = function (dataTarget, zoomLevel) {
+        var y = that.y + 15 + $("#nciNode" + this.nodeID + "0" + dataTarget).position().top / (that.useZoomLevel?zoomLevel:1);
 
         return {
             x: that.x + $("#Node" + this.nodeID).outerWidth(),
             y: y
         };
     };
-    this.getFlowDataInputPos = function (dataTarget) {
-        var y = that.y + 15 + $("#nciNode" + this.nodeID + "0" + dataTarget).position().top;
+    this.getFlowDataInputPos = function (dataTarget, zoomLevel) {
+        var y = that.y + 15 + $("#nciNode" + this.nodeID + "0" + dataTarget).position().top / (that.useZoomLevel?zoomLevel:1);
 
         return {
             x: that.x,
@@ -245,6 +250,39 @@ DiagramNode.NodeTypes = {
                         });
                     }
                 }
+            },
+            updateUI: function () {
+//                var exContents = editor.getEndDataContents();
+//                
+//                for (var k in exContents) {
+//                    var d = "";
+//                    var din = true;
+//                    if (this.content["dataEnd_" + k]) {
+//                        d = this.content["dataEnd_" + k].value;
+//                        din = this.content["dataEnd_" + k].dataInput;
+//                    }
+//                    var that = this;
+//                    this.content["dataEnd_" + k] = {
+//                        label: k,
+//                        value: d,
+//                        dataInput: din,
+//                        contextField: function () {
+//                            return InputRenderer.createAnyField(this.label, this, "value", {
+//                                onCompleted: function () {
+//                                    editor.diagramPanel.updateDiagramPanel();
+//                                    editor.context.changeToNodeModelContext(that);
+//                                }
+//                            });
+//                        }
+//                    };
+//                    exContents["dataEnd_" + k] = false;
+//                }
+//                for (var k in exContents) {
+//                    if (exContents[k]) {
+//                        delete this.content[k];
+//                    }
+//                }
+                
             }
         };
     },

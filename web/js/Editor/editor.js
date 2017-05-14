@@ -37,6 +37,7 @@ function Editor(opts) {
 
     this.tabs = [];
     this.tabs.push(this.activeScene);
+    this.clipboard;
 
     this.sceneContentPanel.updateSceneContent();
     this.sequencePanel.updateSequencePanel();
@@ -46,51 +47,58 @@ function Editor(opts) {
 
         if (project) {
             var postData = project.serialize();
-            console.log(postData);
 
             var xhr = new XMLHttpRequest();
             var data = JSON.stringify(postData, null, "\t");
             data = projectID + "\n" + userID + "\n" + data;
-            console.log(data);
 
             xhr.open('POST', "SaveServlet", true);
             xhr.setRequestHeader('Content-Type', 'application/json;');
             xhr.onload = function () {
-                console.log(this.responseText);
             };
             xhr.send(data);
         }
     };
 
-    this.loadProject = function () {
+    this.loadProject = function (onLoaded) {
 
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'LoadServlet?mid=' + projectID + "&uid=" + userID, true);
         xhr.onload = (function (c) {
             return function () {
-                console.log(xhr.responseText);
-                var json = JSON.parse(xhr.responseText);
-                console.log(json);
+                try {
+                    var json = JSON.parse(xhr.responseText);
 
-                if (this.viewport) {
-                    this.viewport.reset();
+                    if (this.viewport) {
+                        this.viewport.reset();
+                    }
+
+                    this.activeScene = null;
+                    c.resetActions();
+                    c.editor.diagramPanel.reset();
+
+                    c.editor.project = Project.deserialize(c, json);
+                    c.editor.changeScene(0);
+                    c.editor.activeScene.changeFrame(null);
+
+                    c.editor.viewport.updateLayerOrder();
+                    c.editor.projectPanel.updateSceneList();
+                    c.editor.sequencePanel.updateSequencePanel();
+                    c.editor.diagramPanel.updateDiagramPanel();
+
+                    if (c.editor.project.scenes.length > 0) {
+                        for (var k in c.editor.project.scenes) {
+                            c.editor.changeScene(c.editor.project.scenes[k]);
+                        }
+                        c.editor.changeScene(0);
+                    }
+                } catch (e) {
+
                 }
 
-                this.activeScene = null;
-                c.resetActions();
-                c.editor.diagramPanel.reset();
-
-                c.editor.project = Project.deserialize(c, json);
-                console.log(c.editor.project);
-                c.editor.changeScene(0);
-                c.editor.activeScene.changeFrame(null);
-
-                c.editor.viewport.updateLayerOrder();
-                c.editor.projectPanel.updateSceneList();
-                c.editor.sequencePanel.updateSequencePanel();
-                c.editor.diagramPanel.updateDiagramPanel();
-
-                console.log("loaded");
+                if (onLoaded) {
+                    onLoaded();
+                }
             };
         }(this.context));
         xhr.send();
@@ -117,29 +125,38 @@ function Editor(opts) {
     this.loadProjectFromFile = function (file) {
         var reader = new FileReader();
         reader.onload = function (event) {
+            try {
+                var json = JSON.parse(event.target.result);
+                var c = editor.context;
 
-            var json = JSON.parse(event.target.result);
-            var c = editor.context;
+                if (this.viewport) {
+                    this.viewport.reset();
+                }
 
-            if (this.viewport) {
-                this.viewport.reset();
+                this.activeScene = null;
+                c.resetActions();
+                c.editor.diagramPanel.reset();
+
+                c.editor.project = Project.deserialize(c, json);
+                c.editor.changeScene(0);
+                c.editor.activeScene.changeFrame(null);
+
+                c.editor.viewport.updateLayerOrder();
+                c.editor.projectPanel.updateSceneList();
+                c.editor.sequencePanel.updateSequencePanel();
+                c.editor.diagramPanel.updateDiagramPanel();
+
+                if (c.editor.project.scenes.length > 0) {
+                    for (var k in c.editor.project.scenes) {
+                        c.editor.changeScene(c.editor.project.scenes[k]);
+                    }
+                    c.editor.changeScene(0);
+                }
+            } catch (e) {
+
             }
 
-            this.activeScene = null;
-            c.resetActions();
-            c.editor.diagramPanel.reset();
 
-            c.editor.project = Project.deserialize(c, json);
-            console.log(c.editor.project);
-            c.editor.changeScene(0);
-            c.editor.activeScene.changeFrame(null);
-
-            c.editor.viewport.updateLayerOrder();
-            c.editor.projectPanel.updateSceneList();
-            c.editor.sequencePanel.updateSequencePanel();
-            c.editor.diagramPanel.updateDiagramPanel();
-
-            console.log("loaded");
         };
         reader.readAsText(file);
     };
@@ -149,20 +166,34 @@ function Editor(opts) {
     this.getAchievementData = function () {
         var xhr = new XMLHttpRequest();
         var that = this;
-        
+
         xhr.open('GET', "GetAchievementServlet?mid=" + projectID, true);
         xhr.onload = function () {
             that.achievementDataLabel = JSON.parse(xhr.responseText);
             that.achievementData = [];
-            for( var k in that.achievementDataLabel ) {
+            for (var k in that.achievementDataLabel) {
                 that.achievementData.push(k);
             }
         };
         xhr.send();
-        
+
         return this.achievementData;
     };
-    
+
+    this.endDatas = {};
+    this.getEndData = function () {
+//        var xhr = new XMLHttpRequest();
+//        var that = this;
+//
+//        xhr.open('GET', "GetEndDataServlet?mid=" + projectID, true);
+//        xhr.onload = function () {
+//            that.endDatas = JSON.parse(xhr.responseText);
+//        };
+//        xhr.send();
+
+        return this.endDatas;
+    };
+
     this.getAchievementDataLabel = function (value) {
         return this.achievementDataLabel[value];
     };
@@ -341,6 +372,14 @@ function Editor(opts) {
 
     };
 
+    this.addClonedToCurrentViewport = function (entity) {
+        if (this.activeScene) {
+            var cloned = entity.clone();
+            cloned.originalScene = this.activeScene;
+            this.activeScene.addEntityToScene(cloned);
+        }
+    };
+
     this.fileChooserLastPath = "Assets/";
     this.fileChooserFilter = "";
 
@@ -366,9 +405,235 @@ function Editor(opts) {
         $('#richTextModal').modal('show');
     };
 
+    this.selectedTextTag = null;
+    this.openTagEditor = function () {
+        this.selectTextTag(null);
+        this.refreshTagEditor();
+        $("#tagEditorModal").modal("show");
+    };
+
+    this.addTextTag = function () {
+        this.prompt("New Tag Name", "newTag", function (newName) {
+            if (newName && newName.length > 0) {
+                for (var k in QText.textProfiles) {
+                    if (k === newName) {
+                        return;
+                    }
+                }
+
+                editor.project.textProfiles[newName] = {};
+                selectTextTag(newName);
+                editor.refreshTagEditor();
+            }
+        });
+    };
+
+    this.removeTextTag = function (tagName) {
+        if (tagName) {
+            this.selectTextTag(null);
+            delete this.project.textProfiles[tagName];
+            this.refreshTagEditor();
+        }
+    };
+
+    this.selectTextTag = function (tagName) {
+        if (this.selectedTextTag) {
+            $("#textTag" + this.selectedTextTag).removeClass("active");
+        }
+        this.selectedTextTag = tagName;
+
+        if (this.selectedTextTag) {
+            if (this.project.textProfiles[this.selectedTextTag]) {
+                var profile = this.project.textProfiles[this.selectedTextTag];
+
+                this.updateTextField("font", profile.fontFamily);
+                this.updateTextField("fontSize", (profile.fontSize ? profile.fontSize.replace("px", "") : profile.fontSize));
+                this.updateTextField("fontColor", profile.fill);
+
+                var isItalic = profile.fontStyle === "italic";
+                var isBold = profile.fontWeight === "bold";
+                var isNormal = profile.fontStyle === "normal" || profile.fontWeight === "normal";
+                this.updateTextField("fontStyle", (isItalic ? (isBold ? "boldAndItalic" : "italic") : (isBold ? "bold" : (isNormal ? "normal" : null))));
+                ;
+
+                this.updateTextField("stroke", profile.strokeThickness);
+                this.updateTextField("strokeColor", profile.stroke);
+                this.updateTextField("dropShadow", profile.dropShadowAlpha);
+                this.updateTextField("dropShadowColor", profile.dropShadowColor);
+                this.updateTextField("dropShadowAngle", profile.dropShadowAngle);
+                this.updateTextField("dropShadowBlur", profile.dropShadowBlur);
+                this.updateTextField("dropShadowDistance", profile.dropShadowDistance);
+
+                $("#tagEditorRemoveButton").prop("disabled", false);
+                $("#textTag" + this.selectedTextTag).addClass("active");
+                $("#tagEditorFields").removeClass("hidden");
+            }
+        } else {
+            $("#tagEditorRemoveButton").prop("disabled", true);
+            $("#tagEditorFields").addClass("hidden");
+        }
+    };
+
+    this.updateTextField = function (key, value) {
+        if (value) {
+            $("#" + key + "Field").val(value);
+            $("#" + key + "Field").prop("disabled", false);
+            $("#" + key + "Field").parent().removeClass("disabled");
+            $("#" + key + "Checkbox").prop("checked", true);
+        } else {
+            $("#" + key + "Field").val("");
+            $("#" + key + "Field").prop("disabled", true);
+            $("#" + key + "Field").parent().addClass("disabled");
+            $("#" + key + "Checkbox").prop("checked", false);
+        }
+    };
+
+    this.updateTextTag = function (key, value) {
+        if (this.selectedTextTag && this.project.textProfiles[this.selectedTextTag]) {
+            var profile = this.project.textProfiles[this.selectedTextTag];
+
+            if (value) {
+                switch (key) {
+                    case "font":
+                        profile.fontFamily = value;
+                        break;
+                    case "fontSize":
+                        profile.fontSize = value + "px";
+                        break;
+                    case "fontColor":
+                        profile.fill = "#" + value;
+                        break;
+                    case "fontStyle":
+                        switch (value) {
+                            case "italic":
+                                profile.fontStyle = "italic";
+                                break;
+                            case "normal":
+                                profile.fontStyle = "normal";
+                                profile.fontWeight = "normal";
+                                break;
+                            case "boldAndItalic":
+                                profile.fontStyle = "italic";
+                                profile.fontWeight = "bold";
+                                break;
+                            case "bold":
+                                profile.fontWeight = "bold";
+                                break;
+                        }
+                        break;
+                    case "stroke":
+                        profile.strokeThickness = value;
+                        break;
+                    case "strokeColor":
+                        profile.stroke = "#" + value;
+                        break;
+                    case "dropShadow":
+                        profile.dropShadow = (value > 0);
+                        profile.dropShadowAlpha = value;
+                        break;
+                    case "dropShadowDistance":
+                        profile.dropShadowDistance = value;
+                        break;
+                    case "dropShadowBlur":
+                        profile.dropShadowBlur = value;
+                        break;
+                    case "dropShadowAngle":
+                        profile.dropShadowAngle = value;
+                        break;
+                    case "dropShadowColor":
+                        profile.dropShadowColor = "#" + value;
+                        break;
+                }
+            } else {
+
+                switch (key) {
+                    case "font":
+                        delete profile.fontFamily;
+                        break;
+                    case "fontSize":
+                        delete profile.fontSize;
+                        break;
+                    case "fontColor":
+                        delete profile.fill;
+                        break;
+                    case "fontStyle":
+                        delete profile.fontStyle;
+                        delete profile.fontWeight;
+                        break;
+                    case "stroke":
+                        delete profile.strokeThickness;
+                        break;
+                    case "strokeColor":
+                        delete profile.stroke;
+                        break;
+                    case "dropShadow":
+                        delete profile.dropShadow;
+                        delete profile.dropShadowAlpha;
+                        break;
+                    case "dropShadowDistance":
+                        delete profile.dropShadowDistance;
+                        break;
+                    case "dropShadowBlur":
+                        delete profile.dropShadowBlur;
+                        break;
+                    case "dropShadowAngle":
+                        delete profile.dropShadowAngle;
+                        break;
+                    case "dropShadowColor":
+                        delete profile.dropShadowColor;
+                        break;
+                }
+            }
+
+            this.refreshTagEditor();
+
+
+            for (var k in this.project.scenes) {
+                for (var j in this.project.scenes[k].entities) {
+                    var e = this.project.scenes[k].entities[j];
+                    if (e.isAQText) {
+                        e.updateText();
+                    }
+                }
+            }
+        }
+    };
+
+    this.refreshTagEditor = function () {
+        var res = "";
+
+        for (var k in this.project.textProfiles) {
+            var n = "";
+
+            for (var j in this.project.textProfiles[k]) {
+                if (n !== "") {
+                    n += ", ";
+                }
+                n += j + ": " + this.project.textProfiles[k][j];
+            }
+
+            res += "<tr id='textTag" + k + "' class='custom" + (this.selectedTextTag === k ? " active" : "") + "' onclick='selectTextTag(\"" + k + "\");'><td>&lt;" + k + "&gt;</td><td>" + n + "</td></tr>\n";
+        }
+
+        for (var k in QText.textProfiles) {
+            var n = "";
+
+            for (var j in QText.textProfiles[k]) {
+                if (n !== "") {
+                    n += ", ";
+                }
+                n += j + ": " + QText.textProfiles[k][j];
+            }
+
+            res += "<tr><td>&lt;" + k + "&gt;</td><td>" + n + "</td></tr>\n";
+        }
+
+        $("#tagEditorContentBody").html(res);
+
+    };
+
     this.fileItemSelected = function (selectedItem) {
         if (this.context.currentFileChooserTarget && this.fileChooserFilter) {
-            console.log(this.context.currentFileChooserTarget);
             this.context.propCallbacks[this.context.currentFileChooserTarget](selectedItem);
             $('#fileChooserModal').modal('hide');
         } else {
@@ -398,7 +663,6 @@ function Editor(opts) {
                     var resPath = editor.removeProjectPath(json.files[k].resPath);
                     if (!json.files[k].isDirectory) {
                         var ext = resFileName.substr(resFileName.lastIndexOf('.') + 1);
-                        console.log(resPath);
                         if (Editor.fileFilter.IMAGE.indexOf(ext.toUpperCase()) >= 0) {
                             html +=
                                     "<li name='" + resPath + "' ext='" + ext + "' class=\"list-group-item fileItem\" " +
@@ -514,13 +778,11 @@ function Editor(opts) {
             path = this.fileChooserLastPath;
         }
 
-        console.log("ANJING", path, name);
 
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'DirectoryServlet?op=newFolder&path=' + this.projectPath(path) + '&newName=' + name, true);
         if (onComplete) {
             xhr.onload = function () {
-                console.log("COMPLETE ", path, name);
 
                 onComplete();
             };
@@ -534,21 +796,76 @@ function Editor(opts) {
             scene = this.project.scenes[sceneNo];
         }
 
-        this.activeScene = scene;
-        this.viewport.changeScene(scene);
-        this.sceneContentPanel.updateSceneContent();
-        this.sequencePanel.updateSequencePanel();
+        if (scene) {
+            if (this.activeScene && this.activeScene.activeFrame) {
+                this.activeScene.changeFrame(null);
+            }
+
+            this.activeScene = scene;
+
+
+            this.viewport.changeScene(scene);
+            this.sceneContentPanel.updateSceneContent();
+            this.sequencePanel.updateSequencePanel();
+            this.context.changeToSceneModelContext();
+
+            for (var k in this.project.scenes) {
+                var scene = this.project.scenes[k];
+
+                if (scene === this.activeScene) {
+                    $("#sceneDivThumb" + k).addClass("active");
+                } else {
+                    $("#sceneDivThumb" + k).removeClass("active");
+                }
+            }
+
+            this.toScene();
+        }
+    };
+
+    this.isInDiagram = false;
+    this.toDiagram = function () {
         this.context.changeToSceneModelContext();
 
-        for (var k in this.project.scenes) {
-            var scene = this.project.scenes[k];
+        $("#tabButtonList>li.activee").removeClass("activee");
+        $("#diagramTabButton").addClass("activee");
 
-            if (scene === this.activeScene) {
-                $("#sceneDivThumb" + k).addClass("active");
-            } else {
-                $("#sceneDivThumb" + k).removeClass("active");
-            }
+        $("#toolRow>div").addClass("hidden");
+        $("#diagramToolRow").removeClass("hidden");
+
+        $("#canvasRow>div").addClass("hidden");
+        $("#canvasRow>canvas").addClass("hidden");
+        $("#diagram").removeClass("hidden");
+
+        if (this.context.actionData) {
+            delete this.context.actionData;
         }
+        if (this.viewport.selectedShape) {
+            this.viewport.setSelected(null, true);
+        }
+
+        this.diagramPanel.updateDiagramPanel();
+        this.isInDiagram = true;
+    };
+
+    this.toScene = function (skipContext) {
+        $("#tabButtonList>li.activee").removeClass("activee");
+        $("#sceneTabButton").addClass("activee");
+
+        $("#toolRow>div").addClass("hidden");
+        $("#sceneToolRow").removeClass("hidden");
+
+        $("#canvasRow>div").addClass("hidden");
+        $("#canvasRow>canvas").addClass("hidden");
+        $("#canvas").removeClass("hidden");
+
+        if (this.diagramPanel.selectedNode) {
+            this.diagramPanel.setSelected(null, true);
+        }
+        if (!skipContext)
+            this.context.changeToSceneModelContext();
+
+        this.isInDiagram = false;
     };
 
     this.moveAction = function (fromCode, toCode, inBetween) {
@@ -653,6 +970,67 @@ function Editor(opts) {
         return null;
     };
 
+    this.recordActions = function () {
+        if (this.context.recordedActions && this.activeScene && this.activeScene.activeFrame) {
+
+            var actionNo = this.activeScene.activeFrame.actions.length;
+            var inBetween = false;
+            var jumpAction = false;
+            var lastAction = null;
+            if (this.activeScene.activeFrame.activeAction) {
+                actionNo = +this.activeScene.activeFrame.getSelectedActionNo() + 1;
+                inBetween = true;
+                jumpAction = true;
+            }
+
+            for (var k in this.context.recordedActions) {
+                var rec = this.context.recordedActions[k];
+                var entity = this.activeScene.getEntityByID(parseInt(k.replace("ss", "")));
+
+                if (entity) {
+                    var pos = {};
+                    if (rec.posx)
+                        pos.posx = rec.posx;
+                    if (rec.posy)
+                        pos.posy = rec.posy;
+                    if (rec.posx || rec.posy) {
+                        lastAction = Action.basicAction(entity, pos);
+                        this.activeScene.activeFrame.addAction(lastAction, actionNo, inBetween);
+                        inBetween = false;
+                    }
+
+                    var scale = {};
+                    if (rec.scalex)
+                        scale.scalex = rec.scalex;
+                    if (rec.scaley)
+                        scale.scaley = rec.scaley;
+                    if (rec.scalex || rec.scaley) {
+                        lastAction = Action.basicAction(entity, scale);
+                        this.activeScene.activeFrame.addAction(lastAction, actionNo, inBetween);
+                        inBetween = false;
+                    }
+                    for (var j in rec) {
+                        if (j !== "posx" && j !== "posy" && j !== "scalex" && j !== "scaley") {
+                            var data = {};
+                            data[j] = rec[j];
+                            lastAction = Action.basicAction(entity, data);
+                            this.activeScene.activeFrame.addAction(lastAction, actionNo, inBetween);
+                            inBetween = false;
+                        }
+                    }
+                }
+            }
+
+            $("#recordTool").removeClass("recording");
+            $("#recordToolBadge").html("");
+            this.context['recorded' + "Actions"] = {};
+
+            if (lastAction && jumpAction) {
+                this.activeScene.activeFrame.selectAction(lastAction);
+            }
+        }
+    };
+
     this.selectAction = function (actionCode, skipRerender) {
         var codes = actionCode.split("-");
 
@@ -694,11 +1072,119 @@ function Editor(opts) {
         }
     };
 
+    this.onEditShow = function () {
+        if (this.context.actions.length > 0) {
+            $("#editUndo").removeClass("disabled");
+        } else {
+            $("#editUndo").addClass("disabled");
+        }
+        if (this.context.redoActions.length > 0) {
+            $("#editRedo").removeClass("disabled");
+        } else {
+            $("#editRedo").addClass("disabled");
+        }
+        if (this.viewport.selectedShape) {
+            $("#editBringToFront").removeClass("disabled");
+            $("#editBringToBack").removeClass("disabled");
+        } else {
+            $("#editBringToFront").addClass("disabled");
+            $("#editBringToBack").addClass("disabled");
+        }
+
+        if (this.viewport.selectedShape || this.diagramPanel.selectedNode) {
+            $("#editCopy").removeClass("disabled");
+            $("#editCut").removeClass("disabled");
+            $("#editDuplicate").removeClass("disabled");
+            $("#editDelete").removeClass("disabled");
+        } else {
+            $("#editCopy").addClass("disabled");
+            $("#editCut").addClass("disabled");
+            $("#editDuplicate").addClass("disabled");
+            $("#editDelete").addClass("disabled");
+        }
+        if (this.clipboard) {
+            $("#editPaste").removeClass("disabled");
+        } else {
+            $("#editPaste").addClass("disabled");
+        }
+    };
+
+    this.editCut = function () {
+        if (this.isInDiagram) {
+            if (this.diagramPanel.selectedNode) {
+                this.clipboard = this.diagramPanel.selectedNode;
+                this.diagramPanel.deleteSelectedNode();
+            }
+
+        } else {
+            if (this.viewport.selectedShape) {
+                this.clipboard = this.viewport.selectedShape;
+                this.activeScene.removeEntityFromScene(this.viewport.selectedShape.model);
+                this.viewport.setSelected(null);
+            }
+        }
+    };
+
+    this.editCopy = function () {
+        if (this.isInDiagram) {
+            if (this.diagramPanel.selectedNode) {
+                this.clipboard = this.diagramPanel.selectedNode;
+            }
+
+        } else {
+            if (this.viewport.selectedShape) {
+                this.clipboard = this.viewport.selectedShape;
+            }
+        }
+    };
+
+    this.editDuplicate = function () {
+        if (this.isInDiagram) {
+            if (this.diagramPanel.selectedNode) {
+                this.diagramPanel.addClonedToDiagram(this.diagramPanel.selectedNode);
+            }
+
+        } else {
+            if (this.viewport.selectedShape) {
+                this.addClonedToCurrentViewport(this.viewport.selectedShape.model);
+            }
+        }
+    };
+
+    this.editPaste = function () {
+        if (this.clipboard) {
+            if (this.isInDiagram) {
+                if (this.clipboard.isANode) {
+                    this.diagramPanel.addClonedToDiagram(this.clipboard);
+                }
+
+            } else {
+                if (this.clipboard.model && this.clipboard.model.isAnEntity) {
+                    this.addClonedToCurrentViewport(this.clipboard.model);
+                }
+
+            }
+        }
+    };
+
+    this.editDelete = function () {
+        if (this.isInDiagram) {
+            if (this.diagramPanel.selectedNode) {
+                this.diagramPanel.deleteSelectedNode();
+            }
+
+        } else {
+            if (this.viewport.selectedShape) {
+                this.activeScene.removeEntityFromScene(this.viewport.selectedShape.model);
+                this.viewport.setSelected(null);
+            }
+        }
+    };
+
     this.prompt = function (message, defaultValue, onComplete) {
         $("#inputPromptModalLabel").html(message);
         $("#inputPromptField").val(defaultValue);
         $("#inputPromptSubmitButton").on("click.inputPrompt", function () {
-            console.log("AJAJAJA");
             if (onComplete) {
                 onComplete($("#inputPromptField").val());
             }
@@ -991,8 +1477,9 @@ function Editor(opts) {
     $('#playModal').on('hidden.bs.modal', function () {
         editor.closeInternalPlayer();
     });
-    
+
     this.getAchievementData();
+    this.getEndData();
 
     this.projectPanel.updateSceneList();
     this.update();

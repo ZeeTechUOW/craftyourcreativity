@@ -17,7 +17,9 @@ function ProjectPanel(context) {
             $("#sceneThumbnailCanvas" + k).width(width);
             $("#sceneThumbnailCanvas" + k).height(width / this.context.editor.innerWidth * this.context.editor.innerHeight);
             
-            this.context.editor.project.scenes[k].renderThumbnail();
+            if( !this.context.editor.internalPlayer.isRunning ) {
+                this.context.editor.project.scenes[k].renderThumbnail(); 
+            }
         }
         
     };
@@ -31,7 +33,6 @@ function ProjectPanel(context) {
 
         for (var k in p.context.editor.project.scenes) {
             var b =  p.context.editor.project.scenes[k] === p.context.editor.activeScene;
-            console.log(k + " | " + b);
             content +=
                     "                                <div class='row sceneNameDiv'><div id='sceneDivName" + k + "' class=\"sceneDiv\">\n" +
                     "                                    " + ( parseInt(k) + 1 ) + "." + p.context.editor.project.scenes[k].sceneName + "\n" +

@@ -42,8 +42,6 @@ public class LikeServlet extends HttpServlet {
         String moduleID = request.getParameter("mid");
         String value = request.getParameter("value");
         
-        System.out.println(value);
-        
         if( postID != null ) {
             try {
                 int pID = Integer.parseInt(postID);

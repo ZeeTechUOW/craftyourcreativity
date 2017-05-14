@@ -97,6 +97,13 @@ function QSprite(context, opt) {
         }
         return this.sprite;
     };
+    
+    
+    this.clone = function () {
+        var entity = QSprite.deserialize(this.context, JSON.parse(JSON.stringify(this.serialize())));
+        entity.entityID = uid();
+        return entity;
+    };
 
 
     this._setAllListeners = this.setAllListeners;

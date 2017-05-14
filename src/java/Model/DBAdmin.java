@@ -248,8 +248,8 @@ public class DBAdmin {
             + "WHERE `achievementID` = ? "
             + "AND `moduleID` = ?;";
     private static final String ADD_ACHIEVEMENT
-            = "INSERT INTO `achievement` (`moduleID`, `achievementName`, `achievementDescription`, `imagePath`) "
-            + "VALUES (?, ?, ?, 'resource/placeholder1.png')";
+            = "INSERT INTO `achievement` (`moduleID`, `achievementName`, `achievementDescription`) "
+            + "VALUES (?, ?, ?)";
     private static final String UNLOCK_ACHIEVEMENT
             = "INSERT INTO `userachievement` (`userID`, `achievementID`, `time`) "
             + "VALUES (?, ?, CURRENT_TIMESTAMP)";
@@ -1027,9 +1027,8 @@ public class DBAdmin {
                 int _moduleID = resultSet.getInt("moduleID");
                 String _achievementName = resultSet.getString("achievementName");
                 String _achievementDescription = resultSet.getString("achievementDescription");
-                String _imagePath = resultSet.getString("imagePath");
 
-                achievements.add(new Achievement(_achievementID, moduleID, _achievementName, _achievementDescription, _imagePath));
+                achievements.add(new Achievement(_achievementID, moduleID, _achievementName, _achievementDescription, ""));
             }
 
             resultSet = preparedStatement2.executeQuery();
