@@ -6,6 +6,7 @@
 package Servlet;
 
 import Model.DBAdmin;
+import Model.DirectoryAdmin;
 import Model.Module;
 import Model.User;
 import java.io.File;
@@ -91,7 +92,7 @@ public class ImageUploadServlet extends HttpServlet {
         Part imageFile = request.getPart("imageUpload");
         String fileName = "a0";
         
-        File file = new File(getServletContext().getRealPath(fileName));
+        File file = new File(DirectoryAdmin.getPath(request, fileName));
 
         InputStream input = imageFile.getInputStream();
         Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);

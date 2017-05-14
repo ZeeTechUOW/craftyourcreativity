@@ -69,7 +69,7 @@ public class RegisterTrainerServlet extends HttpServlet {
             user.setActivationLink( getURLWithContextPath(request) + "/login" );
             MailAdmin.sendAccountConfirmedMail(user);
             
-            DirectoryAdmin.prepNewUserDirectory(request.getServletContext().getRealPath("/users/" + username));
+            DirectoryAdmin.prepNewUserDirectory(request, username);
             request.setAttribute("type", "success");
             request.setAttribute("username", username);
             request.getRequestDispatcher("registertrainer.jsp").forward(request, response);

@@ -79,16 +79,7 @@ public class EditModuleServlet extends HttpServlet {
                 }
                 module = DBAdmin.getModule(moduleID);
 
-                File f = new File(getServletContext().getRealPath("/module/" + moduleID + "/save.json"));
-                File f2 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Assets"));
-                File f3 = new File(getServletContext().getRealPath("/module/" + moduleID));
-                File f4 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Published"));
-                DirectoryAdmin.deleteDirectory(f4);
-                DirectoryAdmin.createNewDirectory(f3, "Published");
-                DirectoryAdmin.copyAndRenameFile(f, "publishedSave.json");
-
-                f4 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Published"));
-                DirectoryAdmin.copyFiles(f2, f4);
+                DirectoryAdmin.prepPublishProject(request, moduleID);
             }
         } else if ("edit".equalsIgnoreCase(op)) {
             String newName = request.getParameter("moduleName");
@@ -101,14 +92,14 @@ public class EditModuleServlet extends HttpServlet {
 
         } else if ("del".equalsIgnoreCase(op)) {
             DBAdmin.deleteModule(moduleID);
-            DirectoryAdmin.deleteDirectory(new File(getServletContext().getRealPath("/module/" + moduleID)));
+            DirectoryAdmin.deleteDirectory(new File(DirectoryAdmin.getPath(request, "/module/" + moduleID)));
 
             response.sendRedirect("my_modules");
             return;
         }
 
-        boolean isSaveExist = new File(getServletContext().getRealPath("/module/" + moduleID + "/save.json")).exists();
-        boolean isPublishedSaveExist = new File(getServletContext().getRealPath("/module/" + moduleID + "/publishedSave.json")).exists();
+        boolean isSaveExist = new File(DirectoryAdmin.getPath(request, "/module/" + moduleID + "/save.json")).exists();
+        boolean isPublishedSaveExist = new File(DirectoryAdmin.getPath(request, "/module/" + moduleID + "/publishedSave.json")).exists();
 
         // Get Module Image
 

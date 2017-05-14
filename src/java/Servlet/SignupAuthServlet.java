@@ -65,7 +65,7 @@ public class SignupAuthServlet extends HttpServlet {
 
             request.getSession().setAttribute("loggedUser", user);
 
-            DirectoryAdmin.prepNewUserDirectory(request.getServletContext().getRealPath("/users/" + username));
+            DirectoryAdmin.prepNewUserDirectory(request, username);
 
             response.sendRedirect("main");
         } else {

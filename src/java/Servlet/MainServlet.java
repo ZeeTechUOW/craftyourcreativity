@@ -2,6 +2,7 @@
 package Servlet;
 
 import Model.DBAdmin;
+import Model.DirectoryAdmin;
 import Model.Module;
 import java.io.IOException;
 import java.util.ArrayList;

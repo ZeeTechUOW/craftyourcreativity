@@ -5,6 +5,7 @@
  */
 package Editor;
 
+import Model.DirectoryAdmin;
 import Model.User;
 import java.io.File;
 import java.io.IOException;
@@ -59,7 +60,8 @@ public class LoadServlet extends HttpServlet {
         }
         
         try (PrintWriter out = response.getWriter()) {
-            File inputFile = new File(getServletContext().getRealPath("/") + "module/" + projectID + "/save.json");
+//            File inputFile = new File(getServletContext().getRealPath("/") + "module/" + projectID + "/save.json");
+            File inputFile = new File(DirectoryAdmin.getPath(request, "module/" + projectID + "/save.json"));
             
             if(inputFile.exists()) {
                 try (Scanner scanner = new Scanner(inputFile)) {

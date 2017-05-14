@@ -373,63 +373,68 @@ Player.Game = function (context, input) {
     };
 
     this.resolveValue = function (value, scene) {
-        var projValues = this.dataVariables;
-        var sceneValues;
-        if (this.activeScene) {
-            sceneValues = this.activeScene.dataVariables;
-        } else {
-            sceneValues = {};
-        }
 
-        if (scene) {
-            sceneValues = scene.dataVariables;
-        }
+        if (typeof value === 'string' || value instanceof String) {
+            var projValues = this.dataVariables;
+            var sceneValues;
+            if (this.activeScene) {
+                sceneValues = this.activeScene.dataVariables;
+            } else {
+                sceneValues = {};
+            }
 
-        if (value === true) {
-            return true;
-        }
-        if (value === false) {
-            return false;
-        }
+            if (scene) {
+                sceneValues = scene.dataVariables;
+            }
 
-        var res = ("" + value).replace(/({=([@#a-z \-+\*\/0-9A-Z\?:'()]*)})/g, function (a, b, capture) {
-            var str = capture.replace(/@([a-zA-Z0-9_]*)/g, function (a, e) {
-                var v = (sceneValues[e] ? sceneValues[e].value : "");
-                if (isNaN(v)) {
-                    return "\"" + v + "\"";
-                } else {
-                    return v;
-                }
-            }).replace(/#([a-zA-Z0-9_]*)/g, function (a, e) {
-                var v; 
-                if(projValues) {
-                    v = (projValues[e] ? projValues[e].value : "");
-                }
-                
-                if(e === "username" && username) {
-                    return "\"" + username + "\"" ;
-                }
-                if(e === "fullname" && fullname) {
-                    return "\"" + fullname + "\"";
-                }
+            if (value === true) {
+                return true;
+            }
+            if (value === false) {
+                return false;
+            }
+
+            var res = ("" + value).replace(/({=([@#a-z \-+\*\/0-9A-Z\?:'()]*)})/g, function (a, b, capture) {
+                var str = capture.replace(/@([a-zA-Z0-9_]*)/g, function (a, e) {
+                    var v = (sceneValues[e] ? sceneValues[e].value : "");
+                    if (isNaN(v)) {
+                        return "\"" + v + "\"";
+                    } else {
+                        return v;
+                    }
+                }).replace(/#([a-zA-Z0-9_]*)/g, function (a, e) {
+                    var v;
+                    if (projValues) {
+                        v = (projValues[e] ? projValues[e].value : "");
+                    }
+
+                    if (e === "username" && username) {
+                        return "\"" + username + "\"";
+                    }
+                    if (e === "fullname" && fullname) {
+                        return "\"" + fullname + "\"";
+                    }
 //                if(e === "time" && username) {
 //                    return username;
 //                }
-                
-                if (isNaN(v)) {
-                    return "\"" + v + "\"";
-                } else {
-                    return v;
+
+                    if (isNaN(v)) {
+                        return "\"" + v + "\"";
+                    } else {
+                        return v;
+                    }
+                });
+                try {
+                    return eval(str);
+                } catch (e) {
+                    return "";
                 }
             });
-            try {
-                return eval(str);
-            } catch (e) {
-                return "";
-            }
-        });
 
-        return res;
+            return res;
+        } else {
+            return value;
+        }
     };
 
     this.playAudio = function (channel, audioSrc, volume, loop, onEnded, removedByEndOfFrame) {
@@ -697,8 +702,8 @@ Player.Node = function (context, input) {
                 if (node) {
                     data[k] = node.calc(game, that.content[k].dataInputDataTarget);
                 } else {
-                    if(that.content[k].value) {
-                        if(that.content[k].value.value) {
+                    if (that.content[k].value) {
+                        if (that.content[k].value.value) {
                             data[k] = that.content[k].value.value;
                         } else {
                             data[k] = that.content[k].value;
@@ -708,7 +713,7 @@ Player.Node = function (context, input) {
                     }
                 }
             }
-            
+
             if (!data.score) {
 
 
@@ -1788,7 +1793,7 @@ Player.Button.decorate = function (parent, input) {
             }
         };
 
-        button  .on('mouseover', onEnter)
+        button.on('mouseover', onEnter)
                 .on('mouseout', onExit)
                 .on('mousedown', onDown)
                 .on('touchstart', onDown)

@@ -1,6 +1,7 @@
 package Servlet;
 
 import Model.DBAdmin;
+import Model.DirectoryAdmin;
 import Model.Module;
 import Model.User;
 import java.io.File;
@@ -53,7 +54,7 @@ public class ModuleServlet extends HttpServlet {
         boolean isCertificated = false;
         User loggedUser = (User) request.getSession().getAttribute("loggedUser");
         if (loggedUser != null) {
-            isCertificated = new File(getServletContext().getRealPath("/users/" + loggedUser.getUsername() + "/certs/" + module.getModuleID() + ".pdf")).exists();
+            isCertificated = new File(DirectoryAdmin.getPath(request, "/users/" + loggedUser.getUsername() + "/certs/" + module.getModuleID() + ".pdf")).exists();
         }
         
         if("true".equals(request.getParameter("certs"))) {

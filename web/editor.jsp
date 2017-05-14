@@ -419,7 +419,7 @@ eg: &lt;sred&gt;, &lt;sblue&gt;, &lt;saquamarine&gt;... &lt;ssilver&gt;, &lt;sgo
                         <div id="tagEditorFields" class="hidden">
                             <div>
                                 <div class="tagEditorField disabled" onclick='tagFieldEnable(this)'>
-                                    <input type="checkbox" id="fontCheckbox" onchange="tagFieldChecked(this, 'font')">
+                                    <input type="checkbox" id="fontCheckbox" onclick="event.stopPropagation();" onchange="tagFieldChecked(this, 'font')">
                                     <label>Font</label>
                                     <input id="fontField" type="text" onblur='updateTextTag("font", this.value);' onkeydown='if (event.keyCode === 13)
                                                 this.blur();' disabled>

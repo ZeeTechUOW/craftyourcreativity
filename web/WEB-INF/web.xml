@@ -421,4 +421,8 @@
             30
         </session-timeout>
     </session-config>
+    <context-param>
+        <param-name>userfile.location</param-name>
+        <param-value>/cycfiles</param-value>
+    </context-param>
 </web-app>

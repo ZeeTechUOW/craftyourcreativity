@@ -5,6 +5,7 @@
  */
 package Servlet;
 
+import Model.DirectoryAdmin;
 import Model.User;
 import java.io.File;
 import java.io.IOException;
@@ -71,7 +72,7 @@ public class UploadImageServlet extends HttpServlet {
             return;
         }
         
-        File file = new File(getServletContext().getRealPath(path));
+        File file = new File(DirectoryAdmin.getPath(request, path));
         Files.copy(imageFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
         switch (uploadType) {

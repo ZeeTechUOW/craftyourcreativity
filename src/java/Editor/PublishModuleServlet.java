@@ -54,23 +54,12 @@ public class PublishModuleServlet extends HttpServlet {
         
         if( userID == loggedUser.getUserID() && userID == module.getUserID() ) {
             if( module.getReleaseTime() == null ) {
-                System.out.println(module.getModuleName() + " RELEASED");
                 DBAdmin.moduleReleased(moduleID);
             } else {
-                System.out.println(module.getModuleName() + " UPDATED");
                 DBAdmin.moduleUpdated(moduleID);
             }
 
-            File f = new File(getServletContext().getRealPath("/module/" + moduleID + "/save.json"));
-            File f2 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Assets"));
-            File f3 = new File(getServletContext().getRealPath("/module/" + moduleID));
-            File f4 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Published"));
-            DirectoryAdmin.deleteDirectory(f4);
-            DirectoryAdmin.createNewDirectory(f3, "Published");
-            DirectoryAdmin.copyAndRenameFile(f, "publishedSave.json");
-            
-            f4 = new File(getServletContext().getRealPath("/module/" + moduleID + "/Published"));
-            DirectoryAdmin.copyFiles(f2, f4);
+            DirectoryAdmin.prepPublishProject(request, moduleID);
         }
 
     }

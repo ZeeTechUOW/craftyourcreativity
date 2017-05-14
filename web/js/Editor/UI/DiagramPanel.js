@@ -248,7 +248,13 @@ function DiagramPanel(context) {
             if (type === "DATA") {
                 var knode = this.getNodeById(parseInt(elem.getAttribute("qrid")));
                 if (knode) {
-                    knode.content[dataTarget].dataInput = true;
+                    var dt = dataTarget;
+                    
+                    if(knode.content[dt].dataInput) {
+                        dataTarget = knode.content[dt].dataInput.split("|")[1];
+                    }
+                    
+                    knode.content[dt].dataInput = true;
                 }
             }
 
@@ -288,9 +294,11 @@ function DiagramPanel(context) {
                         fromNode = this.getNodeById(parseInt(data[0]));
 
                         node.content[dataTarget].dataInput = true;
+
                         if (fromNode) {
-                            p = node.getFlowDataInputPos(data[1], this.zoomLevel);
+                            p = node.getFlowDataInputPos(dataTarget, this.zoomLevel);
                         }
+                        dataTarget = data[1];
                     }
                 }
             }

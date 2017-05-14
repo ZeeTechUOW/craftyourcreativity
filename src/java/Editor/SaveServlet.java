@@ -6,6 +6,7 @@
 package Editor;
 
 import Model.DBAdmin;
+import Model.DirectoryAdmin;
 import Model.User;
 import java.io.BufferedReader;
 import java.io.File;
@@ -67,7 +68,7 @@ public class SaveServlet extends HttpServlet {
             return;
         }
 
-        String path = getServletContext().getRealPath("/") + "module/"+ moduleID + "/save.json";
+        String path = DirectoryAdmin.getPath(request, "/module/" + moduleID + "/save.json");
 
         File outputFile = new File(path);
         FileWriter fout = new FileWriter(outputFile);

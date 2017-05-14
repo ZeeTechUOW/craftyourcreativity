@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -21,13 +22,16 @@ import java.util.logging.Logger;
  */
 public class DirectoryAdmin {
 
-    public static void prepNewUserDirectory(String userPath) {
-        File f = new File(userPath);
+    public static void prepNewUserDirectory(HttpServletRequest request, String username) {
+        File f = new File(DirectoryAdmin.getPath(request, "/users/" + username));
         f.mkdir();
         createNewDirectory(f, "certs");
     }
 
-    public static void prepNewProjectDirectory(String modulePath, String moduleID, File templateFolder) {
+    public static void prepNewProjectDirectory(HttpServletRequest request, int moduleID ) {
+        String modulePath = DirectoryAdmin.getPath(request, "/module");
+        File templateFolder = new File(DirectoryAdmin.getPath(request, "/projectFolderTemplate"));
+        
         File f = new File(modulePath);
 
         if (!f.exists()) {
@@ -35,9 +39,25 @@ public class DirectoryAdmin {
         }
 
         copyFiles(templateFolder, f);
-        renameFile(new File(f, templateFolder.getName()), moduleID);
+        renameFile(new File(f, templateFolder.getName()), "" + moduleID);
     }
 
+    
+    public static void prepPublishProject(HttpServletRequest request, int moduleID) throws IOException {
+        File f = new File(DirectoryAdmin.getPath(request, "/module/" + moduleID + "/save.json"));
+        File f2 = new File(DirectoryAdmin.getPath(request, "/module/" + moduleID + "/Assets"));
+        File f3 = new File(DirectoryAdmin.getPath(request, "/module/" + moduleID));
+        File f4 = new File(DirectoryAdmin.getPath(request, "/module/" + moduleID + "/Published"));
+
+        DirectoryAdmin.deleteDirectory(f4);
+        DirectoryAdmin.createNewDirectory(f3, "Published");
+        DirectoryAdmin.copyAndRenameFile(f, "publishedSave.json");
+
+        f4 = new File(DirectoryAdmin.getPath(request, "/module/" + moduleID + "/save.json"));
+
+        DirectoryAdmin.copyFiles(f2, f4);
+    }
+            
     public static void createNewDirectory(File folder, String newName) {
         String baseName = newName;
         String extension = "";
@@ -246,6 +266,22 @@ public class DirectoryAdmin {
 
         }
     }
+    
+    public static String getPath(HttpServletRequest request, String path) {
+        if( !path.startsWith("/") ) path = "/" + path;
+//        System.out.println(path + " >>> " + (getURLFilePath(request) + path));
+//        return getURLFilePath(request) + path;
+//        return getURLContextPath(request) + path;
+        return request.getServletContext().getRealPath(path);
+    }
+    
+    public static String getURLFilePath(HttpServletRequest request) {
+        return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getServletContext().getInitParameter("userfile.location");
+    }
+    public static String getURLContextPath(HttpServletRequest request) {
+        return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+    }
+
 
     private static String quote(String string) {
         if (string == null || string.length() == 0) {

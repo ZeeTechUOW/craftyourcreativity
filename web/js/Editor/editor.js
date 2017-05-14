@@ -522,7 +522,8 @@ function Editor(opts) {
                         }
                         break;
                     case "stroke":
-                        profile.strokeThickness = value;
+                        value = parseInt(value);
+                        profile.strokeThickness = isNaN(value) ? 0 : value ;
                         break;
                     case "strokeColor":
                         profile.stroke = "#" + value;
@@ -883,41 +884,46 @@ function Editor(opts) {
     };
 
     this.resolveValue = function (value) {
-        var projValues = editor.project.dataVariables;
-        var sceneValues;
-        if (editor.activeScene) {
-            sceneValues = editor.activeScene.dataVariables;
+        if (typeof value === 'string' || value instanceof String) {
+            var projValues = editor.project.dataVariables;
+            var sceneValues;
+            if (editor.activeScene) {
+                sceneValues = editor.activeScene.dataVariables;
+            } else {
+                sceneValues = {};
+            }
+
+            var res = ("" + value).replace(/({=([@#a-z \-+\*\/0-9A-Z\?:'()]*)})/g, function (a, b, capture) {
+                var str = capture.replace(/@([a-zA-Z0-9_]*)/g, function (a, e) {
+                    var v = (sceneValues[e] ? sceneValues[e].value : "");
+
+                    if (isNaN(v)) {
+                        return "\"" + v + "\"";
+                    } else {
+                        return v;
+                    }
+                }).replace(/#([a-zA-Z0-9_]*)/g, function (a, e) {
+                    var v = (projValues[e] ? projValues[e].value : "");
+
+                    if (isNaN(v)) {
+                        return "\"" + v + "\"";
+                    } else {
+                        return v;
+                    }
+                });
+                try {
+                    return eval(str);
+                } catch (e) {
+                    return "";
+                }
+            });
+
+            return res;
         } else {
-            sceneValues = {};
+            return value;
         }
 
 
-        var res = ("" + value).replace(/({=([@#a-z \-+\*\/0-9A-Z\?:'()]*)})/g, function (a, b, capture) {
-            var str = capture.replace(/@([a-zA-Z0-9_]*)/g, function (a, e) {
-                var v = (sceneValues[e] ? sceneValues[e].value : "");
-
-                if (isNaN(v)) {
-                    return "\"" + v + "\"";
-                } else {
-                    return v;
-                }
-            }).replace(/#([a-zA-Z0-9_]*)/g, function (a, e) {
-                var v = (projValues[e] ? projValues[e].value : "");
-
-                if (isNaN(v)) {
-                    return "\"" + v + "\"";
-                } else {
-                    return v;
-                }
-            });
-            try {
-                return eval(str);
-            } catch (e) {
-                return "";
-            }
-        });
-
-        return res;
     };
 
     this.addNewFrame = function () {

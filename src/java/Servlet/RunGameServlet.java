@@ -6,6 +6,7 @@
 package Servlet;
 
 import Model.DBAdmin;
+import Model.DirectoryAdmin;
 import Model.Module;
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class RunGameServlet extends HttpServlet {
         }
 
         try (PrintWriter out = response.getWriter()) {
-            File inputFile = new File(getServletContext().getRealPath("/") + "module/" + moduleID + "/publishedSave.json");
+            File inputFile = new File(DirectoryAdmin.getPath(request, "module/" + moduleID + "/publishedSave.json"));
             
             try (Scanner scanner = new Scanner(inputFile)) {
                 while( scanner.hasNextLine() ) {

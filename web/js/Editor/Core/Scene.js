@@ -63,7 +63,7 @@ function Scene(context, sceneName) {
         if (this.context.actionData) {
             delete this.context.actionData;
         }
-        
+
         this.activeFrame = frame;
         if (this.activeFrame)
             this.activeFrame.activeAction = null;
@@ -73,17 +73,19 @@ function Scene(context, sceneName) {
 
         this.context.editor.sequencePanel.updateSequencePanel();
         if (this.activeFrame) {
-            if(!skipContextRerender) this.context.changeToFrameModelContext(this.activeFrame);
+            if (!skipContextRerender)
+                this.context.changeToFrameModelContext(this.activeFrame);
             this.setSceneStateOnFrame(this.activeFrame);
             $("#recordTool").prop("disabled", false);
         } else {
-            if(!skipContextRerender) this.context.changeToSceneModelContext();
+            if (!skipContextRerender)
+                this.context.changeToSceneModelContext();
             this.setSceneState();
             $("#recordTool").prop("disabled", true);
         }
-        
+
         this.context.editor.toScene(true);
-                
+
         $("#recordTool").removeClass("recording");
         $("#recordToolBadge").html("");
         context.recordedActions = {};
@@ -129,28 +131,32 @@ function Scene(context, sceneName) {
                     res.context.editor.sequencePanel.updateSequencePanel();
                 }
             } else if (activeScene.activeFrame && key !== "name") {
-                if( !res.context.recordedActions["ss" + entity.entityID] ) {
+                if (!res.context.recordedActions["ss" + entity.entityID]) {
                     res.context.recordedActions["ss" + entity.entityID] = {};
                 }
                 res.context.recordedActions["ss" + entity.entityID][key] = newValue;
-                
+
                 var count = 0;
-                for( var k in res.context.recordedActions ) {
+                for (var k in res.context.recordedActions) {
                     var posNo = 0;
                     var scaleNo = 0;
-                    for( var j in res.context.recordedActions[k] ) {
-                        if( /pos/i.test(j) ) posNo++;
-                        if( /scale/i.test(j) ) scaleNo++;
+                    for (var j in res.context.recordedActions[k]) {
+                        if (/pos/i.test(j))
+                            posNo++;
+                        if (/scale/i.test(j))
+                            scaleNo++;
                         count++;
                     }
-                    if(posNo > 1) count--;
-                    if(scaleNo > 1) count--;
+                    if (posNo > 1)
+                        count--;
+                    if (scaleNo > 1)
+                        count--;
                 }
-                if(count > 0) {
+                if (count > 0) {
                     $("#recordTool").addClass("recording");
                 }
                 $("#recordToolBadge").html(count);
-                
+
             }
             if (key === "name" && res === activeScene) {
                 if (!res.startState["ss" + entity.entityID]) {
@@ -159,7 +165,7 @@ function Scene(context, sceneName) {
                 res.startState["ss" + entity.entityID][key] = newValue;
                 res.context.editor.sequencePanel.updateSequencePanel();
             }
-            
+
 
             return true;
         });
@@ -168,15 +174,15 @@ function Scene(context, sceneName) {
         var sprite = entity.getSprite();
         sprite.zIndex = this.viewportContainer.children.length;
         this.viewportContainer.addChild(sprite);
-        
+
 
         this.sceneContentEditedCallback();
 
         this.context.editor.viewport.setSelected(sprite);
     };
-    
+
     this.getEntityByID = function (id) {
-        for( var k in this.entities ) {
+        for (var k in this.entities) {
             if (this.entities[k].entityID === id) {
                 return this.entities[k];
             }
@@ -218,19 +224,24 @@ function Scene(context, sceneName) {
         this.thumbnailRenderer.backgroundColor = 0xEEEEEE;
     };
 
+    this.initialRenders = 10;
     this.thumbnailRendererCounter = 0;
     this.renderThumbnail = function () {
-        if( this.thumbnailRendererCounter > 0 ) {
-            this.thumbnailRendererCounter--;
-            return;
+        if (this.thumbnailRendererCounter > 0) {
+            if(this.initialRenders < 0) {
+                this.thumbnailRendererCounter--;
+                return;
+            } else {
+                this.initialRenders--;
+            }
         } else {
-            if(this.context.editor.activeScene === this) {
+            if (this.context.editor.activeScene === this) {
                 this.thumbnailRendererCounter = 10;
             } else {
                 this.thumbnailRendererCounter = 100;
             }
         }
-        
+
         var renderer = this.thumbnailRenderer;
 
         renderer.view = this.thumbnailRenderer.view;
@@ -349,18 +360,37 @@ function Scene(context, sceneName) {
             var stateData = state[eid];
 
             if (stateData && stateData.isAnEntity) {
-                cpy(stateData, entity, Entity.serializable, this.context.editor.resolveValue);
-                cpy(stateData, entity.entityProperty, Entity.propSerializable, this.context.editor.resolveValue);
-                cpy(stateData, entity.shadingProperty, Entity.shadingSerializable, this.context.editor.resolveValue);
 
-                if (stateData.isAButton) {
-                    cpy(stateData, entity, Button.serializable, this.context.editor.resolveValue);
-                } else if (stateData.isAQSprite) {
-                    cpy(stateData, entity, QSprite.serializable, this.context.editor.resolveValue);
-                } else if (stateData.isAQText) {
-                    cpy(stateData, entity, QText.serializable, this.context.editor.resolveValue);
-                    cpy(stateData, entity, QText.textAttributes, this.context.editor.resolveValue);
+                if (this.activeFrame) {
+                    cpy(stateData, entity, Entity.serializable, this.context.editor.resolveValue);
+                    cpy(stateData, entity.entityProperty, Entity.propSerializable, this.context.editor.resolveValue);
+                    cpy(stateData, entity.shadingProperty, Entity.shadingSerializable, this.context.editor.resolveValue);
+
+                    if (stateData.isAButton) {
+                        cpy(stateData, entity, Button.serializable, this.context.editor.resolveValue);
+                    } else if (stateData.isAQSprite) {
+                        cpy(stateData, entity, QSprite.serializable, this.context.editor.resolveValue);
+                    } else if (stateData.isAQText) {
+                        cpy(stateData, entity, QText.serializable, this.context.editor.resolveValue);
+                        cpy(stateData, entity, QText.textAttributes, this.context.editor.resolveValue);
+                    }
+                } else {
+                    cpy(stateData, entity, Entity.serializable);
+                    cpy(stateData, entity.entityProperty, Entity.propSerializable);
+                    cpy(stateData, entity.shadingProperty, Entity.shadingSerializable);
+
+                    if (stateData.isAButton) {
+                        cpy(stateData, entity, Button.serializable);
+                    } else if (stateData.isAQSprite) {
+                        cpy(stateData, entity, QSprite.serializable);
+                    } else if (stateData.isAQText) {
+                        cpy(stateData, entity, QText.serializable);
+                        cpy(stateData, entity, QText.textAttributes);
+                    }
                 }
+
+
+
             }
         }
     };
@@ -450,7 +480,9 @@ function Scene(context, sceneName) {
         rect.name = "Background";
 
         s.viewportContainer.addChild(rect);
-
+        s.viewportContainer.position.x = c.editor.innerWidth / 2;
+        s.viewportContainer.position.y = c.editor.innerHeight / 2;
+        s.initialRenders = 10;
         if (nvc) {
             var length = nvc.children.length;
             for (var i = 1; i < length; i++) {

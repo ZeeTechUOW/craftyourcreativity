@@ -50,7 +50,8 @@ public class DirectoryServlet extends HttpServlet {
             to = "/" + to;
         }
 
-        File folder = new File(request.getSession().getServletContext().getRealPath(path));
+//        File folder = new File(request.getSession().getServletContext().getRealPath(path));
+        File folder = new File(DirectoryAdmin.getPath(request, path));
 
         if (null != op) {
             switch (op) {
@@ -58,7 +59,8 @@ public class DirectoryServlet extends HttpServlet {
                     out.print(String.format("{\"files\": [%s]}", DirectoryAdmin.listDirectoryToJSON(folder, path, filter)));
                     break;
                 case "move":
-                    File toFolder = new File(request.getSession().getServletContext().getRealPath(to));
+//                    File toFolder = new File(request.getSession().getServletContext().getRealPath(to));
+                    File toFolder = new File(DirectoryAdmin.getPath(request, to));
                     DirectoryAdmin.moveFiles(folder, toFolder);
                     break;
                 case "rename":

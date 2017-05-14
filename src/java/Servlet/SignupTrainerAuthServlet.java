@@ -51,6 +51,7 @@ public class SignupTrainerAuthServlet extends HttpServlet {
 
         request.getRequestDispatcher("signuptrainerwait.jsp").forward(request, response);
 
+        
     }
 
     public static String getURLWithContextPath(HttpServletRequest request) {

@@ -44,9 +44,13 @@
             </ul>
 
             <div id="searchbar" class="hidden" >
-                <input type="text" placeholder="Search Here" onkeydown="console.log(event); if (event.keyCode === 13)
-                                   location.href = 'modulelist?search=' + encodeURIComponent(this.value);">
+                <input type="text" placeholder="Search Here" onkeydown="console.log(event);
+                        if (event.keyCode === 13)
+                            location.href = 'modulelist?search=' + encodeURIComponent(this.value);">
             </div>
+
+            <ul id="userElem" class="nav navbar-nav" style="float: right; margin-top: 5px;">
+            </ul>
         </div>
         <div class="navbar-collapse" id="navbar">
 
@@ -58,7 +62,7 @@
 </nav>
 
 <script>
-    
+
     function headerAnimate() {
         requestAnimationFrame(headerAnimate);
 

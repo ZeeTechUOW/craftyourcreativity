@@ -22,7 +22,7 @@
     <body>
         <div id="upSpacer">
         </div>
-        <div id="container" style="width: 600px; border: solid gray 1px; border-radius: 10px; text-align: center; height: auto; min-height: 0;">
+        <div id="container2" style="width: 600px; border: solid gray 1px; border-radius: 10px; text-align: center; height: auto; min-height: 0;">
             <% 
             switch (type) {
                 case "success":

@@ -5,6 +5,7 @@
  */
 package Editor;
 
+import Model.DirectoryAdmin;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,7 +63,7 @@ public class UploadServlet extends HttpServlet {
 
         File file = null;
         while (true) {
-            file = new File(getServletContext().getRealPath(fileName));
+            file = new File(DirectoryAdmin.getPath(request, fileName));
 
             if (!file.exists()) {
                 break;

@@ -47,7 +47,7 @@ public class AddModuleServlet extends HttpServlet {
         } else {
             int moduleID = DBAdmin.createNewModule(loggedUser.getUserID(), newModuleName, "");
             if( moduleID >= 0 ) {
-                DirectoryAdmin.prepNewProjectDirectory(request.getServletContext().getRealPath("/module"), "" + moduleID, new File(request.getServletContext().getRealPath("/projectFolderTemplate")));
+                DirectoryAdmin.prepNewProjectDirectory(request, moduleID);
                 response.sendRedirect("editmodule?mid=" + moduleID);
             } else {
                 response.sendError(500, "Module Creation Failed");

@@ -5,6 +5,7 @@
  */
 package Servlet;
 
+import Model.DirectoryAdmin;
 import Model.User;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -48,7 +49,7 @@ public class UploadPDFServlet extends HttpServlet {
                 return;
             }
 
-            File f = new File(request.getServletContext().getRealPath("/users/" + userName + "/certs"));
+            File f = new File(DirectoryAdmin.getPath(request, "/users/" + userName + "/certs"));
             if (!f.exists()) {
                 f.mkdirs();
             }
