@@ -104,6 +104,8 @@
 
                                 player.startGame(function () {
                                     player.game.dataVariables.username = {type: "TEXT", value: '<%=(loggedUser == null ? "Anonymous" : loggedUser.getUsername())%>'};
+                                    player.game.dataVariables.fullname = {type: "TEXT", value: '<%=(loggedUser == null ? "Anonymous" : loggedUser.getFullName())%>'};
+                                    
                                     hideLoader();
 
                                     $("#buttonBar>div").css("max-width", player.game.windowSize.x + "px");

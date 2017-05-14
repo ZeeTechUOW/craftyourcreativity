@@ -20,8 +20,8 @@ public class DBAdmin {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cyc";
     private static final String DB_USER = "root";
-    private static final String DB_PASS = ""; // Local machine DB Pass
-//    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
+//    private static final String DB_PASS = ""; // Local machine DB Pass
+    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
 //    private static final String DB_PASS = "cK3rMeyG"; // GCP machine DB Pass
 
     // <editor-fold defaultstate="collapsed" desc="Query String. Click + sign on the left to expand the code">
@@ -154,7 +154,7 @@ public class DBAdmin {
     // Module Query
     private static final String CREATE_NEW_MODULE
             = "INSERT INTO `module` (`moduleID`, `userID`, `moduleName`, `moduleDescription`, `releaseTime`, `lastEdited`) "
-            + "VALUES (NULL, ?, ?, ?, ?, NULL, CURRENT_TIMESTAMP);";
+            + "VALUES (NULL, ?, ?, ?, NULL, CURRENT_TIMESTAMP);";
     private static final String GET_ALL_MODULE_SORT_BY_POPULAR_VIEW
             = "SELECT m.moduleID, m.userID, m.moduleName, m.moduleDescription, m.releaseTime, m.lastEdited, COUNT(v.moduleID) AS viewCount "
             + "FROM module m, views v "

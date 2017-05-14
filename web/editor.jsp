@@ -564,6 +564,7 @@ eg: &lt;sred&gt;, &lt;sblue&gt;, &lt;saquamarine&gt;... &lt;ssilver&gt;, &lt;sgo
         %>
         <script type="text/javascript">
                                         var username = "<%=loggedUser.getUsername()%>";
+                                        var fullname = "<%=loggedUser.getFullName()%>";
                                         var userID = <%=loggedUser.getUserID()%>;
                                         var projectID = <%=module.getModuleID()%>;
 

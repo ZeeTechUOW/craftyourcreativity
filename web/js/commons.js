@@ -264,12 +264,12 @@ function cpy(from, target, keys, filter) {
 
     for (var j in keys) {
         var key = keys[j];
-
+        var res = filter(from[key]);
         if (target[key] !== from[key])
             if (target.set)
                 target.set(key, filter(from[key]), from);
             else
-                target[key] = filter(from[key]);
+                target[key] = res;
     }
 }
 

@@ -46,17 +46,15 @@ public class GetEndDataServlet extends HttpServlet {
 
         ArrayList<String> endDatas = DBAdmin.getAllEndData(projectID);
 
-        if (endDatas != null && endDatas.size() > 0) {
-            try (PrintWriter out = response.getWriter()) {
-                out.print("{");
-                for (int i = 0; i < endDatas.size(); i++) {
-                    if(i > 0) {
-                        out.print(",");
-                    }
-                    out.print( "\"" + endDatas.get(i) + "\":\"true\"");
+        try (PrintWriter out = response.getWriter()) {
+            out.print("{");
+            for (int i = 0; i < endDatas.size(); i++) {
+                if (i > 0) {
+                    out.print(",");
                 }
-                out.print("}");
+                out.print("\"" + endDatas.get(i) + "\":\"true\"");
             }
+            out.print("}");
         }
     }
 

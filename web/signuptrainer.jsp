@@ -20,7 +20,7 @@
         <script src="js/bootstrap.min.js"></script>
     </head>
     <body>
-        <jsp:include page="header.jsp"/>
+        <jsp:include page="headerlogin.jsp"/>
         <div id="container">
             <div id="container2">
                 <div id="logo">

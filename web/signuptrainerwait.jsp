@@ -23,7 +23,7 @@
     <body>
         <div id="upSpacer">
         </div>
-        <div id="container" style="width: 500px; text-align: center">
+        <div id="container2" style="width: 500px; text-align: center">
             <h2>Trainer Registration Request Sent</h2>
             <div style="height: 5px"></div>
             <p>An email will be sent to <%=user.getEmail()%> when our team have approved the application.</p>

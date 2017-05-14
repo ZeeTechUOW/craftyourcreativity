@@ -401,8 +401,21 @@ Player.Game = function (context, input) {
                     return v;
                 }
             }).replace(/#([a-zA-Z0-9_]*)/g, function (a, e) {
-                var v = (projValues[e] ? projValues[e].value : "");
-
+                var v; 
+                if(projValues) {
+                    v = (projValues[e] ? projValues[e].value : "");
+                }
+                
+                if(e === "username" && username) {
+                    return "\"" + username + "\"" ;
+                }
+                if(e === "fullname" && fullname) {
+                    return "\"" + fullname + "\"";
+                }
+//                if(e === "time" && username) {
+//                    return username;
+//                }
+                
                 if (isNaN(v)) {
                     return "\"" + v + "\"";
                 } else {
@@ -1118,19 +1131,18 @@ Player.Scene = function (context, input) {
 
             var stateData = state[eid];
 
-
             if (stateData && stateData.isAnEntity) {
-                cpy(stateData, entity, Player.Entity.serializable);
-                cpy(stateData, entity, Player.Entity.propSerializable);
-                cpy(stateData, entity, Player.Entity.shadingSerializable);
+                cpy(stateData, entity, Player.Entity.serializable, context.game.resolveValue);
+                cpy(stateData, entity, Player.Entity.propSerializable, context.game.resolveValue);
+                cpy(stateData, entity, Player.Entity.shadingSerializable, context.game.resolveValue);
 
                 if (stateData.isAButton) {
-                    cpy(stateData, entity, Player.Button.serializable);
+                    cpy(stateData, entity, Player.Button.serializable, context.game.resolveValue);
                 } else if (stateData.isAQSprite) {
-                    cpy(stateData, entity, Player.QSprite.serializable);
+                    cpy(stateData, entity, Player.QSprite.serializable, context.game.resolveValue);
                 } else if (stateData.isAQText) {
-                    cpy(stateData, entity, Player.QText.serializable);
-                    cpy(stateData, entity, Player.QText.textAttributes);
+                    cpy(stateData, entity, Player.QText.serializable, context.game.resolveValue);
+                    cpy(stateData, entity, Player.QText.textAttributes, context.game.resolveValue);
                 }
             }
         }
