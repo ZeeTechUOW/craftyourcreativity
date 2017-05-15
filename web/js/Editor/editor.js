@@ -247,81 +247,18 @@ function Editor(opts) {
     };
 
     this.addNewScene = function () {
-        this.project.addScene("Scene");
-        this.diagramPanel.updateDiagramPanel();
-        this.projectPanel.updateSceneList();
+        var newName = incrementIfDuplicate("Scene", this.scenes, function (scene) {
+            return scene.sceneName;
+        });
 
-//        this.context.registerAction(new EditAction({
-//            name: "Add New Scene",
-//            focus: this
-//        }, function (e) {
-//            e.sceneNo = e.focus.project.scenes.length;
-//            e.focus.project.addScene("Scene");
-//            e.focus.diagramPanel.updateDiagramPanel();
-//            e.focus.projectPanel.updateSceneList();
-//
-//            return true;
-//        }, function (e) {
-//            var scene = e.focus.project.getSceneByNo(e.sceneNo);
-//            if (scene === e.focus.activeScene) {
-//                if (e.focus.project.scenes.length <= 1) {
-//                    e.focus.activeScene = null;
-//                } else if (e.sceneNo > 0) {
-//                    e.focus.activeScene = e.focus.project.getSceneByNo(e.sceneNo - 1);
-//                } else {
-//                    e.focus.activeScene = e.focus.project.getSceneByNo(e.sceneNo + 1);
-//                }
-//            }
-//
-//            e.focus.project.removeSceneByObject(scene);
-//            e.focus.diagramPanel.updateDiagramPanel();
-//            e.focus.projectPanel.updateSceneList();
-//            return true;
-//        }));
+        var s = new Scene(this.context, newName);
+        this.context.addEdit(Edit.addSceneEdit(s));
     };
 
     this.removeScene = function (i) {
         var scene = this.project.getSceneByNo(i);
-        if (scene === this.activeScene) {
-            if (this.project.scenes.length < 1) {
-                this.activeScene = null;
-            } else if (i > 0) {
-                this.changeScene(i - 1);
-            } else {
-                this.changeScene(i + 1);
-            }
-        }
-
-        this.project.removeSceneByNo(i);
-        this.diagramPanel.updateDiagramPanel();
-        this.projectPanel.updateSceneList();
-
-//        this.context.registerAction(new EditAction({
-//            name: "Add New Scene",
-//            focus: this,
-//            sceneNo: i
-//        }, function (e) {
-//            var scene = e.focus.project.getSceneByNo(e.sceneNo);
-//            if (scene === e.focus.activeScene) {
-//                if (e.focus.project.scenes.length < 1) {
-//                    e.focus.activeScene = null;
-//                } else if (e.sceneNo > 0) {
-//                    e.focus.changeScene(e.sceneNo - 1);
-//                } else {
-//                    e.focus.changeScene(e.sceneNo + 1);
-//                }
-//            }
-//            e.scene = scene;
-//            e.focus.project.removeSceneByNo(i);
-//            e.focus.diagramPanel.updateDiagramPanel();
-//            e.focus.projectPanel.updateSceneList();
-//            return true;
-//        }, function (e) {
-//            e.focus.project.addScene(e.scene);
-//            e.focus.diagramPanel.updateDiagramPanel();
-//            e.focus.projectPanel.updateSceneList();
-//            return true;
-//        }));
+        
+        this.context.addEdit(Edit.deleteSceneEdit(scene));
     };
 
     this.addToCurrentViewport = function (type, opts) {
@@ -917,7 +854,8 @@ function Editor(opts) {
 
     this.addNewFrame = function () {
         if (this.activeScene) {
-            this.activeScene.addFrame();
+            var f = new Frame(this.activeScene);
+            this.context.addEdit(Edit.addFrameEdit(f, this.activeScene));
         }
     };
 
@@ -929,10 +867,12 @@ function Editor(opts) {
                 var k = scene.frames.indexOf(scene.activeFrame);
 
                 if (k >= 0) {
-                    scene.addFrameAt(k + 1);
+                    var f = new Frame(this.activeScene);
+                    this.context.addEdit(Edit.addFrameEdit(f, this.activeScene, k + 1));
                 }
             } else {
-                scene.addFrameAt(0);
+                var f = new Frame(this.activeScene);
+                this.context.addEdit(Edit.addFrameEdit(f, this.activeScene, 0));
             }
         }
     };
@@ -945,7 +885,8 @@ function Editor(opts) {
             var k = scene.frames.indexOf(scene.activeFrame);
 
             if (k >= 0) {
-                scene.addFrameAt(k);
+                var f = new Frame(this.activeScene);
+                this.context.addEdit(Edit.addFrameEdit(f, this.activeScene, k));
             }
         }
     };

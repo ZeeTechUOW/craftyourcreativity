@@ -83,16 +83,20 @@ function PropertiesPanel(context) {
 
             modelContext.insert(paneler.createLabel("Scene"));
             modelContext.insert(paneler.createTextField("Scene Name", scene, "sceneName", {
-                validateNewValue: function (newValue) {
+                validateNewValue: function (newValue, oldValue) {
                     if (scene.sceneName === newValue)
                         return newValue;
-                    return incrementIfDuplicate(
+                    var name = incrementIfDuplicate(
                             newValue,
                             editor.project.scenes,
                             function (s) {
                                 return s.sceneName;
                             }
                     );
+            
+                    editor.context.addEdit(Edit.editSceneEdit(scene, "sceneName", name, oldValue));
+            
+                    return name;
                 }
             }));
 
@@ -145,7 +149,7 @@ function PropertiesPanel(context) {
 
             modelContext.insert(paneler.createLabel("Frame " + frameNo));
             modelContext.insert(paneler.createButton("Delete Frame", function () {
-                editor.activeScene.removeCurrentFrame();
+                editor.context.addEdit(Edit.deleteFrameEdit(frame, editor.activeScene));
             }));
 
             modelContext.insert(paneler.createSeperator());
@@ -153,6 +157,11 @@ function PropertiesPanel(context) {
                 data: Frame.nextFrameOptions,
                 formatValueToElem: function (d) {
                     return d;
+                },
+                validateNewValue: function (newValue, oldValue) {            
+                    editor.context.addEdit(Edit.editFrameEdit(editor.activeScene, frame, "nextFrameOptions", newValue, oldValue));
+            
+                    return newValue;
                 }
             }));
 

@@ -42,8 +42,13 @@ function Project(context) {
     this._addScene = this.addScene;
     this.addScene = function (name) {
         if (name.isAScene) {
-            name.no = this.scenes.length;
-            this._addScene(name);
+            if(!name.no) {
+                name.no = this.scenes.length;
+                this.scenes.push(name);
+            } else {
+                this.scenes.splice(name.no, 0, name);
+            }
+            this.context.editor.changeScene(name.no);
         } else {
             var newName = incrementIfDuplicate(name, this.scenes, function (scene) {
                 return scene.sceneName;
@@ -52,8 +57,48 @@ function Project(context) {
             var s = new Scene(this.context, newName);
             s.no = this.scenes.length;
             this.scenes.push(s);
+            this.context.editor.changeScene(this.scenes.length - 1);
         }
-        this.context.editor.changeScene(this.scenes.length - 1);
+        
+        for( var k in this.scenes ) {
+            this.scenes[k].initialRenders = 3;
+        }
+        
+        editor.diagramPanel.updateDiagramPanel();
+        editor.projectPanel.updateSceneList();
+    };
+    
+    this.removeScene = function (scene) {
+        var i = 0;
+        for( var k in this.scenes) {
+            if( this.scenes[k] === scene ) {
+                break;
+            }
+            i++;
+        }
+        
+        if (i >= this.scenes.length) {
+            return;
+        }
+        
+        
+        if (scene === editor.activeScene) {
+            if (this.scenes.length < 1) {
+                editor.activeScene = null;
+            } else if (i > 0) {
+                editor.changeScene(i - 1);
+            } else {
+                editor.changeScene(i + 1);
+            }
+        }
+        
+        for( var k in this.scenes ) {
+            this.scenes[k].initialRenders = 3;
+        }
+
+        this.removeSceneByNo(i);
+        editor.diagramPanel.updateDiagramPanel();
+        editor.projectPanel.updateSceneList();
     };
 
     this.serialize = function () {

@@ -207,7 +207,7 @@ function Entity(context, name) {
             }
         }
         
-        this.set(k, value);
+        this.set(key, value);
     };
 
     this.setPropertyUpdater = function (e, sprite) {

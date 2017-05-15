@@ -32,6 +32,7 @@ function ProjectPanel(context) {
         var content = "";
 
         for (var k in p.context.editor.project.scenes) {
+            p.context.editor.project.scenes[k].no = k;
             var b =  p.context.editor.project.scenes[k] === p.context.editor.activeScene;
             content +=
                     "                                <div class='row sceneNameDiv'><div id='sceneDivName" + k + "' class=\"sceneDiv\">\n" +

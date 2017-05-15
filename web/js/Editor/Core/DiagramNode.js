@@ -88,22 +88,26 @@ function DiagramNode(context, opt) {
         return res;
     };
     this.useZoomLevel = false;
-    if(isIEorEDGE() || /Firefox/i.test(navigator.userAgent)) {
+    if (isIEorEDGE() || /Firefox/i.test(navigator.userAgent)) {
         this.useZoomLevel = true;
     }
-    
+
     var that = this;
     this.getFlowInputPos = function (zoomLevel) {
         return {
             x: that.x,
-            y: that.y + 15 
+            y: that.y + 15
         };
     };
     this.getFlowOutputPos = function (outputName, zoomLevel) {
         var y = that.y + 15;
 
         if (outputName !== "_def") {
-            y += $("#foNode" + this.nodeID + "0" + outputName).position().top / (that.useZoomLevel?zoomLevel:1);
+            var pos = $("#foNode" + this.nodeID + "0" + outputName).position();
+            
+            if( pos ) {
+                y += pos.top / (that.useZoomLevel ? zoomLevel : 1);
+            }
         }
 
         return {
@@ -112,7 +116,9 @@ function DiagramNode(context, opt) {
         };
     };
     this.getFlowDataOutputPos = function (dataTarget, zoomLevel) {
-        var y = that.y + 15 + $("#nciNode" + this.nodeID + "0" + dataTarget).position().top / (that.useZoomLevel?zoomLevel:1);
+        var pos = $("#nciNode" + this.nodeID + "0" + dataTarget).position();
+        
+        var y = that.y + 15 + (pos?pos.top:0) / (that.useZoomLevel ? zoomLevel : 1);
 
         return {
             x: that.x + $("#Node" + this.nodeID).outerWidth(),
@@ -120,7 +126,8 @@ function DiagramNode(context, opt) {
         };
     };
     this.getFlowDataInputPos = function (dataTarget, zoomLevel) {
-        var y = that.y + 15 + $("#nciNode" + this.nodeID + "0" + dataTarget).position().top / (that.useZoomLevel?zoomLevel:1);
+        var pos = $("#nciNode" + this.nodeID + "0" + dataTarget).position();
+        var y = that.y + 15 + (pos?pos.top:0) / (that.useZoomLevel ? zoomLevel : 1);
 
         return {
             x: that.x,
@@ -178,7 +185,7 @@ function DiagramNode(context, opt) {
     if (this.content) {
         for (var k in this.content) {
             var c = this.content[k];
-
+            c.node = this;
             setupListener(c);
         }
     }
@@ -242,20 +249,28 @@ DiagramNode.NodeTypes = {
                     dataInput: true,
                     value: 0,
                     contextField: function () {
+                        var that = this;
+
                         return InputRenderer.createFloatField(this.label, this, "value", {
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
                                 editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                editor.context.addEdit(Edit.editNodeEdit(that.node, {content: {score: {value: newValue}}}, "Edit", {content: {score: {value: oldValue}}}).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                }));
+                                return newValue;
                             }
                         });
                     }
                 }
             },
             updateUI: function () {
-                if( editor ) {
+                if (editor) {
                     var exContents = editor.getEndData();
                 }
-                
+
                 for (var k in exContents) {
                     var d = "";
                     var din = true;
@@ -268,14 +283,26 @@ DiagramNode.NodeTypes = {
                         label: k,
                         value: d,
                         dataInput: din,
-                        contextField: function () {
-                            return InputRenderer.createAnyField(this.label, this, "value", {
-                                onCompleted: function () {
-                                    editor.diagramPanel.updateDiagramPanel();
-                                    editor.context.changeToNodeModelContext(that);
-                                }
-                            });
-                        }
+                        contextField: (function (k) {
+                            return function () {
+                                return InputRenderer.createAnyField(this.label, this, "value", {
+                                    onCompleted: function () {
+                                        editor.diagramPanel.updateDiagramPanel();
+                                        editor.context.changeToNodeModelContext(that);
+                                    },
+                                    validateNewValue: function (newValue, oldValue) {
+                                        var stateData = {content: {}};
+                                        stateData.content["dataEnd_" + k] = {value: newValue};
+                                        var prevStateData = {content: {}};
+                                        prevStateData.content["dataEnd_" + k] = {value: oldValue};
+                                        editor.context.addEdit(Edit.editNodeEdit(that, stateData, "Edit", prevStateData).dontInitDo().setOnCompleted(function () {
+                                            editor.context.changeToNodeModelContext(that);
+                                        }));
+                                        return newValue;
+                                    }
+                                });
+                            };
+                        }(k))
                     };
                     exContents[k] = false;
                 }
@@ -284,7 +311,7 @@ DiagramNode.NodeTypes = {
                         delete this.content[k];
                     }
                 }
-                
+
             }
         };
     },
@@ -314,11 +341,54 @@ DiagramNode.NodeTypes = {
                         return null;
                     },
                     contextField: function () {
+                        var that = this;
                         return InputRenderer.createDropdownField(this.label, this, "value", {
                             data: this.data(),
                             formatValueToElem: this.getData,
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
+                                editor.context.changeToNodeModelContext(that.node);
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                var stateData = {content: {sceneName: {value: newValue}}};
+                                var prevStateData = {flowOutput: {}, content: {sceneName: {value: oldValue}}};
+                                
+                                for ( var k in that.node.flowOutput ) {
+                                    prevStateData.flowOutput[k] = that.node.flowOutput[k];
+                                }
+                                for ( var k in that.node.content ) {
+                                    if( k !== "sceneName" ) {
+                                        prevStateData.content[k] = {};
+                                        prevStateData.content[k].dataInput = that.node.content[k].dataInput;
+                                        prevStateData.content[k].value = that.node.content[k].value;
+                                    }
+                                }
+                                
+                                var edit = Edit.editNodeEdit(that.node, stateData, "Edit", prevStateData).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                });
+                                for( var k in editor.diagramPanel.nodes ) {
+                                    for( var j in editor.diagramPanel.nodes[k].content ) {
+                                        var c = editor.diagramPanel.nodes[k].content[j];
+                                        if( c.dataInput && c.dataInput !== true ) {
+                                            var cdata = c.dataInput.split("|");
+                                            if( cdata[0] === that.node.nodeID + "" ) {
+                                                var nStateData = {content: {}};
+                                                nStateData.content[j] = {dataInput: true};
+                                                var nPrevStateData = {content: {}};
+                                                nPrevStateData.content[j] = {dataInput: c.dataInput};
+                                                
+                                                var nEdit = Edit.editNodeEdit(editor.diagramPanel.nodes[k], nStateData, "", nPrevStateData);
+                                                edit.combine(nEdit);
+                                                c.dataInput = true;
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                
+                                editor.context.addEdit(edit);
+                                return newValue;
                             }
                         });
                     },
@@ -364,15 +434,26 @@ DiagramNode.NodeTypes = {
                             value: d,
                             dataInput: din,
                             dataOutput: true,
-                            contextField: function () {
-                                return InputRenderer.createAnyField(this.label, this, "value", {
-                                    onCompleted: function () {
-
-                                        editor.diagramPanel.updateDiagramPanel();
-                                        editor.context.changeToNodeModelContext(that);
-                                    }
-                                });
-                            }
+                            contextField: (function (k) {
+                                return function () {
+                                    return InputRenderer.createAnyField(this.label, this, "value", {
+                                        onCompleted: function () {
+                                            editor.diagramPanel.updateDiagramPanel();
+                                            editor.context.changeToNodeModelContext(that);
+                                        },
+                                        validateNewValue: function (newValue, oldValue) {
+                                            var stateData = {content: {}};
+                                            stateData.content["sceneVar_" + k] = {value: newValue};
+                                            var prevStateData = {content: {}};
+                                            prevStateData.content["sceneVar_" + k] = {value: oldValue};
+                                            editor.context.addEdit(Edit.editNodeEdit(that, stateData, "Edit", prevStateData).dontInitDo().setOnCompleted(function () {
+                                                editor.context.changeToNodeModelContext(that);
+                                            }));
+                                            return newValue;
+                                        }
+                                    });
+                                };
+                            }(k))
                         };
                         exContents["sceneVar_" + k] = false;
                     }
@@ -416,10 +497,17 @@ DiagramNode.NodeTypes = {
                     dataInput: true,
                     value: null,
                     contextField: function () {
+                        var that = this;
                         return InputRenderer.createAnyField(this.label, this, "value", {
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
                                 editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                editor.context.addEdit(Edit.editNodeEdit(that.node, {content: {lhsCondition: {value: newValue}}}, "Edit", {content: {lhsCondition: {value: oldValue}}}).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                }));
+                                return newValue;
                             }
                         });
                     }
@@ -428,10 +516,17 @@ DiagramNode.NodeTypes = {
                     label: "Operator",
                     value: "==",
                     contextField: function () {
+                        var that = this;
                         return InputRenderer.createDropdownField(this.label, this, "value", {
                             data: ["<=", "==", "!=", ">=", "<", ">"],
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                editor.context.addEdit(Edit.editNodeEdit(that.node, {content: {operator: {value: newValue}}}, "Edit", {content: {operator: {value: oldValue}}}).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                }));
+                                return newValue;
                             }
                         });
                     }
@@ -441,10 +536,17 @@ DiagramNode.NodeTypes = {
                     dataInput: true,
                     value: null,
                     contextField: function () {
+                        var that = this;
                         return InputRenderer.createAnyField(this.label, this, "value", {
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
                                 editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                editor.context.addEdit(Edit.editNodeEdit(that.node, {content: {rhsCondition: {value: newValue}}}, "Edit", {content: {rhsCondition: {value: oldValue}}}).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                }));
+                                return newValue;
                             }
                         });
                     }
@@ -478,11 +580,54 @@ DiagramNode.NodeTypes = {
                         return null;
                     },
                     contextField: function () {
+                        var that = this;
                         return InputRenderer.createDropdownField(this.label, this, "value", {
                             data: this.data(),
                             formatValueToElem: this.getData,
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
+                                editor.context.changeToNodeModelContext(that.node);
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                var stateData = {content: {sceneName: {value: newValue}}};
+                                var prevStateData = {flowOutput: {}, content: {sceneName: {value: oldValue}}};
+                                
+                                for ( var k in that.node.flowOutput ) {
+                                    prevStateData.flowOutput[k] = that.node.flowOutput[k];
+                                }
+                                for ( var k in that.node.content ) {
+                                    if( k !== "sceneName" ) {
+                                        prevStateData.content[k] = {};
+                                        prevStateData.content[k].dataInput = that.node.content[k].dataInput;
+                                        prevStateData.content[k].value = that.node.content[k].value;
+                                    }
+                                }
+                                
+                                var edit = Edit.editNodeEdit(that.node, stateData, "Edit", prevStateData).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                });
+                                for( var k in editor.diagramPanel.nodes ) {
+                                    for( var j in editor.diagramPanel.nodes[k].content ) {
+                                        var c = editor.diagramPanel.nodes[k].content[j];
+                                        if( c.dataInput && c.dataInput !== true ) {
+                                            var cdata = c.dataInput.split("|");
+                                            if( cdata[0] === that.node.nodeID + "" ) {
+                                                var nStateData = {content: {}};
+                                                nStateData.content[j] = {dataInput: true};
+                                                var nPrevStateData = {content: {}};
+                                                nPrevStateData.content[j] = {dataInput: c.dataInput};
+                                                
+                                                var nEdit = Edit.editNodeEdit(editor.diagramPanel.nodes[k], nStateData, "", nPrevStateData);
+                                                edit.combine(nEdit);
+                                                c.dataInput = true;
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                
+                                editor.context.addEdit(edit);
+                                return newValue;
                             }
                         });
                     },
@@ -521,15 +666,26 @@ DiagramNode.NodeTypes = {
                             label: "@" + k,
                             value: d,
                             dataInput: din,
-                            contextField: function () {
-                                return InputRenderer.createAnyField(this.label, this, "value", {
-                                    onCompleted: function () {
-
-                                        editor.diagramPanel.updateDiagramPanel();
-                                        editor.context.changeToNodeModelContext(that);
-                                    }
-                                });
-                            }
+                            contextField: (function (k) {
+                                return function () {
+                                    return InputRenderer.createAnyField(this.label, this, "value", {
+                                        onCompleted: function () {
+                                            editor.diagramPanel.updateDiagramPanel();
+                                            editor.context.changeToNodeModelContext(that);
+                                        },
+                                        validateNewValue: function (newValue, oldValue) {
+                                            var stateData = {content: {}};
+                                            stateData.content["sceneVar_" + k] = {value: newValue};
+                                            var prevStateData = {content: {}};
+                                            prevStateData.content["sceneVar_" + k] = {value: oldValue};
+                                            editor.context.addEdit(Edit.editNodeEdit(that, stateData, "Edit", prevStateData).dontInitDo().setOnCompleted(function () {
+                                                editor.context.changeToNodeModelContext(that);
+                                            }));
+                                            return newValue;
+                                        }
+                                    });
+                                };
+                            }(k))
                         };
                         exContents["sceneVar_" + k] = false;
                     }
@@ -553,6 +709,7 @@ DiagramNode.NodeTypes = {
                     label: "Achievement Name",
                     value: 0,
                     contextField: function () {
+                        var that = this;
                         var d = editor.getAchievementData();
                         if (!editor.getAchievementDataLabel(this.value)) {
                             this.value = d[0];
@@ -564,6 +721,12 @@ DiagramNode.NodeTypes = {
                             },
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                editor.context.addEdit(Edit.editNodeEdit(that.node, {content: {achievementName: {value: newValue}}}, "Edit", {content: {achievementName: {value: oldValue}}}).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                }));
+                                return newValue;
                             }
                         });
                     }
@@ -594,20 +757,33 @@ DiagramNode.NodeTypes = {
                         din = this.content["projVar_" + k].dataInput;
                         val = this.content["projVar_" + k].value;
                     }
-                    
+
+                    var that = this;
                     this.content["projVar_" + k] = {
                         label: "Set #" + k,
                         dataInput: din,
                         dataOutput: false,
                         value: val,
-                        contextField: function () {
-                            return InputRenderer.createAnyField(this.label, this, "value", {
-                                onCompleted: function () {
-                                    editor.diagramPanel.updateDiagramPanel();
-                                    editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
-                                }
-                            });
-                        }
+                        contextField: (function (k) {
+                            return function () {
+                                return InputRenderer.createAnyField(this.label, this, "value", {
+                                    onCompleted: function () {
+                                        editor.diagramPanel.updateDiagramPanel();
+                                        editor.context.changeToNodeModelContext(that);
+                                    },
+                                    validateNewValue: function (newValue, oldValue) {
+                                        var stateData = {content: {}};
+                                        stateData.content["projVar_" + k] = {value: newValue};
+                                        var prevStateData = {content: {}};
+                                        prevStateData.content["projVar_" + k] = {value: oldValue};
+                                        editor.context.addEdit(Edit.editNodeEdit(that, stateData, "Edit", prevStateData).dontInitDo().setOnCompleted(function () {
+                                            editor.context.changeToNodeModelContext(that);
+                                        }));
+                                        return newValue;
+                                    }
+                                });
+                            };
+                        }(k))
                     };
                     exContents["projVar_" + k] = false;
                 }
@@ -668,10 +844,17 @@ DiagramNode.NodeTypes = {
                     dataInput: true,
                     value: null,
                     contextField: function () {
+                        var that = this;
                         return InputRenderer.createFloatField(this.label, this, "value", {
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
                                 editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                editor.context.addEdit(Edit.editNodeEdit(that.node, {content: {lhs: {value: newValue}}}, "Edit", {content: {lhs: {value: oldValue}}}).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                }));
+                                return newValue;
                             }
                         });
                     }
@@ -681,10 +864,17 @@ DiagramNode.NodeTypes = {
                     value: "+",
                     dataOutput: true,
                     contextField: function () {
+                        var that = this;
                         return InputRenderer.createDropdownField(this.label, this, "value", {
                             data: ["+", "-", "*", "/", "^", "%"],
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                editor.context.addEdit(Edit.editNodeEdit(that.node, {content: {operator: {value: newValue}}}, "Edit", {content: {operator: {value: oldValue}}}).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                }));
+                                return newValue;
                             }
                         });
                     }
@@ -694,10 +884,17 @@ DiagramNode.NodeTypes = {
                     dataInput: true,
                     value: null,
                     contextField: function () {
+                        var that = this;
                         return InputRenderer.createFloatField(this.label, this, "value", {
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
                                 editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                editor.context.addEdit(Edit.editNodeEdit(that.node, {content: {rhs: {value: newValue}}}, "Edit", {content: {rhs: {value: oldValue}}}).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                }));
+                                return newValue;
                             }
                         });
                     }
@@ -715,10 +912,17 @@ DiagramNode.NodeTypes = {
                     dataInput: true,
                     value: null,
                     contextField: function () {
+                        var that = this;
                         return InputRenderer.createAnyField(this.label, this, "value", {
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
                                 editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                editor.context.addEdit(Edit.editNodeEdit(that.node, {content: {lhs: {value: newValue}}}, "Edit", {content: {lhs: {value: oldValue}}}).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                }));
+                                return newValue;
                             }
                         });
                     }
@@ -729,10 +933,17 @@ DiagramNode.NodeTypes = {
                     dataOutput: true,
                     dataInput: true,
                     contextField: function () {
+                        var that = this;
                         return InputRenderer.createDropdownField(this.label, this, "value", {
                             data: ["<=", "==", "!=", ">=", "<", ">"],
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                editor.context.addEdit(Edit.editNodeEdit(that.node, {content: {operator: {value: newValue}}}, "Edit", {content: {operator: {value: oldValue}}}).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                }));
+                                return newValue;
                             }
                         });
                     }
@@ -742,10 +953,17 @@ DiagramNode.NodeTypes = {
                     dataInput: true,
                     value: null,
                     contextField: function () {
+                        var that = this;
                         return InputRenderer.createAnyField(this.label, this, "value", {
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
                                 editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                editor.context.addEdit(Edit.editNodeEdit(that.node, {content: {rhs: {value: newValue}}}, "Edit", {content: {rhs: {value: oldValue}}}).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                }));
+                                return newValue;
                             }
                         });
                     }
@@ -763,10 +981,17 @@ DiagramNode.NodeTypes = {
                     dataInput: true,
                     value: null,
                     contextField: function () {
+                        var that = this;
                         return InputRenderer.createAnyField(this.label, this, "value", {
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
                                 editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                editor.context.addEdit(Edit.editNodeEdit(that.node, {content: {lhs: {value: newValue}}}, "Edit", {content: {lhs: {value: oldValue}}}).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                }));
+                                return newValue;
                             }
                         });
                     }
@@ -776,10 +1001,17 @@ DiagramNode.NodeTypes = {
                     value: "AND",
                     dataOutput: true,
                     contextField: function () {
+                        var that = this;
                         return InputRenderer.createDropdownField(this.label, this, "value", {
                             data: ["AND", "OR", "NOT"],
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                editor.context.addEdit(Edit.editNodeEdit(that.node, {content: {operator: {value: newValue}}}, "Edit", {content: {operator: {value: oldValue}}}).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                }));
+                                return newValue;
                             }
                         });
                     }
@@ -789,10 +1021,17 @@ DiagramNode.NodeTypes = {
                     dataInput: true,
                     value: null,
                     contextField: function () {
+                        var that = this;
                         return InputRenderer.createAnyField(this.label, this, "value", {
                             onCompleted: function () {
                                 editor.diagramPanel.updateDiagramPanel();
                                 editor.context.changeToNodeModelContext(editor.diagramPanel.selectedNode);
+                            },
+                            validateNewValue: function (newValue, oldValue) {
+                                editor.context.addEdit(Edit.editNodeEdit(that.node, {content: {rhs: {value: newValue}}}, "Edit", {content: {rhs: {value: oldValue}}}).dontInitDo().setOnCompleted(function () {
+                                    editor.context.changeToNodeModelContext(that.node);
+                                }));
+                                return newValue;
                             }
                         });
                     }

@@ -54,7 +54,7 @@ function DiagramPanel(context) {
         var node = new DiagramNode(this.context, {
             x: x, y: y, nodeType: type
         });
-        
+
         this.context.addEdit(Edit.addNodeEdit(node));
     };
 
@@ -252,12 +252,12 @@ function DiagramPanel(context) {
                 var knode = this.getNodeById(parseInt(elem.getAttribute("qrid")));
                 if (knode) {
                     var dt = dataTarget;
-                    
-                    if(knode.content[dt].dataInput) {
+
+                    if (knode.content[dt].dataInput) {
                         dataTarget = knode.content[dt].dataInput.split("|")[1];
                     }
-                    
-                    var stateData = {content : {}};
+
+                    var stateData = {content: {}};
                     stateData.content[dt] = {};
                     stateData.content[dt].dataInput = knode.content[dt].dataInput;
                     this.dragAnchor.otherStateData = stateData;
@@ -301,9 +301,9 @@ function DiagramPanel(context) {
 
                     if (data && data.length > 1) {
                         fromNode = this.getNodeById(parseInt(data[0]));
-                        
 
-                        var stateData = {content : {}};
+
+                        var stateData = {content: {}};
                         stateData.content[dataTarget] = {};
                         stateData.content[dataTarget].dataInput = node.content[dataTarget].dataInput;
                         this.dragAnchor.otherStateData = stateData;
@@ -354,20 +354,39 @@ function DiagramPanel(context) {
         if (node && this.mode === "DRAG_CONNECTION") {
             if (this.dragAnchor.connectionType === "FLOW" && type === "FLOW") {
 //                this.dragAnchor.draggedNodeFrom.flowOutput[ this.dragAnchor.dataTarget ] = node.nodeID;
-                
-                var stateData = {flowOutput : {}};
+
+                var stateData = {flowOutput: {}};
                 stateData.flowOutput[this.dragAnchor.dataTarget] = node.nodeID;
                 this.context.addEdit(Edit.editNodeEdit(this.dragAnchor.draggedNodeFrom, stateData, "Flow"));
-                
+
             } else if (this.dragAnchor.connectionType === "DATA" && type === "DATA") {
                 if (node !== this.dragAnchor.draggedNodeFrom) {
                     var value = this.dragAnchor.draggedNodeFrom.nodeID + "|" + this.dragAnchor.dataTarget;
 //                    node.content[dataTarget].dataInput = value;
-                    
-                    var stateData = {content : {}};
-                    stateData.content[dataTarget] = {};
-                    stateData.content[dataTarget].dataInput = value;
-                    this.context.addEdit(Edit.editNodeEdit(node, stateData, "Flow Data"));
+
+                    if (this.dragAnchor.otherStateDataTarget) {
+                        var stateData = JSON.parse(JSON.stringify(that.dragAnchor.otherStateData));
+                        for (var k in stateData.content) {
+                            stateData.content[k].dataInput = true;
+                        }
+                        
+                        var edit2 = Edit.editNodeEdit(this.dragAnchor.otherStateDataTarget, stateData, "Flow Data", this.dragAnchor.otherStateData);
+                        
+                        stateData = {content: {}};
+                        stateData.content[dataTarget] = {};
+                        stateData.content[dataTarget].dataInput = value;
+                        this.context.addEdit(Edit.editNodeEdit(node, stateData, "Flow Data").combine(edit2));
+                        
+                        this.dragAnchor.otherStateData = null;
+                        this.dragAnchor.otherStateDataTarget = null;
+                    } else {
+                        var stateData = {content: {}};
+                        stateData.content[dataTarget] = {};
+                        stateData.content[dataTarget].dataInput = value;
+                        this.context.addEdit(Edit.editNodeEdit(node, stateData, "Flow Data"));
+
+                    }
+
                 }
             }
 
@@ -380,14 +399,14 @@ function DiagramPanel(context) {
             event.stopPropagation();
         }
     };
-    
+
     this.addNodeToDiagram = function (node) {
         this.nodes.push(node);
         this.updateDiagramPanel();
     };
-    
+
     this.deleteNodeFromDiagram = function (node) {
-        if( node.nodeName !== "Start " ) {
+        if (node.nodeName !== "Start ") {
             this.nodes.splice(this.nodes.indexOf(node), 1);
             this.updateDiagramPanel();
         }
@@ -396,13 +415,13 @@ function DiagramPanel(context) {
     this.addClonedToDiagram = function (node, label) {
         var newNode = DiagramNode.deserialize(this.context, JSON.parse(JSON.stringify(node.serialize())));
         newNode.nodeID = uid();
-        
+
         var canoffset = $(this.cameraDom).offset();
         var canzoom = this.zoomLevel;
-        
+
         newNode.x = 500 + document.body.scrollLeft + document.documentElement.scrollLeft - Math.floor(canoffset.left * canzoom);
         newNode.y = 500 + document.body.scrollTop + document.documentElement.scrollTop - Math.floor(canoffset.top * canzoom) + 1;
-        
+
         this.context.addEdit(Edit.addNodeEdit(newNode).changeName(function () {
             return label + " " + this.node.nodeName;
         }));
@@ -509,25 +528,29 @@ function DiagramPanel(context) {
     document.addEventListener("mouseup", function (event) {
         if (that.mode === "DRAG_CONNECTION") {
             if (that.dragAnchor.connectionType === "FLOW") {
-                if(that.dragAnchor.draggedNodeFrom.flowOutput[that.dragAnchor.dataTarget] !== true) {
+                if (that.dragAnchor.draggedNodeFrom.flowOutput[that.dragAnchor.dataTarget] !== true) {
                     var stateData = {flowOutput: {}};
                     stateData.flowOutput[that.dragAnchor.dataTarget] = true;
-                    that.context.addEdit(Edit.editNodeEdit(that.dragAnchor.draggedNodeFrom, stateData, "Flow") );
+                    that.context.addEdit(Edit.editNodeEdit(that.dragAnchor.draggedNodeFrom, stateData, "Flow"));
                 }
             } else if (that.dragAnchor.connectionType === "DATA") {
-                
-                if(that.dragAnchor.otherStateDataTarget) {
-                    that.context.addEdit(Edit.editNodeEdit(that.dragAnchor.otherStateDataTarget, that.dragAnchor.otherStateData, "Data") );
+
+                if (that.dragAnchor.otherStateDataTarget) {
+                    var stateData = JSON.parse(JSON.stringify(that.dragAnchor.otherStateData));
+                    for (var k in stateData.content) {
+                        stateData.content[k].dataInput = true;
+                    }
+                    that.context.addEdit(Edit.editNodeEdit(that.dragAnchor.otherStateDataTarget, stateData, "Flow Data", that.dragAnchor.otherStateData));
                 }
             }
-            
+
             that.dragAnchor.otherStateData = null;
             that.dragAnchor.otherStateDataTarget = null;
             that.dragAnchor.draggedNodeFrom = null;
             that.dragAnchor.connectionType = null;
             that.dragAnchor.dataTarget = null;
             that.updateDiagramConnections();
-        } else if  ( that.mode === "DRAG_NODE" ) {
+        } else if (that.mode === "DRAG_NODE") {
             that.context.addEdit(Edit.editNodeEdit(that.dragAnchor.draggedNode, {
                 x: that.dragAnchor.draggedNode.x,
                 y: that.dragAnchor.draggedNode.y

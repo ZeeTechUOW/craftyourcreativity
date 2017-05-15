@@ -19,23 +19,30 @@ function Scene(context, sceneName) {
     };
 
     this.activeFrame;
+    this.isAScene = true;
 
     this.entities = [];
     this.frames = [];
 
     this.rootAttributes = {};
 
-    this.addFrame = function () {
-        var f = new Frame(this);
+    this.addFrame = function (f) {
+        if(!f) {
+            f = new Frame(this);
+        }
+        
         this.frames.push(f);
 
         this.changeFrame(f);
     };
-    this.addFrameAt = function (index) {
+    this.addFrameAt = function (f, index) {
         if (index === this.frames.length) {
             this.addFrame();
         } else if (index >= 0 && index < this.frames.length) {
-            var f = new Frame(this);
+            if(!f) {
+                f = new Frame(this);
+            }
+
             this.frames.splice(index, 0, f);
             this.changeFrame(f);
         }

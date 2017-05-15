@@ -4,32 +4,18 @@
  * and open the template in the editor.
  */
 
-//function EditAction(opt, do_, undo) {
-//    this.opt = opt;
-//    this.name = opt.name;
-//    this.focus = opt.focus;
-//    this._do = do_;
-//    this._undo = undo;
-//
-//    this.do = function () {
-//        return this._do(opt);
-//    };
-//
-//    this.undo = function () {
-//        return this._undo(opt);
-//    };
-//
-//    this.setFocus = function () {
-//
-//    };
-//}
 
 function Edit(name, scene, frame, action) {
     this.isAnEdit = true;
 
+    this.initDo = true;
+    this.edits = [];
     this.scene = scene;
     this.frame = frame;
     this.action = action;
+    this.combineSignal = null;
+
+    this.onCompleted = null;
 
     this.changeToTargetEnv = function () {
         if (this.scene) {
@@ -54,6 +40,9 @@ function Edit(name, scene, frame, action) {
 
         this.doEdit();
 
+        if (this.onCompleted) {
+            this.onCompleted();
+        }
     };
 
     this.doEdit = function () {
@@ -64,6 +53,10 @@ function Edit(name, scene, frame, action) {
         this.changeToTargetEnv();
 
         this._undoEdit();
+
+        if (this.onCompleted) {
+            this.onCompleted();
+        }
     };
 
     this._undoEdit = function () {
@@ -72,6 +65,11 @@ function Edit(name, scene, frame, action) {
 
     this.getName = function () {
         return name;
+    };
+
+    this.setOnCompleted = function (onCompleted) {
+        this.onCompleted = onCompleted;
+        return this;
     };
 
     this.reverse = function (nameCallback) {
@@ -85,9 +83,51 @@ function Edit(name, scene, frame, action) {
 
         return this;
     };
-    
+
     this.changeName = function (getName) {
         this.getName = getName;
+        return this;
+    };
+
+    this.dontInitDo = function () {
+        this.initDo = false;
+        return this;
+    };
+
+    this.combine = function (edit) {
+        this.edits.push(edit);
+
+        if (!this._ue) {
+            this._ue = this.undoEdit;
+        }
+        this.undoEdit = function () {
+            for (var k in this.edits) {
+                var e = this.edits[k];
+                e.undoEdit();
+            }
+
+            this._ue();
+        };
+
+
+        if (!this._re) {
+            this._re = this.redoEdit;
+        }
+        this.redoEdit = function () {
+            for (var k in this.edits) {
+                var e = this.edits[k];
+                e.redoEdit();
+            }
+
+            this._re();
+        };
+
+        return this;
+    };
+
+    this.setCombineSignal = function (signal) {
+        this.combineSignal = signal;
+
         return this;
     };
 }
@@ -142,7 +182,7 @@ Edit.editEntityEdit = function (entity, targetScene, targetFrame, stateData, lab
             edit.entity.setFlat(k, edit.prevStateData[k]);
         }
     };
-    
+
 
     return edit;
 };
@@ -181,6 +221,7 @@ Edit.deleteEntityEdit = function (entity, targetScene, targetFrame) {
 
 Edit.addNodeEdit = function (node) {
     var edit = new Edit("Add");
+    edit.node = node;
     edit.isDiagram = true;
 
     edit.getName = function () {
@@ -194,7 +235,7 @@ Edit.addNodeEdit = function (node) {
     edit._undoEdit = function () {
         editor.diagramPanel.deleteNodeFromDiagram(edit.node);
     };
-    
+
     return edit;
 };
 Edit.editNodeEdit = function (node, stateData, label, prevStateData) {
@@ -206,17 +247,17 @@ Edit.editNodeEdit = function (node, stateData, label, prevStateData) {
     edit.prevStateData = prevStateData;
     if (!edit.prevStateData) {
         edit.prevStateData = {content: {}};
-        
-        if( stateData.x ) {
+
+        if (stateData.x) {
             edit.prevStateData.x = node.x;
         }
-        if( stateData.y ) {
+        if (stateData.y) {
             edit.prevStateData.y = node.y;
         }
 
         if (stateData.flowOutput !== undefined) {
             edit.prevStateData.flowOutput = {};
-            for(var k in stateData.flowOutput) {
+            for (var k in stateData.flowOutput) {
                 edit.prevStateData.flowOutput[k] = node.flowOutput[k];
             }
         }
@@ -231,13 +272,10 @@ Edit.editNodeEdit = function (node, stateData, label, prevStateData) {
             if (c.dataInput !== undefined) {
                 pc.dataInput = node.content[k].dataInput;
             }
-            
+
             edit.prevStateData.content[k] = pc;
         }
     }
-    
-    console.log(stateData);
-    console.log(edit.prevStateData);
 
     edit.getName = function () {
         return label + " " + node.nodeName;
@@ -252,17 +290,17 @@ Edit.editNodeEdit = function (node, stateData, label, prevStateData) {
         edit.copyDataToNode(edit.prevStateData);
         editor.diagramPanel.updateDiagramPanel();
     };
-    
+
     edit.copyDataToNode = function (data) {
-        if( data.x ) {
+        if (data.x) {
             edit.node.x = data.x;
         }
-        if( data.y ) {
+        if (data.y) {
             edit.node.y = data.y;
         }
-        
+
         if (data.flowOutput !== undefined) {
-            for( var k in data.flowOutput ) {
+            for (var k in data.flowOutput) {
                 edit.node.flowOutput[k] = data.flowOutput[k];
             }
         }
@@ -271,16 +309,20 @@ Edit.editNodeEdit = function (node, stateData, label, prevStateData) {
             var c = data.content[k];
 
             if (c.value !== undefined) {
+                if (!edit.node.content[k]) {
+                    edit.node.content[k] = {};
+                }
                 edit.node.content[k].value = c.value;
             }
             if (c.dataInput !== undefined) {
+                if (!edit.node.content[k]) {
+                    edit.node.content[k] = {};
+                }
                 edit.node.content[k].dataInput = c.dataInput;
             }
         }
-        
-        console.log(edit.node);
     };
-    
+
     return edit;
 };
 Edit.deleteNodeEdit = function (node) {
@@ -291,15 +333,76 @@ Edit.deleteNodeEdit = function (node) {
     return edit;
 };
 
-Edit.addActionEdit = function () {
+Edit.addActionEdit = function (action, scene, frame) {
+    var edit = new Edit("Add", scene, frame, action);
+
+    edit.getName = function () {
+        return "Add " + action.actionName;
+    };
+
+    edit.doEdit = function () {
+        edit.frame.addAction(edit.action);
+    };
+
+    edit._undoEdit = function () {
+        edit.frame.removeActionByObject(edit.action);
+    };
+
+    return edit;
+};
+Edit.moveAction = function (action, scene, from, to) {
+    var edit = new Edit("Move", scene);
+    edit.action = action;
+
+    edit.getName = function () {
+        return "Move " + action.actionName;
+    };
+
+    edit.doEdit = function () {
+
+    };
+
+    edit._undoEdit = function () {
+
+    };
+
+    return edit;
+};
+Edit.editActionEdit = function (action, scene, frame, stateData, label, prevStateData) {
+    var edit = new Edit("Edit", scene);
+    edit.action = action;
+
+    edit.stateData = stateData;
+    edit.prevStateData = prevStateData;
+    if (!edit.prevStateData) {
+        edit.prevStateData = {};
+
+
+    }
+
+    edit.getName = function () {
+        return "Edit " + action.actionName;
+    };
+
+    edit.doEdit = function () {
+
+    };
+
+    edit._undoEdit = function () {
+
+    };
+
+    return edit;
 
 };
-Edit.editActionEdit = function () {
+Edit.deleteActionEdit = function (action, scene, frame) {
+    var edit = Edit.addActionEdit(action, scene, frame).reverse(function () {
+        return "Delete " + action.actionName;
+    });
 
+    return edit;
 };
-Edit.deleteActionEdit = function () {
 
-};
 
 Edit.addEventEdit = function () {
 
@@ -311,24 +414,111 @@ Edit.deleteEventEdit = function () {
 
 };
 
-Edit.addFrameEdit = function () {
+Edit.addFrameEdit = function (frame, scene, frameNumber) {
+    var edit = new Edit("Add", scene, frame);
+    edit.frameNumber = frameNumber;
+    edit.getName = function () {
+        return "Add Frame";
+    };
+
+    edit.doEdit = function () {
+        if( edit.frameNumber ) {
+            edit.scene.addFrameAt(edit.frame, edit.frameNumber);
+        } else {
+            edit.scene.addFrame(edit.frame);
+        }
+    };
+
+    edit._undoEdit = function () {
+        editor.activeScene.removeCurrentFrame();
+    };
+
+    return edit;
 
 };
-Edit.editFrameEdit = function () {
+Edit.editFrameEdit = function (frame, scene, key, newValue, oldValue) {
+    var edit = new Edit("Edit", scene, frame);
+    edit.key = key;
+    edit.newValue = newValue;
+    edit.oldValue = oldValue;
+    
+    edit.getName = function () {
+        return "Edit Frame";
+    };
+
+    edit.doEdit = function () {
+        edit.frame.set(edit.key, edit.newValue);
+    };
+
+    edit._undoEdit = function () {
+        edit.frame.set(edit.key, edit.oldValue);
+    };
+
+    return edit;
 
 };
-Edit.deleteFrameEdit = function () {
+Edit.deleteFrameEdit = function (frame, scene, frameNumber) {
+    var i = 0;
+    for( var k in scene.frames ) {
+        if( scene.frames[k] === frame ) {
+            frameNumber = i;
+            break;
+        }
+        i++;
+    }
+    
+    var edit = Edit.addFrameEdit(frame, scene).reverse(function () {
+        return "Delete Frame";
+    });
+    edit.frameNumber = frameNumber;
+
+    return edit;
 
 };
 
-Edit.addSceneEdit = function () {
+Edit.addSceneEdit = function (scene) {
+    var edit = new Edit("Add", scene);
 
+    edit.getName = function () {
+        return "Add " + scene.sceneName;
+    };
+
+    edit.doEdit = function () {
+        editor.project.addScene(edit.scene);
+    };
+
+    edit._undoEdit = function () {
+        editor.project.removeScene(edit.scene);
+    };
+
+    return edit;
 };
-Edit.editSceneEdit = function () {
+Edit.editSceneEdit = function (scene, key, newValue, oldValue) {
+    var edit = new Edit("Edit", scene);
+    edit.key = key;
+    edit.newValue = newValue;
+    edit.oldValue = oldValue;
+    
+    edit.getName = function () {
+        return "Edit " + scene.sceneName;
+    };
 
+    edit.doEdit = function () {
+        edit.scene.set(edit.key, edit.newValue);
+    };
+
+    edit._undoEdit = function () {
+        edit.scene.set(edit.key, edit.oldValue);
+    };
+
+    return edit;
 };
-Edit.deleteSceneEdit = function () {
+Edit.deleteSceneEdit = function (scene) {
+    var edit = Edit.addSceneEdit(scene).reverse(function () {
+        return "Delete " + scene.sceneName;
+    });
 
+    return edit;
 };
 
 Edit.addVariableEdit = function () {

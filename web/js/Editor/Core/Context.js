@@ -115,9 +115,12 @@ function Context(editor) {
     };
 
     this.addEdit = function (edit) {
-        edit.doEdit();
-        console.log("Added edit - " + edit.getName());
-
+        console.log("Added edit - ", edit);
+        
+        if( edit.initDo ) {
+            edit.doEdit();
+        }
+        
         this.edits.push(edit);
         this.redoEdits = [];
     };
@@ -132,7 +135,15 @@ function Context(editor) {
             console.log(edit);
 
             edit.undoEdit();
+            
             this.redoEdits.push(edit);
+            
+            if( edit.combineSignal && this.edits.length > 0) {
+                if(this.edits[this.edits.length - 1].combineSignal === edit.combineSignal) {
+                    this.undo();
+                }
+            }
+            
             return true;
         }
     };
@@ -148,6 +159,14 @@ function Context(editor) {
 
             edit.redoEdit();
             this.edits.push(edit);
+            
+            
+            if( edit.combineSignal && this.redoEdits.length > 0) {
+                if(this.redoEdits[this.redoEdits.length - 1].combineSignal === edit.combineSignal) {
+                    this.redo();
+                }
+            }
+            
             return true;
         }
     };

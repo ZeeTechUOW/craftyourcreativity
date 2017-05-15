@@ -40,7 +40,7 @@ InputRenderer.processValue = function (source) {
     var ext = source.ext;
     return function (elem) {
         var val = ext.getValueFromElement(elem);
-        val = ext.validateNewValue(val);
+        val = ext.validateNewValue(val, valueParent[value]);
         ext.renderValueToElem(val);
         if (valueParent.set) {
             valueParent.set(value, val, source);
@@ -258,7 +258,7 @@ InputRenderer.createDropdownField = function (name, valueParent, value, ext) {
     res.printField = function () {
         var v = res.ext.formatValueToElem(valueParent[value]);
         var e = InputRenderer.cb(res.id);
-        var str = "<select id=\"" + res.id + "\" class='fieldDropdown' onchange=\"" + e + "\" oninput=\"" + e + "\" >";
+        var str = "<select id=\"" + res.id + "\" class='fieldDropdown' onchange=\"" + e + "\" >";
         for (var k in res.ext.data) {
             var d = res.ext.formatValueToElem(res.ext.data[k]);
             str += "<option value='" + d + "' " + (d === v ? "selected" : "") + " class='fieldDropdownItem'>" + d + "</option>";
@@ -358,16 +358,16 @@ InputRenderer.createLinkField = function (name, valueParent, value, ext) {
                 name: "Link To Frame",
                 onclick: function () {
                     editor.prompt("Link To Frame", 0, function (newValue) {
-                        if( !newValue || newValue.length < 1 ) {
+                        if (!newValue || newValue.length < 1) {
                             return;
                         }
-                        if( newValue === "Start" || newValue === "Next" ) {
+                        if (newValue === "Start" || newValue === "Next") {
                             $("#" + res.id).val(">" + newValue);
                             return;
                         }
                         var frameNo = parseInt(newValue);
-                        
-                        if( isNaN(frameNo) ) {
+
+                        if (isNaN(frameNo)) {
                             return;
                         }
                         $("#" + res.id).val(">" + frameNo);
@@ -377,10 +377,10 @@ InputRenderer.createLinkField = function (name, valueParent, value, ext) {
                 name: "Link To Diagram",
                 onclick: function () {
                     editor.prompt("Link To Diagram", "A", function (newValue) {
-                        if( !newValue || newValue.length < 1 ) {
+                        if (!newValue || newValue.length < 1) {
                             return;
                         }
-                        
+
                         $("#" + res.id).val("#" + newValue);
                     });
                 }
@@ -442,7 +442,7 @@ InputRenderer.createImageField = function (name, valueParent, value, ext) {
 
     var res = InputRenderer.initRes(name, valueParent, value, ext, "Image");
     editor.context.propCallbacks["Func" + res.id] = function (newValue) {
-        var val = res.ext.validateNewValue(newValue);
+        var val = res.ext.validateNewValue(newValue, valueParent[value]);
 
         if (valueParent.set) {
             valueParent.set(value, val, res);
@@ -480,7 +480,7 @@ InputRenderer.createAudioField = function (name, valueParent, value, ext) {
 
     var res = InputRenderer.initRes(name, valueParent, value, ext, "Audio");
     editor.context.propCallbacks["Func" + res.id] = function (newValue) {
-        var val = res.ext.validateNewValue(newValue);
+        var val = res.ext.validateNewValue(newValue, valueParent[value]);
         if (valueParent.set) {
             valueParent.set(value, val, res);
         } else {
@@ -512,6 +512,11 @@ InputRenderer.createRichTextField = function (name, valueParent, value, ext) {
         ext.validateNewValue = function (newValue) {
             return newValue.trim();
         };
+    } else {
+        ext._vnv = ext.validateNewValue;
+        ext.validateNewValue = function (newValue, oldValue) {
+            return ext._vnv(newValue.trim(), oldValue);
+        };
     }
     if (!ext.renderValueToElem) {
         ext.renderValueToElem = function (newValue) {
@@ -521,9 +526,12 @@ InputRenderer.createRichTextField = function (name, valueParent, value, ext) {
     }
 
     var res = InputRenderer.initRes(name, valueParent, value, ext, "TextArea");
+    if (!res.ext.eventType) {
+        res.ext.eventType = "onblur";
+    }
     res.printField = function () {
         var v = ext.formatValueToElem(valueParent[value]);
-        return "<textarea id='" + res.id + "' name='" + name + "' class='form-control fieldRichText' oninput=\"" + InputRenderer.cb(res.id) + "\">" + v + "</textarea>";
+        return "<textarea id='" + res.id + "' name='" + name + "' class='form-control fieldRichText' " + res.ext.eventType + "=\"" + InputRenderer.cb(res.id) + "\">" + v + "</textarea>";
     };
     res.print = function () {
         return InputRenderer.propertiesRow(InputRenderer.label(name) + InputRenderer.field("<button class='btn btn-default btn-sm fieldRichTextButton' onclick='this.blur(); openTagEditor();'>Tags</button>")) +
@@ -584,34 +592,22 @@ InputRenderer.createAnyField = function (name, valueParent, value, ext) {
 
     var textRes = InputRenderer.createTextField(name, valueParent, value, $.extend({}, ext, {
         validateNewValue: function (v) {
-            return {
-                type: "TEXT",
-                value: (ext.validateNewValue(v))
-            };
+            return ext.validateNewValue({type: "TEXT", value: v}, valueParent[value]);
         }
     }));
     var floatRes = InputRenderer.createFloatField(name, valueParent, value, $.extend({}, ext, {
         validateNewValue: function (v) {
-            return {
-                type: "NUMBER",
-                value: (ext.validateNewValue(v))
-            };
+            return ext.validateNewValue({type: "NUMBER", value: v}, valueParent[value]);
         }
     }));
     var colorRes = InputRenderer.createColorField(name, valueParent, value, $.extend({}, ext, {
         validateNewValue: function (v) {
-            return {
-                type: "COLOR",
-                value: (ext.validateNewValue(v))
-            };
+            return ext.validateNewValue({type: "COLOR", value: v}, valueParent[value]);
         }
     }));
     var richTextRes = InputRenderer.createRichTextField(name, valueParent, value, $.extend({}, ext, {
         validateNewValue: function (v) {
-            return {
-                type: "RICHTEXT",
-                value: (ext.validateNewValue(v))
-            };
+            return ext.validateNewValue({type: "RICHTEXT", value: v}, valueParent[value]);
         }
     }));
     var res = InputRenderer.initRes(name, valueParent, value, ext, "ANY");
@@ -1152,6 +1148,67 @@ InputRenderer.createEntityPropField = function (entity, propertyName, labelName,
         propertyName = [propertyName];
     }
 
+    if (!ext) {
+        ext = {};
+    }
+    if (ext.validateNewValue) {
+        ext.__vnv = ext.validateNewValue;
+        ext.validateNewValue = function (newValue, oldValue) {
+            var value = ext.__vnv(newValue, oldValue);
+
+            if (propertyName[0] === "name") {
+                editor.context.addEdit(Edit.editEntityEdit(entity, entity.originalScene, entity.originalScene.activeFrame, {name: value}, "Edit", {name: oldValue}));
+
+            } else if (editor.activeScene && !editor.activeScene.activeFrame) {
+                if (propertyName[0] === "text") {
+                    var stateData = {};
+                    stateData[propertyName[0]] = value;
+                    var prevStateData = {};
+                    prevStateData[propertyName[0]] = oldValue;
+                    
+                    editor.context.addEdit(Edit.editEntityEdit(entity, entity.originalScene, null, stateData, "Edit", prevStateData).setCombineSignal("TEXT" + entity.entityID));
+
+                } else {
+                    var stateData = {};
+                    stateData[propertyName[0]] = value;
+                    var prevStateData = {};
+                    prevStateData[propertyName[0]] = oldValue;
+                    editor.context.addEdit(Edit.editEntityEdit(entity, entity.originalScene, null, stateData, "Edit", prevStateData));
+                }
+            }
+
+
+            return value;
+        };
+    } else {
+        ext.validateNewValue = function (newValue, oldValue) {
+            var value = newValue;
+
+            if (propertyName[0] === "name") {
+                editor.context.addEdit(Edit.editEntityEdit(entity, entity.originalScene, entity.originalScene.activeFrame, {name: value}, "Edit", {name: oldValue}));
+
+            } else if (editor.activeScene && !editor.activeScene.activeFrame) {
+                if (propertyName[0] === "text") {
+                    var stateData = {};
+                    stateData[propertyName[0]] = value;
+                    var prevStateData = {};
+                    prevStateData[propertyName[0]] = oldValue;
+
+                    editor.context.addEdit(Edit.editEntityEdit(entity, entity.originalScene, null, stateData, "Edit", prevStateData).setCombineSignal("TEXT" + entity.entityID));
+
+                } else {
+                    var stateData = {};
+                    stateData[propertyName[0]] = value;
+                    var prevStateData = {};
+                    prevStateData[propertyName[0]] = oldValue;
+                    editor.context.addEdit(Edit.editEntityEdit(entity, entity.originalScene, null, stateData, "Edit", prevStateData));
+                }
+            }
+
+            return value;
+        };
+    }
+
     var name = (labelName ? labelName : propertyName[0]);
     var fields = [];
     for (var k in propertyName) {
@@ -1179,20 +1236,39 @@ InputRenderer.createEntityPropSingleField = function (entity, propertyName, name
     var isFlat = ext.isFlat;
     switch (propertyName) {
         case "name":
-            return InputRenderer.createTextField(name, entity, propertyName, {
-                entity: entity,
-                validateNewValue: function (value) {
-                    if (this.entity.name === value)
-                        return value;
-                    return incrementIfDuplicate(
-                            value,
+            ext.entity = entity;
+            if (ext.validateNewValue) {
+                ext._vnv = ext.validateNewValue;
+                ext.validateNewValue = function (newValue, oldValue) {
+                    if (this.entity.name === newValue)
+                        return newValue;
+
+                    var value = incrementIfDuplicate(
+                            newValue,
                             this.entity.originalScene.children,
                             function (e) {
                                 return e.name;
                             }
                     );
-                }
-            });
+                    return ext._vnv(value, oldValue);
+                };
+            } else {
+                ext.validateNewValue = function (newValue) {
+                    if (this.entity.name === newValue)
+                        return newValue;
+
+                    var value = incrementIfDuplicate(
+                            newValue,
+                            this.entity.originalScene.children,
+                            function (e) {
+                                return e.name;
+                            }
+                    );
+                    return value;
+                };
+            }
+
+            return InputRenderer.createTextField(name, entity, propertyName, ext);
         case "posx":
         case "posy":
             return InputRenderer.createIntField(name, (isFlat ? entity : entity.entityProperty), propertyName, ext);
@@ -1212,9 +1288,17 @@ InputRenderer.createEntityPropSingleField = function (entity, propertyName, name
         case "tint":
             return InputRenderer.createColorField(name, (isFlat ? entity : entity.shadingProperty), propertyName, ext);
         case "color":
-            ext.validateNewValue = function (v) {
-                return "#" + v;
-            };
+            if (ext.validateNewValue) {
+                ext._vnv = ext.validateNewValue;
+
+                ext.validateNewValue = function (v, oldValue) {
+                    return "#" + ext._vnv(v, oldValue);
+                };
+            } else {
+                ext.validateNewValue = function (v) {
+                    return "#" + v;
+                };
+            }
             return InputRenderer.createColorField(name, entity, propertyName, ext);
         case "src":
         case "normSrc":
@@ -1226,6 +1310,7 @@ InputRenderer.createEntityPropSingleField = function (entity, propertyName, name
             };
             return InputRenderer.createImageField(name, entity, propertyName, ext);
         case "text":
+            ext.eventType = "oninput";
             return InputRenderer.createRichTextField(name, entity, propertyName, ext);
         case "font":
             return InputRenderer.createTextField(name, entity, propertyName, ext);
