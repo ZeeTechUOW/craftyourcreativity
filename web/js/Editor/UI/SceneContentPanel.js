@@ -53,26 +53,8 @@ function SceneContentPanel(context) {
                 var length = cam.children.length;
                 from = length - from;
                 to = length - to;
-                context.registerAction(new EditAction({
-                    name: "Reorder " + cam.children[from].name,
-                    focus: cam.children[from].model,
-                    value: to,
-                    value2: from + (evt.oldIndex > evt.newIndex ? .5 : -.5),
-                    viewport: context.editor.viewport
-                }, function (e) {
-                    console.log( this.name );
-                    e.focus.sprite.zIndex = e.value;
-                    e.viewport.updateLayerOrder();
-                    e.viewport.context.editor.sceneContentPanel.updateSceneContent();
-                    return true;
-                }, function (e) {
-                    e.focus.sprite.zIndex = e.value2;
-                    e.viewport.updateLayerOrder();
-                    e.viewport.context.editor.sceneContentPanel.updateSceneContent();
-                    return true;
-                }));
-
-
+                
+                context.addEdit(Edit.reorderEntityEdit(cam.children[from].model, context.editor.activeScene, to, from + (evt.oldIndex < evt.newIndex ? .5 : -.5)));
             };
         }(this.context))
     });

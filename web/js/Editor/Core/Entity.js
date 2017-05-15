@@ -178,6 +178,37 @@ function Entity(context, name) {
         }
         this.shadingProperty.set(this, "tint", t);
     };
+    
+    this.getFlat = function (key) {
+        for(var k in Entity.propSerializable) {
+            if( key === Entity.propSerializable[k] ) {
+                return this.entityProperty[key];
+            }
+        }
+        for(var k in Entity.shadingSerializable) {
+            if( key === Entity.shadingSerializable[k] ) {
+                return this.shadingProperty[key];
+            }
+        }
+        return this[key];
+    };
+    this.setFlat = function (key, value) {
+        console.log("Setting " + key + " = " + value);
+        for(var k in Entity.propSerializable) {
+            if( key === Entity.propSerializable[k] ) {
+                this.entityProperty.set(key, value);
+                return;
+            }
+        }
+        for(var k in Entity.shadingSerializable) {
+            if( key === Entity.shadingSerializable[k] ) {
+                this.shadingProperty.set(key, value);
+                return;
+            }
+        }
+        
+        this.set(k, value);
+    };
 
     this.setPropertyUpdater = function (e, sprite) {
         sprite.setPosX = function (x) {

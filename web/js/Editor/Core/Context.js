@@ -6,8 +6,8 @@
 
 function Context(editor) {
     this.resources = {};
-    this.actions = [];
-    this.redoActions = [];
+    this.edits = [];
+    this.redoEdits = [];
 
     this.propertiesContext = null;
     this.propCallbacks = [];
@@ -47,27 +47,24 @@ function Context(editor) {
     }(this));
 
     this.onDragEnd = function () {
-        if (this.position.x !== this.originalPosX || this.position.y !== this.originalPosY) {
-            this.model.context.registerAction(new EditAction({
-                name: "Move " + this.name,
-                focus: this.model,
-                valuex: this.position.x,
-                valuey: this.position.y,
-                value2x: this.originalPosX,
-                value2y: this.originalPosY
-            }, function (e) {
-//                console.log("Ca");
-                e.focus.sprite.setPos(e.valuex, e.valuey);
-                return true;
-            }, function (e) {
-//                console.log("Cb");
-                e.focus.sprite.setPos(e.value2x, e.value2y);
-                return true;
-            }));
-        }
+        if (this.dragging) {
+            if (this.position.x !== this.originalPosX || this.position.y !== this.originalPosY) {
 
-        this.dragging = false;
-        this.data = null;
+                var editor = this.model.context.editor;
+                if (editor.activeScene && !editor.activeScene.activeFrame) {
+                    this.model.context.addEdit(Edit.editEntityEdit(this.model, this.model.originalScene, null, {
+                        posx: this.position.x,
+                        posy: this.position.y
+                    }, "Move", {
+                        posx: this.originalPosX,
+                        posy: this.originalPosY
+                    }));
+                }
+            }
+
+            this.dragging = false;
+            this.data = null;
+        }
     };
 
     this.onDragMove = function () {
@@ -75,7 +72,7 @@ function Context(editor) {
             var newPosition = this.data.getLocalPosition(this.parent);
             var posx = Math.floor(this.anchorPosX + newPosition.x);
             var posy = Math.floor(this.anchorPosY + newPosition.y);
-            
+
             if (this.hasMoved || posx !== this.originalPosX || posy !== this.originalPosY) {
                 this.setPosX(posx);
                 this.setPosY(posy);
@@ -117,52 +114,47 @@ function Context(editor) {
         http.send();
     };
 
-    this.registerAction = function (editAction) {
-        if (editAction.do()) {
-            this.actions.push(editAction);
-            this.redoActions = [];
-            return true;
-        }
-        return false;
+    this.addEdit = function (edit) {
+        edit.doEdit();
+        console.log("Added edit - " + edit.getName());
+
+        this.edits.push(edit);
+        this.redoEdits = [];
     };
 
     this.undo = function () {
-        if (this.actions.length < 1) {
+        if (this.edits.length < 1) {
             return false;
         } else {
-            var editAction = this.actions.pop();
-            console.log("Undo");
-            console.log(editAction);
-            editAction.undo();
-            this.redoActions.push(editAction);
-//            editAction.setFocus();
+            var edit = this.edits.pop();
+
+            console.log("Undo " + edit.getName());
+            console.log(edit);
+
+            edit.undoEdit();
+            this.redoEdits.push(edit);
             return true;
         }
     };
 
     this.redo = function () {
-        if (this.redoActions.length < 1) {
+        if (this.redoEdits.length < 1) {
             return false;
         } else {
-            var editAction = this.redoActions.pop();
-            console.log("Redo");
-            console.log(editAction);
+            var edit = this.redoEdits.pop();
 
-            if (editAction.do()) {
-                this.actions.push(editAction);
-//                editAction.setFocus();
-                return true;
-            } else {
-                alert("Something Happened");
-                redoActions = [];
-                return false;
-            }
+            console.log("Redo " + edit.getName());
+            console.log(edit);
+
+            edit.redoEdit();
+            this.edits.push(edit);
+            return true;
         }
     };
 
-    this.resetActions = function () {
-        this.actions = [];
-        this.redoActions = [];
+    this.resetEdits = function () {
+        this.edits = [];
+        this.redoEdits = [];
     };
 
     this.changeToSceneModelContext = function (scene) {
@@ -217,7 +209,7 @@ function Context(editor) {
     };
     this.changeToNodeModelContext = function (node) {
         if (node) {
-            if(this.editor.activeScene && this.editor.activeScene.activeFrame) {
+            if (this.editor.activeScene && this.editor.activeScene.activeFrame) {
                 this.editor.activeScene.changeFrame(null);
             }
             this.propertiesContext = this.editor.propertiesPanel.NodeModelContext(node);

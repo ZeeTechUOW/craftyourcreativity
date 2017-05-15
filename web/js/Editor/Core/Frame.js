@@ -28,16 +28,13 @@ function Frame(scene) {
     };
 
     this.addAction = function (action, actionNo, inBetween) {
-        console.log("ADDING - " + action.actionName + " | " + actionNo);
 
         if ((actionNo || actionNo === 0) && actionNo < this.actions.length) {
             if (inBetween) {
-                console.log("INB - " + action.actionName + " | " + actionNo);
                 var as = [];
                 as.push(action);
                 this.actions.splice(actionNo, 0, as);
             } else {
-                console.log("STACK - " + action.actionName + " | " + actionNo);
                 this.actions[actionNo].push(action);
             }
         } else {
@@ -60,6 +57,24 @@ function Frame(scene) {
         }
     };
     this.selectAction = function (action, skipRerender) {
+        if(action) {
+            var isActionFound = false;
+            
+            for( var k in this.actions ) {
+                for( var j in this.actions[k] ) {
+                    if(this.actions[k][j] === action) {
+                        isActionFound = true;
+                        break;
+                    }
+                }
+                if( isActionFound ) break;
+            }
+            
+            if( !isActionFound ) {
+                return;
+            }
+        }
+        
         this.activeAction = action;
 
         this.context.editor.sequencePanel.updateSequencePanel();

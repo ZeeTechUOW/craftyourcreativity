@@ -74,7 +74,7 @@ function Editor(opts) {
                     }
 
                     this.activeScene = null;
-                    c.resetActions();
+                    c.resetEdits();
                     c.editor.diagramPanel.reset();
 
                     c.editor.project = Project.deserialize(c, json);
@@ -134,7 +134,7 @@ function Editor(opts) {
                 }
 
                 this.activeScene = null;
-                c.resetActions();
+                c.resetEdits();
                 c.editor.diagramPanel.reset();
 
                 c.editor.project = Project.deserialize(c, json);
@@ -247,136 +247,125 @@ function Editor(opts) {
     };
 
     this.addNewScene = function () {
-        this.context.registerAction(new EditAction({
-            name: "Add New Scene",
-            focus: this
-        }, function (e) {
-            e.sceneNo = e.focus.project.scenes.length;
-            e.focus.project.addScene("Scene");
-            e.focus.diagramPanel.updateDiagramPanel();
-            e.focus.projectPanel.updateSceneList();
+        this.project.addScene("Scene");
+        this.diagramPanel.updateDiagramPanel();
+        this.projectPanel.updateSceneList();
 
-            return true;
-        }, function (e) {
-            var scene = e.focus.project.getSceneByNo(e.sceneNo);
-            if (scene === e.focus.activeScene) {
-                if (e.focus.project.scenes.length <= 1) {
-                    e.focus.activeScene = null;
-                } else if (e.sceneNo > 0) {
-                    e.focus.activeScene = e.focus.project.getSceneByNo(e.sceneNo - 1);
-                } else {
-                    e.focus.activeScene = e.focus.project.getSceneByNo(e.sceneNo + 1);
-                }
-            }
-
-            e.focus.project.removeSceneByObject(scene);
-            e.focus.diagramPanel.updateDiagramPanel();
-            e.focus.projectPanel.updateSceneList();
-            return true;
-        }));
+//        this.context.registerAction(new EditAction({
+//            name: "Add New Scene",
+//            focus: this
+//        }, function (e) {
+//            e.sceneNo = e.focus.project.scenes.length;
+//            e.focus.project.addScene("Scene");
+//            e.focus.diagramPanel.updateDiagramPanel();
+//            e.focus.projectPanel.updateSceneList();
+//
+//            return true;
+//        }, function (e) {
+//            var scene = e.focus.project.getSceneByNo(e.sceneNo);
+//            if (scene === e.focus.activeScene) {
+//                if (e.focus.project.scenes.length <= 1) {
+//                    e.focus.activeScene = null;
+//                } else if (e.sceneNo > 0) {
+//                    e.focus.activeScene = e.focus.project.getSceneByNo(e.sceneNo - 1);
+//                } else {
+//                    e.focus.activeScene = e.focus.project.getSceneByNo(e.sceneNo + 1);
+//                }
+//            }
+//
+//            e.focus.project.removeSceneByObject(scene);
+//            e.focus.diagramPanel.updateDiagramPanel();
+//            e.focus.projectPanel.updateSceneList();
+//            return true;
+//        }));
     };
 
     this.removeScene = function (i) {
-        this.context.registerAction(new EditAction({
-            name: "Add New Scene",
-            focus: this,
-            sceneNo: i
-        }, function (e) {
-            var scene = e.focus.project.getSceneByNo(e.sceneNo);
-            if (scene === e.focus.activeScene) {
-                if (e.focus.project.scenes.length < 1) {
-                    e.focus.activeScene = null;
-                } else if (e.sceneNo > 0) {
-                    e.focus.changeScene(e.sceneNo - 1);
-                } else {
-                    e.focus.changeScene(e.sceneNo + 1);
-                }
+        var scene = this.project.getSceneByNo(i);
+        if (scene === this.activeScene) {
+            if (this.project.scenes.length < 1) {
+                this.activeScene = null;
+            } else if (i > 0) {
+                this.changeScene(i - 1);
+            } else {
+                this.changeScene(i + 1);
             }
-            e.scene = scene;
-            e.focus.project.removeSceneByNo(i);
-            e.focus.diagramPanel.updateDiagramPanel();
-            e.focus.projectPanel.updateSceneList();
-            return true;
-        }, function (e) {
-            e.focus.project.addScene(e.scene);
-            e.focus.diagramPanel.updateDiagramPanel();
-            e.focus.projectPanel.updateSceneList();
-            return true;
-        }));
+        }
+
+        this.project.removeSceneByNo(i);
+        this.diagramPanel.updateDiagramPanel();
+        this.projectPanel.updateSceneList();
+
+//        this.context.registerAction(new EditAction({
+//            name: "Add New Scene",
+//            focus: this,
+//            sceneNo: i
+//        }, function (e) {
+//            var scene = e.focus.project.getSceneByNo(e.sceneNo);
+//            if (scene === e.focus.activeScene) {
+//                if (e.focus.project.scenes.length < 1) {
+//                    e.focus.activeScene = null;
+//                } else if (e.sceneNo > 0) {
+//                    e.focus.changeScene(e.sceneNo - 1);
+//                } else {
+//                    e.focus.changeScene(e.sceneNo + 1);
+//                }
+//            }
+//            e.scene = scene;
+//            e.focus.project.removeSceneByNo(i);
+//            e.focus.diagramPanel.updateDiagramPanel();
+//            e.focus.projectPanel.updateSceneList();
+//            return true;
+//        }, function (e) {
+//            e.focus.project.addScene(e.scene);
+//            e.focus.diagramPanel.updateDiagramPanel();
+//            e.focus.projectPanel.updateSceneList();
+//            return true;
+//        }));
     };
 
     this.addToCurrentViewport = function (type, opts) {
-        var e = this;
-
         if (!this.activeScene) {
             alert("No Active Scene!");
             return;
         }
 
-        this.context.registerAction(new EditAction({
-            name: "Add " + opts.name,
-            focus: e,
-            opts: opts,
-            type: type
-        }, function (e) {
-            if (isDefined(e, "sprite")) {
-                if (e.focus.activeScene !== e.sprite.originalScene) {
-                    e.focus.changeScene(e.sprite.originalScene);
-                }
+        setDefault(opts, {
+            posx: 0,
+            posy: 0,
+            rotation: 0,
+            scalex: 1,
+            scaley: 1,
+            anchorx: .5,
+            anchory: .5
+        });
+        var entity = null;
+        switch (type) {
+            case Editor.QSprite:
+                entity = new QSprite(this.context, opts);
+                break;
 
-                e.sprite.getSprite();
+            case Editor.Button:
+                entity = new Button(this.context, opts);
+                break;
 
-            } else {
-                setDefault(e.opts, {
-                    posx: 0,
-                    posy: 0,
-                    rotation: 0,
-                    scalex: 1,
-                    scaley: 1,
-                    anchorx: .5,
-                    anchory: .5
-                });
-                var sprite = null;
-                switch (e.type) {
-                    case Editor.QSprite:
-                        sprite = new QSprite(e.focus.context, e.opts);
-                        e.focus.activeScene.addEntityToScene(sprite);
-                        break;
+            case Editor.QText:
+                entity = new QText(this.context, opts);
+                break;
+        }
+        entity.originalScene = this.activeScene;
 
-                    case Editor.Button:
-                        sprite = new Button(e.focus.context, e.opts);
-                        e.focus.activeScene.addEntityToScene(sprite);
-                        break;
-
-                    case Editor.QText:
-                        sprite = new QText(e.focus.context, e.opts);
-                        e.focus.activeScene.addEntityToScene(sprite);
-                        break;
-                }
-                e.sprite = sprite;
-                e.sprite.originalScene = e.focus.activeScene;
-            }
-
-            return true;
-        }, function (e) {
-            if (e.focus.activeScene !== e.sprite.originalScene) {
-                e.focus.changeScene(e.sprite.originalScene);
-            }
-
-            e.focus.activeScene.removeEntityByObject(e.sprite.sprite);
-            e.focus.viewport.currentSceneContainer.removeChild(e.sprite.sprite);
-            e.sprite.sprite = null;
-
-            return true;
-        }));
-
+        this.context.addEdit(Edit.addEntityEdit(entity, this.activeScene));
     };
 
-    this.addClonedToCurrentViewport = function (entity) {
+    this.addClonedToCurrentViewport = function (entity, label) {
         if (this.activeScene) {
             var cloned = entity.clone();
             cloned.originalScene = this.activeScene;
-            this.activeScene.addEntityToScene(cloned);
+            
+            this.context.addEdit(Edit.addEntityEdit(cloned, this.activeScene).changeName(function () {
+                return label + " " + this.entity.name;
+            }));
         }
     };
 
@@ -523,7 +512,7 @@ function Editor(opts) {
                         break;
                     case "stroke":
                         value = parseInt(value);
-                        profile.strokeThickness = isNaN(value) ? 0 : value ;
+                        profile.strokeThickness = isNaN(value) ? 0 : value;
                         break;
                     case "strokeColor":
                         profile.stroke = "#" + value;
@@ -1079,12 +1068,12 @@ function Editor(opts) {
     };
 
     this.onEditShow = function () {
-        if (this.context.actions.length > 0) {
+        if (this.context.edits.length > 0) {
             $("#editUndo").removeClass("disabled");
         } else {
             $("#editUndo").addClass("disabled");
         }
-        if (this.context.redoActions.length > 0) {
+        if (this.context.redoEdits.length > 0) {
             $("#editRedo").removeClass("disabled");
         } else {
             $("#editRedo").addClass("disabled");
@@ -1119,14 +1108,19 @@ function Editor(opts) {
         if (this.isInDiagram) {
             if (this.diagramPanel.selectedNode) {
                 this.clipboard = this.diagramPanel.selectedNode;
-                this.diagramPanel.deleteSelectedNode();
+                
+                this.context.addEdit(Edit.deleteNodeEdit(this.clipboard).changeName(function () {
+                    return "Cut " + this.node.nodeName;
+                }));
             }
 
         } else {
             if (this.viewport.selectedShape) {
                 this.clipboard = this.viewport.selectedShape;
-                this.activeScene.removeEntityFromScene(this.viewport.selectedShape.model);
-                this.viewport.setSelected(null);
+                
+                this.context.addEdit(Edit.deleteEntityEdit(this.clipboard.model, this.activeScene, this.activeScene.activeFrame).changeName(function () {
+                    return "Cut " + this.entity.name;
+                }));
             }
         }
     };
@@ -1147,12 +1141,12 @@ function Editor(opts) {
     this.editDuplicate = function () {
         if (this.isInDiagram) {
             if (this.diagramPanel.selectedNode) {
-                this.diagramPanel.addClonedToDiagram(this.diagramPanel.selectedNode);
+                this.diagramPanel.addClonedToDiagram(this.diagramPanel.selectedNode, "Duplicate");
             }
 
         } else {
             if (this.viewport.selectedShape) {
-                this.addClonedToCurrentViewport(this.viewport.selectedShape.model);
+                this.addClonedToCurrentViewport(this.viewport.selectedShape.model, "Duplicate");
             }
         }
     };
@@ -1161,12 +1155,12 @@ function Editor(opts) {
         if (this.clipboard) {
             if (this.isInDiagram) {
                 if (this.clipboard.isANode) {
-                    this.diagramPanel.addClonedToDiagram(this.clipboard);
+                    this.diagramPanel.addClonedToDiagram(this.clipboard, "Paste");
                 }
 
             } else {
                 if (this.clipboard.model && this.clipboard.model.isAnEntity) {
-                    this.addClonedToCurrentViewport(this.clipboard.model);
+                    this.addClonedToCurrentViewport(this.clipboard.model, "Paste");
                 }
 
             }
@@ -1176,13 +1170,12 @@ function Editor(opts) {
     this.editDelete = function () {
         if (this.isInDiagram) {
             if (this.diagramPanel.selectedNode) {
-                this.diagramPanel.deleteSelectedNode();
+                this.context.addEdit(Edit.deleteNodeEdit(this.clipboard));
             }
 
         } else {
             if (this.viewport.selectedShape) {
-                this.activeScene.removeEntityFromScene(this.viewport.selectedShape.model);
-                this.viewport.setSelected(null);
+                this.context.addEdit(Edit.deleteEntityEdit(this.clipboard.model, this.activeScene, this.activeScene.activeFrame));
             }
         }
     };

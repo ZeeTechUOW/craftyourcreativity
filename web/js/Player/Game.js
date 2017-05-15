@@ -1015,9 +1015,24 @@ Player.Scene = function (context, input) {
     this.rootAttributes = {};
 
     this.changeFrame = function (frame, skipRerender) {
-        this.activeFrame = frame;
-        if (this.activeFrame)
-            this.activeFrame.activeAction = null;
+        if (frame) {
+            var frameFound = false;
+            for (var k in this.frames) {
+                if (frames[k] === frame) {
+                    frameFound = true;
+                    break;
+                }
+            }
+
+            if (frameFound) {
+                this.activeFrame = frame;
+                this.activeFrame.activeAction = null;
+            } else {
+                return;
+            }
+        } else {
+            this.activeFrame = null;
+        }
 
         if (skipRerender)
             return;

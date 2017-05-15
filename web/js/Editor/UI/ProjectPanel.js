@@ -42,7 +42,7 @@ function ProjectPanel(context) {
                     "                                        " + (1 + parseInt(k)) + "\n" +
                     "                                    </div>\n" +
                     "                                    <div id='sceneDivThumb" + k + "' class =\"sceneThumbGroup" + (b?" active": "") + " \" onclick=\"changeScene(" + k + ");\">\n" +
-                    "                                        <canvas id=\"sceneThumbnailCanvas" + k + "\" onload=\"\">\n" +
+                    "                                        <canvas onmousedown='event.stopPropagation(); return false;' onmouseup='event.stopPropagation(); return false;' id=\"sceneThumbnailCanvas" + k + "\" onload=\"\">\n" +
                     "                                        </canvas>\n" +
                     "                                        <button class=\"btn btn-default btn-xs deleteSceneButton\" onclick=\"deleteScene(this, " + k + "); event.stopPropagation()\">\n" +
                     "                                            <span class='glyphicon deleteIcon'></span>\n" +
@@ -66,6 +66,7 @@ function ProjectPanel(context) {
         for (var k in p.context.editor.project.scenes) {
             var canvas = document.getElementById("sceneThumbnailCanvas" + k);
             canvas.style["pointer-events"] = "none";
+            
             
             p.context.editor.project.scenes[k].updateThumbnailRenderer( canvas );
         };

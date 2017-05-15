@@ -58,20 +58,15 @@ function Viewport(context, scene) {
                 switch (this.mode) {
                     case 0: // Grab
                         if (ss.position.x !== ss.originalPosX && ss.position.y !== ss.originalPosY) {
-                            ss.model.context.registerAction(new EditAction({
-                                name: "Move " + ss.name,
-                                focus: ss.model,
-                                valuex: ss.position.x,
-                                valuey: ss.position.y,
-                                value2x: ss.originalPosX,
-                                value2y: ss.originalPosY
-                            }, function (e) {
-                                e.focus.sprite.setPos(e.valuex, e.valuey);
-                                return true;
-                            }, function (e) {
-                                e.focus.sprite.setPos(e.value2x, e.value2y);
-                                return true;
-                            }));
+                            if( editor.activeScene && !editor.activeScene.activeFrame) {
+                                ss.model.context.addEdit(Edit.editEntityEdit(ss.model, ss.model.originalScene, null, {
+                                    posx: ss.position.x,
+                                    posy: ss.position.y
+                                }, "Move", {
+                                    posx: ss.originalPosX,
+                                    posy: ss.originalPosY
+                                }) );
+                            }
                         }
 
                         ss.dragging = false;
@@ -460,27 +455,7 @@ function Viewport(context, scene) {
                         if (vp.selectedShape) {
                             vp.selectedShape.model.originalScene = vp.context.editor.activeScene;
 
-                            vp.context.registerAction(new EditAction({
-                                name: "Delete " + vp.selectedShape.name,
-                                focus: vp.selectedShape.model,
-                                viewport: vp
-                            }, function (e) {
-                                if (e.viewport.context.editor.activeScene !== e.focus.originalScene) {
-                                    e.viewport.context.editor.changeScene(e.focus.originalScene);
-                                }
-                                e.viewport.context.editor.activeScene.removeEntityFromScene(e.focus.sprite.model);
-//                                console.log(e.viewport.context.editor.activeScene.entities);
-//                                console.log(e.viewport.currentSceneContainer.children);
-                                e.focus.sprite = null;
-                                return true;
-                            }, function (e) {
-                                if (e.viewport.context.editor.activeScene !== e.focus.originalScene) {
-                                    e.viewport.context.editor.changeScene(e.focus.originalScene);
-                                }
-                                console.log("NOT WORKING YET");
-//                                e.focus.getSprite();
-                                return true;
-                            }));
+                            vp.context.addEdit(Edit.deleteEntityEdit(vp.selectedShape.model, vp.selectedShape.model.originalScene, vp.context.editor.activeScene.activeFrame));
                         }
                         e.stopPropagation();
 
@@ -528,19 +503,26 @@ function Viewport(context, scene) {
 
                 switch (vp.mode) {
                     case vp.ROTATE:
-                        vp.context.registerAction(new EditAction({
-                            name: "Rotate " + vp.selectedShape.name,
-                            focus: vp.selectedShape.model,
-                            viewport: vp,
-                            value: vp.selectedShape.rotation,
-                            value2: vp.selectedShape.originalRotation
-                        }, function (e) {
-                            e.focus.sprite.setRotation(e.value);
-                            return true;
-                        }, function (e) {
-                            e.focus.sprite.setRotation(e.value2);
-                            return true;
-                        }));
+                        if( editor.activeScene && !editor.activeScene.activeFrame) {
+                            vp.context.addEdit(Edit.editEntityEdit(vp.selectedShape.model, vp.selectedShape.model.originalScene, null, {
+                                rotation: vp.selectedShape.rotation * 180 / Math.PI
+                            }, "Rotate", {
+                                rotation: vp.selectedShape.originalRotation * 180 / Math.PI
+                            }));
+                        }
+//                        vp.context.registerAction(new EditAction({
+//                            name: "Rotate " + vp.selectedShape.name,
+//                            focus: vp.selectedShape.model,
+//                            viewport: vp,
+//                            value: vp.selectedShape.rotation,
+//                            value2: vp.selectedShape.originalRotation
+//                        }, function (e) {
+//                            e.focus.sprite.setRotation(e.value);
+//                            return true;
+//                        }, function (e) {
+//                            e.focus.sprite.setRotation(e.value2);
+//                            return true;
+//                        }));
                         vp.mode = 0;
 //                        vp.setSelected(null);
 //                        vp.updateLayerOrder();
@@ -548,57 +530,85 @@ function Viewport(context, scene) {
 
                         break;
                     case vp.SCALE:
-                        vp.context.registerAction(new EditAction({
-                            name: "Scale " + vp.selectedShape.name,
-                            focus: vp.selectedShape.model,
-                            viewport: vp,
-                            value: vp.selectedShape.model.entityProperty.scalex,
-                            value2: vp.selectedShape.originalScaleX,
-                            value3: vp.selectedShape.model.entityProperty.scaley,
-                            value4: vp.selectedShape.originalScaleY
-                        }, function (e) {
-                            e.focus.sprite.setScale(e.value, e.value3);
-                            return true;
-                        }, function (e) {
-                            e.focus.sprite.setScale(e.value2, e.value4);
-                            return true;
-                        }));
+                        if( editor.activeScene && !editor.activeScene.activeFrame) {
+                            vp.context.addEdit(Edit.editEntityEdit(vp.selectedShape.model, vp.selectedShape.model.originalScene, null, {
+                                scalex: vp.selectedShape.model.entityProperty.scalex,
+                                scaley: vp.selectedShape.model.entityProperty.scaley
+                            }, "Scale", {
+                                scalex: vp.selectedShape.originalScaleX,
+                                scaley: vp.selectedShape.originalScaleY
+                            }) );
+                        }
+                        
+//                        vp.context.registerAction(new EditAction({
+//                            name: "Scale " + vp.selectedShape.name,
+//                            focus: vp.selectedShape.model,
+//                            viewport: vp,
+//                            value: vp.selectedShape.model.entityProperty.scalex,
+//                            value2: vp.selectedShape.originalScaleX,
+//                            value3: vp.selectedShape.model.entityProperty.scaley,
+//                            value4: vp.selectedShape.originalScaleY
+//                        }, function (e) {
+//                            e.focus.sprite.setScale(e.value, e.value3);
+//                            return true;
+//                        }, function (e) {
+//                            e.focus.sprite.setScale(e.value2, e.value4);
+//                            return true;
+//                        }));
                         vp.mode = 0;
 //                        vp.setSelected(null);
 //                        vp.updateLayerOrder();
                         break;
                     case vp.SCALEX:
-                        vp.context.registerAction(new EditAction({
-                            name: "Scale " + vp.selectedShape.name,
-                            focus: vp.selectedShape.model,
-                            viewport: vp,
-                            value: vp.selectedShape.model.entityProperty.scalex,
-                            value2: vp.selectedShape.originalScaleX
-                        }, function (e) {
-                            e.focus.sprite.setScaleX(e.value);
-                            return true;
-                        }, function (e) {
-                            e.focus.sprite.setScaleX(e.value2);
-                            return true;
-                        }));
+                        
+                        if( editor.activeScene && !editor.activeScene.activeFrame) {
+                            vp.context.addEdit(Edit.editEntityEdit(vp.selectedShape.model, vp.selectedShape.model.originalScene, null, {
+                                scalex: vp.selectedShape.model.entityProperty.scalex
+                            }, "Scale", {
+                                scalex: vp.selectedShape.originalScaleX
+                            }) );
+                        }
+                        
+//                        vp.context.registerAction(new EditAction({
+//                            name: "Scale " + vp.selectedShape.name,
+//                            focus: vp.selectedShape.model,
+//                            viewport: vp,
+//                            value: vp.selectedShape.model.entityProperty.scalex,
+//                            value2: vp.selectedShape.originalScaleX
+//                        }, function (e) {
+//                            e.focus.sprite.setScaleX(e.value);
+//                            return true;
+//                        }, function (e) {
+//                            e.focus.sprite.setScaleX(e.value2);
+//                            return true;
+//                        }));
                         vp.mode = 0;
 //                        vp.setSelected(null);
 //                        vp.updateLayerOrder();
                         break;
                     case vp.SCALEY:
-                        vp.context.registerAction(new EditAction({
-                            name: "Scale " + vp.selectedShape.name,
-                            focus: vp.selectedShape.model,
-                            viewport: vp,
-                            value: vp.selectedShape.model.entityProperty.scaley,
-                            value2: vp.selectedShape.originalScaleY
-                        }, function (e) {
-                            e.focus.sprite.setScaleY(e.value);
-                            return true;
-                        }, function (e) {
-                            e.focus.sprite.setScaleY(e.value2);
-                            return true;
-                        }));
+                        if( editor.activeScene && !editor.activeScene.activeFrame) {
+                            vp.context.addEdit(Edit.editEntityEdit(vp.selectedShape.model, vp.selectedShape.model.originalScene, null, {
+//                                scalex: vp.selectedShape.model.entityProperty.scalex,
+                                scaley: vp.selectedShape.model.entityProperty.scaley
+                            }, "Scale", {
+                                scaley: vp.selectedShape.originalScaleY
+                            }) );
+                        }
+                        
+//                        vp.context.registerAction(new EditAction({
+//                            name: "Scale " + vp.selectedShape.name,
+//                            focus: vp.selectedShape.model,
+//                            viewport: vp,
+//                            value: vp.selectedShape.model.entityProperty.scaley,
+//                            value2: vp.selectedShape.originalScaleY
+//                        }, function (e) {
+//                            e.focus.sprite.setScaleY(e.value);
+//                            return true;
+//                        }, function (e) {
+//                            e.focus.sprite.setScaleY(e.value2);
+//                            return true;
+//                        }));
                         vp.mode = 0;
 //                        vp.setSelected(null);
 //                        vp.updateLayerOrder();
