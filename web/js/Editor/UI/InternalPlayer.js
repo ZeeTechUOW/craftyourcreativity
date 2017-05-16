@@ -45,7 +45,7 @@ function InternalPlayer(context) {
 
         this.time = new Time();
         this.isRunning = true;
-        this.titleElement.innerHTML = this.game.gameName;
+        this.titleElement.innerHTML = (moduleName ? moduleName:this.game.gameName);
     };
 
     this.stop = function () {

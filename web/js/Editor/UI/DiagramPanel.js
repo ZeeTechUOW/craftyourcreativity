@@ -97,7 +97,7 @@ function DiagramPanel(context) {
                     var midFromX = from.x + (x - from.x) * .5 * (x > from.x ? 1 : -1);
                     var midToX = x + (from.x - x) * .5 * (x > from.x ? 1 : -1);
 
-                    res += "<path stroke=\"#8e8e8e\" stroke-width=\"4\" fill=\"none\" d=\"M" + from.x + "," + from.y + " C" + midFromX + "," + from.y + " " + midToX + "," + y + " " + x + "," + y + "\"></path>";
+                    res += "<path stroke=\"#8e9e8e\" stroke-width=\"4\" fill=\"none\" d=\"M" + from.x + "," + from.y + " C" + midFromX + "," + from.y + " " + midToX + "," + y + " " + x + "," + y + "\"></path>";
 
                 } else if (toNode) {
                     var from = fromNode.getFlowOutputPos(j, this.zoomLevel);
@@ -106,7 +106,7 @@ function DiagramPanel(context) {
                     var midFromX = from.x + (to.x - from.x) * .5 * (to.x > from.x ? 1 : -1);
                     var midToX = to.x + (from.x - to.x) * .5 * (to.x > from.x ? 1 : -1);
 
-                    res += "<path id='fp" + node.nodeID + "0" + j + "' qid='" + node.nodeID + "' qvarname='" + j + "' onmousedown='startFlowDrag(this, event, \"FLOW\");' stroke=\"#8e8e8e\" stroke-width=\"4\" fill=\"none\" d=\"M" + from.x + "," + from.y + " C" + midFromX + "," + from.y + " " + midToX + "," + to.y + " " + to.x + "," + to.y + "\"></path>";
+                    res += "<path id='fp" + node.nodeID + "0" + j + "' qid='" + node.nodeID + "' qvarname='" + j + "' onmousedown='startFlowDrag(this, event, \"FLOW\");' stroke=\"#8e9e8e\" stroke-width=\"4\" fill=\"none\" d=\"M" + from.x + "," + from.y + " C" + midFromX + "," + from.y + " " + midToX + "," + to.y + " " + to.x + "," + to.y + "\"></path>";
                 }
             }
 
@@ -121,7 +121,7 @@ function DiagramPanel(context) {
                     var midFromX = from.x + (x - from.x) * .5 * (x > from.x ? 1 : -1);
                     var midToX = x + (from.x - x) * .5 * (x > from.x ? 1 : -1);
 
-                    res += "<path stroke=\"#8e8e8e\" stroke-width=\"4\" fill=\"none\" d=\"M" + from.x + "," + from.y + " C" + midFromX + "," + from.y + " " + midToX + "," + y + " " + x + "," + y + "\"></path>";
+                    res += "<path stroke=\"#8e9e8e\" stroke-width=\"4\" fill=\"none\" d=\"M" + from.x + "," + from.y + " C" + midFromX + "," + from.y + " " + midToX + "," + y + " " + x + "," + y + "\"></path>";
 
                 }
                 if (toStr && toStr.split) {
@@ -136,7 +136,7 @@ function DiagramPanel(context) {
                             var midFromX = from.x + (to.x - from.x) * .5 * (to.x > from.x ? 1 : -1);
                             var midToX = to.x + (from.x - to.x) * .5 * (to.x > from.x ? 1 : -1);
 
-                            res += "<path id='fdp" + node.nodeID + "0" + j + "' qid='" + data[0] + "' qrid='" + node.nodeID + "' qvarname='" + j + "' onmousedown='startFlowDrag(this, event, \"DATA\");' stroke=\"#8e8e8e\" stroke-width=\"4\" fill=\"none\" d=\"M" + from.x + "," + from.y + " C" + midFromX + "," + from.y + " " + midToX + "," + to.y + " " + to.x + "," + to.y + "\"></path>";
+                            res += "<path id='fdp" + node.nodeID + "0" + j + "' qid='" + data[0] + "' qrid='" + node.nodeID + "' qvarname='" + j + "' onmousedown='startFlowDrag(this, event, \"DATA\");' stroke=\"#8e9e8e\" stroke-width=\"4\" fill=\"none\" d=\"M" + from.x + "," + from.y + " C" + midFromX + "," + from.y + " " + midToX + "," + to.y + " " + to.x + "," + to.y + "\"></path>";
                         } else {
                             c.dataInput = true;
                         }

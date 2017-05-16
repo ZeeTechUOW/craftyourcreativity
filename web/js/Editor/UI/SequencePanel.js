@@ -23,7 +23,7 @@ function SequencePanel(context) {
 
         res += "<li class='frameListItem" + (!activeFrame ? "Active" : "") + "' style='padding-right: 15px'>" +
                 "   <div class='frameGroup' style='text-align: left'>" +
-                "       <button class='btn btn-default btn-md frameButton " + (!activeFrame ? "active" : "") + "' onclick='editor.activeScene.goToFrame(-1);'>" +
+                "       <button class='btn btn-md frameButton " + (!activeFrame ? "active" : "") + "' onclick='editor.activeScene.goToFrame(-1);'>" +
                 "           Start" +
                 "       </button>" +
                 "   </div>" +
@@ -37,7 +37,7 @@ function SequencePanel(context) {
 
             res += "<li class='frameListItem" + (b ? "Active" : "") + "' style='padding-right: 15px'>" +
                     "   <div class='frameGroup' style='text-align: left'>" +
-                    "       <button class='btn btn-default btn-md frameButton " + (b ? "active" : "") + "' onclick='editor.activeScene.goToFrame(" + k + ");' ondragover='event.preventDefault();' ondrop='moveAction(event.dataTransfer.getData(\"Text\"), \"" + k + "-0\", true ); event.stopPropagation();'>" +
+                    "       <button class='btn btn-md frameButton " + (b ? "active" : "") + "' onclick='editor.activeScene.goToFrame(" + k + ");' ondragover='event.preventDefault();' ondrop='moveAction(event.dataTransfer.getData(\"Text\"), \"" + k + "-0\", true ); event.stopPropagation();'>" +
                     n +
                     "       </button>";
 
@@ -56,7 +56,7 @@ function SequencePanel(context) {
             }
 
             if (frame.actions.length >= 1) {
-                res += "       <button class='btn btn-default btn-sm frameButton actionGroupCollapseButton' onclick='toggleCollapseFrame(" + k + ");'>" +
+                res += "       <button class='btn btn-sm frameButton actionGroupCollapseButton' onclick='toggleCollapseFrame(" + k + ");'>" +
                         (isCollapsed ? "+" : "-") +
                         "       </button>";
             }
@@ -95,7 +95,7 @@ function SequencePanel(context) {
             n++;
         }
 
-        res += "<li class='frameListItemHead'><div class='frameGroup'><button class='btn btn-default btn-md' onclick='editor.addNewFrame();'>+</button></div></li>";
+        res += "<li class='frameListItemHead'><div class='frameGroup'><button class='btn btn-md frameButton' onclick='editor.addNewFrame();'>+</button></div></li>";
 
         res += "</ul>";
         this.dom.innerHTML = res;

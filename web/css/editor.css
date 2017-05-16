@@ -12,11 +12,12 @@ html {
     position:relative;
     min-height:100%;
     height: 100vh;
+    background-color: white;
 }
 
 body {
-	/*background-color: #7a7a7a;*/
-	font-family: Tahoma;
+    /*background-color: #7a7a7a;*/
+    font-family: Tahoma;
     margin: 0;
     padding: 0;
     text-align: center;
@@ -131,12 +132,13 @@ body {
     cursor: row-resize;
     z-index: 15;
     width: 180px;
-    border-bottom: 40px solid #ddd;
+    border-bottom: 40px solid #aad0c5;
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
     height: 0px;
 }
 .sequenceCollapseButton > span {
+    color: #004a04;
     position: absolute;
     left: 0; 
     right: 0; 
@@ -171,7 +173,7 @@ body {
 }
 
 .border {
-    border: solid black 1px;
+    border: solid #004a04 1px;
 }
 
 
@@ -202,17 +204,29 @@ body {
     padding: 2px;
     margin: 2px;
     border: none;
+    color: #004a04;
+    background-color: transparent;
+    border: solid transparent 1px;
+    cursor: pointer;
+}
+#sceneContentList > li:hover{
+    border: solid #004a04 1px;
+    border-radius: 3px;
 }
 
 #sceneContentList > li.activee{
-	border-radius: 0px;
-    border: solid black 1px;
+    border-radius: 0px;
+    border: solid #004a04 1px;
+    border-radius: 3px;
+    background-color: transparent;
 }
 
 .sceneDiv {
-    margin: 20px 10px 20px 20px; 
+    margin: 5px 10px 0px 20px; 
     max-height: none;
     max-width: none;
+    color: #004a04;
+    cursor: default;
 }
 
 .deleteSceneButton {
@@ -232,10 +246,13 @@ body {
 .sceneThumbGroup {
     float: left;
     position: relative;
-    width: 85%;
+    width: 95%;
     height: 100px;
-    margin-left: 10px;
-    border: solid black 2px; 
+    border: solid #004a04 1px;
+    margin-bottom: 5px;
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
 }
 
 #scenePanel {
@@ -260,15 +277,30 @@ body {
 }
 
 #addSceneButton {
-    margin: 20px 10px 20px 20px;
+    background-color: #aad0c5;
+    color: #004a04;
+    font-family: Tahoma;
+    font-size: 15px;
+    border: solid 3px whitesmoke;
+    margin: 10px 0px;
+    width: 80%;
+    min-width: 50px;
+    overflow: hidden;
+}
+#addSceneButton:hover {
+    color: #105a14;
+    background-color: #e0e8e0;
+    border: solid 3px white;
+}
+#addSceneButton:before {
+    border: solid 1px white;
 }
 
 .sceneNameDiv {
     font-size: x-large;
     min-height: 10px;
-    height: 30px;
     text-align: left;
-    margin: 0;
+    margin-bottom: -5px;
 }
 
 .propertiesRow {
@@ -318,7 +350,7 @@ body {
 }
 
 .frameListItemActive {
-    border-top: 10px solid #e2e2e2;
+    border-top: 10px solid #e0e8e0;
     vertical-align: top;
     padding-right: 20px;
     margin-top: 10px;
@@ -326,7 +358,7 @@ body {
 }
 
 .frameListItem {
-    border-top: 10px solid #f2f2f2;
+    border-top: 10px solid #d0d8d0;
     vertical-align: top;
     padding-right: 20px;
     margin-top: 10px;
@@ -362,14 +394,15 @@ body {
     padding: 5px;
     overflow: hidden;
 
-    background-color: #f2f2f2;
-    border: 6px solid #e2e2e2;
+    background-color: #ebedeb;
+    border: 6px solid #e0e8e0;
 
     margin-bottom: 10px;
 
     margin-left: -15px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    cursor: pointer;
 }
 
 .actionGroupActive {
@@ -381,7 +414,7 @@ body {
     margin-right: 15px;
     margin-top: 15px;
     vertical-align: top;
-    border-left: 10px solid #e2e2e2 !important;
+    border-left: 10px solid #e0e8e0 !important;
     padding-left: 5px;
     padding-bottom: 0px;
     z-index: 0;
@@ -391,14 +424,15 @@ body {
     padding: 5px;
     overflow: hidden;
 
-    background-color: #ffffff;
-    border: 6px solid #f2f2f2;
+    background-color: #f0f2f0;
+    border: 6px solid #d0d8d0;
 
     margin-bottom: 10px;
 
     margin-left: -15px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    cursor: pointer;
 }
 
 .actionGroup {
@@ -411,7 +445,7 @@ body {
     margin-right: 15px;
     margin-top: 15px;
     vertical-align: top;
-    border-left: 5px solid #f2f2f2 !important;
+    border-left: 5px solid #d0d8d0 !important;
     padding-left: 10px;
     padding-bottom: 0px;
     z-index: 0;
@@ -439,7 +473,7 @@ body {
 
 .modal-header {
     border-bottom: none;
-    background-color: #eee;
+    background-color: transparent;
     padding-bottom: 0px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
@@ -450,12 +484,12 @@ body {
 }
 
 .modal-body {
-    background-color: #eee;
+    background-color: transparent;
     padding: 5px 10px 10px 10px;
 }
 
 .modal-content-title {
-    background-color: #eee;
+    background-color: transparent;
     text-align: left;
     padding-left: 10px;
 }
@@ -470,14 +504,15 @@ body {
 
 .modal-footer {
     padding-top: 0px;
-    background-color: #eee;
+    background-color: transparent;
     border-top: none;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
 }
 
 .modal-content {
-    border-radius: 20px;
+    border-radius: 6px;
+    background-color: #e0e2e0;
 }
 
 .fileList {
@@ -582,10 +617,6 @@ body {
     width: 100%;
 }
 
-.sceneThumbGroup.active {
-    border: solid blue 3px;
-}
-
 .noSelect {     
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -641,20 +672,9 @@ input, textarea {
 }
 
 #tabRow {
+    padding-top: 1px;
     text-align: left;
-    background-color: #999;
-}
-
-#toolRow {
-    text-align: left;
-}
-
-.toolItem {
-    display: inline-block;
-    float: left;
-
-    margin: 0px 2px;
-    width: 40px;
+    background-color: #697e78;
 }
 
 .tabItem {
@@ -665,21 +685,22 @@ input, textarea {
 }
 
 .tabListItem {
-    color: black;
+    color: #004a04;
     margin: 0px 5px;
 }
 
 .trapezium {
     display: inline !important;
-    border-bottom: 30px solid #aaa;
+    border-bottom: 30px solid #a0a9a0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     height: 0;
     width: auto;
+    cursor: pointer;
 }
 
 .trapezium:hover {
-    border-bottom: 30px solid #eee;
+    border-bottom: 30px solid #e0e8e0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     height: 0;
@@ -688,7 +709,7 @@ input, textarea {
 
 
 .trapezium.activee{
-    border-bottom: 30px solid #ddd;
+    border-bottom: 30px solid #aad0c5;
     pointer-events: none;
 }
 
@@ -701,18 +722,19 @@ input, textarea {
 }
 
 .trapezium:hover > a{
-    color: black;
+    color: #004a04;
 }
 
 .trapezium.activee > a{
-    color: #222;
+    color: #004a04;
     font-weight: 900;
 }
 
 .toolSeperator {
-    font-size: large;
-    height: 20px;
+    height: 26px;
     float: left;
+    border-left: solid 2px #004a04;
+    margin: 2px 5px;
 }
 
 #title {
@@ -770,65 +792,45 @@ input, textarea {
 }
 
 .dropdown-menu > li.disabled > a {
-	color: lightgray !important;
+    color: lightgray !important;
 }
 
 .dropdown-menu > li.disabled > a:hover {
-	background-color: transparent !important;
+    background-color: transparent !important;
 }
-
-#toolbarList {
-    background-color: white /*#7a7a7a*/;
-}
-
 #toolbarList > li > a,
 #toolbarList > li > a:hover,
 #toolbarList > li > a:focus {
-	border-radius: 0px;
-    color: #333;
+    border-radius: 0px;
+    color: black;
 }
 #toolbarList > .open > a,
 #toolbarList > .open > a:hover,
 #toolbarList > .open > a:focus,
 #toolbarList > li > a:hover,
 #toolbarList > li > a:focus {
-	border-radius: 0px;
-    color: #777;
-    background-color: #ddd;
+    border-radius: 0px;
+    color: black;
+    background-color: #f0f2f0;
     border-color: transparent;
 }
-#toolbarList > li.active > a,
-#toolbarList > li.active > a:hover,
-#toolbarList > li.active > a:focus {
-	border-radius: 0px;
-    color: #555;
-    background-color: #fff;
-    border-color: #ddd;
-    border-bottom-color: transparent;
-}
 #toolbarList > li.dropdown .dropdown-menu {
-    background-color: #f5f5f5;
-    border-color: #ddd;
+    background-color: #fafbfa;
+    border-color: whitesmoke;
 }
 #toolbarList > li.dropdown .dropdown-menu > li > a {
-    color: #777;   
+    color: black;   
 }
 #toolbarList > li.dropdown .dropdown-menu > li > a:hover,
 #toolbarList > li.dropdown .dropdown-menu > li > a:focus {
-    background-color: #ddd;
-}
-#toolbarList > li.dropdown .dropdown-menu > .active > a,
-#toolbarList > li.dropdown .dropdown-menu > .active > a:hover,
-#toolbarList > li.dropdown .dropdown-menu > .active > a:focus {
-    color: #fff;
-    background-color: #555;
+    background-color: #f0f2f0;
 }
 
 
 
 #diagram {
     position: relative;
-    background-color: #fcfcfc; 
+    background-color: #fbfcfb; 
     width: 100%; 
     height: 100%;
 
@@ -857,9 +859,10 @@ input, textarea {
     position: absolute;
     min-width: 200px;
     min-height: 30px;
-    border: 3px solid black;
+    border: 3px solid #004a04;
     border-radius: 10px; 
-    background-color: rgba(210,210,210,0.9);
+    color: #004a04;
+    background-color: rgba(210,215,210,0.9);
 
 }
 
@@ -875,7 +878,7 @@ input, textarea {
     height: 15px;
     left: -9px;
     top: 7px;
-    border: 3px solid black;
+    border: 3px solid #004a04;
     border-radius: 10px;
     background-color: orange;
 }
@@ -902,7 +905,7 @@ input, textarea {
     height: 15px;
     right: -8px;
     top: 7px;
-    border: 3px solid black;
+    border: 3px solid #004a04;
     border-radius: 10px;
     background-color: orange;
 
@@ -910,7 +913,8 @@ input, textarea {
 }
 .nodeContent {
     clear: both;
-    border-top: 3px solid black;
+    color: #004a04;
+    border-top: 3px solid #004a04;
     background-color: rgba(250,250,250,0.7);
 
     border-bottom-left-radius: 10px;
@@ -925,6 +929,7 @@ input, textarea {
     font-size: larger;
     width: 100%;
     overflow: hidden;
+    cursor: default;
 }
 
 .nodeField {
@@ -939,6 +944,55 @@ input, textarea {
 }
 .nodeField > select{
     width: 100%;
+}
+
+.flowDataInput {
+    position: absolute;
+
+    left: -16px;
+    top: 10%;
+    width: 15px;
+    height: 15px;
+
+    border: 3px solid #004a04;
+    border-radius: 10px;
+    background-color: lightblue;
+
+    cursor: pointer;
+}
+
+.nodeContentItem {
+    position: relative;
+    margin-top: 2px;
+    margin-bottom: 4px;
+}
+
+.diagramNode.active > .nodeContent > .flowOutputLabel > .flowOutput, 
+.diagramNode.active > .nodeContent > .flowOutputLabel > .flowInput {
+    border: 3px solid blue;
+}
+
+.diagramNode.active > .nodeContent > .nodeContentItem > .flowDataOutput, 
+.diagramNode.active > .nodeContent > .nodeContentItem > .flowDataInput {
+    border: 3px solid blue;
+}
+
+.flowOutputLabel {
+    position: relative;
+    padding-right: 3px;
+    text-align: right;
+    font-size: larger;
+    cursor: default;
+}
+
+.flowOutputLabel > .flowOutput {
+    right: -16px;
+    top: 5px;
+}
+.nodeContent > .seperator {
+    height: 1px;
+    border: 1px solid lightgray;
+    margin-top: 4px;
 }
 
 .diagramNode.active {
@@ -964,7 +1018,7 @@ input, textarea {
 }
 
 .propLabel {
-	margin-top: 3px;
+    margin-top: 3px;
     text-align: left; 
     display: block;
 }
@@ -1033,7 +1087,6 @@ input, textarea {
 .fieldImageButton {
     width: 35%; 
     float: right; 
-    margin: 3px auto;
 }
 .fieldRichTextButton {
     width: 100%;
@@ -1052,7 +1105,7 @@ input, textarea {
 }
 
 .deleteSceneIcon:before{
-	content:"\e020";
+    content:"\e020";
 }
 
 .undoIcon:before{
@@ -1080,32 +1133,32 @@ input, textarea {
 }
 
 .bringToFrontIcon:before{
-	content:"\e093";
+    content:"\e093";
 }
 
 .bringToBackIcon:before{
-	content:"\e094";
+    content:"\e094";
 }
-	
+
 
 .insertSceneIcon:before{
-	content:"\002b";
+    content:"\002b";
 }
 
 .deleteIcon:before{
-	content:"\e020";
+    content:"\e020";
 }
 
 .newFolderIcon:before{
-	content:"\e118";
+    content:"\e118";
 }
 
 .downloadIcon:before{
-	content:"\e025";
+    content:"\e025";
 }
 
 .renameIcon:before{
-	content:"\270f";
+    content:"\270f";
 }
 
 
@@ -1160,10 +1213,10 @@ input, textarea {
     max-height: 70px;
 }
 .propActArrContent {
-    
+
 }
 .propArrContent {
-    
+
 }
 
 
@@ -1225,12 +1278,14 @@ input, textarea {
     padding: 5px;
     padding-top: 2px;
     border: solid 1px lightgray;
+    background-color: #fafbfa;
     border-radius: 5px;
 }
 .propActionGroupName {
     display: inline-block;
     text-align: center;
     font-size: large;
+    cursor: default;
 }
 .propActionGroupContextMenu {
     display: inline-block;
@@ -1246,7 +1301,7 @@ input, textarea {
     padding-bottom: 3px;
     margin-bottom: 8px;
     border-bottom: solid 1px lightgray;
-    
+
 }
 
 #propertiesPanel > div > div > div > h2 {
@@ -1261,67 +1316,20 @@ input, textarea {
     right: -16px;
     top: 10%;
 
-    border: 3px solid black;
+    border: 3px solid #004a04;
     border-radius: 10px;
     background-color: lightblue;
 
     cursor: pointer;
 }
 
-.flowDataInput {
-    position: absolute;
-
-    left: -16px;
-    top: 10%;
-    width: 15px;
-    height: 15px;
-
-    border: 3px solid black;
-    border-radius: 10px;
-    background-color: lightblue;
-
-    cursor: pointer;
-}
-
-.nodeContentItem {
-    position: relative;
-    margin-top: 2px;
-    margin-bottom: 4px;
-}
-
-.diagramNode.active > .nodeContent > .flowOutputLabel > .flowOutput, 
-.diagramNode.active > .nodeContent > .flowOutputLabel > .flowInput {
-    border: 3px solid blue;
-}
-
-.diagramNode.active > .nodeContent > .nodeContentItem > .flowDataOutput, 
-.diagramNode.active > .nodeContent > .nodeContentItem > .flowDataInput {
-    border: 3px solid blue;
-}
-
-.flowOutputLabel {
-    position: relative;
-    padding-right: 3px;
-    text-align: right;
-    font-size: larger;
-}
-
-.flowOutputLabel > .flowOutput {
-    right: -16px;
-    top: 5px;
-}
-.nodeContent > .seperator {
-    height: 1px;
-    border: 1px solid lightgray;
-    margin-top: 4px;
-}
 
 .fieldImageRowContainer {
     padding: 8px;
     border: solid black 3px;
     background-image: linear-gradient(45deg, #c0c0c0 25%, transparent 25%), linear-gradient(-45deg, #c0c0c0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #c0c0c0 75%), linear-gradient(-45deg, transparent 75%, #c0c0c0 75%);
     background-size: 20px 20px;
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 }
 
 .rightDropdown {
@@ -1331,90 +1339,382 @@ input, textarea {
 }
 
 #recordTool.recording {
-	color: red;
+    color: red;
 }
 
 #recordToolBadge {
-	font-family: Tahoma;
+    font-family: Tahoma;
 }
 
 #tagEditorFields {
-	display: flex;
-	flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 #tagEditorFields > div {
-	text-align: left;
-	margin: 0px 10px;
+    text-align: left;
+    margin: 0px 10px;
 }
 .tagEditorField {
-	margin: 0px 0px 5px 0px;
+    margin: 0px 0px 5px 0px;
 }
 .tagEditorField > input {
-	width: 100%;
+    width: 100%;
 }
 .tagEditorField > input[type='checkbox'] {
-	vertical-align: middle;
+    vertical-align: middle;
     margin-bottom: 6px;
     margin-left: 3px;
-	width: inherit;
+    width: inherit;
 }
 .tagEditorField > select {
-	width: 100%;
+    width: 100%;
 }
 
 .tagEditorField.disabled > label {
-	color: gray;
+    color: gray;
 }
 
 .jscolor[disabled] {
-	pointer-events: none;
+    pointer-events: none;
     background-color: rgb(235, 235, 228) !important;
     border: solid #aeaeae 1px;
     padding: 2px;
 }
 
 select[disabled] {
-	background-color: rgb(235, 235, 228) !important;
+    background-color: rgb(235, 235, 228) !important;
     border: solid #aeaeae 1px;
 }
 
 #tagEditorContent {
-	overflow-y: scroll;
+    overflow-y: scroll;
 }
 
 #tagEditorContent > table {
-	width: 100%;
+    width: 100%;
 }
 #tagEditorContent > table > thead > tr > th:first-chlid{
-	width: 160px;
+    width: 160px;
+}
+#tagEditorContent > table > thead > tr {
+    cursor: default;
 }
 
 #tagEditorContent {
-	height: 200px;
-	max-height: 200px;
-	min-height: 200px;
+    height: 200px;
+    max-height: 200px;
+    min-height: 200px;
 }
 
 #tagEditorContentBody > tr.active {
-	background-color: lightgray;
+    background-color: lightgray;
 }
 
 #tagEditorContentBody > tr > td {
-	text-align: left;
-	color: gray;
+    text-align: left;
+    color: gray;
     font-style: italic;
 }
 #tagEditorContentBody > tr.custom > td {
-	color: black;
+    color: black;
     font-style: normal;
 }
 
 #tagEditorContentBody > tr > td:first-child {
-	width: 160px;
-	word-break: break-all;
-	padding-right: 10px;
+    width: 160px;
+    word-break: break-all;
+    padding-right: 10px;
 }
+
+#tagEditorContentBody > tr:hover {
+    cursor: default;
+}
+
 #tagEditorContentBody > tr.custom:hover {
-	background-color: whitesmoke;
-	cursor: pointer;
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+.notifyjs-bootstrap-base {
+    opacity: .7 !important;
+    text-align: left !important;
+}
+.notifyjs-bootstrap-base > span {
+    font-weight: normal !important;
+}
+
+#richTextModalContent, #linkerSyntaxModalContent, #variableCallModalContent {
+    text-align: left;
+    margin: 20px;  
+    width: calc(100% - 40px); 
+    min-height: 200px;
+    height: auto;
+    padding: 15px;
+    background-color: white;
+    border: 1px solid black;
+    overflow: hidden;
+}
+#richTextModalContent > div, #linkerSyntaxModalContent > div, #variableCallModalContent > div {
+    margin-bottom: 8px;
+}
+
+.noHeader #toolbarRow {
+    height: 5vh;
+}
+.noHeader .fullHeight {
+    height: 95vh;
+}
+.noHeader #scenesRow {
+    height: 55vh;
+}
+.noHeader #sceneContentRow {
+    height: 40vh;
+}
+.noHeader #logo {
+    display: none;
+}
+
+body {
+    background-color: #f5f7f5;
+}
+
+.panelHeading {
+    text-transform: capitalize;
+    background-color: #aad0c5;
+    color: #004a04;
+    cursor: default;
+}
+
+#sceneContentName {
+    text-transform: capitalize;
+    cursor: default;
+    color: #004a04;
+}
+
+.sceneThumbGroup > button {
+    border: none;
+    background-color: transparent;
+    color: #004a04;
+}
+.sceneThumbGroup > button:hover {
+    border: none;
+    background-color: transparent;
+    color: #004a04;
+}
+.sceneThumbGroup.active {
+    border: solid #8ab0a5 1px;
+}
+.sceneThumbGroup:hover{
+    border: solid #aad0c5 1px;   
+}
+.sceneThumbGroup.active > button{
+    color: #8ab0a5;
+}
+.sceneThumbGroup > button:hover{
+    color: red;
+    background-color: transparent;
+}
+.sceneThumbGroup:hover > button:hover{
+    color: red;
+    background-color: transparent;
+}
+
+button:focus{
+    outline: none !important;
+}
+button{
+    outline: none !important;
+}
+#toolRow {
+    text-align: left;
+    background-color: #d1d4d1 ;
+}
+.toolItem {
+    display: inline-block;
+    float: left;
+    margin: 1px 2px;
+    color: #004a04;
+    padding: 2px 8px;
+    background-color: #aad0c5;
+    border: solid whitesmoke 2px;
+    border-radius: 2px;
+}
+.toolItem:hover, .toolItem:focus{
+    background-color: #d0e0d0;
+    color: #105a14;
+    border: solid white 2px;
+}
+.toolItem:disabled {
+    background-color: #f0f8f0;
+    color: #406a44;
+    border: solid white 2px;
+}
+.toolItem:hover:disabled {
+    background-color: #f0f8f0;
+    color: #406a44;
+    border: solid white 2px;
+}
+
+#deleteTool:hover:enabled {
+    color: red;
+}
+#deleteDiagramTool:hover:enabled {
+    color: red;
+}
+.panelPuller {
+    background: transparent;
+    border: solid transparent 1px;
+}
+.panelPuller > span {
+    position: absolute;
+    width: 4px;
+    color: #004a04;
+    top: 15px;
+}
+.propertiesCollapseButton > span {
+    left: -13px;
+}
+#sequenceRow {
+    background-color: #f5f7f5;
+}
+.frameButton {
+    background-color: #aad0c5;
+    color: #004a04;
+    border: solid #e0e8e0 2px;
+    border-radius: 4px;
+}
+.frameButton:hover {
+    background-color: #d0e0d0;
+    color: #004a04;
+    border: solid white 2px;
+    border-radius: 4px;
+}
+
+.frameButton.active, .frameButton:active {
+    background-color: #caf0e5;
+    color: #004a04;
+    border: solid white 2px;
+    box-shadow: none;
+    border-radius: 4px;
+}
+
+.actionBox .actionRow {
+    color: #004a04;
+}
+.actionBoxActive .actionRow {
+    color: #206a24;
+}
+.dropdown-menu, .dropdown-submenu {
+    background-color: #fafbfa;
+    color: black;
+}
+.dropdown-menu > li > a {
+    color: black;
+    cursor: pointer;
+}
+.glyphicon {    
+    line-height: inherit;
+}
+#toolbarList {
+    background-color: #fafbfa;
+}
+#propertiesPanel {
+    color: #004a04;
+}
+
+#fileChooserDeleteButton,
+#fileChooserNewFolderButton,
+#fileChooserRenameButton,
+#fileChooserDownloadButton,
+#tagEditorAddButton,
+#tagEditorRemoveButton,
+#uploadFileButton,
+#selectFileButton,
+#inputPromptSubmitButton,
+.fieldButton,
+.fieldAddActionButton,
+.fieldAudioButton, 
+.fieldImageButton,
+.fieldLinkButton, 
+.fieldActionDropdown, 
+.fieldRichTextButton {
+    background-color: #aad0c5;
+    color: #004a04;
+    border: solid white 2px;
+    border-radius: 4px;
+}
+
+#fileChooserDeleteButton:hover:enabled,
+#fileChooserNewFolderButton:hover:enabled,
+#fileChooserRenameButton:hover:enabled,
+#fileChooserDownloadButton:hover:enabled,
+#tagEditorAddButton:hover:enabled,
+#tagEditorRemoveButton:hover:enabled,
+#selectFileButton:hover:enabled,
+#uploadFileButton:hover:enabled,
+#inputPromptSubmitButton:hover:enabled,
+.fieldButton:hover:enabled,
+.fieldAddActionButton:hover:enabled,
+.fieldAudioButton:hover:enabled, 
+.fieldImageButton:hover:enabled,
+.fieldLinkButton:hover:enabled,
+.fieldActionDropdown:hover:enabled, 
+.fieldRichTextButton:hover:enabled {
+    background-color: #d0e0d0;
+    color: #004a04;
+    border: solid white 2px;
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+
+.propField,
+.fieldText,
+.fieldFloat,
+.fieldRichText,
+.fieldAudioText,
+.fieldImageText, 
+.fieldInt, 
+.fieldLink, 
+.fieldDropdown {
+    background-color: #dce6d7;
+    border: solid 1px white !important;
+    border-radius: 3px;
+    padding: 2px 5px;
+    outline: none;
+}
+.fieldColor {
+    border: solid 1px white;
+    border-radius: 3px;
+    padding: 2px 5px;
+    width: 100%;
+    outline: none;
+}
+.nav-tabs {
+    border-bottom: none;
+}
+.btn-xs {
+    padding: 2px 5px;
+}
+label, h1, h2, h3, h4 {
+    cursor: default;
+}
+
+textarea {
+    overflow: auto !important;
+    outline: none !important;
+
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+#signBar {
+    color: #004a04;
+}
+
+*:fullscreen
+*:-ms-fullscreen,
+*:-webkit-full-screen,
+*:-moz-full-screen {
+    overflow: auto !important;
 }

@@ -27,8 +27,8 @@
         <title>Module Editor - <%=module.getModuleName()%></title>
 
         <link href="css/bootstrap.min.css" rel="stylesheet">
-        <!--<link href="css/editor.css" rel="stylesheet">-->
-        <link href="https://dl.dropboxusercontent.com/s/ck4h98vmegifefq/editor.css?dl=0" rel="stylesheet">
+        <link href="css/editor.css" rel="stylesheet">
+        <!--<link href="https://dl.dropboxusercontent.com/s/ck4h98vmegifefq/editor.css?dl=0" rel="stylesheet">-->
         <link href="css/loader.css" rel="stylesheet">
     </head>
     <body oncontextmenu="return false;">
@@ -144,13 +144,13 @@
                 <div id="projectCol" class="fullHeight noMargin noPadding">
                     <div class="container-fluid fullHeight noMargin noPadding">
                         <div id="scenesRow" class="row scenesHeight border noMargin ">
-                            <h1 id="scenePanelHeading">Scenes</h1>
-                            <div id="scenePanel" class="pre-scrollable">
+                            <h1 id="scenePanelHeading" class="panelHeading">Scenes</h1>
+                            <div id="scenePanel" class="">
                             </div>
 
                         </div>
                         <div id="sceneContentRow" class="row sceneContentHeight border noMargin ">
-                            <h1 id="sceneContentHeading" >Content</h1>
+                            <h1 id="sceneContentHeading" class="panelHeading">Content</h1>
                             <div id="sceneContentData" class="pre-scrollable">
                                 <div id="sceneContentName">Scene 1</div>
                                 <ul id="sceneContentList" class="list-group">
@@ -170,27 +170,27 @@
                         <div id="mainRow" class="row noMargin noPadding"> 
                             <div id="toolRow" class="row noMargin noPadding border">
                                 <div id="sceneToolRow">
-                                    <button id='undoTool' class="btn btn-default toolItem" onclick='undo(this)' disabled><span class='glyphicon undoIcon'></span></button>
-                                    <button id='redoTool' class="btn btn-default toolItem" onclick="redo(this)" disabled><span class='glyphicon redoIcon'></span></button>
-                                    <span class="toolSeperator"> | </span>
-                                    <button id='insertShapeTool' class="btn btn-default toolItem" onclick="addShape(this)"><span class='glyphicon addShapeIcon'></span></button>
-                                    <button id='insertButtonTool' class="btn btn-default toolItem" onclick="addButton(this)"><span class='glyphicon addButtonIcon'></span></button>
-                                    <button id='insertTextTool' class="btn btn-default toolItem" onclick="addText(this)"><span class='glyphicon addTextIcon'></span></button>
-                                    <button id='insertImageTool' class="btn btn-default toolItem" onclick="uploadImage(this)"><span class='glyphicon uploadImageIcon'></span></button>
-                                    <span class="toolSeperator"> | </span>
-                                    <button id='bringToFrontTool' class="btn btn-default toolItem" onclick="bringToFront(this)"><span class='glyphicon bringToFrontIcon' disabled></span></button>
-                                    <button id='bringToBackTool' class="btn btn-default toolItem" onclick="bringToBack(this)"><span class='glyphicon bringToBackIcon' disabled></span></button>
+                                    <button id='undoTool' class="btn toolItem" onclick='undo(this)' disabled><span class='glyphicon undoIcon'></span></button>
+                                    <button id='redoTool' class="btn toolItem" onclick="redo(this)" disabled><span class='glyphicon redoIcon'></span></button>
+                                    <span class="toolSeperator"> </span>
+                                    <button id='insertShapeTool' class="btn toolItem" onclick="addShape(this)"><span class='glyphicon addShapeIcon'></span></button>
+                                    <button id='insertButtonTool' class="btn toolItem" onclick="addButton(this)"><span class='glyphicon addButtonIcon'></span></button>
+                                    <button id='insertTextTool' class="btn toolItem" onclick="addText(this)"><span class='glyphicon addTextIcon'></span></button>
+                                    <button id='insertImageTool' class="btn toolItem" onclick="uploadImage(this)"><span class='glyphicon uploadImageIcon'></span></button>
+                                    <span class="toolSeperator"> </span>
+                                    <button id='bringToFrontTool' class="btn toolItem" onclick="bringToFront(this)"><span class='glyphicon bringToFrontIcon' disabled></span></button>
+                                    <button id='bringToBackTool' class="btn toolItem" onclick="bringToBack(this)"><span class='glyphicon bringToBackIcon' disabled></span></button>
 
-                                    <button id='deleteTool' class="btn btn-default toolItem pull-right" onclick="deleteSelectedShape(this)"><span class='glyphicon deleteIcon' disabled></span></button>
-                                    <span class="toolSeperator pull-right"> | </span>
-                                    <button id='recordTool' class="btn btn-default toolItem pull-right" onclick="record(this)" disabled="true"><span class='glyphicon glyphicon-record'><span id='recordToolBadge'></span></span></button>
+                                    <button id='deleteTool' class="btn toolItem pull-right" onclick="deleteSelectedShape(this)"><span class='glyphicon deleteIcon' disabled></span></button>
+                                    <span class="toolSeperator pull-right"> </span>
+                                    <button id='recordTool' class="btn toolItem pull-right" onclick="record(this)" disabled="true"><span class='glyphicon glyphicon-record'><span id='recordToolBadge'></span></span></button>
                                 </div>
                                 <div id="diagramToolRow" class="hidden">
-                                    <button id='undoDiagramTool' class="btn btn-default toolItem" onclick='undo(this)' disabled><span class='glyphicon undoIcon'></span></button>
-                                    <button id='redoDiagramTool' class="btn btn-default toolItem" onclick="redo(this)" disabled><span class='glyphicon redoIcon'></span></button>
-                                    <span class="toolSeperator"> | </span>                                  
-                                    <div class="dropdown toolItem">
-                                        <button href='#' id='node' class="btn btn-default toolItem" onclick='toolbarDropdown(this);' onfocusout="toolbarDropdownHide(this);"><span class='glyphicon insertSceneIcon'></span></button>
+                                    <button id='undoDiagramTool' class="btn toolItem" onclick='undo(this)' disabled><span class='glyphicon undoIcon'></span></button>
+                                    <button id='redoDiagramTool' class="btn toolItem" onclick="redo(this)" disabled><span class='glyphicon redoIcon'></span></button>
+                                    <span class="toolSeperator"></span>                                  
+                                    <div class="dropdown pull-left">
+                                        <button href='#' id='node' class="btn toolItem" onclick='toolbarDropdown(this);' onfocusout="toolbarDropdownHide(this);"><span class='glyphicon insertSceneIcon'></span></button>
                                         <ul id='nodeDropdown' class="dropdown-menu" role="menu">
                                             <li><a onmousedown="addNode(this, 'playScene')">Play Scene</a></li>
                                             <li><a onmousedown="addNode(this, 'condition')">Condition</a></li>
@@ -204,10 +204,10 @@
                                             <li><a onmousedown="addNode(this, 'end')">End Node</a></li>
                                         </ul>
                                     </div>
-                                    <button id='refreshDiagramTool' class="btn btn-default toolItem" onclick="refreshDiagram(this)"><span class='glyphicon glyphicon-refresh'></span></button>
+                                    <button id='refreshDiagramTool' class="btn toolItem" onclick="refreshDiagram(this)"><span class='glyphicon glyphicon-refresh'></span></button>
 
 
-                                    <button id='deleteDiagramTool' class="btn btn-default toolItem pull-right" onclick="deleteSelectedNode(this)" disabled><span class='glyphicon deleteIcon'></span></button>
+                                    <button id='deleteDiagramTool' class="btn toolItem pull-right" onclick="deleteSelectedNode(this)" disabled><span class='glyphicon deleteIcon'></span></button>
                                 </div>
                             </div>
                             <div id="canvasRow" class="row normalHeight noMargin noPadding">
@@ -223,8 +223,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button id='projectPanelPuller' class="btn-default btn-lg projectCollapseButton noSelect" onclick="this.blur()"><</button>
-                                <button id='propertiesPanelPuller' class="btn-default btn-lg propertiesCollapseButton noSelect" onclick="this.blur()">></button>
+                                <button id='projectPanelPuller' class="projectCollapseButton noSelect panelPuller" onclick="this.blur()"><span class="glyphicon glyphicon-option-vertical"></span></button>
+                                <button id='propertiesPanelPuller' class="propertiesCollapseButton noSelect panelPuller" onclick="this.blur()"><span class="glyphicon glyphicon-option-vertical"></button>
                                 <span id='sequencePanelPuller' class="sequenceCollapseButton noSelect" onclick="this.blur()"><span>Sequence</span></span>
                             </div>
 
@@ -236,7 +236,7 @@
                     </div>
                 </div>
                 <div id="propertiesCol" class="fullHeight noMargin noPadding border">
-                    <h1 id="propertiesHeading">Properties </h1>
+                    <h1 id="propertiesHeading" class="panelHeading">Properties </h1>
                     <div id="propertiesPanel" class="pre-scrollable">
 
                     </div>
@@ -282,11 +282,11 @@
                                 Project1/Assets/
                             </span>
                             <span class="pull-right">
-                                <button id='fileChooserNewFolderButton' class="btn btn-default btn-sm" onclick='createNewFolder()'><span class='glyphicon newFolderIcon'></span></button>
-                                <button id='fileChooserDownloadButton' class="btn btn-default btn-sm" onclick='downloadSelectedFile()' disabled><span class='glyphicon downloadIcon'></span></button>
-                                <button id='fileChooserRenameButton' class="btn btn-default btn-sm" onclick="renameSelectedFile()" disabled><span class='glyphicon renameIcon'></span></button>
+                                <button id='fileChooserNewFolderButton' class="btn btn-sm" onclick='createNewFolder()'><span class='glyphicon newFolderIcon'></span></button>
+                                <button id='fileChooserDownloadButton' class="btn btn-sm" onclick='downloadSelectedFile()' disabled><span class='glyphicon downloadIcon'></span></button>
+                                <button id='fileChooserRenameButton' class="btn btn-sm" onclick="renameSelectedFile()" disabled><span class='glyphicon renameIcon'></span></button>
                                 |
-                                <button id='fileChooserDeleteButton' class="btn btn-default btn-sm" onclick="deleteSelectedFile()" disabled><span class='glyphicon deleteIcon'></span></button>
+                                <button id='fileChooserDeleteButton' class="btn btn-sm" onclick="deleteSelectedFile()" disabled><span class='glyphicon deleteIcon'></span></button>
                             </span>
                         </div>
                         <div class="container-fluid modal-container">
@@ -298,11 +298,11 @@
                         <div class="row">
                         </div>
                         <div class="pull-left" id='fileChooserSelectButtonGroup'>
-                            <button id="selectFileButton" type="button" class="btn btn-primary" onclick="fileItemChosen()" disabled="">Select File</button>
+                            <button id="selectFileButton" type="button" class="btn" onclick="fileItemChosen()" disabled="">Select File</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                         <div class="pull-right">
-                            <button id="uploadFileButton" type="button" class="btn btn-primary" onclick="uploadImageFileChooser()">Upload File</button>    
+                            <button id="uploadFileButton" type="button" class="btn" onclick="uploadImageFileChooser()">Upload File</button>    
                         </div>
 
                     </div>
@@ -327,7 +327,7 @@
                     </div>
                     <div class="modal-footer">
                         <div class="pull-right">
-                            <button id="inputPromptSubmitButton" type="button" class="btn btn-primary" onclick="">Submit</button>    
+                            <button id="inputPromptSubmitButton" type="button" class="btn" onclick="">Submit</button>    
                         </div>
                     </div>
                 </div>
@@ -445,9 +445,9 @@
                                     In any fieldbox, include <b>{= }</b> to call scene or project variables
                                 </div>
                                 <div>
-                                    <i>eg: {=@count}, {=@hour} Hours</i>
-                                    <i>eg: {=@aSceneVariable * #aProjectVariable}, {=5 + #anotherProjectVariable}</i>
-                                    <i>eg: {=(@time < 10? "Success" : "Failed")}</i>
+                                    <i><div>eg: {=@count}, {=@hour} Hours</div>
+                                    <div>eg: {=@aSceneVariable * #aProjectVariable}, {=5 + #anotherProjectVariable}</div>
+                                    <div>eg: {=(@time < 10? "Success" : "Failed")}</div></i>
                                 </div>
                             </div>
 
@@ -517,19 +517,19 @@
                                                 this.blur();' disabled>
                                 </div>
                                 <div class="tagEditorField disabled" onclick='tagFieldEnable(this)'>
-                                    <input type="checkbox" id="fontSizeCheckbox" onchange="tagFieldChecked(this, 'fontSize')">
+                                    <input type="checkbox" id="fontSizeCheckbox" onclick="event.stopPropagation();" onchange="tagFieldChecked(this, 'fontSize')">
                                     <label>Font Size</label>
                                     <input id="fontSizeField" type="number" onblur='updateTextTag("fontSize", this.value);' onkeydown='if (event.keyCode === 13)
                                                 this.blur();' disabled>
                                 </div>
                                 <div class="tagEditorField disabled" onclick='tagFieldEnable(this)'>
-                                    <input type="checkbox" id="fontColorCheckbox" onchange="tagFieldChecked(this, 'fontColor')">
+                                    <input type="checkbox" id="fontColorCheckbox" onclick="event.stopPropagation();" onchange="tagFieldChecked(this, 'fontColor')">
                                     <label>Font Color</label>
                                     <input id="fontColorField" class="jscolor" onload='this.jscolor = new jscolor(this, {});' type="jscolor" onblur='updateTextTag("fontColor", this.value);' onkeydown='if (event.keyCode === 13)
                                                 this.blur();' disabled>
                                 </div>
                                 <div class="tagEditorField disabled" onclick='tagFieldEnable(this)'>
-                                    <input type="checkbox" id="fontStyleCheckbox" onchange="tagFieldChecked(this, 'fontStyle')">
+                                    <input type="checkbox" id="fontStyleCheckbox" onclick="event.stopPropagation();" onchange="tagFieldChecked(this, 'fontStyle')">
                                     <label>Font Style</label>
                                     <select id="fontStyleField" onchange='updateTextTag("fontStyle", $(this).val());' disabled>
                                         <option value="normal">Normal</option>
@@ -539,13 +539,13 @@
                                     </select>
                                 </div>
                                 <div class="tagEditorField disabled" onclick='tagFieldEnable(this)'>
-                                    <input type="checkbox" id="strokeCheckbox" onchange="tagFieldChecked(this, 'stroke')">
+                                    <input type="checkbox" id="strokeCheckbox" onclick="event.stopPropagation();" onchange="tagFieldChecked(this, 'stroke')">
                                     <label>Stroke</label>
                                     <input id="strokeField" type="number" onblur='updateTextTag("stroke", this.value);' onkeydown='if (event.keyCode === 13)
                                                 this.blur();' disabled>
                                 </div>
                                 <div class="tagEditorField disabled" onclick='tagFieldEnable(this)'>
-                                    <input type="checkbox" id="strokeColorCheckbox" onchange="tagFieldChecked(this, 'strokeColor')">
+                                    <input type="checkbox" id="strokeColorCheckbox" onclick="event.stopPropagation();" onchange="tagFieldChecked(this, 'strokeColor')">
                                     <label>Stroke Color</label>
                                     <input id="strokeColorField" class="jscolor" onload='this.jscolor = new jscolor(this, {});' type="jscolor" onblur='updateTextTag("strokeColor", this.value);' onkeydown='if (event.keyCode === 13)
                                                 this.blur();' disabled>
@@ -553,30 +553,30 @@
                             </div>
                             <div>
                                 <div class="tagEditorField disabled" onclick='tagFieldEnable(this)'>
-                                    <input type="checkbox" id="dropShadowCheckbox" onchange="tagFieldChecked(this, 'dropShadow')">
+                                    <input type="checkbox" id="dropShadowCheckbox" onclick="event.stopPropagation();" onchange="tagFieldChecked(this, 'dropShadow')">
                                     <label>Drop Shadow</label>
                                     <input id="dropShadowField" type="range" min="0" max="1" step=".01" onchange='updateTextTag("dropShadow", this.value);' disabled>
                                 </div>
                                 <div class="tagEditorField disabled" onclick='tagFieldEnable(this)'>
-                                    <input type="checkbox" id="dropShadowColorCheckbox" onchange="tagFieldChecked(this)">
+                                    <input type="checkbox" id="dropShadowColorCheckbox" onclick="event.stopPropagation();" onchange="tagFieldChecked(this)">
                                     <label>Drop Shadow Color</label>
                                     <input id="dropShadowColorField" class="jscolor" onload='this.jscolor = new jscolor(this, {});' type="jscolor" onblur='updateTextTag("dropShadowColor", this.value);' onkeydown='if (event.keyCode === 13)
                                                 this.blur();' disabled>
                                 </div>
                                 <div class="tagEditorField disabled" onclick='tagFieldEnable(this)'>
-                                    <input type="checkbox" id="dropShadowBlurCheckbox" onchange="tagFieldChecked(this, 'dropShadowBlur')">
+                                    <input type="checkbox" id="dropShadowBlurCheckbox" onclick="event.stopPropagation();" onchange="tagFieldChecked(this, 'dropShadowBlur')">
                                     <label>Drop Shadow Blur</label>
                                     <input id="dropShadowBlurField" type="number" min="0" step=".1" onblur='updateTextTag("dropShadowBlur", this.value);' onkeydown='if (event.keyCode === 13)
                                                 this.blur();' disabled>
                                 </div>
                                 <div class="tagEditorField disabled" onclick='tagFieldEnable(this)'>
-                                    <input type="checkbox" id="dropShadowDistanceCheckbox" onchange="tagFieldChecked(this, 'dropShadowDistance')">
+                                    <input type="checkbox" id="dropShadowDistanceCheckbox" onclick="event.stopPropagation();" onchange="tagFieldChecked(this, 'dropShadowDistance')">
                                     <label>Drop Shadow Distance</label>
                                     <input id="dropShadowDistanceField" type="number" min="0" step=".1" onblur='updateTextTag("dropShadowDistance", this.value);' onkeydown='if (event.keyCode === 13)
                                                 this.blur();' disabled>
                                 </div>
                                 <div class="tagEditorField disabled" onclick='tagFieldEnable(this)'>
-                                    <input type="checkbox" id="dropShadowAngleCheckbox" onchange="tagFieldChecked(this, 'dropShadowAngle')">
+                                    <input type="checkbox" id="dropShadowAngleCheckbox" onclick="event.stopPropagation();" onchange="tagFieldChecked(this, 'dropShadowAngle')">
                                     <label>Drop Shadow Angle</label>
                                     <input id="dropShadowAngleField" type="number" min="0" max="360" step=".01" onblur='updateTextTag("dropShadowAngle", this.value);' onkeydown='if (event.keyCode === 13)
                                                 this.blur();' disabled>
@@ -659,6 +659,7 @@
                                         var fullname = "<%=loggedUser.getFullName()%>";
                                         var userID = <%=loggedUser.getUserID()%>;
                                         var projectID = <%=module.getModuleID()%>;
+                                        var moduleName = '<%=module.getModuleName()%>';
 
                                         var editor = new Editor();
                                         function save(elem) {
@@ -1152,7 +1153,7 @@
 
                                             editor.diagramPanel.updateDiagramPanel();
                                         }
-                                        
+
                                         var isHeaderChanged = false;
                                         function toggleFullScreen(elem) {
                                             // ## The below if statement seems to work better ## if ((document.fullScreenElement && document.fullScreenElement !== null) || (document.msfullscreenElement && document.msfullscreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen)) {
@@ -1166,7 +1167,7 @@
                                                 } else if (elem.msRequestFullscreen) {
                                                     elem.msRequestFullscreen();
                                                 }
-                                                if(!editor.isHeaderCollapsed) {
+                                                if (!editor.isHeaderCollapsed) {
                                                     editor.toggleHeader();
                                                     isHeaderChanged = true;
                                                 }
@@ -1180,10 +1181,10 @@
                                                 } else if (document.msExitFullscreen) {
                                                     document.msExitFullscreen();
                                                 }
-                                                if(isHeaderChanged) {
+                                                if (isHeaderChanged) {
                                                     isHeaderChanged = false;
-                                                    
-                                                    if(editor.isHeaderCollapsed) {
+
+                                                    if (editor.isHeaderCollapsed) {
                                                         editor.toggleHeader();
                                                     }
                                                 }

@@ -292,7 +292,7 @@ InputRenderer.createActionDropdownField = function (name, ext) {
         if (res.ext.dropdownClass) {
             dropdownClassName = res.ext.dropdownClass;
         }
-        var str = "<div class=\"btn-group fieldActionDropdownGroup\"><button type=\"button\" class=\"btn btn-default btn-sm dropdown-toggle " + className + "\" data-toggle=\"dropdown\" id=\"" + res.id + "\">" + name + " <span class=\"caret\"></span></button>";
+        var str = "<div class=\"btn-group fieldActionDropdownGroup\"><button type=\"button\" class=\"btn btn-sm dropdown-toggle " + className + "\" data-toggle=\"dropdown\" id=\"" + res.id + "\">" + name + " <span class=\"caret\"></span></button>";
         str += "<ul class=\"dropdown-menu " + dropdownClassName + "\">";
         for (var k in res.ext.data) {
             var d = res.ext.formatValueToElem(res.ext.data[k]);
@@ -350,7 +350,7 @@ InputRenderer.createLinkField = function (name, valueParent, value, ext) {
     res.enterListener = "onblur";
 //    res._pf = res.printField();
 //    res.printField = function () {
-//        return res._pf + "<button class='btn btn-default btn-xs fieldLinkButton' onclick='$(\"#" + res.id + "\").val(\">[frameNo]\");'' >H</button>";
+//        return res._pf + "<button class='btn btn-xs fieldLinkButton' onclick='$(\"#" + res.id + "\").val(\">[frameNo]\");'' >H</button>";
 //    };
     return InputRenderer.createOptionedField(name, res, {
         options: [
@@ -419,7 +419,7 @@ InputRenderer.createButton = function (name, onclick, ext) {
     var res = InputRenderer.initRes(name, {}, "value", ext, "Button");
     InputRenderer.setFunc(res.id, onclick);
     res.printField = function () {
-        return "<button id='" + res.id + "' onclick=\"this.blur(); " + InputRenderer.cb(res.id) + "\"  class='btn btn-default btn-md fieldButton'>" + name + "</button>";
+        return "<button id='" + res.id + "' onclick=\"this.blur(); " + InputRenderer.cb(res.id) + "\"  class='btn btn-md fieldButton'>" + name + "</button>";
     };
     res.print = function () {
         var str = "";
@@ -462,7 +462,7 @@ InputRenderer.createImageField = function (name, valueParent, value, ext) {
     res.attrs = "disabled";
     res._pf = res.printField;
     res.printField = function () {
-        return res._pf() + "<button type='button' class='btn btn-default btn-xs fieldImageButton' onclick='this.blur(); openFileChooser(\"Choose Image\", \"IMAGE\", \"Func" + res.id + "\");'>Choose</button>\n";
+        return res._pf() + "<button type='button' class='btn btn-xs fieldImageButton' onclick='this.blur(); openFileChooser(\"Choose Image\", \"IMAGE\", \"Func" + res.id + "\");'>Choose</button>\n";
     };
     res.print = function () {
         return InputRenderer.propertiesRow(InputRenderer.label(name) + InputRenderer.field(this.printField())) +
@@ -499,7 +499,7 @@ InputRenderer.createAudioField = function (name, valueParent, value, ext) {
     res.attrs = "disabled";
     res._pf = res.printField;
     res.printField = function () {
-        return res._pf() + "<button type='button' class='btn btn-default btn-xs fieldAudioButton' onclick='this.blur(); openFileChooser(\"Choose Audio\", \"AUDIO\", \"Func" + res.id + "\");'>Choose</button>\n";
+        return res._pf() + "<button type='button' class='btn btn-xs fieldAudioButton' onclick='this.blur(); openFileChooser(\"Choose Audio\", \"AUDIO\", \"Func" + res.id + "\");'>Choose</button>\n";
     };
     res.print = function () {
         return InputRenderer.propertiesRow(InputRenderer.label(name) + InputRenderer.field(this.printField()));
@@ -535,7 +535,7 @@ InputRenderer.createRichTextField = function (name, valueParent, value, ext) {
         return "<textarea id='" + res.id + "' name='" + name + "' class='form-control fieldRichText' " + res.ext.eventType + "=\"" + InputRenderer.cb(res.id) + "\">" + v + "</textarea>";
     };
     res.print = function () {
-        return InputRenderer.propertiesRow(InputRenderer.label(name) + InputRenderer.field("<button class='btn btn-default btn-sm fieldRichTextButton' onclick='this.blur(); openTagEditor();'>Tags</button>")) +
+        return InputRenderer.propertiesRow(InputRenderer.label(name) + InputRenderer.field("<button class='btn btn-sm fieldRichTextButton' onclick='this.blur(); openTagEditor();'>Tags</button>")) +
                 InputRenderer.propertiesRow(res.printField());
     };
     return res;

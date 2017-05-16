@@ -10,8 +10,8 @@ function ProjectPanel(context) {
     this.update = function () {
         $("#scenePanel").height($("#scenesRow").height() - $("#scenePanelHeading").outerHeight());
         for (var k in this.context.editor.project.scenes) {
-            var width = $("#sceneDiv" + k).width() - $("#sceneDivNo" + k).outerWidth() - 20;
-            $("#sceneDivThumb" + k).width(width);
+            var width  = $("#sceneDivThumb" + k).width();
+            
             $("#sceneDivThumb" + k).height(width / this.context.editor.innerWidth * this.context.editor.innerHeight);
             
             $("#sceneThumbnailCanvas" + k).width(width);
@@ -36,12 +36,9 @@ function ProjectPanel(context) {
             var b =  p.context.editor.project.scenes[k] === p.context.editor.activeScene;
             content +=
                     "                                <div class='row sceneNameDiv'><div id='sceneDivName" + k + "' class=\"sceneDiv\">\n" +
-                    "                                    " + ( parseInt(k) + 1 ) + "." + p.context.editor.project.scenes[k].sceneName + "\n" +
+                    "                                    " + p.context.editor.project.scenes[k].sceneName + "\n" +
                     "                                </div></div>\n" +
                     "                                <div class='row noMargin'><div id='sceneDiv" + k + "' class=\"sceneDiv\">\n" +
-                    "                                    <div id='sceneDivNo" + k + "' style=\"display: none\">\n" +
-                    "                                        " + (1 + parseInt(k)) + "\n" +
-                    "                                    </div>\n" +
                     "                                    <div id='sceneDivThumb" + k + "' class =\"sceneThumbGroup" + (b?" active": "") + " \" onclick=\"changeScene(" + k + ");\">\n" +
                     "                                        <canvas onmousedown='event.stopPropagation(); return false;' onmouseup='event.stopPropagation(); return false;' id=\"sceneThumbnailCanvas" + k + "\" onload=\"\">\n" +
                     "                                        </canvas>\n" +
@@ -56,12 +53,13 @@ function ProjectPanel(context) {
         
 
         content +=
-                "<div class='row noMargin'><button id=\"addSceneButton\" class=\"btn-lg btn-default\" onclick=\"addScene(this)\">" +
+                "<button id=\"addSceneButton\" class=\"btn-lg btn-default\" onclick=\"addScene(this)\">" +
                 "Add Scene" +
-                "</button></div>";
+                "</button>";
         
         var s = elem.scrollTop();
         elem.html(content);
+        
         elem.scrollTop(s);
 
         for (var k in p.context.editor.project.scenes) {

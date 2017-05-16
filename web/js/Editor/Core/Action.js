@@ -45,7 +45,13 @@ function Action(context, opt) {
                 if (newValues !== "")
                     newValues += ", ";
 
-                newValues += this.stateMatrix[k];
+                if( isNaN(+this.stateMatrix[k]) ) {
+                    newValues += this.stateMatrix[k];
+                    
+                } else {
+                    var val = Math.round(parseFloat(+this.stateMatrix[k]) * 100) / 100;
+                    newValues += "" + val;
+                }
             }
 
             return  "   <div class='row actionRow actionObject'>" + this.getTargetID() + "</div>" +

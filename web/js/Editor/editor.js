@@ -768,6 +768,7 @@ function Editor(opts) {
 
 
             this.viewport.changeScene(scene);
+            this.activeScene.initialRenders = 3;
             this.sceneContentPanel.updateSceneContent();
             this.sequencePanel.updateSequencePanel();
             this.context.changeToSceneModelContext();

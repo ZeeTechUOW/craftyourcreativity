@@ -24,7 +24,7 @@ function DiagramNode(context, opt) {
         var res = "";
         var id = "Node" + this.nodeID;
 
-        res += "<div id='" + id + "' class=\"diagramNode " + this.nodeSize + "\" onmousedown='selectDiagramNode(this, event);' style=\"top: " + this.y + "px; left: " + this.x + "px\">" +
+        res += "<div id='" + id + "' class=\"diagramNode " + this.nodeSize + "" + (editor && this === editor.diagramPanel.selectedNode ? " active": "") + "\" onmousedown='selectDiagramNode(this, event);' style=\"top: " + this.y + "px; left: " + this.x + "px\">" +
                 "<div id='head" + id + "' class=\"nodeHeader\" onmousedown='startDiagramNodeDrag(this, event);'>";
 
         if (this.flowInput)
