@@ -257,6 +257,17 @@ function Editor(opts) {
         this.togglePanel("seq");
     };
 
+    this.isHeaderCollapsed = false;
+    this.toggleHeader = function () {
+        this.isHeaderCollapsed = !this.isHeaderCollapsed;
+        
+        if( this.isHeaderCollapsed ) {
+            $("#root").addClass("noHeader");
+        } else {
+            $("#root").removeClass("noHeader");
+        }
+    };
+
     this.addNewScene = function () {
         var newName = incrementIfDuplicate("Scene", this.scenes, function (scene) {
             return scene.sceneName;

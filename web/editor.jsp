@@ -40,9 +40,6 @@
                     <img id='title' src="resource/CYC Logo.PNG" class="img-responsive">
                     <!--<div id='subtitle'>an E-training Web App</div>-->
                 </div>
-                <div id="signBar">
-                    <span id="poweredBy"> Powered by ZeeTech </span>
-                </div>
                 <div id='toolbar'>
                     <ul id='toolbarList' class="nav nav-tabs">
                         <li class="dropdown">
@@ -134,7 +131,13 @@
                         <li >
                             <a href='#' id='play' onclick='play(this);' >Play</a>
                         </li>
+                        <li class="pull-right">
+                            <a href='#' id='play' onclick='toggleFullScreen(document.body); this.blur();' ><span class="glyphicon glyphicon-fullscreen"></span></a>
+                        </li>
                     </ul>
+                </div>
+                <div id="signBar">
+                    <span id="poweredBy"> Powered by ZeeTech </span>
                 </div>
             </div>
             <div id='rootContent' class="row fullHeight noMargin noPadding">
@@ -380,7 +383,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="modal" id="linkerSyntaxModal" tabindex="-1" role="dialog" aria-labelledby="linkerSyntaxModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -402,7 +405,7 @@
                                     In a Link/URL Field, enter a linker to link between parts of the module.
                                 </div>
                             </div>
-                            
+
                             <div><b>&gt; :</b> Go To Frame Linker
                                 <div><i>eg: &gt;Start, &gt;Next, &gt;0, &gt;1, &gt;2</i></div>
                             </div> 
@@ -420,7 +423,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="modal" id="variableCallModal" tabindex="-1" role="dialog" aria-labelledby="variableCallModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -447,12 +450,12 @@
                                     <i>eg: {=(@time < 10? "Success" : "Failed")}</i>
                                 </div>
                             </div>
-                            
+
                             <div><b>Variable Types</b>
                                 <div><b># :</b> Access Project Variable</div>
                                 <div><b>@ :</b> Access Scene Variable</div>
                             </div>
-                            
+
                             <div><b>Built in Project Variables</b>
                                 <div><b>#username :</b> Returns the player's username</div>
                                 <div><b>#fullname :</b> Returns the player's full name</div>
@@ -768,6 +771,12 @@
                                                 elem.blur();
                                         }
 
+                                        function toggleHeader(elem) {
+                                            editor.toggleHeader();
+                                            if (elem)
+                                                elem.blur();
+                                        }
+
                                         function undo(elem) {
                                             editor.context.undo();
                                             if (elem)
@@ -945,12 +954,12 @@
 
                                         function downloadSelectedFile() {
                                             var selected = $("#fileList>li.itemActive").attr("name");
-                                            if($("#fileList>li.itemActive").attr("ext") !== "[FOLDER]") {
+                                            if ($("#fileList>li.itemActive").attr("ext") !== "[FOLDER]") {
                                                 $("#download").attr("onclick", "window.open('" + editor.projectPath(selected) + "', 'data:application/octet-stream');");
                                                 $("#download").click();
                                                 refreshFileChooser();
                                             } else {
-                                                
+
                                             }
                                         }
 
@@ -1142,6 +1151,43 @@
                                                 elem.blur();
 
                                             editor.diagramPanel.updateDiagramPanel();
+                                        }
+                                        
+                                        var isHeaderChanged = false;
+                                        function toggleFullScreen(elem) {
+                                            // ## The below if statement seems to work better ## if ((document.fullScreenElement && document.fullScreenElement !== null) || (document.msfullscreenElement && document.msfullscreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+                                            if ((document.fullScreenElement !== undefined && document.fullScreenElement === null) || (document.msFullscreenElement !== undefined && document.msFullscreenElement === null) || (document.mozFullScreen !== undefined && !document.mozFullScreen) || (document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen)) {
+                                                if (elem.requestFullScreen) {
+                                                    elem.requestFullScreen();
+                                                } else if (elem.mozRequestFullScreen) {
+                                                    elem.mozRequestFullScreen();
+                                                } else if (elem.webkitRequestFullScreen) {
+                                                    elem.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+                                                } else if (elem.msRequestFullscreen) {
+                                                    elem.msRequestFullscreen();
+                                                }
+                                                if(!editor.isHeaderCollapsed) {
+                                                    editor.toggleHeader();
+                                                    isHeaderChanged = true;
+                                                }
+                                            } else {
+                                                if (document.cancelFullScreen) {
+                                                    document.cancelFullScreen();
+                                                } else if (document.mozCancelFullScreen) {
+                                                    document.mozCancelFullScreen();
+                                                } else if (document.webkitCancelFullScreen) {
+                                                    document.webkitCancelFullScreen();
+                                                } else if (document.msExitFullscreen) {
+                                                    document.msExitFullscreen();
+                                                }
+                                                if(isHeaderChanged) {
+                                                    isHeaderChanged = false;
+                                                    
+                                                    if(editor.isHeaderCollapsed) {
+                                                        editor.toggleHeader();
+                                                    }
+                                                }
+                                            }
                                         }
 
                                         editor.loadProject(function () {

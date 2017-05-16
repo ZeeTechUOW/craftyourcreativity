@@ -97,8 +97,8 @@
                                 var moduleID = <%=module.getModuleID()%>;
                                 var userID = <%=(loggedUser == null ? -1 : loggedUser.getUserID())%>;
 
-                                var username = {type: "TEXT", value: '<%=(loggedUser == null ? "Anonymous" : loggedUser.getUsername())%>'};
-                                var fullname = {type: "TEXT", value: '<%=(loggedUser == null ? "Anonymous" : loggedUser.getFullName())%>'};
+                                var username = '<%=(loggedUser == null ? "Anonymous" : loggedUser.getUsername())%>';
+                                var fullname = '<%=(loggedUser == null ? "Anonymous" : loggedUser.getFullName())%>';
 
                                 var likeAmount = <%=module.getLikes()%>;
                                 var dislikeAmount = <%=module.getDislikes()%>;

@@ -538,7 +538,9 @@ Player.Game = function (context, input) {
 
             xhr.open('GET', "UnlockAchievementServlet?aid=" + achievementID, true);
             xhr.onload = function () {
+                console.log("XHR", xhr.responseText);
                 if (xhr.responseText !== "") {
+                    console.log(_notifyAchievement);
                     if (_notifyAchievement) {
                         _notifyAchievement(JSON.parse(xhr.responseText));
                     }

@@ -1314,9 +1314,8 @@ public class DBAdmin {
                 int _moduleID = resultSet.getInt("moduleID");
                 String _achievementName = resultSet.getString("achievementName");
                 String _achievementDescription = resultSet.getString("achievementDescription");
-                String _imagePath = resultSet.getString("imagePath");
 
-                return new Achievement(achievementID, _moduleID, _achievementName, _achievementDescription, _imagePath);
+                return new Achievement(achievementID, _moduleID, _achievementName, _achievementDescription, "");
             }
 
             return null;
@@ -1451,8 +1450,12 @@ public class DBAdmin {
             preparedStatement.setString(3, key);
 
             ResultSet rs = preparedStatement.executeQuery();
-            rs.next();
-            return rs.getString("mValue");
+            if( rs.next() ) {
+                return rs.getString("mValue");
+            } else {
+                return "";
+            }
+            
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
             return "";

@@ -25,6 +25,9 @@ function InternalPlayer(context) {
     this.counter = 0;
 
     this.start = function () {
+        if( editor.viewport.selectedShape ) {
+            editor.viewport.setSelected(null);
+        }
         this.loadData();
 
         this.canvas = document.getElementById("playerCanvas");

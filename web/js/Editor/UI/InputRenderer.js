@@ -27,9 +27,9 @@ InputRenderer.field = function (content) {
     return "<div class='col-md-6 col-lg-8 propFieldContainer'>" + content + "</div>\n";
 };
 InputRenderer.labelFieldOptions = function (labelName, field, options, fieldID) {
-    return "<div class='col-md-6 col-lg-4 propFieldContainer'><label class='propLabel'>" + labelName + "</label></div>\n" +
-            "<div " + (fieldID ? " id='" + fieldID + "' " : "") + " class='col-md-5 col-lg-7 propFieldContainer'>" + field + "</div>\n" +
-            "<div class='col-md-1 col-lg-1 propFieldContainer'>" + options + "</div>\n";
+    return "<div class='col-xs-12 col-sm-12 col-md-6 col-lg-4 propFieldContainer'><label class='propLabel'>" + labelName + "</label></div>\n" +
+            "<div " + (fieldID ? " id='" + fieldID + "' " : "") + " class='col-xs-12 col-sm-12 col-md-5 col-lg-7 propFieldContainer'>" + field + "</div>\n" +
+            "<div class='col-xs-12 col-sm-12 col-md-1 col-lg-1 propFieldContainer'>" + options + "</div>\n";
 };
 InputRenderer.blurOnEnter = function () {
     return " onkeydown=\"if(event.keyCode === 13) {this.blur();}\" ";

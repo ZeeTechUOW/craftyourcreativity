@@ -482,7 +482,7 @@ function PropertiesPanel(context) {
 
     this.update = function () {
         $("#propertiesPanel").height($("#propertiesCol").height() - $("#propertiesHeading").height());
-        $("#propertiesPanel").css("max-height", $("#propertiesCol").height() - $("#propertiesHeading").height() - 30);
+        $("#propertiesPanel").css("max-height", $("#propertiesCol").height() - $("#propertiesHeading").height() - 23);
         if (this.currentPropertiesContext !== this.context.propertiesContext) {
             this.currentPropertiesContext = this.context.propertiesContext;
             this.clearPanel();

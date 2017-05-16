@@ -53,7 +53,7 @@ public class DirectoryAdmin {
         DirectoryAdmin.createNewDirectory(f3, "Published");
         DirectoryAdmin.copyAndRenameFile(f, "publishedSave.json");
 
-        f4 = new File(DirectoryAdmin.getPath(request, "/module/" + moduleID + "/save.json"));
+        f4 = new File(DirectoryAdmin.getPath(request, "/module/" + moduleID + "/Published"));
 
         DirectoryAdmin.copyFiles(f2, f4);
     }
