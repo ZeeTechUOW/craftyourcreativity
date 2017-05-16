@@ -162,9 +162,11 @@ function DiagramPanel(context) {
         this.selectedNode = node;
 
         if (this.selectedNode) {
+            $("#deleteDiagramTool").prop("disabled", false);
             $("#Node" + this.selectedNode.nodeID).addClass("active");
             this.context.changeToNodeModelContext(this.selectedNode);
         } else {
+            $("#deleteDiagramTool").prop("disabled", true);
             if (!skipRerender)
                 this.context.changeToSceneModelContext();
         }
@@ -388,6 +390,8 @@ function DiagramPanel(context) {
                     }
 
                 }
+            } else {
+                $.notify("Mismatched Node Connection", {position: "top right", className: "error"});
             }
 
             that.mode = "";

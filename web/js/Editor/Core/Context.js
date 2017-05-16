@@ -115,57 +115,80 @@ function Context(editor) {
     };
 
     this.addEdit = function (edit) {
-        console.log("Added edit - ", edit);
-        
         if( edit.initDo ) {
             edit.doEdit();
         }
+        
+        $("#redoTool").prop("disabled", true);
+        $("#undoTool").prop("disabled", false);
+        
+        $("#redoDiagramTool").prop("disabled", true);
+        $("#undoDiagramTool").prop("disabled", false);
         
         this.edits.push(edit);
         this.redoEdits = [];
     };
 
-    this.undo = function () {
+    this.undo = function (skipNotify) {
         if (this.edits.length < 1) {
             return false;
         } else {
             var edit = this.edits.pop();
 
             console.log("Undo " + edit.getName());
-            console.log(edit);
 
             edit.undoEdit();
-            
             this.redoEdits.push(edit);
+            
+            if(!skipNotify) {
+                $.notify("Undo: " + edit.getName(), {position: "top right", className: "success"});
+            }
             
             if( edit.combineSignal && this.edits.length > 0) {
                 if(this.edits[this.edits.length - 1].combineSignal === edit.combineSignal) {
-                    this.undo();
+                    this.undo(true);
                 }
             }
             
+            if( this.edits.length < 1 ) {
+                $("#undoTool").prop("disabled", true);
+                $("#undoDiagramTool").prop("disabled", true);
+            }
+            
+            $("#redoTool").prop("disabled", false);
+            $("#redoDiagramTool").prop("disabled", false);
             return true;
         }
     };
 
-    this.redo = function () {
+    this.redo = function (skipNotify) {
         if (this.redoEdits.length < 1) {
             return false;
         } else {
             var edit = this.redoEdits.pop();
 
             console.log("Redo " + edit.getName());
-            console.log(edit);
 
             edit.redoEdit();
             this.edits.push(edit);
             
+            if(!skipNotify) {
+                $.notify("Redo: " + edit.getName(), {position: "top right", className: "success"});
+            }
             
             if( edit.combineSignal && this.redoEdits.length > 0) {
                 if(this.redoEdits[this.redoEdits.length - 1].combineSignal === edit.combineSignal) {
-                    this.redo();
+                    this.redo(true);
                 }
             }
+            
+            if( this.redoEdits.length < 1 ) {
+                $("#redoTool").prop("disabled", true);
+                $("#redoDiagramTool").prop("disabled", true);
+                
+            }
+            $("#undoTool").prop("disabled", false);
+            $("#undoDiagramTool").prop("disabled", false);
             
             return true;
         }

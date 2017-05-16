@@ -57,6 +57,8 @@ function Editor(opts) {
             xhr.onload = function () {
             };
             xhr.send(data);
+            
+            $.notify("File Saved", {position: "top right", className: "success"});
         }
     };
 
@@ -92,7 +94,13 @@ function Editor(opts) {
                         }
                         c.editor.changeScene(0);
                     }
+                    
+                    
+                    editor.hideLoader();
+                    editor.hideSmallLoader();
+                    $.notify("File Loaded", {position: "top right", className: "success"});
                 } catch (e) {
+                    //$.notify("Load Error: Corrupted ", {position: "top right", className: "error"});
 
                 }
 
@@ -115,6 +123,8 @@ function Editor(opts) {
             dlAnchorElem.setAttribute("href", dataStr);
             dlAnchorElem.setAttribute("download", project.projectName + ".json");
             dlAnchorElem.click();
+            
+            $.notify("File Saved to Local", {position: "top right", className: "success"});
         }
     };
 
@@ -152,11 +162,12 @@ function Editor(opts) {
                     }
                     c.editor.changeScene(0);
                 }
+                
+                editor.hideSmallLoader();
+                $.notify("File Loaded", {position: "top right", className: "success"});
             } catch (e) {
-
+                $.notify("Load Error: Incorrect File or corrupted", {position: "top right", className: "error"});
             }
-
-
         };
         reader.readAsText(file);
     };
@@ -331,6 +342,14 @@ function Editor(opts) {
         $('#richTextModal').modal('show');
     };
 
+    this.openLinkerSyntaxModal = function (ext) {
+        $('#linkerSyntaxModal').modal('show');
+    };
+
+    this.openVariableCallModal = function (ext) {
+        $('#variableCallModal').modal('show');
+    };
+
     this.selectedTextTag = null;
     this.openTagEditor = function () {
         this.selectTextTag(null);
@@ -341,8 +360,14 @@ function Editor(opts) {
     this.addTextTag = function () {
         this.prompt("New Tag Name", "newTag", function (newName) {
             if (newName && newName.length > 0) {
+                if( /[^a-zA-Z0-9]/g.test(newName) ) {
+                    $.notify("Only Alphanumeric characters are accepted", {position: "top right", className: "error"});
+                    return;
+                }
+                
                 for (var k in QText.textProfiles) {
                     if (k === newName) {
+                        $.notify("A '" + k + "' tag already exists", {position: "top right", className: "error"});
                         return;
                     }
                 }
@@ -1111,12 +1136,12 @@ function Editor(opts) {
     this.editDelete = function () {
         if (this.isInDiagram) {
             if (this.diagramPanel.selectedNode) {
-                this.context.addEdit(Edit.deleteNodeEdit(this.clipboard));
+                this.context.addEdit(Edit.deleteNodeEdit(this.diagramPanel.selectedNode));
             }
 
         } else {
             if (this.viewport.selectedShape) {
-                this.context.addEdit(Edit.deleteEntityEdit(this.clipboard.model, this.activeScene, this.activeScene.activeFrame));
+                this.context.addEdit(Edit.deleteEntityEdit(this.viewport.selectedShape.model, this.activeScene, this.activeScene.activeFrame));
             }
         }
     };
@@ -1316,6 +1341,7 @@ function Editor(opts) {
     $('#buttonUpload').on("fileuploaded", (function (c) {
         return function (event, data, previewId, index) {
             editor.hideSmallLoader();
+            $.notify("'" +data.response.filename + "' Uploaded", {position: "top right", className: "success"});
             if (editor.currentFileChooserTarget) {
                 editor.fileItemSelected(editor.removeProjectPath(data.response.filename));
             } else {
@@ -1324,6 +1350,7 @@ function Editor(opts) {
         };
     }(this.context)));
     $('#buttonUpload').on("fileuploadederror", function () {
+        $.notify("Upload Failed", {position: "top right", className: "error"});
         editor.hideSmallLoader();
     });
 
@@ -1333,6 +1360,7 @@ function Editor(opts) {
             var ext = fileName.substr(fileName.lastIndexOf('.') + 1);
 
             if (fileName && fileName.match(/[^A-Za-z0-9 .(),:-]/g)) {
+                $.notify("Uploaded files cannot contain Special Characters!", {position: "top right", className: "error"});
                 return;
             }
 
@@ -1340,6 +1368,7 @@ function Editor(opts) {
                 $("#buttonUpload").fileinput("upload");
                 editor.showSmallLoader();
             } else {
+                $.notify("File Upload: Incorrect Extension", {position: "top right", className: "error"});
                 return;
             }
         }
@@ -1373,8 +1402,10 @@ function Editor(opts) {
             }
 
             if (ext.toUpperCase() === "JSON") {
+                editor.showSmallLoader();
                 editor.loadProjectFromFile(files[0]);
             } else {
+                $.notify("Load Error: Please upload a .JSON file", {position: "top right", className: "error"});
                 return;
             }
         }
@@ -1417,7 +1448,7 @@ function Editor(opts) {
     $('#playModal').on('hidden.bs.modal', function () {
         editor.closeInternalPlayer();
     });
-
+    
     this.getAchievementData();
     this.getEndData();
 

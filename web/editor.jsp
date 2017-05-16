@@ -27,8 +27,8 @@
         <title>Module Editor - <%=module.getModuleName()%></title>
 
         <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/editor.css" rel="stylesheet">
-        <!--<link href="https://dl.dropboxusercontent.com/s/ck4h98vmegifefq/editor.css?dl=0" rel="stylesheet">-->
+        <!--<link href="css/editor.css" rel="stylesheet">-->
+        <link href="https://dl.dropboxusercontent.com/s/ck4h98vmegifefq/editor.css?dl=0" rel="stylesheet">
         <link href="css/loader.css" rel="stylesheet">
     </head>
     <body oncontextmenu="return false;">
@@ -111,6 +111,8 @@
                         <li class="dropdown">
                             <a href='#' id='windowPanel' onclick='toolbarDropdown(this);' onfocusout="toolbarDropdownHide(this)">Panel</a>
                             <ul id='windowPanelDropdown' class="dropdown-menu" role="menu">
+                                <li><a onmousedown="toggleHeader()">Toggle Header</a></li>
+                                <li class="divider"></li>
                                 <li><a onmousedown="toggleSequencePanel()">Toggle Sequence Panel</a></li>
                                 <li><a onmousedown="toggleProjectPanel()">Toggle Project Panel</a></li>
                                 <li><a onmousedown="togglePropertiesPanel()">Toggle Properties Panel</a></li>
@@ -122,7 +124,11 @@
                         <li class="dropdown">
                             <a href='#' id='help' onclick='toolbarDropdown(this);' onfocusout="toolbarDropdownHide(this)">Help</a>
                             <ul id='helpDropdown' class="dropdown-menu" role="menu">
-                                <li><a onmousedown="openRichTextEditor({})">Text Tags</a></li>
+                                <li><a onmousedown="openRichTextEditor({})">Default Text Tags</a></li>
+                                <li><a onmousedown="openLinkerSyntaxModal({})">Linker Syntax</a></li>
+                                <li><a onmousedown="openVariableCallModal({})">Variable Calls</a></li>
+                                <li class="divider"></li>
+                                <li><a onmousedown="window.open('', '_blank')">User Manual</a></li>
                             </ul>
                         </li>
                         <li >
@@ -161,24 +167,24 @@
                         <div id="mainRow" class="row noMargin noPadding"> 
                             <div id="toolRow" class="row noMargin noPadding border">
                                 <div id="sceneToolRow">
-                                    <button id='undoTool' class="btn btn-default toolItem" onclick='undo(this)'><span class='glyphicon undoIcon'></span></button>
-                                    <button id='redoTool' class="btn btn-default toolItem" onclick="redo(this)"><span class='glyphicon redoIcon'></span></button>
+                                    <button id='undoTool' class="btn btn-default toolItem" onclick='undo(this)' disabled><span class='glyphicon undoIcon'></span></button>
+                                    <button id='redoTool' class="btn btn-default toolItem" onclick="redo(this)" disabled><span class='glyphicon redoIcon'></span></button>
                                     <span class="toolSeperator"> | </span>
                                     <button id='insertShapeTool' class="btn btn-default toolItem" onclick="addShape(this)"><span class='glyphicon addShapeIcon'></span></button>
                                     <button id='insertButtonTool' class="btn btn-default toolItem" onclick="addButton(this)"><span class='glyphicon addButtonIcon'></span></button>
                                     <button id='insertTextTool' class="btn btn-default toolItem" onclick="addText(this)"><span class='glyphicon addTextIcon'></span></button>
                                     <button id='insertImageTool' class="btn btn-default toolItem" onclick="uploadImage(this)"><span class='glyphicon uploadImageIcon'></span></button>
                                     <span class="toolSeperator"> | </span>
-                                    <button id='bringToFrontTool' class="btn btn-default toolItem" onclick="bringToFront(this)"><span class='glyphicon bringToFrontIcon'></span></button>
-                                    <button id='bringToBackTool' class="btn btn-default toolItem" onclick="bringToBack(this)"><span class='glyphicon bringToBackIcon'></span></button>
+                                    <button id='bringToFrontTool' class="btn btn-default toolItem" onclick="bringToFront(this)"><span class='glyphicon bringToFrontIcon' disabled></span></button>
+                                    <button id='bringToBackTool' class="btn btn-default toolItem" onclick="bringToBack(this)"><span class='glyphicon bringToBackIcon' disabled></span></button>
 
-                                    <button id='deleteTool' class="btn btn-default toolItem pull-right" onclick="deleteSelectedShape(this)"><span class='glyphicon deleteIcon'></span></button>
+                                    <button id='deleteTool' class="btn btn-default toolItem pull-right" onclick="deleteSelectedShape(this)"><span class='glyphicon deleteIcon' disabled></span></button>
                                     <span class="toolSeperator pull-right"> | </span>
                                     <button id='recordTool' class="btn btn-default toolItem pull-right" onclick="record(this)" disabled="true"><span class='glyphicon glyphicon-record'><span id='recordToolBadge'></span></span></button>
                                 </div>
                                 <div id="diagramToolRow" class="hidden">
-                                    <button id='undoDiagramTool' class="btn btn-default toolItem" onclick='undo(this)'><span class='glyphicon undoIcon'></span></button>
-                                    <button id='redoDiagramTool' class="btn btn-default toolItem" onclick="redo(this)"><span class='glyphicon redoIcon'></span></button>
+                                    <button id='undoDiagramTool' class="btn btn-default toolItem" onclick='undo(this)' disabled><span class='glyphicon undoIcon'></span></button>
+                                    <button id='redoDiagramTool' class="btn btn-default toolItem" onclick="redo(this)" disabled><span class='glyphicon redoIcon'></span></button>
                                     <span class="toolSeperator"> | </span>                                  
                                     <div class="dropdown toolItem">
                                         <button href='#' id='node' class="btn btn-default toolItem" onclick='toolbarDropdown(this);' onfocusout="toolbarDropdownHide(this);"><span class='glyphicon insertSceneIcon'></span></button>
@@ -198,7 +204,7 @@
                                     <button id='refreshDiagramTool' class="btn btn-default toolItem" onclick="refreshDiagram(this)"><span class='glyphicon glyphicon-refresh'></span></button>
 
 
-                                    <button id='deleteTool' class="btn btn-default toolItem pull-right" onclick="deleteSelectedNode(this)"><span class='glyphicon deleteIcon'></span></button>
+                                    <button id='deleteDiagramTool' class="btn btn-default toolItem pull-right" onclick="deleteSelectedNode(this)" disabled><span class='glyphicon deleteIcon'></span></button>
                                 </div>
                             </div>
                             <div id="canvasRow" class="row normalHeight noMargin noPadding">
@@ -330,7 +336,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h3 class="modal-title"> 
-                            <span id="richTextModalLabel">Text</span>
+                            <span id="richTextModalLabel">Default Text Tags</span>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -338,37 +344,120 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-content-title clearfix">
-                            <!--                            <span id="fileItemPath" style="font-size: larger">
-                                                            Project1/Assets/
-                                                        </span>
-                                                        <span class="pull-right">
-                                                            <button id='fileChooserNewFolderButton' class="btn btn-default btn-sm" onclick='createNewFolder()'>NF</button>
-                                                            <button id='fileChooserDownloadButton' class="btn btn-default btn-sm" onclick='downloadSelectedFile()' disabled>Do</button>
-                                                            <button id='fileChooserRenameButton' class="btn btn-default btn-sm" onclick="renameSelectedFile()" disabled>R</button>
-                                                            |
-                                                            <button id='fileChooserDeleteButton' class="btn btn-default btn-sm" onclick="deleteSelectedFile()" disabled>Del</button>
-                                                        </span>-->
                         </div>
-                        <textarea style='margin: 10px; margin-right: 10px; width: calc(100% - 20px); height: 300px;' readonly>Bold &lt;b&gt;              
-Italic &lt;i&gt;
-Drop Shadow &lt;shadow&gt;
+                        <div id="richTextModalContent">
+                            <div><b>Bold :</b> &lt;b&gt;</div>              
+                            <div><b>Italic :</b> &lt;i&gt;</div>
+                            <div><b>Drop Shadow :</b> &lt;shadow&gt;</div>
 
-Top alignment &lt;top&gt;
-Middle alignment &lt;middle&gt; 
-Bottom alignment &lt;bottom&gt;
+                            <div><b>Top alignment :</b> &lt;top&gt;</div>
+                            <div><b>Middle alignment :</b> &lt;middle&gt;</div>
+                            <div><b>Bottom alignment :</b> &lt;bottom&gt;</div>
 
-Font Size &lt;p[8-96]&gt; 
-eg: &lt;p8&gt;, &lt;p10&gt;..... &lt;p84&gt;, &lt;p96&gt;
+                            <div><b>Font Size :</b> &lt;p[8-96]&gt;
+                                <div><i>eg: &lt;p8&gt;, &lt;p10&gt;..... &lt;p84&gt;, &lt;p96&gt;</i></div>
+                            </div>
 
-Font Color &lt;[color]&gt; 
-eg: &lt;red&gt;, &lt;blue&gt;, &lt;aquamarine&gt;... &lt;silver&gt;, &lt;gold&gt;
+                            <div><b>Font Color :</b> &lt;[color]&gt;
+                                <div><i>eg: &lt;red&gt;, &lt;blue&gt;, &lt;aquamarine&gt;... &lt;silver&gt;, &lt;gold&gt;</i></div>
+                            </div>
 
-Stroke Size &lt;s[1-10]&gt; 
-eg: &lt;s1&gt;, &lt;s2&gt;, &lt;s3&gt;.... &lt;s10&gt;
+                            <div><b>Stroke Size :</b> &lt;s[1-10]&gt;
+                                <div><i>eg: &lt;s1&gt;, &lt;s2&gt;, &lt;s3&gt;.... &lt;s10&gt;</i></div>
+                            </div>
 
-Stroke Color &lt;s[color]&gt; 
-eg: &lt;sred&gt;, &lt;sblue&gt;, &lt;saquamarine&gt;... &lt;ssilver&gt;, &lt;sgold&gt;
-                        </textarea>
+                            <div><b>Stroke Color :</b> &lt;s[color]&gt;
+                                <div><i>eg: &lt;sred&gt;, &lt;sblue&gt;, &lt;saquamarine&gt;... &lt;ssilver&gt;, &lt;sgold&gt;</i></div>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="modal-footer clearfix">
+                        <div class="pull-right">
+                            <!--<button id="selectFileButton" type="button" class="btn btn-primary" onclick="fileItemChosen()" disabled="">Select File</button>-->
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal" id="linkerSyntaxModal" tabindex="-1" role="dialog" aria-labelledby="linkerSyntaxModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title"> 
+                            <span id="linkerSyntaxModalLabel">Linker Syntax</span>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-content-title clearfix">
+                        </div>
+                        <div id="linkerSyntaxModalContent">
+                            <div>
+                                <b>How to use :</b>
+                                <div>
+                                    In a Link/URL Field, enter a linker to link between parts of the module.
+                                </div>
+                            </div>
+                            
+                            <div><b>&gt; :</b> Go To Frame Linker
+                                <div><i>eg: &gt;Start, &gt;Next, &gt;0, &gt;1, &gt;2</i></div>
+                            </div> 
+                            <div><b># :</b> Go To Diagram Linker 
+                                <div><i>eg: #A, #anAnchor, #no1, #21</i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer clearfix">
+                        <div class="pull-right">
+                            <!--<button id="selectFileButton" type="button" class="btn btn-primary" onclick="fileItemChosen()" disabled="">Select File</button>-->
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal" id="variableCallModal" tabindex="-1" role="dialog" aria-labelledby="variableCallModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title"> 
+                            <span id="linkerSyntaxModalLabel">Variable Call</span>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-content-title clearfix">
+                        </div>
+                        <div id="variableCallModalContent">
+                            <div>
+                                <b>How to use :</b>
+                                <div>
+                                    In any fieldbox, include <b>{= }</b> to call scene or project variables
+                                </div>
+                                <div>
+                                    <i>eg: {=@count}, {=@hour} Hours</i>
+                                    <i>eg: {=@aSceneVariable * #aProjectVariable}, {=5 + #anotherProjectVariable}</i>
+                                    <i>eg: {=(@time < 10? "Success" : "Failed")}</i>
+                                </div>
+                            </div>
+                            
+                            <div><b>Variable Types</b>
+                                <div><b># :</b> Access Project Variable</div>
+                                <div><b>@ :</b> Access Scene Variable</div>
+                            </div>
+                            
+                            <div><b>Built in Project Variables</b>
+                                <div><b>#username :</b> Returns the player's username</div>
+                                <div><b>#fullname :</b> Returns the player's full name</div>
+                            </div> 
+                        </div>
                     </div>
                     <div class="modal-footer clearfix">
                         <div class="pull-right">
@@ -588,6 +677,8 @@ eg: &lt;sred&gt;, &lt;sblue&gt;, &lt;saquamarine&gt;... &lt;ssilver&gt;, &lt;sgo
                                         }
 
                                         function load(elem) {
+                                            editor.showSmallLoader();
+                                            editor.loadProject();
                                             if (elem)
                                                 elem.blur();
                                         }
@@ -779,6 +870,14 @@ eg: &lt;sred&gt;, &lt;sblue&gt;, &lt;saquamarine&gt;... &lt;ssilver&gt;, &lt;sgo
                                             editor.openRichTextEditor(ext);
                                         }
 
+                                        function openLinkerSyntaxModal(ext) {
+                                            editor.openLinkerSyntaxModal(ext);
+                                        }
+
+                                        function openVariableCallModal(ext) {
+                                            editor.openVariableCallModal(ext);
+                                        }
+
                                         function openPlayModal() {
                                             $("#playModal").modal("show");
                                         }
@@ -846,20 +945,21 @@ eg: &lt;sred&gt;, &lt;sblue&gt;, &lt;saquamarine&gt;... &lt;ssilver&gt;, &lt;sgo
 
                                         function downloadSelectedFile() {
                                             var selected = $("#fileList>li.itemActive").attr("name");
-                                            $("#download").attr("onclick", "window.open('" + editor.projectPath(selected) + "', 'data:application/octet-stream');");
-                                            $("#download").click();
-                                            refreshFileChooser();
+                                            if($("#fileList>li.itemActive").attr("ext") !== "[FOLDER]") {
+                                                $("#download").attr("onclick", "window.open('" + editor.projectPath(selected) + "', 'data:application/octet-stream');");
+                                                $("#download").click();
+                                                refreshFileChooser();
+                                            } else {
+                                                
+                                            }
                                         }
 
                                         function createNewFolder(name) {
-                                            console.log("AKKKKK", name);
                                             if (!name) {
                                                 editor.prompt("New Folder Name", "", function (newValue) {
                                                     if (!newValue) {
                                                         return;
                                                     }
-                                                    console.log("CCCCd", newValue);
-                                                    console.trace();
 
                                                     editor.createNewFolder(null, newValue, function () {
                                                         refreshFileChooser();
@@ -1014,17 +1114,13 @@ eg: &lt;sred&gt;, &lt;sblue&gt;, &lt;saquamarine&gt;... &lt;ssilver&gt;, &lt;sgo
                                         function deleteSelectedShape(elem) {
                                             if (elem)
                                                 elem.blur();
-                                            if (editor.viewport.selectedShape) {
-                                                editor.activeScene.removeEntityFromScene(editor.viewport.selectedShape.model);
-                                                editor.viewport.setSelected(null);
-                                                editor.context.changeToSceneModelContext();
-                                            }
+                                            del();
                                         }
 
                                         function deleteSelectedNode(elem) {
                                             if (elem)
                                                 elem.blur();
-                                            editor.diagramPanel.deleteSelectedNode();
+                                            del();
                                         }
 
                                         function insertNewFrameAfter() {

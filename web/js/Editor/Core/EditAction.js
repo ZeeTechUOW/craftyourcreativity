@@ -483,11 +483,97 @@ Edit.addSceneEdit = function (scene) {
         return "Add " + scene.sceneName;
     };
 
+    edit.affectedNodes = null;
+    
+    edit.setUpAffectedNodes = function () {
+        edit.affectedNodes = [];
+        for( var k in editor.diagramPanel.nodes ) {
+            var node = editor.diagramPanel.nodes[k];
+            
+            if( node.content && node.content.sceneName && node.content.sceneName.value === edit.scene) {
+                if(editor.project.scenes > 0) {
+                    node.content.sceneName.value = editor.project.scenes[0];
+                } else {
+                    node.content.sceneName.value = null;
+                }
+                
+                var flowOutput = {};
+                var content = {};
+                var otherNodes = [];
+                
+                for (var j in node.flowOutput ) {
+                    flowOutput[j] = node.flowOutput[j];
+                }
+                for (var j in node.content ) {
+                    if(j !== "sceneName") {
+                        content[j] = {};
+                        content[j].value = node.content[j].value;
+                        content[j].dataInput = node.content[j].dataInput;
+                    }
+                }
+                for( var j in editor.diagramPanel.nodes ) {
+                    var oNode = editor.diagramPanel.nodes[j];
+                    
+                    var oNodeContent = null;
+                    for( var i in oNode.content ) {
+                        var dataInput = oNode.content[i].dataInput;
+                        if( dataInput && dataInput !== true) {
+                            if(dataInput.split("|")[0] === "" + node.nodeID) {
+                                if( !oNodeContent ) {
+                                    oNodeContent = {};
+                                }
+                                
+                                oNodeContent[i] = {dataInput: dataInput};
+                                oNode.content[i].dataInput = true;
+                            }
+                        }
+                    }
+                    
+                    if( oNodeContent ) {
+                        otherNodes.push({node: oNode, content: oNodeContent});
+                    }
+                }
+                
+                edit.affectedNodes.push({node: node, flowOutput: flowOutput, content: content, otherNodes: otherNodes});
+            }
+        }
+    };
+    
     edit.doEdit = function () {
+        
+        for( var k in edit.affectedNodes ) {
+            var nodeData = edit.affectedNodes[k];
+            var node = nodeData.node;
+            
+            node.content.sceneName.value = edit.scene;
+            
+            for( var j in nodeData.flowOutput ) {
+                node.flowOutput[j] = nodeData.flowOutput[j];
+            }
+            for( var j in nodeData.content ) {
+                if( !node.content[j] ) {
+                    node.content[j] = {};
+                }
+                node.content[j].value = nodeData.content[j].value;
+                node.content[j].dataInput = nodeData.content[j].dataInput;
+            }
+            for( var j in nodeData.otherNodes ) {
+                var oNodeData = nodeData.otherNodes[j];
+                
+                for( var i in oNodeData.content ) {
+                    oNodeData.node.content[i].dataInput = oNodeData.content[i].dataInput;
+                }
+            }
+        }
+        
         editor.project.addScene(edit.scene);
     };
 
     edit._undoEdit = function () {
+        if(!edit.affectedNodes) {
+            edit.setUpAffectedNodes();
+        }
+        
         editor.project.removeScene(edit.scene);
     };
 

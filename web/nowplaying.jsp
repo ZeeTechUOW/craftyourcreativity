@@ -97,14 +97,17 @@
                                 var moduleID = <%=module.getModuleID()%>;
                                 var userID = <%=(loggedUser == null ? -1 : loggedUser.getUserID())%>;
 
+                                var username = {type: "TEXT", value: '<%=(loggedUser == null ? "Anonymous" : loggedUser.getUsername())%>'};
+                                var fullname = {type: "TEXT", value: '<%=(loggedUser == null ? "Anonymous" : loggedUser.getFullName())%>'};
+
                                 var likeAmount = <%=module.getLikes()%>;
                                 var dislikeAmount = <%=module.getDislikes()%>;
 
                                 var player = new GamePlayer(moduleID, userID);
 
                                 player.startGame(function () {
-                                    player.game.dataVariables.username = {type: "TEXT", value: '<%=(loggedUser == null ? "Anonymous" : loggedUser.getUsername())%>'};
-                                    player.game.dataVariables.fullname = {type: "TEXT", value: '<%=(loggedUser == null ? "Anonymous" : loggedUser.getFullName())%>'};
+                                    player.game.dataVariables.username = username;
+                                    player.game.dataVariables.fullname = fullname;
                                     
                                     hideLoader();
 
@@ -182,9 +185,9 @@
                                         }
                                     }
                                     
-                                    data._isCertified = isCertified;
+                                    data._isCertified = _isCertified;
                                     data._moduleID = <%=module.getModuleID()%>;
-                                    location.href = "GameFinishedServlet?mid=<%=module.getModuleID()%>&score=" + data.score + (isCertified ? "&certs=true" : "") + otherData;
+                                    location.href = "GameFinishedServlet?mid=<%=module.getModuleID()%>&score=" + data.score + (_isCertified ? "&certs=true" : "") + otherData;
                                 }
 
                                 function _RENDER_TO_PDF(imageData, w, h) {
@@ -198,7 +201,7 @@
                                         url: "UploadPDFServlet?mid=<%=module.getModuleID()%>&uid=<%=loggedUser.getUserID()%>",
                                         data: {data: btoa(pdf.output())}
                                     });
-                                    isCertified = true;
+                                    _isCertified = true;
                                 }
             <%
                 }

@@ -372,12 +372,18 @@ function Viewport(context, scene) {
         this.selectedShape = s;
 
         if (this.selectedShape) {
+            $("#bringToFrontTool").prop("disabled", false);
+            $("#bringToBackTool").prop("disabled", false);
+            $("#deleteTool").prop("disabled", false);
             if (this.context.actionData && !fromProperties) {
                 this.context.actionData.set("target", this.selectedShape.model);
             }
             if (!skipPropUpdate)
                 this.context.changeToEntityModelContext(this.selectedShape.model);
         } else {
+            $("#bringToFrontTool").prop("disabled", true);
+            $("#bringToBackTool").prop("disabled", true);
+            $("#deleteTool").prop("disabled", true);
             if (!skipPropUpdate)
                 this.context.changeToSceneModelContext();
         }

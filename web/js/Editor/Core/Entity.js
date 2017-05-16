@@ -193,7 +193,6 @@ function Entity(context, name) {
         return this[key];
     };
     this.setFlat = function (key, value) {
-        console.log("Setting " + key + " = " + value);
         for(var k in Entity.propSerializable) {
             if( key === Entity.propSerializable[k] ) {
                 this.entityProperty.set(key, value);

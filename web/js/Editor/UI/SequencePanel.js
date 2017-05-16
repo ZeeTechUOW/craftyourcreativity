@@ -95,7 +95,7 @@ function SequencePanel(context) {
             n++;
         }
 
-        res += "<li class='frameListItemHead'><div class='frameGroup'><button class='btn btn-default btn-md' onclick='editor.activeScene.addFrame();'>+</button></div></li>";
+        res += "<li class='frameListItemHead'><div class='frameGroup'><button class='btn btn-default btn-md' onclick='editor.addNewFrame();'>+</button></div></li>";
 
         res += "</ul>";
         this.dom.innerHTML = res;

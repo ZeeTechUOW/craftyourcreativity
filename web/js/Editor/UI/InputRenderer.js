@@ -368,6 +368,7 @@ InputRenderer.createLinkField = function (name, valueParent, value, ext) {
                         var frameNo = parseInt(newValue);
 
                         if (isNaN(frameNo)) {
+                            $.notify("Frame must be a number or either Start or Next", {position: "top right", className: "error"});
                             return;
                         }
                         $("#" + res.id).val(">" + frameNo);
