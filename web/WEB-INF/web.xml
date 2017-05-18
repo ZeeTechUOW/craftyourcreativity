@@ -164,6 +164,10 @@
         <servlet-name>GetEndDataServlet</servlet-name>
         <servlet-class>Editor.GetEndDataServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FacebookAuthServlet</servlet-name>
+        <servlet-class>Servlet.FacebookAuthServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DirectoryServlet</servlet-name>
         <url-pattern>/DirectoryServlet</url-pattern>
@@ -415,6 +419,10 @@
     <servlet-mapping>
         <servlet-name>GetEndDataServlet</servlet-name>
         <url-pattern>/GetEndDataServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FacebookAuthServlet</servlet-name>
+        <url-pattern>/facebookauth</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

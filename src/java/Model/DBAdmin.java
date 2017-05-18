@@ -28,13 +28,16 @@ public class DBAdmin {
     // User Query
     private static final String LAST_ID = "SELECT LAST_INSERT_ID();";
 
-    private static final String LOGIN_QUERY
+    private static final String LOGIN
             = "SELECT * "
             + "FROM `user` "
             + "WHERE (username=? OR email=?) AND password=SHA1(?)";
-    private static final String REGISTER_QUERY
+    private static final String REGISTER
             = "INSERT INTO `user` (`userID`, `username`, `password`, `email`, `userType`, `fullname`, `organization`) "
             + "VALUES (NULL, ?, SHA1(?), ?, ?, ?, ?)";
+    private static final String REGISTER_FACEBOOK_ID
+            = "INSERT INTO `userfacebook` (`userID`, `facebookID`) "
+            + "VALUES (?, ?)";
     private static final String GET_USER_FROM_USERNAME
             = "SELECT * "
             + "FROM `user` "
@@ -52,8 +55,13 @@ public class DBAdmin {
             + "SET password=SHA1(?) "
             + "WHERE userID=? AND password=SHA1(?)";
     private static final String GET_ADMIN_EMAIL
-            = "SELECT `email` FROM `user` " 
+            = "SELECT `email` FROM `user` "
             + "WHERE userType = 'admin'";
+    private static final String GET_USER_FROM_FACEBOOK_ID
+            = "SELECT u.userID, u.username, u.email, u.userType, u.fullname, u.organization "
+            + "FROM user u, userfacebook uf "
+            + "WHERE u.userID = uf.userID AND uf.facebookID=?";
+
     // Thread Query
     private static final String CREATE_NEW_THREAD
             = "INSERT INTO `thread` (`threadID`, `userID`, `threadTitle`, `threadType`) "
@@ -111,43 +119,43 @@ public class DBAdmin {
             = "INSERT INTO `post` (`postID`, `threadID`, `userID`, `openingPost`, `message`, `timestamp`) "
             + "VALUES (NULL, (SELECT threadID FROM thread WHERE userID=? ORDER BY threadID DESC LIMIT 1), ?, ?, ?, CURRENT_TIMESTAMP)";
     private static final String GET_POST_FROM_THREAD_ID_LIMIT_BY_X
-            = "SELECT *, " 
-            + "(SELECT COUNT(*) " 
-                + "FROM `postuserdata` d " 
-                + "WHERE p.postID = d.postID " 
-                + "AND d.mKey = 'lstate' " 
-                + "AND d.mValue = 'like') "
-            + "AS likes, " 
-            + "(SELECT COUNT(*) " 
-                + "FROM `postuserdata` d " 
-                + "WHERE p.postID = d.postID " 
-                + "AND d.mKey = 'lstate' " 
-                + "AND d.mValue = 'dislike') " 
-            + "AS dislikes " 
-            + "FROM `post` p " 
+            = "SELECT *, "
+            + "(SELECT COUNT(*) "
+            + "FROM `postuserdata` d "
+            + "WHERE p.postID = d.postID "
+            + "AND d.mKey = 'lstate' "
+            + "AND d.mValue = 'like') "
+            + "AS likes, "
+            + "(SELECT COUNT(*) "
+            + "FROM `postuserdata` d "
+            + "WHERE p.postID = d.postID "
+            + "AND d.mKey = 'lstate' "
+            + "AND d.mValue = 'dislike') "
+            + "AS dislikes "
+            + "FROM `post` p "
             + "WHERE p.threadID = ? "
             + "LIMIT ?, ?";
     private static final String GET_POST_FROM_THREAD_ID_WITH_USER_LIKES_LIMIT_BY_X
-            = "SELECT *, " 
-            + "(SELECT COUNT(*) " 
-                + "FROM `postuserdata` d " 
-                + "WHERE p.postID = d.postID " 
-                + "AND d.mKey = 'lstate' " 
-                + "AND d.mValue = 'like') "
-            + "AS likes, " 
-            + "(SELECT COUNT(*) " 
-                + "FROM `postuserdata` d " 
-                + "WHERE p.postID = d.postID " 
-                + "AND d.mKey = 'lstate' " 
-                + "AND d.mValue = 'dislike') " 
-            + "AS dislikes, " 
-            + "(SELECT mValue " 
-                + "FROM `postuserdata` d " 
-                + "WHERE p.postID = d.postID " 
-                + "AND d.mKey = 'lstate' " 
-                + "AND d.userID = ?) " 
-            + "AS userLikes " 
-            + "FROM `post` p " 
+            = "SELECT *, "
+            + "(SELECT COUNT(*) "
+            + "FROM `postuserdata` d "
+            + "WHERE p.postID = d.postID "
+            + "AND d.mKey = 'lstate' "
+            + "AND d.mValue = 'like') "
+            + "AS likes, "
+            + "(SELECT COUNT(*) "
+            + "FROM `postuserdata` d "
+            + "WHERE p.postID = d.postID "
+            + "AND d.mKey = 'lstate' "
+            + "AND d.mValue = 'dislike') "
+            + "AS dislikes, "
+            + "(SELECT mValue "
+            + "FROM `postuserdata` d "
+            + "WHERE p.postID = d.postID "
+            + "AND d.mKey = 'lstate' "
+            + "AND d.userID = ?) "
+            + "AS userLikes "
+            + "FROM `post` p "
             + "WHERE p.threadID = ? "
             + "LIMIT ?, ?";
 
@@ -179,18 +187,18 @@ public class DBAdmin {
             + "ORDER BY `lastEdited` DESC";
     private static final String GET_MODULE_FROM_MODULE_ID
             = "SELECT *, "
-            + "(SELECT COUNT(*) " 
-                + "FROM `moduleuserdata` d " 
-                + "WHERE m.moduleID = d.moduleID " 
-                + "AND d.mKey = 'lstate' " 
-                + "AND d.mValue = 'like') "
-            + "AS likes, " 
-            + "(SELECT COUNT(*) " 
-                + "FROM `moduleuserdata` d " 
-                + "WHERE m.moduleID = d.moduleID " 
-                + "AND d.mKey = 'lstate' " 
-                + "AND d.mValue = 'dislike') " 
-            + "AS dislikes " 
+            + "(SELECT COUNT(*) "
+            + "FROM `moduleuserdata` d "
+            + "WHERE m.moduleID = d.moduleID "
+            + "AND d.mKey = 'lstate' "
+            + "AND d.mValue = 'like') "
+            + "AS likes, "
+            + "(SELECT COUNT(*) "
+            + "FROM `moduleuserdata` d "
+            + "WHERE m.moduleID = d.moduleID "
+            + "AND d.mKey = 'lstate' "
+            + "AND d.mValue = 'dislike') "
+            + "AS dislikes "
             + "FROM `module` m "
             + "WHERE m.moduleID=?";
     private static final String ADD_VIEW_TO_MODULE
@@ -276,13 +284,13 @@ public class DBAdmin {
             = "SELECT * "
             + "FROM `moduleenddata` "
             + "WHERE moduleID=?";
-    
+
     private static final String UPDATE_USER_MODULE_DATA
             = "INSERT INTO `moduleuserdata` (`userID`, `moduleID`, `mKey`, `mValue`, `timestamp`) "
             + "VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP) "
             + "ON DUPLICATE KEY UPDATE "
             + "mValue = VALUES(mValue)";
-    
+
     private static final String SET_LIKE_TO_MODULE
             = "INSERT INTO `moduleuserdata` (`userID`, `moduleID`, `mKey`, `mValue`) "
             + "VALUES (?, ?, 'lstate', ?) "
@@ -307,14 +315,12 @@ public class DBAdmin {
 
     // User method
     /**
-     * Login method which use username/email and password as credentials and
-     * return <code>User</code> object.
+     * Login method which use username/email and password as credentials and return <code>User</code> object.
      *
      * @param username User's username
      * @param email User's email
      * @param password User's password
-     * @return <code>User</code> with corresponding login credentials if found,
-     * otherwise <code>null</code>.
+     * @return <code>User</code> with corresponding login credentials if found, otherwise <code>null</code>.
      */
     public static User login(String username, String email, String password) {
         try {
@@ -322,7 +328,7 @@ public class DBAdmin {
 
             Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(LOGIN_QUERY);
+            PreparedStatement preparedStatement = connection.prepareStatement(LOGIN);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, email);
             preparedStatement.setString(3, password);
@@ -347,22 +353,20 @@ public class DBAdmin {
     }
 
     /**
-     * Register the current <code>User</code> to the database with corresponding
-     * credentials.
+     * Register the current <code>User</code> to the database with corresponding credentials.
      *
      * @param username User's username
      * @param email User's email
      * @param password User's password
      * @param userType User's user type
-     * @return <code>true</code> if user successfully registered to the
-     * database, otherwise <code>false</code>.
+     * @return <code>true</code> if user successfully registered to the database, otherwise <code>false</code>.
      */
     public static boolean register(String username, String email, String password, String userType, String fullName, String organization) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(REGISTER_QUERY);
+            PreparedStatement preparedStatement = connection.prepareStatement(REGISTER);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
             preparedStatement.setString(3, email);
@@ -378,9 +382,41 @@ public class DBAdmin {
         }
     }
 
+    public static boolean register(String facebookID, String username, String email, String password, String userType, String fullName, String organization) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            PreparedStatement preparedStatement1 = connection.prepareStatement(REGISTER);
+            preparedStatement1.setString(1, username);
+            preparedStatement1.setString(2, password);
+            preparedStatement1.setString(3, email);
+            preparedStatement1.setString(4, userType);
+            preparedStatement1.setString(5, fullName);
+            preparedStatement1.setString(6, organization);
+
+            if (preparedStatement1.executeUpdate() > 0) {
+                ResultSet rs = connection.createStatement().executeQuery(LAST_ID);
+                rs.next();
+                int userID = rs.getInt(1);
+
+                PreparedStatement preparedStatement2 = connection.prepareStatement(REGISTER_FACEBOOK_ID);
+                preparedStatement2.setInt(1, userID);
+                preparedStatement2.setString(2, facebookID);
+
+                return preparedStatement2.executeUpdate() > 0;
+            } else {
+                return false;
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+
+            return false;
+        }
+    }
+
     /**
-     * Check <code>User</code> with the corresponding username is already exist
-     * in database or not.
+     * Check <code>User</code> with the corresponding username is already exist in database or not.
      *
      * @param username username target
      * @return true if username is taken, otherwise false.
@@ -443,8 +479,7 @@ public class DBAdmin {
      * @param userID User's ID
      * @param password User's password
      * @param email User's email
-     * @return <code>true</code> if operation success, otherwise
-     * <code>false</code>.
+     * @return <code>true</code> if operation success, otherwise <code>false</code>.
      */
     public static boolean updateUserEmail(int userID, String password, String email) {
         try {
@@ -470,8 +505,7 @@ public class DBAdmin {
      * @param userID User's ID
      * @param password User's old password
      * @param newPassword User's new password.
-     * @return <code>true</code> if operation success, otherwise
-     * <code>false</code>.
+     * @return <code>true</code> if operation success, otherwise <code>false</code>.
      */
     public static boolean updateUserPassword(int userID, String password, String newPassword) {
         try {
@@ -491,17 +525,44 @@ public class DBAdmin {
         }
     }
 
+    public static User getFacebookUser(String facebookID) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_FROM_FACEBOOK_ID);
+            preparedStatement.setString(1, facebookID);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int _userID = resultSet.getInt("userID");
+                String _username = resultSet.getString("username");
+                String _email = resultSet.getString("email");
+                String _userType = resultSet.getString("userType");
+                String _fullName = resultSet.getString("fullname");
+                String _organization = resultSet.getString("organization");
+
+                return new User(_userID, _username, "", _email, _userType, _fullName, _organization);
+            } else {
+                return null;
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+
+            return null;
+        }
+    }
+
     // Thread method
     /**
-     * Create a new <code>Thread</code> and attach an opening <code>Post</code>
-     * to the <code>Thread</code> as opening <code>Post</code>.
+     * Create a new <code>Thread</code> and attach an opening <code>Post</code> to the <code>Thread</code> as opening <code>Post</code>.
      *
      * @param userID User's ID
      * @param threadTitle Thread title
      * @param threadType Thread type
      * @param message Thread opening post
-     * @return <code>true</code> if operation success, otherwise
-     * <code>false</code>.
+     * @return <code>true</code> if operation success, otherwise <code>false</code>.
      */
     public static int createNewThread(int userID, String threadTitle, String threadType, String message) {
         try {
@@ -567,12 +628,10 @@ public class DBAdmin {
     }
 
     /**
-     * Return the <code>Post</code> that attached to the corresponding
-     * <code>Thread</code> ID as <code>int</code> object.
+     * Return the <code>Post</code> that attached to the corresponding <code>Thread</code> ID as <code>int</code> object.
      *
      * @param threadID target ID
-     * @return <code>Post</code> count if <code>Thread</code> exist, otherwise
-     * -1.
+     * @return <code>Post</code> count if <code>Thread</code> exist, otherwise -1.
      */
     public static int getThreadPostCount(int threadID) {
         try {
@@ -597,16 +656,13 @@ public class DBAdmin {
     }
 
     /**
-     * Return a set of <code>Thread</code> specified by type, sort, size, and
-     * target page.
+     * Return a set of <code>Thread</code> specified by type, sort, size, and target page.
      *
      * @param type <code>Thread</code> type
      * @param sort sorting Algorithm used
      * @param size size of <code>Thread</code> per page
      * @param page target page
-     * @return a non-empty <code>ArrayList</code> of <code>Thread</code> if
-     * operation success, otherwise empty <code>ArrayList</code> of
-     * <code>Thread</code>.
+     * @return a non-empty <code>ArrayList</code> of <code>Thread</code> if operation success, otherwise empty <code>ArrayList</code> of <code>Thread</code>.
      */
     public static ArrayList<Thread> getXForumSortedBy(String type, String sort, int size, int page) {
         ArrayList<Thread> threads = new ArrayList<>();
@@ -652,14 +708,12 @@ public class DBAdmin {
 
     // Post method
     /**
-     * Create and attach a non-opening <code>Post</code> to specified
-     * <code>Thread</code> ID.
+     * Create and attach a non-opening <code>Post</code> to specified <code>Thread</code> ID.
      *
      * @param threadID Thread target ID
      * @param userID User target ID
      * @param message User post
-     * @return <code>true</code> if operation success, otherwise
-     * <code>false</code>.
+     * @return <code>true</code> if operation success, otherwise <code>false</code>.
      */
     public static boolean createNewPost(int threadID, int userID, String message) {
         try {
@@ -681,14 +735,11 @@ public class DBAdmin {
     }
 
     /**
-     * Return an <code>ArrayList</code> of <code>Post</code> which attached to
-     * certain <code>Thread</code> ID.
+     * Return an <code>ArrayList</code> of <code>Post</code> which attached to certain <code>Thread</code> ID.
      *
      * @param threadID Thread target ID
      * @param page target page
-     * @return a non-empty <code>ArrayList</code> of <code>Post</code> if
-     * operation success, otherwise empty <code>ArrayList</code> of
-     * <code>Post</code>.
+     * @return a non-empty <code>ArrayList</code> of <code>Post</code> if operation success, otherwise empty <code>ArrayList</code> of <code>Post</code>.
      */
     public static ArrayList<Post> getThreadPost(int threadID, int page) {
         ArrayList<Post> posts = new ArrayList<>();
@@ -724,7 +775,7 @@ public class DBAdmin {
 
         return posts;
     }
-    
+
     public static ArrayList<Post> getThreadPost(int userID, int threadID, int page) {
         ArrayList<Post> posts = new ArrayList<>();
 
@@ -771,8 +822,7 @@ public class DBAdmin {
      * @param userID Module owner
      * @param moduleName Module name
      * @param moduleDescription Module Description
-     * @return <code>true</code> if operation success, otherwise
-     * <code>false</code>.
+     * @return <code>true</code> if operation success, otherwise <code>false</code>.
      */
     public static int createNewModule(int userID, String moduleName, String moduleDescription) {
         try {
@@ -798,13 +848,10 @@ public class DBAdmin {
     }
 
     /**
-     * Return an <code>ArrayList</code> of <code>Module</code> sorted by certain
-     * method (popular, release, or update).
+     * Return an <code>ArrayList</code> of <code>Module</code> sorted by certain method (popular, release, or update).
      *
      * @param sort Sort method
-     * @return a non-empty <code>ArrayList</code> of <code>Module</code> if
-     * operation success, otherwise empty <code>ArrayList</code> of
-     * <code>Module</code>.
+     * @return a non-empty <code>ArrayList</code> of <code>Module</code> if operation success, otherwise empty <code>ArrayList</code> of <code>Module</code>.
      */
     public static ArrayList<Module> getModuleSortBy(String sort) {
         ArrayList<Module> modules = new ArrayList<>();
@@ -841,8 +888,7 @@ public class DBAdmin {
                 } else {
                     modules.add(new Module(_moduleID, _userID, _moduleName, _moduleDescription, null, _lastEdited, 0, 0));
                 }
-                
-                
+
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
@@ -899,8 +945,7 @@ public class DBAdmin {
      *
      * @param moduleID target ID
      * @param genres <code>ArrayList</code> of genre
-     * @return <code>true</code> if operation success, otherwise
-     * <code>false</code>.
+     * @return <code>true</code> if operation success, otherwise <code>false</code>.
      */
     public static boolean setModuleGenre(int moduleID, ArrayList<String> genres) {
         try {
@@ -935,9 +980,7 @@ public class DBAdmin {
      * Return a set of genre from specified <code>Module</code> ID.
      *
      * @param moduleID target ID
-     * @return a non-empty <code>Arraylist</code> of genres in
-     * <code>String</code> format, otherwise empty <code>Arraylist</code> of
-     * <code>String</code>.
+     * @return a non-empty <code>Arraylist</code> of genres in <code>String</code> format, otherwise empty <code>Arraylist</code> of <code>String</code>.
      */
     public static ArrayList<String> getModuleGenre(int moduleID) {
         ArrayList<String> genres = new ArrayList<>();
@@ -961,15 +1004,12 @@ public class DBAdmin {
         return genres;
     }
 
-
     // Achievement method
     /**
-     * Return an <code>ArrayList</code> of <code>Achievement</code> from
-     * specified <code>Module</code> ID.
+     * Return an <code>ArrayList</code> of <code>Achievement</code> from specified <code>Module</code> ID.
      *
      * @param moduleID target ID
-     * @return a non-empty <code>ArrayList</code> of <code>Achievement</code> if
-     * operation success, otherwise empty <code>ArrayList</code> of
+     * @return a non-empty <code>ArrayList</code> of <code>Achievement</code> if operation success, otherwise empty <code>ArrayList</code> of
      * <code>Achievement</code>.
      */
     public static ArrayList<Achievement> getAllAchievement(int moduleID) {
@@ -1000,13 +1040,11 @@ public class DBAdmin {
     }
 
     /**
-     * an <code>ArrayList</code> of <code>Achievement</code> from specified
-     * <code>Module</code> ID and <code>User</code> ID.
+     * an <code>ArrayList</code> of <code>Achievement</code> from specified <code>Module</code> ID and <code>User</code> ID.
      *
      * @param moduleID Module target ID
      * @param userID User target ID
-     * @return a non-empty <code>ArrayList</code> of <code>Achievement</code> if
-     * operation success, otherwise empty <code>ArrayList</code> of
+     * @return a non-empty <code>ArrayList</code> of <code>Achievement</code> if operation success, otherwise empty <code>ArrayList</code> of
      * <code>Achievement</code>.
      */
     public static ArrayList<Achievement> getAllAchievement(int moduleID, int userID) {
@@ -1052,12 +1090,10 @@ public class DBAdmin {
 
     // Module user data method
     /**
-     * Return an <code>ArrayList</code> of <code>ModuleUserData</code> that
-     * represent set of high score of specified <code>Module</code> ID.
+     * Return an <code>ArrayList</code> of <code>ModuleUserData</code> that represent set of high score of specified <code>Module</code> ID.
      *
      * @param moduleID Module target ID
-     * @return a non-empty <code>ArrayList</code> of <code>ModuleUserData</code>
-     * if operation success, otherwise empty <code>ArrayList</code> of
+     * @return a non-empty <code>ArrayList</code> of <code>ModuleUserData</code> if operation success, otherwise empty <code>ArrayList</code> of
      * <code>ModuleUserData</code>.
      */
     public static ArrayList<ModuleUserData> getModuleHighScore(int moduleID) {
@@ -1091,12 +1127,10 @@ public class DBAdmin {
     }
 
     /**
-     * Return an <code>ArrayList</code> of <code>ModuleUserData</code> that
-     * represent set of module progress of specified <code>User</code> ID.
+     * Return an <code>ArrayList</code> of <code>ModuleUserData</code> that represent set of module progress of specified <code>User</code> ID.
      *
      * @param userID User target ID
-     * @return a non-empty <code>ArrayList</code> of <code>ModuleUserData</code>
-     * if operation success, otherwise empty <code>ArrayList</code> of
+     * @return a non-empty <code>ArrayList</code> of <code>ModuleUserData</code> if operation success, otherwise empty <code>ArrayList</code> of
      * <code>ModuleUserData</code>.
      */
     public static ArrayList<ModuleUserData> getModuleProgress(int userID) {
@@ -1381,7 +1415,7 @@ public class DBAdmin {
             return false;
         }
     }
-    
+
     public static String getAdminEmail() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -1390,7 +1424,7 @@ public class DBAdmin {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_ADMIN_EMAIL);
             ResultSet rs = preparedStatement.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getString("email");
             } else {
                 return null;
@@ -1401,7 +1435,7 @@ public class DBAdmin {
             return null;
         }
     }
-    
+
     public static boolean setLikeToPost(int userID, int postID, String value) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -1420,6 +1454,7 @@ public class DBAdmin {
             return false;
         }
     }
+
     public static boolean setLikeToModule(int userID, int moduleID, String value) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -1450,12 +1485,12 @@ public class DBAdmin {
             preparedStatement.setString(3, key);
 
             ResultSet rs = preparedStatement.executeQuery();
-            if( rs.next() ) {
+            if (rs.next()) {
                 return rs.getString("mValue");
             } else {
                 return "";
             }
-            
+
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
             return "";
@@ -1503,7 +1538,7 @@ public class DBAdmin {
         }
 
         return endDatas;
-        
+
     }
 }
 

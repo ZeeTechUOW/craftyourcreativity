@@ -2,6 +2,8 @@
 
 <%
     String error = request.getParameter("error");
+    
+    String fbAuthURL = (String) request.getAttribute("fbAuthURL");
 %>
 
 <!DOCTYPE>
@@ -59,9 +61,11 @@
                     </div>
                 </form>
                 <div id="util">
-                    <button type="submit" style="border: 0; background: transparent">
-                        <img style='width: 100%' class="img-responsive" src="resource/fb.png" alt="fbLogo">
-                    </button>
+                    <a href="<% out.print(fbAuthURL); %>">
+                        <button type="submit" style="border: 0; background: transparent">
+                            <img style='width: 100%' class="img-responsive" src="resource/fb.png" alt="fbLogo">
+                        </button>    
+                    </a>
                     <button type="submit" style="border: 0; background: transparent">
                         <img style='width: 100%' class="img-responsive" src="resource/tw.png" alt="twLogo">
                     </button>                        

@@ -1,5 +1,7 @@
 package Servlet;
 
+import Model.DirectoryAdmin;
+import Model.FBApp;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +24,15 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        String fbRedirectURL = DirectoryAdmin.getURLContextPath(request) + "/facebookauth";
+        String fbAuthURL 
+                = "https://www.facebook.com/v2.9/dialog/oauth?"
+                + "client_id=" + FBApp.APP_ID
+                + "&redirect_uri=" + fbRedirectURL
+                + "&scope=public_profile,email";
+        
+        request.setAttribute("fbAuthURL", fbAuthURL);
 
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
