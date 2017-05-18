@@ -12,10 +12,6 @@ import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Andree Yosua
- */
 public class DBAdmin {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cyc";
@@ -314,26 +310,22 @@ public class DBAdmin {
     // </editor-fold>
 
     // User method
-    /**
-     * Login method which use username/email and password as credentials and return <code>User</code> object.
-     *
-     * @param username User's username
-     * @param email User's email
-     * @param password User's password
-     * @return <code>User</code> with corresponding login credentials if found, otherwise <code>null</code>.
-     */
     public static User login(String username, String email, String password) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-
-            PreparedStatement preparedStatement = connection.prepareStatement(LOGIN);
+            preparedStatement = connection.prepareStatement(LOGIN);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, email);
             preparedStatement.setString(3, password);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 int _userID = resultSet.getInt("userID");
@@ -349,24 +341,23 @@ public class DBAdmin {
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
     }
-
-    /**
-     * Register the current <code>User</code> to the database with corresponding credentials.
-     *
-     * @param username User's username
-     * @param email User's email
-     * @param password User's password
-     * @param userType User's user type
-     * @return <code>true</code> if user successfully registered to the database, otherwise <code>false</code>.
-     */
+    
     public static boolean register(String username, String email, String password, String userType, String fullName, String organization) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(REGISTER);
+            preparedStatement = connection.prepareStatement(REGISTER);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
             preparedStatement.setString(3, email);
@@ -379,15 +370,24 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
 
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
 
     public static boolean register(String facebookID, String username, String email, String password, String userType, String fullName, String organization) {
+        Connection connection = null;
+        PreparedStatement preparedStatement1 = null;
+        PreparedStatement preparedStatement2 = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement1 = connection.prepareStatement(REGISTER);
+            preparedStatement1 = connection.prepareStatement(REGISTER);
             preparedStatement1.setString(1, username);
             preparedStatement1.setString(2, password);
             preparedStatement1.setString(3, email);
@@ -396,11 +396,11 @@ public class DBAdmin {
             preparedStatement1.setString(6, organization);
 
             if (preparedStatement1.executeUpdate() > 0) {
-                ResultSet rs = connection.createStatement().executeQuery(LAST_ID);
-                rs.next();
-                int userID = rs.getInt(1);
+                resultSet = connection.createStatement().executeQuery(LAST_ID);
+                resultSet.next();
+                int userID = resultSet.getInt(1);
 
-                PreparedStatement preparedStatement2 = connection.prepareStatement(REGISTER_FACEBOOK_ID);
+                preparedStatement2 = connection.prepareStatement(REGISTER_FACEBOOK_ID);
                 preparedStatement2.setInt(1, userID);
                 preparedStatement2.setString(2, facebookID);
 
@@ -412,48 +412,55 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
 
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement1);
+            closePreparedStatement(preparedStatement2);
+            closeResultSet(resultSet);
         }
     }
-
-    /**
-     * Check <code>User</code> with the corresponding username is already exist in database or not.
-     *
-     * @param username username target
-     * @return true if username is taken, otherwise false.
-     */
+    
     public static boolean isUsernameTaken(String username) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_FROM_USERNAME);
+            preparedStatement = connection.prepareStatement(GET_USER_FROM_USERNAME);
             preparedStatement.setString(1, username);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             return resultSet.next();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
 
             return true;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
     }
-
-    /**
-     * Return the corresponding <code>User</code> object from user ID.
-     *
-     * @param userID user ID target
-     * @return <code>User</code> if user exist, otherwise <code>null</code>.
-     */
+    
     public static User getUser(int userID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_FROM_USER_ID);
+            preparedStatement = connection.prepareStatement(GET_USER_FROM_USER_ID);
             preparedStatement.setInt(1, userID);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 int _userID = resultSet.getInt("userID");
@@ -470,23 +477,23 @@ public class DBAdmin {
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
     }
-
-    /**
-     * Update <code>User</code> email to the new email.
-     *
-     * @param userID User's ID
-     * @param password User's password
-     * @param email User's email
-     * @return <code>true</code> if operation success, otherwise <code>false</code>.
-     */
+    
     public static boolean updateUserEmail(int userID, String password, String email) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_EMAIL);
+            preparedStatement = connection.prepareStatement(UPDATE_USER_EMAIL);
             preparedStatement.setString(1, email);
             preparedStatement.setInt(2, userID);
             preparedStatement.setString(3, password);
@@ -496,23 +503,22 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
 
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
-
-    /**
-     * Update <code>User</code> password to the new password.
-     *
-     * @param userID User's ID
-     * @param password User's old password
-     * @param newPassword User's new password.
-     * @return <code>true</code> if operation success, otherwise <code>false</code>.
-     */
+    
     public static boolean updateUserPassword(int userID, String password, String newPassword) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_PASSWORD);
+            preparedStatement = connection.prepareStatement(UPDATE_USER_PASSWORD);
             preparedStatement.setString(1, newPassword);
             preparedStatement.setInt(2, userID);
             preparedStatement.setString(3, password);
@@ -522,18 +528,26 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
 
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
 
     public static User getFacebookUser(String facebookID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_FROM_FACEBOOK_ID);
+            preparedStatement = connection.prepareStatement(GET_USER_FROM_FACEBOOK_ID);
             preparedStatement.setString(1, facebookID);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 int _userID = resultSet.getInt("userID");
@@ -551,39 +565,41 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
 
             return null;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
     }
 
     // Thread method
-    /**
-     * Create a new <code>Thread</code> and attach an opening <code>Post</code> to the <code>Thread</code> as opening <code>Post</code>.
-     *
-     * @param userID User's ID
-     * @param threadTitle Thread title
-     * @param threadType Thread type
-     * @param message Thread opening post
-     * @return <code>true</code> if operation success, otherwise <code>false</code>.
-     */
     public static int createNewThread(int userID, String threadTitle, String threadType, String message) {
+        Connection connection = null;
+        PreparedStatement preparedStatement1 = null;
+        PreparedStatement preparedStatement2 = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement1 = connection.prepareStatement(CREATE_NEW_THREAD);
+            preparedStatement1 = connection.prepareStatement(CREATE_NEW_THREAD);
             preparedStatement1.setInt(1, userID);
             preparedStatement1.setString(2, threadTitle);
             preparedStatement1.setString(3, threadType);
 
-            PreparedStatement preparedStatement2 = connection.prepareStatement(CREATE_OPENING_POST);
+            preparedStatement2 = connection.prepareStatement(CREATE_OPENING_POST);
             preparedStatement2.setInt(1, userID);
             preparedStatement2.setInt(2, userID);
             preparedStatement2.setInt(3, 1);
             preparedStatement2.setString(4, message);
 
             preparedStatement1.executeUpdate();
-            ResultSet rs = connection.createStatement().executeQuery(LAST_ID);
-            rs.next();
-            int threadID = rs.getInt(1);
+            
+            resultSet = connection.createStatement().executeQuery(LAST_ID);
+            resultSet.next();
+            int threadID = resultSet.getInt(1);
 
             preparedStatement2.executeUpdate();
 
@@ -592,23 +608,28 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
 
             return -1;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement1);
+            closePreparedStatement(preparedStatement2);
+            closeResultSet(resultSet);
         }
     }
-
-    /**
-     * Return corresponding <code>Thread</code> from specified ID
-     *
-     * @param threadID target ID
-     * @return <code>Thread</code> if found, otherwise <code>null</code>.
-     */
+    
     public static Thread getThread(int threadID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_THREAD_FROM_THREAD_ID);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            preparedStatement = connection.prepareStatement(GET_THREAD_FROM_THREAD_ID);
             preparedStatement.setInt(1, threadID);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 int _threadID = resultSet.getInt("threadID");
@@ -624,24 +645,27 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
 
             return null;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
     }
-
-    /**
-     * Return the <code>Post</code> that attached to the corresponding <code>Thread</code> ID as <code>int</code> object.
-     *
-     * @param threadID target ID
-     * @return <code>Post</code> count if <code>Thread</code> exist, otherwise -1.
-     */
+    
     public static int getThreadPostCount(int threadID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_THREAD_POST_COUNT_FROM_THREAD_ID);
+            preparedStatement = connection.prepareStatement(GET_THREAD_POST_COUNT_FROM_THREAD_ID);
             preparedStatement.setInt(1, threadID);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 return resultSet.getInt(1);
@@ -652,26 +676,24 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
 
             return -1;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
     }
-
-    /**
-     * Return a set of <code>Thread</code> specified by type, sort, size, and target page.
-     *
-     * @param type <code>Thread</code> type
-     * @param sort sorting Algorithm used
-     * @param size size of <code>Thread</code> per page
-     * @param page target page
-     * @return a non-empty <code>ArrayList</code> of <code>Thread</code> if operation success, otherwise empty <code>ArrayList</code> of <code>Thread</code>.
-     */
+    
     public static ArrayList<Thread> getXForumSortedBy(String type, String sort, int size, int page) {
         ArrayList<Thread> threads = new ArrayList<>();
 
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-
-            PreparedStatement preparedStatement;
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
             if (sort.equalsIgnoreCase("new")) {
                 preparedStatement = connection.prepareStatement(GET_TYPE_THREAD_SORT_BY_NEWEST_WITH_TIMESTAMP_LIMIT_BY_X);
@@ -688,7 +710,8 @@ public class DBAdmin {
             preparedStatement.setInt(2, size * (page - 1));
             preparedStatement.setInt(3, size);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
+            
             while (resultSet.next()) {
                 int _threadID = resultSet.getInt("threadID");
                 int _userID = resultSet.getInt("userID");
@@ -701,26 +724,26 @@ public class DBAdmin {
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
 
         return threads;
     }
 
     // Post method
-    /**
-     * Create and attach a non-opening <code>Post</code> to specified <code>Thread</code> ID.
-     *
-     * @param threadID Thread target ID
-     * @param userID User target ID
-     * @param message User post
-     * @return <code>true</code> if operation success, otherwise <code>false</code>.
-     */
     public static boolean createNewPost(int threadID, int userID, String message) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_NEW_POST);
+            preparedStatement = connection.prepareStatement(CREATE_NEW_POST);
             preparedStatement.setInt(1, threadID);
             preparedStatement.setInt(2, userID);
             preparedStatement.setInt(3, 0);
@@ -731,29 +754,30 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
 
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
-
-    /**
-     * Return an <code>ArrayList</code> of <code>Post</code> which attached to certain <code>Thread</code> ID.
-     *
-     * @param threadID Thread target ID
-     * @param page target page
-     * @return a non-empty <code>ArrayList</code> of <code>Post</code> if operation success, otherwise empty <code>ArrayList</code> of <code>Post</code>.
-     */
+    
     public static ArrayList<Post> getThreadPost(int threadID, int page) {
         ArrayList<Post> posts = new ArrayList<>();
+        
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_POST_FROM_THREAD_ID_LIMIT_BY_X);
+            preparedStatement = connection.prepareStatement(GET_POST_FROM_THREAD_ID_LIMIT_BY_X);
             preparedStatement.setInt(1, threadID);
             preparedStatement.setInt(2, 10 * (page - 1));
             preparedStatement.setInt(3, 10);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 int _postID = resultSet.getInt("postID");
@@ -771,6 +795,10 @@ public class DBAdmin {
             return posts;
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
 
         return posts;
@@ -779,17 +807,22 @@ public class DBAdmin {
     public static ArrayList<Post> getThreadPost(int userID, int threadID, int page) {
         ArrayList<Post> posts = new ArrayList<>();
 
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_POST_FROM_THREAD_ID_WITH_USER_LIKES_LIMIT_BY_X);
+            preparedStatement = connection.prepareStatement(GET_POST_FROM_THREAD_ID_WITH_USER_LIKES_LIMIT_BY_X);
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, threadID);
             preparedStatement.setInt(3, 10 * (page - 1));
             preparedStatement.setInt(4, 10);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 int _postID = resultSet.getInt("postID");
@@ -810,33 +843,34 @@ public class DBAdmin {
             return posts;
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
 
         return posts;
     }
 
     // Module method
-    /**
-     * Create new <code>Module</code> into database.
-     *
-     * @param userID Module owner
-     * @param moduleName Module name
-     * @param moduleDescription Module Description
-     * @return <code>true</code> if operation success, otherwise <code>false</code>.
-     */
     public static int createNewModule(int userID, String moduleName, String moduleDescription) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_NEW_MODULE);
+            preparedStatement = connection.prepareStatement(CREATE_NEW_MODULE);
             preparedStatement.setInt(1, userID);
             preparedStatement.setString(2, moduleName);
             preparedStatement.setString(3, moduleDescription);
 
             preparedStatement.execute();
 
-            ResultSet resultSet = connection.createStatement().executeQuery(LAST_ID);
+            resultSet = connection.createStatement().executeQuery(LAST_ID);
             resultSet.next();
             return resultSet.getInt(1);
 
@@ -844,23 +878,25 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
 
             return -1;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
     }
-
-    /**
-     * Return an <code>ArrayList</code> of <code>Module</code> sorted by certain method (popular, release, or update).
-     *
-     * @param sort Sort method
-     * @return a non-empty <code>ArrayList</code> of <code>Module</code> if operation success, otherwise empty <code>ArrayList</code> of <code>Module</code>.
-     */
+    
     public static ArrayList<Module> getModuleSortBy(String sort) {
         ArrayList<Module> modules = new ArrayList<>();
+        
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement;
             if (sort.equalsIgnoreCase("popular")) {
                 preparedStatement = connection.prepareStatement(GET_ALL_MODULE_SORT_BY_POPULAR_VIEW);
             } else if (sort.equalsIgnoreCase("release")) {
@@ -871,7 +907,7 @@ public class DBAdmin {
                 preparedStatement = connection.prepareStatement(GET_ALL_MODULE_SORT_BY_NEWEST_RELEASE);
             }
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 int _moduleID = resultSet.getInt("moduleID");
@@ -892,26 +928,29 @@ public class DBAdmin {
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+             closeConnection(connection);
+             closePreparedStatement(preparedStatement);
+             closeResultSet(resultSet);
         }
 
         return modules;
     }
 
-    /**
-     * Return specified <code>Module</code> object.
-     *
-     * @param moduleID target ID
-     * @return <code>Module</code> if exist, otherwise <code>null</code>.
-     */
     public static Module getModule(int moduleID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_MODULE_FROM_MODULE_ID);
+            preparedStatement = connection.prepareStatement(GET_MODULE_FROM_MODULE_ID);
             preparedStatement.setInt(1, moduleID);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 int _moduleID = resultSet.getInt("moduleID");
@@ -937,24 +976,24 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
 
             return null;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
     }
-
-    /**
-     * Specify a set of genre to <code>Module</code> object.
-     *
-     * @param moduleID target ID
-     * @param genres <code>ArrayList</code> of genre
-     * @return <code>true</code> if operation success, otherwise <code>false</code>.
-     */
+    
     public static boolean setModuleGenre(int moduleID, ArrayList<String> genres) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
             int statementExecuteCount = 0;
-            PreparedStatement preparedStatement;
-
+            
             preparedStatement = connection.prepareStatement(DELETE_ALL_GENRE_FROM_MODULE_ID);
             preparedStatement.setInt(1, moduleID);
 
@@ -973,56 +1012,60 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
 
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
 
-    /**
-     * Return a set of genre from specified <code>Module</code> ID.
-     *
-     * @param moduleID target ID
-     * @return a non-empty <code>Arraylist</code> of genres in <code>String</code> format, otherwise empty <code>Arraylist</code> of <code>String</code>.
-     */
     public static ArrayList<String> getModuleGenre(int moduleID) {
         ArrayList<String> genres = new ArrayList<>();
+        
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_MODULE_GENRE_FROM_MODULE_ID);
+            preparedStatement = connection.prepareStatement(GET_MODULE_GENRE_FROM_MODULE_ID);
             preparedStatement.setInt(1, moduleID);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 genres.add(resultSet.getString("genre"));
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
 
         return genres;
     }
 
     // Achievement method
-    /**
-     * Return an <code>ArrayList</code> of <code>Achievement</code> from specified <code>Module</code> ID.
-     *
-     * @param moduleID target ID
-     * @return a non-empty <code>ArrayList</code> of <code>Achievement</code> if operation success, otherwise empty <code>ArrayList</code> of
-     * <code>Achievement</code>.
-     */
     public static ArrayList<Achievement> getAllAchievement(int moduleID) {
         ArrayList<Achievement> achievements = new ArrayList<>();
+        
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_ACHIEVEMENTS_FROM_MODULE_ID);
+            preparedStatement = connection.prepareStatement(GET_ALL_ACHIEVEMENTS_FROM_MODULE_ID);
             preparedStatement.setInt(1, moduleID);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 int _achievementID = resultSet.getInt("achievementID");
@@ -1034,33 +1077,35 @@ public class DBAdmin {
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
 
         return achievements;
     }
-
-    /**
-     * an <code>ArrayList</code> of <code>Achievement</code> from specified <code>Module</code> ID and <code>User</code> ID.
-     *
-     * @param moduleID Module target ID
-     * @param userID User target ID
-     * @return a non-empty <code>ArrayList</code> of <code>Achievement</code> if operation success, otherwise empty <code>ArrayList</code> of
-     * <code>Achievement</code>.
-     */
+    
     public static ArrayList<Achievement> getAllAchievement(int moduleID, int userID) {
         ArrayList<Achievement> achievements = new ArrayList<>();
-
+        
+        Connection connection = null;
+        PreparedStatement preparedStatement1 = null;
+        PreparedStatement preparedStatement2 = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement1 = connection.prepareStatement(GET_ALL_ACHIEVEMENTS_FROM_MODULE_ID);
+            preparedStatement1 = connection.prepareStatement(GET_ALL_ACHIEVEMENTS_FROM_MODULE_ID);
             preparedStatement1.setInt(1, moduleID);
 
-            PreparedStatement preparedStatement2 = connection.prepareStatement(GET_ALL_USER_ACHIEVEMENT_FROM_USER_ID);
+            preparedStatement2 = connection.prepareStatement(GET_ALL_USER_ACHIEVEMENT_FROM_USER_ID);
             preparedStatement2.setInt(1, userID);
 
-            ResultSet resultSet = preparedStatement1.executeQuery();
+            resultSet = preparedStatement1.executeQuery();
 
             while (resultSet.next()) {
                 int _achievementID = resultSet.getInt("achievementID");
@@ -1083,31 +1128,33 @@ public class DBAdmin {
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement1);
+            closePreparedStatement(preparedStatement2);
+            closeResultSet(resultSet);
         }
 
         return achievements;
     }
 
     // Module user data method
-    /**
-     * Return an <code>ArrayList</code> of <code>ModuleUserData</code> that represent set of high score of specified <code>Module</code> ID.
-     *
-     * @param moduleID Module target ID
-     * @return a non-empty <code>ArrayList</code> of <code>ModuleUserData</code> if operation success, otherwise empty <code>ArrayList</code> of
-     * <code>ModuleUserData</code>.
-     */
     public static ArrayList<ModuleUserData> getModuleHighScore(int moduleID) {
         ArrayList<ModuleUserData> userDatas = new ArrayList<>();
+        
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_USER_DATA_FROM_MODULE_ID);
+            preparedStatement = connection.prepareStatement(GET_ALL_USER_DATA_FROM_MODULE_ID);
             preparedStatement.setInt(1, moduleID);
             preparedStatement.setString(2, "score");
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 int _moduleID = resultSet.getInt("moduleId");
@@ -1121,29 +1168,30 @@ public class DBAdmin {
             Collections.sort(userDatas, ModuleUserData.sortByScoreDesc);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
 
         return userDatas;
     }
 
-    /**
-     * Return an <code>ArrayList</code> of <code>ModuleUserData</code> that represent set of module progress of specified <code>User</code> ID.
-     *
-     * @param userID User target ID
-     * @return a non-empty <code>ArrayList</code> of <code>ModuleUserData</code> if operation success, otherwise empty <code>ArrayList</code> of
-     * <code>ModuleUserData</code>.
-     */
     public static ArrayList<ModuleUserData> getModuleProgress(int userID) {
         ArrayList<ModuleUserData> userDatas = new ArrayList<>();
+        
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareCall(GET_USER_DATA_FROM_MODULE_ID);
+            preparedStatement = connection.prepareCall(GET_USER_DATA_FROM_MODULE_ID);
             preparedStatement.setInt(1, userID);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 int _moduleID = resultSet.getInt("moduleId");
@@ -1157,6 +1205,10 @@ public class DBAdmin {
             Collections.sort(userDatas, ModuleUserData.sortByModuleIDAsc);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
 
         return userDatas;
@@ -1167,11 +1219,15 @@ public class DBAdmin {
     }
 
     public static boolean addView(int userID, int moduleID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(ADD_VIEW_TO_MODULE);
+            preparedStatement = connection.prepareStatement(ADD_VIEW_TO_MODULE);
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, moduleID);
 
@@ -1180,19 +1236,28 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
 
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
 
     public static ArrayList<Module> getModulesByUserID(int userID) {
         ArrayList<Module> modules = new ArrayList<>();
 
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_MODULE_BY_USER_ID);
+            preparedStatement = connection.prepareStatement(GET_ALL_MODULE_BY_USER_ID);
             preparedStatement.setInt(1, userID);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 int _moduleID = resultSet.getInt("moduleID");
@@ -1212,85 +1277,111 @@ public class DBAdmin {
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
 
         return modules;
     }
 
     public static boolean removeAchievement(int moduleID, int achievementID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ACHIEVEMENT_BY_ID);
+            preparedStatement = connection.prepareStatement(DELETE_ACHIEVEMENT_BY_ID);
             preparedStatement.setInt(1, achievementID);
             preparedStatement.setInt(2, moduleID);
 
             return preparedStatement.execute();
-
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
 
     public static boolean editAchievement(int moduleID, int achievementID, String newName, String newDescription) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-            System.out.println("MODULE ID " + moduleID);
-            System.out.println("ACHIEVEMENT ID " + achievementID);
-            System.out.println("NEWNAME " + newName);
-            System.out.println("NEWDESC " + newDescription);
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ACHIEVEMENT);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            preparedStatement = connection.prepareStatement(UPDATE_ACHIEVEMENT);
             preparedStatement.setString(1, newName);
             preparedStatement.setString(2, newDescription);
             preparedStatement.setInt(3, achievementID);
             preparedStatement.setInt(4, moduleID);
 
-            System.out.println(preparedStatement.toString());
-
             return preparedStatement.execute();
-
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
 
     public static boolean addAchievement(int moduleID, String newName, String newDescription) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(ADD_ACHIEVEMENT);
+            preparedStatement = connection.prepareStatement(ADD_ACHIEVEMENT);
             preparedStatement.setInt(1, moduleID);
             preparedStatement.setString(2, newName);
             preparedStatement.setString(3, newDescription);
 
             return preparedStatement.execute();
-
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
 
     public static boolean unlockAchievement(int achievementID, int userID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement1 = null;
+        PreparedStatement preparedStatement2 = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement1 = connection.prepareStatement(CHECK_ACHIEVEMENT);
+            preparedStatement1 = connection.prepareStatement(CHECK_ACHIEVEMENT);
             preparedStatement1.setInt(1, userID);
             preparedStatement1.setInt(2, achievementID);
 
-            ResultSet rs = preparedStatement1.executeQuery();
-            if (rs.next()) {
+            resultSet = preparedStatement1.executeQuery();
+            if (resultSet.next()) {
                 return false;
             }
 
-            PreparedStatement preparedStatement2 = connection.prepareStatement(UNLOCK_ACHIEVEMENT);
+            preparedStatement2 = connection.prepareStatement(UNLOCK_ACHIEVEMENT);
             preparedStatement2.setInt(1, userID);
             preparedStatement2.setInt(2, achievementID);
 
@@ -1298,51 +1389,76 @@ public class DBAdmin {
             return true;
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement1);
+            closePreparedStatement(preparedStatement2);
+            closeResultSet(resultSet);
         }
     }
 
     public static boolean moduleUpdated(int moduleID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(MODULE_UPDATED);
+            preparedStatement = connection.prepareStatement(MODULE_UPDATED);
             preparedStatement.setInt(1, moduleID);
 
             return preparedStatement.execute();
-
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
 
     public static boolean moduleReleased(int moduleID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(MODULE_RELEASED);
+            preparedStatement = connection.prepareStatement(MODULE_RELEASED);
             preparedStatement.setInt(1, moduleID);
 
             return preparedStatement.execute();
-
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
 
     public static Achievement getAchievement(int achievementID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_ACHIEVEMENT);
+            preparedStatement = connection.prepareStatement(GET_ACHIEVEMENT);
             preparedStatement.setInt(1, achievementID);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 int _moduleID = resultSet.getInt("moduleID");
@@ -1357,176 +1473,247 @@ public class DBAdmin {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
 
             return null;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
-
     }
 
     public static boolean editModule(int moduleID, String newName, String newDescription) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MODULE);
+            preparedStatement = connection.prepareStatement(UPDATE_MODULE);
             preparedStatement.setString(1, newName);
             preparedStatement.setString(2, newDescription);
             preparedStatement.setInt(3, moduleID);
 
-            System.out.println(preparedStatement.toString());
-
             return preparedStatement.execute();
-
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
 
     public static boolean deleteModule(int moduleID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_MODULE_BY_ID);
+            preparedStatement = connection.prepareStatement(DELETE_MODULE_BY_ID);
             preparedStatement.setInt(1, moduleID);
 
             return preparedStatement.execute();
-
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
 
     public static boolean updateUserModuleData(int userID, int moduleID, String dataKey, String dataValue) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_MODULE_DATA);
+            preparedStatement = connection.prepareStatement(UPDATE_USER_MODULE_DATA);
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, moduleID);
             preparedStatement.setString(3, dataKey);
             preparedStatement.setString(4, dataValue);
 
             return preparedStatement.execute();
-
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
 
     public static String getAdminEmail() {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_ADMIN_EMAIL);
-            ResultSet rs = preparedStatement.executeQuery();
+            preparedStatement = connection.prepareStatement(GET_ADMIN_EMAIL);
+            
+            resultSet = preparedStatement.executeQuery();
 
-            if (rs.next()) {
-                return rs.getString("email");
+            if (resultSet.next()) {
+                return resultSet.getString("email");
             } else {
                 return null;
             }
-
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            
             return null;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
     }
 
     public static boolean setLikeToPost(int userID, int postID, String value) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(SET_LIKE_TO_POST);
+            preparedStatement = connection.prepareStatement(SET_LIKE_TO_POST);
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, postID);
             preparedStatement.setString(3, value);
             preparedStatement.setString(4, value);
 
             return preparedStatement.execute();
-
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
 
     public static boolean setLikeToModule(int userID, int moduleID, String value) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(SET_LIKE_TO_MODULE);
+            preparedStatement = connection.prepareStatement(SET_LIKE_TO_MODULE);
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, moduleID);
             preparedStatement.setString(3, value);
             preparedStatement.setString(4, value);
 
             return preparedStatement.execute();
-
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            
             return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
 
     public static String getUserModuleData(int userID, int moduleID, String key) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_MODULE_USER_DATA);
+            preparedStatement = connection.prepareStatement(GET_MODULE_USER_DATA);
             preparedStatement.setInt(1, moduleID);
             preparedStatement.setInt(2, userID);
             preparedStatement.setString(3, key);
 
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                return rs.getString("mValue");
+            resultSet = preparedStatement.executeQuery();
+            
+            if (resultSet.next()) {
+                return resultSet.getString("mValue");
             } else {
                 return "";
             }
-
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            
             return "";
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
     }
 
     public static String getUserPostData(int userID, int postID, String key) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_POST_USER_DATA);
+            preparedStatement = connection.prepareStatement(GET_POST_USER_DATA);
             preparedStatement.setInt(1, postID);
             preparedStatement.setInt(2, userID);
             preparedStatement.setString(3, key);
 
-            ResultSet rs = preparedStatement.executeQuery();
-            rs.next();
-            return rs.getString("mValue");
+            resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            
+            return resultSet.getString("mValue");
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
             return "";
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
     }
 
     public static ArrayList<String> getAllEndData(int moduleID) {
         ArrayList<String> endDatas = new ArrayList<>();
+        
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_END_DATAS_FROM_MODULE_ID);
+            preparedStatement = connection.prepareStatement(GET_ALL_END_DATAS_FROM_MODULE_ID);
             preparedStatement.setInt(1, moduleID);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 String _endData = resultSet.getString("endData");
@@ -1535,10 +1722,37 @@ public class DBAdmin {
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
         }
 
         return endDatas;
-
+    }
+    
+    private static void closeConnection(Connection connection) {
+        try {
+            connection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private static void closePreparedStatement(PreparedStatement preparedStatement) {
+        try {
+            preparedStatement.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private static void closeResultSet(ResultSet resultSet) {
+        try {
+            resultSet.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
 
