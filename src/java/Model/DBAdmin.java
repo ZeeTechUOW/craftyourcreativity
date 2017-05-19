@@ -16,8 +16,8 @@ public class DBAdmin {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cyc";
     private static final String DB_USER = "root";
-    private static final String DB_PASS = ""; // Local machine DB Pass
-//    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
+//    private static final String DB_PASS = ""; // Local machine DB Pass
+    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
 //    private static final String DB_PASS = "cK3rMeyG"; // GCP machine DB Pass
 
     // <editor-fold defaultstate="collapsed" desc="Query String. Click + sign on the left to expand the code">
@@ -33,6 +33,9 @@ public class DBAdmin {
             + "VALUES (NULL, ?, SHA1(?), ?, ?, ?, ?)";
     private static final String REGISTER_FACEBOOK_ID
             = "INSERT INTO `userfacebook` (`userID`, `facebookID`) "
+            + "VALUES (?, ?)";
+    private static final String REGISTER_TWITTER_ID
+            = "INSERT INTO `usertwitter` (`userID`, `twitterID`) "
             + "VALUES (?, ?)";
     private static final String GET_USER_FROM_USERNAME
             = "SELECT * "
@@ -57,6 +60,10 @@ public class DBAdmin {
             = "SELECT u.userID, u.username, u.email, u.userType, u.fullname, u.organization "
             + "FROM user u, userfacebook uf "
             + "WHERE u.userID = uf.userID AND uf.facebookID=?";
+    private static final String GET_USER_FROM_TWITTER_ID
+            = "SELECT u.userID, u.username, u.email, u.userType, u.fullname, u.organization "
+            + "FROM user u, usertwitter ut "
+            + "WHERE u.userID = ut.userID AND ut.twitterID=?";
 
     // Thread Query
     private static final String CREATE_NEW_THREAD
@@ -376,7 +383,7 @@ public class DBAdmin {
         }
     }
 
-    public static boolean register(String facebookID, String username, String email, String password, String userType, String fullName, String organization) {
+    public static boolean registerFacebook(String facebookID, String username, String email, String password, String userType, String fullName, String organization) {
         Connection connection = null;
         PreparedStatement preparedStatement1 = null;
         PreparedStatement preparedStatement2 = null;
@@ -403,6 +410,50 @@ public class DBAdmin {
                 preparedStatement2 = connection.prepareStatement(REGISTER_FACEBOOK_ID);
                 preparedStatement2.setInt(1, userID);
                 preparedStatement2.setString(2, facebookID);
+
+                return preparedStatement2.executeUpdate() > 0;
+            } else {
+                return false;
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+
+            return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement1);
+            closePreparedStatement(preparedStatement2);
+            closeResultSet(resultSet);
+        }
+    }
+    
+    public static boolean registerTwitter(String twitterID, String username, String email, String password, String userType, String fullName, String organization) {
+        Connection connection = null;
+        PreparedStatement preparedStatement1 = null;
+        PreparedStatement preparedStatement2 = null;
+        ResultSet resultSet = null;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            preparedStatement1 = connection.prepareStatement(REGISTER);
+            preparedStatement1.setString(1, username);
+            preparedStatement1.setString(2, password);
+            preparedStatement1.setString(3, email);
+            preparedStatement1.setString(4, userType);
+            preparedStatement1.setString(5, fullName);
+            preparedStatement1.setString(6, organization);
+
+            if (preparedStatement1.executeUpdate() > 0) {
+                resultSet = connection.createStatement().executeQuery(LAST_ID);
+                resultSet.next();
+                int userID = resultSet.getInt(1);
+
+                preparedStatement2 = connection.prepareStatement(REGISTER_TWITTER_ID);
+                preparedStatement2.setInt(1, userID);
+                preparedStatement2.setString(2, twitterID);
 
                 return preparedStatement2.executeUpdate() > 0;
             } else {
@@ -546,6 +597,44 @@ public class DBAdmin {
 
             preparedStatement = connection.prepareStatement(GET_USER_FROM_FACEBOOK_ID);
             preparedStatement.setString(1, facebookID);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int _userID = resultSet.getInt("userID");
+                String _username = resultSet.getString("username");
+                String _email = resultSet.getString("email");
+                String _userType = resultSet.getString("userType");
+                String _fullName = resultSet.getString("fullname");
+                String _organization = resultSet.getString("organization");
+
+                return new User(_userID, _username, "", _email, _userType, _fullName, _organization);
+            } else {
+                return null;
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+
+            return null;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
+        }
+    }
+    
+    public static User getTwitterUser(String twitterID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            preparedStatement = connection.prepareStatement(GET_USER_FROM_TWITTER_ID);
+            preparedStatement.setString(1, twitterID);
 
             resultSet = preparedStatement.executeQuery();
 

@@ -4,6 +4,7 @@
     String error = request.getParameter("error");
     
     String fbAuthURL = (String) request.getAttribute("fbAuthURL");
+    String twitAuthURL = (String) request.getAttribute("twitAuthURL");
 %>
 
 <!DOCTYPE>
@@ -66,13 +67,13 @@
                             <img style='width: 100%' class="img-responsive" src="resource/fb.png" alt="fbLogo">
                         </button>    
                     </a>
-                    <button type="submit" style="border: 0; background: transparent">
-                        <img style='width: 100%' class="img-responsive" src="resource/tw.png" alt="twLogo">
-                    </button>                        
+                        <a href="<% out.print(twitAuthURL); %>">
+                            <button type="submit" style="border: 0; background: transparent">
+                                <img style='width: 100%' class="img-responsive" src="resource/tw.png" alt="twLogo">
+                            </button>   
+                        </a>       
                 </div>
             </div>
-
-
         </div>
     </body>
 </html>

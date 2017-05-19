@@ -1,25 +1,18 @@
 package Servlet;
 
 import Model.DBAdmin;
-import Model.DirectoryAdmin;
-import Model.FBApp;
-import com.restfb.DefaultFacebookClient;
-import com.restfb.FacebookClient;
-import com.restfb.Parameter;
-import com.restfb.Version;
-import com.restfb.json.Json;
-import com.restfb.json.JsonObject;
-import com.restfb.types.User;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.auth.RequestToken;
 
-public class FacebookAuthServlet extends HttpServlet {
+public class CallbackServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -32,53 +25,39 @@ public class FacebookAuthServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String code = request.getParameter("code");
-        if (code == null) {
-            response.sendRedirect("login");
-            return;
-        }
+        Twitter twitter = (Twitter) request.getSession().getAttribute("twitter");
+        RequestToken requestToken = (RequestToken) request.getSession().getAttribute("requestToken");
+        String verifier = request.getParameter("oauth_verifier");
         
-        code += "#_=_";
-        
-        String redirectURL = DirectoryAdmin.getURLContextPath(request) + "/facebookauth";
-        String authURL 
-                = "https://graph.facebook.com/v2.9/oauth/access_token?"
-                + "client_id=" + FBApp.APP_ID
-                + "&redirect_uri=" + redirectURL
-                + "&client_secret=" + FBApp.APP_SECRET
-                + "&code=" + code;
-        
-        URL url = new URL(authURL);
-        
-        HttpURLConnection con =(HttpURLConnection) url.openConnection();
-        con.connect();
-        
-        JsonObject j = Json.parse(new InputStreamReader(con.getInputStream())).asObject();
-        
-        String accessToken = j.getString("access_token", null);
-        
-        FacebookClient fbClient = new DefaultFacebookClient(accessToken, FBApp.APP_SECRET, Version.LATEST);
-        User me = fbClient.fetchObject("me", User.class, Parameter.with("fields", "id,name,email"));
-        
-        Model.User loggedUser = DBAdmin.getFacebookUser(me.getId());
-        
-        if (loggedUser == null) {
-            String username = me.getName().replaceAll(" ", "");
+        try {
+            twitter.getOAuthAccessToken(requestToken, verifier);
+            request.getSession().removeAttribute("requestToken");
             
-            if (DBAdmin.isUsernameTaken(username)) {
-                int i = 1;
-                while (DBAdmin.isUsernameTaken(username + i)) {
-                    i++;
+            String twitterIDString = Long.toString(twitter.getId());
+            twitter4j.User user = twitter.showUser(twitter.getId());
+            
+            Model.User loggedUser = DBAdmin.getTwitterUser(twitterIDString);
+            
+            if (loggedUser == null) {
+                String username = user.getName().replaceAll(" ", "");
+                
+                if (DBAdmin.isUsernameTaken(username)) {
+                    int i = 1;
+                    while (DBAdmin.isUsernameTaken(username + i)) {
+                        i++;
+                    }
+                    username += i;
                 }
-                username += i;
+                
+                DBAdmin.registerTwitter(twitterIDString, username, "null", "", "player", user.getName(), "unaffliated");
+                
+                loggedUser = DBAdmin.getTwitterUser(twitterIDString);
             }
             
-            DBAdmin.registerFacebook(me.getId(), username, "null", "", "player", me.getName(), "unaffliated");
-            
-            loggedUser = DBAdmin.getFacebookUser(me.getId());
+            request.getSession().setAttribute("loggedUser", loggedUser);
+        } catch (IllegalStateException | TwitterException ex) {
+            throw new ServletException(ex);
         }
-        
-        request.getSession().setAttribute("loggedUser", loggedUser);
         
         response.sendRedirect("main");
     }

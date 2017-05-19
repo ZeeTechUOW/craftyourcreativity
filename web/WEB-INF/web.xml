@@ -168,6 +168,14 @@
         <servlet-name>FacebookAuthServlet</servlet-name>
         <servlet-class>Servlet.FacebookAuthServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TwitterAuthServlet</servlet-name>
+        <servlet-class>Servlet.TwitterAuthServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CallbackServlet</servlet-name>
+        <servlet-class>Servlet.CallbackServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DirectoryServlet</servlet-name>
         <url-pattern>/DirectoryServlet</url-pattern>
@@ -423,6 +431,14 @@
     <servlet-mapping>
         <servlet-name>FacebookAuthServlet</servlet-name>
         <url-pattern>/facebookauth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TwitterAuthServlet</servlet-name>
+        <url-pattern>/twitterauth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CallbackServlet</servlet-name>
+        <url-pattern>/callback</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
