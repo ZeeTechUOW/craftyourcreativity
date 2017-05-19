@@ -5,7 +5,6 @@
  */
 package Editor;
 
-import Model.DBAdmin;
 import Model.DirectoryAdmin;
 import Model.User;
 import java.io.BufferedReader;
@@ -17,7 +16,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.json.JSONObject;
 
 /**
  *
