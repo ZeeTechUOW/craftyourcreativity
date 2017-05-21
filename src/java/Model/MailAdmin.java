@@ -50,6 +50,20 @@ public class MailAdmin {
                 "<input type='submit' value='Log in'>" +
             "</form>";
     }
+    private static final String NEW_PASSWORD_SUBJECT_TEMPLATE = "CYC: Account Password Reset";
+    private static String NEW_PASSWORD_CONTENT_TEMPLATE (User user, String password) {
+        return "Account Password Reset - " + user.getFullName() + "<br><br>" + 
+            "Username : " + user.getUsername() + "<br>" +
+            "Password : " + password + "<br>" +
+            "Note that your password can be changed on the settings page.<br><br>" +
+            "Click the following link to login :<br>" +
+            "<a href='" + user.getActivationLink() + "'>" + user.getActivationLink() + "</a><br>Or<br>" +
+            "<form action='" + user.getActivationLink() + "' method='post'>" +
+                "<input type='hidden' name='username' value='" + user.getUsername()+ "'>" + 
+                "<input type='hidden' name='password' value='" + password + "'>" + 
+                "<input type='submit' value='Log in'>" +
+            "</form>";
+    }
     
     public static void sendAccountRequestMail(User userData) {
         sendAccountRequestMail(userData, DBAdmin.getAdminEmail());
@@ -64,6 +78,13 @@ public class MailAdmin {
         String subject = ACCOUNT_CONFIRMED_SUBJECT_TEMPLATE;
         String content = ACCOUNT_CONFIRMED_CONTENT_TEMPLATE(confirmedUser);
         sendMail(subject, content, confirmedUser.getEmail());
+    }
+    
+
+    public static void sendNewPassword(User user, String password) {
+        String subject = NEW_PASSWORD_SUBJECT_TEMPLATE;
+        String content = NEW_PASSWORD_CONTENT_TEMPLATE(user, password);
+        sendMail(subject, content, user.getEmail());
     }
     
     public static void sendMail(String subject, String content, String to) {

@@ -42,6 +42,7 @@ function Scene(context, sceneName) {
             if(!f) {
                 f = new Frame(this);
             }
+            
 
             this.frames.splice(index, 0, f);
             this.changeFrame(f);

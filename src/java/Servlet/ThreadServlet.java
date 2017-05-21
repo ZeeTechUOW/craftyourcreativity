@@ -57,6 +57,10 @@ public class ThreadServlet extends HttpServlet {
 
         // Calculating total page
         postCount = DBAdmin.getThreadPostCount(id);
+        if( postCount < 1 ) {
+            response.sendRedirect("forum");
+            return;
+        }
         if (postCount % 10 == 0) {
             lastPage = postCount / 10;
         } else {

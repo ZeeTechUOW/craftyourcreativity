@@ -453,11 +453,10 @@ Player.Game = function (context, input) {
             autoplay: true,
             volume: volume,
             onend: function () {
+                if (onEnded) {
+                    onEnded();
+                }
                 if (!this.loop) {
-                    if (onEnded) {
-                        onEnded();
-                    }
-
                     that.removeSound(sound);
                 }
             }
@@ -1363,6 +1362,7 @@ Player.Action = function (frame, input) {
         if (this.dontStep) {
             return true;
         }
+        console.log("Stepping " + this.actionName);
         this.time -= t * 1000;
 
         if (this.time <= 0) {
@@ -1444,12 +1444,13 @@ Player.Action = function (frame, input) {
             channel = 0;
 
         var removedByEndOfFrame = that.stateMatrix.frameStop;
-
         if (that.stateMatrix.waitAudio) {
             that.dontStep = true;
             that.currentSound = game.playAudio(channel, audioSrc, volume, loop, function () {
+                console.log("ENDED");
                 that.dontStep = false;
                 that.time = 0;
+                that.isRunning = false;
             }, removedByEndOfFrame);
         } else {
             that.currentSound = game.playAudio(channel, audioSrc, volume, loop, null, removedByEndOfFrame);

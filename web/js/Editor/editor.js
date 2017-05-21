@@ -57,7 +57,7 @@ function Editor(opts) {
             xhr.onload = function () {
             };
             xhr.send(data);
-            
+
             $.notify("File Saved", {position: "top right", className: "success"});
         }
     };
@@ -94,8 +94,8 @@ function Editor(opts) {
                         }
                         c.editor.changeScene(0);
                     }
-                    
-                    
+
+
                     editor.hideLoader();
                     editor.hideSmallLoader();
                     $.notify("File Loaded", {position: "top right", className: "success"});
@@ -123,7 +123,7 @@ function Editor(opts) {
             dlAnchorElem.setAttribute("href", dataStr);
             dlAnchorElem.setAttribute("download", project.projectName + ".json");
             dlAnchorElem.click();
-            
+
             $.notify("File Saved to Local", {position: "top right", className: "success"});
         }
     };
@@ -162,7 +162,7 @@ function Editor(opts) {
                     }
                     c.editor.changeScene(0);
                 }
-                
+
                 editor.hideSmallLoader();
                 $.notify("File Loaded", {position: "top right", className: "success"});
             } catch (e) {
@@ -260,8 +260,8 @@ function Editor(opts) {
     this.isHeaderCollapsed = false;
     this.toggleHeader = function () {
         this.isHeaderCollapsed = !this.isHeaderCollapsed;
-        
-        if( this.isHeaderCollapsed ) {
+
+        if (this.isHeaderCollapsed) {
             $("#root").addClass("noHeader");
         } else {
             $("#root").removeClass("noHeader");
@@ -279,8 +279,10 @@ function Editor(opts) {
 
     this.removeScene = function (i) {
         var scene = this.project.getSceneByNo(i);
-        
-        this.context.addEdit(Edit.deleteSceneEdit(scene));
+
+        if (this.project.scenes.length > 1) {
+            this.context.addEdit(Edit.deleteSceneEdit(scene));
+        }
     };
 
     this.addToCurrentViewport = function (type, opts) {
@@ -321,7 +323,7 @@ function Editor(opts) {
         if (this.activeScene) {
             var cloned = entity.clone();
             cloned.originalScene = this.activeScene;
-            
+
             this.context.addEdit(Edit.addEntityEdit(cloned, this.activeScene).changeName(function () {
                 return label + " " + this.entity.name;
             }));
@@ -371,11 +373,11 @@ function Editor(opts) {
     this.addTextTag = function () {
         this.prompt("New Tag Name", "newTag", function (newName) {
             if (newName && newName.length > 0) {
-                if( /[^a-zA-Z0-9]/g.test(newName) ) {
+                if (/[^a-zA-Z0-9]/g.test(newName)) {
                     $.notify("Only Alphanumeric characters are accepted", {position: "top right", className: "error"});
                     return;
                 }
-                
+
                 for (var k in QText.textProfiles) {
                     if (k === newName) {
                         $.notify("A '" + k + "' tag already exists", {position: "top right", className: "error"});
@@ -395,6 +397,15 @@ function Editor(opts) {
             this.selectTextTag(null);
             delete this.project.textProfiles[tagName];
             this.refreshTagEditor();
+
+            for (var k in this.project.scenes) {
+                for (var j in this.project.scenes[k].entities) {
+                    var e = this.project.scenes[k].entities[j];
+                    if (e.isAQText) {
+                        e.updateText();
+                    }
+                }
+            }
         }
     };
 
@@ -416,7 +427,7 @@ function Editor(opts) {
                 var isBold = profile.fontWeight === "bold";
                 var isNormal = profile.fontStyle === "normal" || profile.fontWeight === "normal";
                 this.updateTextField("fontStyle", (isItalic ? (isBold ? "boldAndItalic" : "italic") : (isBold ? "bold" : (isNormal ? "normal" : null))));
-                ;
+
 
                 this.updateTextField("stroke", profile.strokeThickness);
                 this.updateTextField("strokeColor", profile.stroke);
@@ -1086,7 +1097,7 @@ function Editor(opts) {
         if (this.isInDiagram) {
             if (this.diagramPanel.selectedNode) {
                 this.clipboard = this.diagramPanel.selectedNode;
-                
+
                 this.context.addEdit(Edit.deleteNodeEdit(this.clipboard).changeName(function () {
                     return "Cut " + this.node.nodeName;
                 }));
@@ -1095,7 +1106,7 @@ function Editor(opts) {
         } else {
             if (this.viewport.selectedShape) {
                 this.clipboard = this.viewport.selectedShape;
-                
+
                 this.context.addEdit(Edit.deleteEntityEdit(this.clipboard.model, this.activeScene, this.activeScene.activeFrame).changeName(function () {
                     return "Cut " + this.entity.name;
                 }));
@@ -1352,13 +1363,20 @@ function Editor(opts) {
 
     $('#buttonUpload').on("fileuploaded", (function (c) {
         return function (event, data, previewId, index) {
-            editor.hideSmallLoader();
-            $.notify("'" +data.response.filename + "' Uploaded", {position: "top right", className: "success"});
-            if (editor.currentFileChooserTarget) {
-                editor.fileItemSelected(editor.removeProjectPath(data.response.filename));
-            } else {
-                refreshFileChooser();
-            }
+            var filename = editor.removeProjectPath(data.response.filename);
+
+            editor.context.checkUrl(filename, function () {
+                $.notify("'" + filename + "' Uploaded", {position: "top right", className: "success"});
+                if (editor.currentFileChooserTarget) {
+                    editor.fileItemSelected(filename);
+                } else {
+                    refreshFileChooser();
+                }
+                editor.hideSmallLoader();
+
+            }, function () {
+                editor.hideSmallLoader();
+            });
         };
     }(this.context)));
     $('#buttonUpload').on("fileuploadederror", function () {
@@ -1460,7 +1478,7 @@ function Editor(opts) {
     $('#playModal').on('hidden.bs.modal', function () {
         editor.closeInternalPlayer();
     });
-    
+
     this.getAchievementData();
     this.getEndData();
 

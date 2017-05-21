@@ -27,6 +27,7 @@
         <title>Module Editor - <%=module.getModuleName()%></title>
 
         <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="fonts/icomoon/styles.css" rel="stylesheet">
         <link href="css/editor.css" rel="stylesheet">
         <!--<link href="https://dl.dropboxusercontent.com/s/ck4h98vmegifefq/editor.css?dl=0" rel="stylesheet">-->
         <link href="css/loader.css" rel="stylesheet">
@@ -132,7 +133,7 @@
                             <a href='#' id='play' onclick='play(this);' >Play</a>
                         </li>
                         <li class="pull-right">
-                            <a href='#' id='play' onclick='toggleFullScreen(document.body); this.blur();' ><span class="glyphicon glyphicon-fullscreen"></span></a>
+                            <a href='#' id='play' onclick='toggleFullScreen(document.body); this.blur();' ><span id="fullscreenIcon" class="icon icon-screen-full"></span></a>
                         </li>
                     </ul>
                 </div>
@@ -170,24 +171,24 @@
                         <div id="mainRow" class="row noMargin noPadding"> 
                             <div id="toolRow" class="row noMargin noPadding border">
                                 <div id="sceneToolRow">
-                                    <button id='undoTool' class="btn toolItem" onclick='undo(this)' disabled><span class='glyphicon undoIcon'></span></button>
-                                    <button id='redoTool' class="btn toolItem" onclick="redo(this)" disabled><span class='glyphicon redoIcon'></span></button>
+                                    <button id='undoTool' class="btn toolItem" onclick='undo(this)' disabled><span class='icon-undo2'></span></button>
+                                    <button id='redoTool' class="btn toolItem" onclick="redo(this)" disabled><span class='icon-redo2'></span></button>
                                     <span class="toolSeperator"> </span>
                                     <button id='insertShapeTool' class="btn toolItem" onclick="addShape(this)"><span class='glyphicon addShapeIcon'></span></button>
                                     <button id='insertButtonTool' class="btn toolItem" onclick="addButton(this)"><span class='glyphicon addButtonIcon'></span></button>
                                     <button id='insertTextTool' class="btn toolItem" onclick="addText(this)"><span class='glyphicon addTextIcon'></span></button>
                                     <button id='insertImageTool' class="btn toolItem" onclick="uploadImage(this)"><span class='glyphicon uploadImageIcon'></span></button>
                                     <span class="toolSeperator"> </span>
-                                    <button id='bringToFrontTool' class="btn toolItem" onclick="bringToFront(this)"><span class='glyphicon bringToFrontIcon' disabled></span></button>
-                                    <button id='bringToBackTool' class="btn toolItem" onclick="bringToBack(this)"><span class='glyphicon bringToBackIcon' disabled></span></button>
+                                    <button id='bringToFrontTool' class="btn toolItem" onclick="bringToFront(this)"><span class='icon icon-copy4' disabled></span></button>
+                                    <button id='bringToBackTool' class="btn toolItem" onclick="bringToBack(this)"><span class='icon-copy3' disabled></span></button>
 
                                     <button id='deleteTool' class="btn toolItem pull-right" onclick="deleteSelectedShape(this)"><span class='glyphicon deleteIcon' disabled></span></button>
                                     <span class="toolSeperator pull-right"> </span>
                                     <button id='recordTool' class="btn toolItem pull-right" onclick="record(this)" disabled="true"><span class='glyphicon glyphicon-record'><span id='recordToolBadge'></span></span></button>
                                 </div>
                                 <div id="diagramToolRow" class="hidden">
-                                    <button id='undoDiagramTool' class="btn toolItem" onclick='undo(this)' disabled><span class='glyphicon undoIcon'></span></button>
-                                    <button id='redoDiagramTool' class="btn toolItem" onclick="redo(this)" disabled><span class='glyphicon redoIcon'></span></button>
+                                    <button id='undoDiagramTool' class="btn toolItem" onclick='undo(this)' disabled><span class='icon-undo2'></span></button>
+                                    <button id='redoDiagramTool' class="btn toolItem" onclick="redo(this)" disabled><span class='icon-redo2'></span></button>
                                     <span class="toolSeperator"></span>                                  
                                     <div class="dropdown pull-left">
                                         <button href='#' id='node' class="btn toolItem" onclick='toolbarDropdown(this);' onfocusout="toolbarDropdownHide(this);"><span class='glyphicon insertSceneIcon'></span></button>
@@ -299,7 +300,6 @@
                         </div>
                         <div class="pull-left" id='fileChooserSelectButtonGroup'>
                             <button id="selectFileButton" type="button" class="btn" onclick="fileItemChosen()" disabled="">Select File</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                         <div class="pull-right">
                             <button id="uploadFileButton" type="button" class="btn" onclick="uploadImageFileChooser()">Upload File</button>    
@@ -1171,6 +1171,8 @@
                                                     editor.toggleHeader();
                                                     isHeaderChanged = true;
                                                 }
+                                                $("#fullscreenIcon").removeClass("icon-screen-full");
+                                                $("#fullscreenIcon").addClass("icon-screen-normal");
                                             } else {
                                                 if (document.cancelFullScreen) {
                                                     document.cancelFullScreen();
@@ -1188,6 +1190,8 @@
                                                         editor.toggleHeader();
                                                     }
                                                 }
+                                                $("#fullscreenIcon").removeClass("icon-screen-normal");
+                                                $("#fullscreenIcon").addClass("icon-screen-full");
                                             }
                                         }
 

@@ -422,7 +422,7 @@ Edit.addFrameEdit = function (frame, scene, frameNumber) {
     };
 
     edit.doEdit = function () {
-        if( edit.frameNumber ) {
+        if( edit.frameNumber || edit.frameNumber === 0) {
             edit.scene.addFrameAt(edit.frame, edit.frameNumber);
         } else {
             edit.scene.addFrame(edit.frame);
