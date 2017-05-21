@@ -227,6 +227,7 @@
                                 <%for (int i = 0; i < users.size(); i++) {
                                         User user = users.get(i);
                                         if( user.getUserID() < 0 ) continue;
+                                        if( "null".equalsIgnoreCase(user.getEmail()) ) continue;
                                         if( "admin".equalsIgnoreCase(user.getUserType()) ) continue;
                                         if( user.getEmail() == null || user.getEmail().length() < 1 ) continue;
                                 %>

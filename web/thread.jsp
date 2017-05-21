@@ -20,7 +20,7 @@
     ArrayList<Post> posts = (ArrayList<Post>) request.getAttribute("posts");
     ArrayList<User> userList = (ArrayList<User>) request.getAttribute("userList");
     
-    Twitter twitter = (Twitter) request.getAttribute("twitter");
+    Twitter twitter = (Twitter) request.getSession().getAttribute("twitter");
 %>
 
 <!DOCTYPE html>
@@ -213,7 +213,7 @@
                 if (twitter != null) {
             %>
             function shareTwitter(threadID, page) {
-                $.ajax({url: "TwitterShare"});
+                $.ajax({url: "TwitterShare?tid=" + threadID + "&page=" + page});
             }
             <%        
                 }

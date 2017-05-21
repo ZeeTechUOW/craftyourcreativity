@@ -74,6 +74,8 @@ public class FacebookAuthServlet extends HttpServlet {
             }
             
             DBAdmin.registerFacebook(me.getId(), username, "null", "", "player", me.getName(), "unaffliated");
+            DirectoryAdmin.prepNewUserDirectory(request, username);
+
             
             loggedUser = DBAdmin.getFacebookUser(me.getId());
         }

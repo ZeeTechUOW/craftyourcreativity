@@ -1,6 +1,7 @@
 package Servlet;
 
 import Model.DBAdmin;
+import Model.DirectoryAdmin;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,6 +51,8 @@ public class CallbackServlet extends HttpServlet {
                 }
                 
                 DBAdmin.registerTwitter(twitterIDString, username, "null", "", "player", user.getName(), "unaffliated");
+                DirectoryAdmin.prepNewUserDirectory(request, username);
+
                 
                 loggedUser = DBAdmin.getTwitterUser(twitterIDString);
             }
