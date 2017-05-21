@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import twitter4j.Twitter;
 
 /**
  *
@@ -33,6 +34,7 @@ public class ModuleServlet extends HttpServlet {
         // Initialize variable
         int moduleID;
         Module module;
+        Twitter twitter = (Twitter) request.getSession().getAttribute("twitter");
 
         // Parse all parameter
         try {
@@ -66,6 +68,7 @@ public class ModuleServlet extends HttpServlet {
         // Set Attribute
         request.setAttribute("isCertificated", isCertificated);
         request.setAttribute("module", module);
+        request.setAttribute("twitter", twitter);
 
         request.getRequestDispatcher("module.jsp").forward(request, response);
     }

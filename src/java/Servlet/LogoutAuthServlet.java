@@ -24,6 +24,7 @@ public class LogoutAuthServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         request.getSession().setAttribute("loggedUser", null);
+        request.getSession().setAttribute("twitter", null);
         response.sendRedirect("login");
     }
 
