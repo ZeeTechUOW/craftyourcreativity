@@ -18,7 +18,7 @@ public class DBAdmin {
     private static final String DB_USER = "root";
     private static final String DB_PASS = ""; // Local machine DB Pass
 //    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
-//    private static final String DB_PASS = "cK3rMeyG"; // GCP machine DB Pass
+//    private static final String DB_PASS = "cK3rMeyG"; // Andree GCP machine DB Pass
 
     // <editor-fold defaultstate="collapsed" desc="Query String. Click + sign on the left to expand the code">
     // User Query

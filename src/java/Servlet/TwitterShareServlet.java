@@ -1,52 +1,54 @@
 package Servlet;
 
-import Model.DBAdmin;
-import Model.User;
+import Model.DirectoryAdmin;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import twitter4j.StatusUpdate;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
 
-public class LikeServlet extends HttpServlet {
+public class TwitterShareServlet extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-        if( loggedUser == null ) {
-            return;
+        int threadID;
+        int page;
+        
+        try {
+            threadID = Integer.parseInt(request.getParameter("tid"));
+        } catch (NumberFormatException ex) {
+            threadID = 1;
+            Logger.getLogger(TwitterShareServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        String postID = request.getParameter("pid");
-        String moduleID = request.getParameter("mid");
-        String value = request.getParameter("value");
-        
-        if( postID != null ) {
-            try {
-                int pID = Integer.parseInt(postID);
-                DBAdmin.setLikeToPost(loggedUser.getUserID(), pID, value);
-            } catch (NumberFormatException ex) {
-                
-            }
+        try {
+            page = Integer.parseInt(request.getParameter("page"));
+        } catch (NumberFormatException ex) {
+            page = 1;
+            Logger.getLogger(TwitterShareServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if( moduleID != null ) {
-            try {
-                int mID = Integer.parseInt(moduleID);
-                DBAdmin.setLikeToModule(loggedUser.getUserID(), mID, value);
-            } catch (NumberFormatException ex) {
-                
-            }
+        
+        Twitter twitter = (Twitter) request.getSession().getAttribute("twitter");
+        StatusUpdate su = new StatusUpdate(DirectoryAdmin.getURLContextPath(request) + "/thread?tid=" + threadID + "&page=" + page);
+        
+        try {
+            twitter.updateStatus(su);
+        } catch (TwitterException ex) {
+            Logger.getLogger(TwitterShareServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

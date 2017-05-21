@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import twitter4j.Twitter;
 
 /**
  *
@@ -39,6 +40,7 @@ public class ThreadServlet extends HttpServlet {
         ArrayList<User> userList;
         ArrayList<String> pageCount;
         ArrayList<String> pageCountUrl;
+        Twitter twitter = (Twitter) request.getSession().getAttribute("twitter");
 
         // Validate thread id and page parameter
         try {
@@ -107,6 +109,7 @@ public class ThreadServlet extends HttpServlet {
         request.setAttribute("userList", userList);
         request.setAttribute("pageCount", pageCount);
         request.setAttribute("pageCountUrl", pageCountUrl);
+        request.setAttribute("twitter", twitter);
 
         // Forward
         request.getRequestDispatcher("thread.jsp").forward(request, response);

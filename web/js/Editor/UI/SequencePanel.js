@@ -37,7 +37,7 @@ function SequencePanel(context) {
 
             res += "<li class='frameListItem" + (b ? "Active" : "") + "' style='padding-right: 15px'>" +
                     "   <div class='frameGroup' style='text-align: left'>" +
-                    "       <button class='btn btn-md frameButton " + (b ? "active" : "") + "' onclick='editor.activeScene.goToFrame(" + k + ");' ondragover='event.preventDefault();' ondrop='moveAction(event.dataTransfer.getData(\"Text\"), \"" + k + "-0\", true ); event.stopPropagation();'>" +
+                    "       <button class='btn btn-md frameButton " + (b ? "active" : "") + "' onclick='editor.activeScene.goToFrame(" + k + ");' ondragover='event.preventDefault();' ondrop='moveAction(event.dataTransfer.getData(\"Text\"), \"" + k + "-0\", true ); event.preventDefault(); event.stopPropagation();'>" +
                     n +
                     "       </button>";
 
@@ -63,9 +63,9 @@ function SequencePanel(context) {
             if (!isCollapsed) {
                 for (var j = 0; j < frame.actions.length; j++) {
                     var actionGroupCode = k + "-" + j;
-                    res += "<div id='Action" + actionGroupCode + "' class='actionGroup" + (b ? "Active" : "") + "' style='" + (j === 0 ? "margin-left: -15px" : "") + "' ondragover='event.preventDefault();' ondrop='moveAction(event.dataTransfer.getData(\"Text\"), \"" + actionGroupCode + "\" );'>";
-                    res += "<div class='leftOfActionGroup' ondragover='event.preventDefault();' ondrop='moveAction(event.dataTransfer.getData(\"Text\"), \"" + actionGroupCode + "\", true ); event.stopPropagation();'></div>";
-                    res += "<div class='rightOfActionGroup' ondragover='event.preventDefault();' ondrop='moveAction(event.dataTransfer.getData(\"Text\"), \"" + k + "-" + (j + 1) + "\", true ); event.stopPropagation();'></div><ul class='list-unstyled'>";
+                    res += "<div id='Action" + actionGroupCode + "' class='actionGroup" + (b ? "Active" : "") + "' style='" + (j === 0 ? "margin-left: -15px" : "") + "' ondragover='event.preventDefault();' ondrop='moveAction(event.dataTransfer.getData(\"Text\"), \"" + actionGroupCode + "\" ); event.preventDefault(); '>";
+                    res += "<div class='leftOfActionGroup' ondragover='event.preventDefault();' ondrop='moveAction(event.dataTransfer.getData(\"Text\"), \"" + actionGroupCode + "\", true ); event.stopPropagation(); event.preventDefault(); '></div>";
+                    res += "<div class='rightOfActionGroup' ondragover='event.preventDefault();' ondrop='moveAction(event.dataTransfer.getData(\"Text\"), \"" + k + "-" + (j + 1) + "\", true ); event.stopPropagation(); event.preventDefault(); '></div><ul class='list-unstyled'>";
                     for (var l = 0; l < frame.actions[j].length; l++) {
                         var actionCode = k + "-" + j + "-" + l;
                         var action = frame.actions[j][l];

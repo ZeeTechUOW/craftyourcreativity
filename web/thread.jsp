@@ -1,3 +1,4 @@
+<%@page import="twitter4j.Twitter"%>
 <%@page import="Model.User"%>
 <%@page import="Model.DBAdmin"%>
 <%@page import="Model.Post"%>
@@ -18,6 +19,8 @@
     Thread thread = (Thread) request.getAttribute("thread");
     ArrayList<Post> posts = (ArrayList<Post>) request.getAttribute("posts");
     ArrayList<User> userList = (ArrayList<User>) request.getAttribute("userList");
+    
+    Twitter twitter = (Twitter) request.getAttribute("twitter");
 %>
 
 <!DOCTYPE html>
@@ -96,7 +99,6 @@
                             %>
                         </div>
                     </div>
-
                     <%
                         }
                     %>
@@ -106,16 +108,28 @@
                                 <td><% out.print(userList.get(i).getUsername()); %></td>
                                 <td><% out.print(posts.get(i).getPostTimeFormatted());%>
                                     <span class="dropdown postDropdown">
-                                        <span class="caret dropdown-toggle" type="button" data-toggle="dropdown"></span>
+                                        <button class="dropdown-toggle" type="button" data-toggle="dropdown" style='background: transparent;border: transparent;'><span class="caret"></span></button>
+                                        
                                         <ul class="dropdown-menu dropdown-menu-right" style="background-color: #bdcdba;">
                                             <li><a onclick="if (likePost)
                                                         likePost(<%=posts.get(i).getPostID()%>)">Like</a></li>
                                             <li><a onclick="if (dislikePost)
                                                         dislikePost(<%=posts.get(i).getPostID()%>)">Dislike</a></li>
+                                            <%
+                                                if (twitter != null) {
+                                            %>
                                             <li class="divider"></li>
-                                            <li><a>Share</a></li>
+                                            <li><a onclick="shareTwitter(<% out.print(thread.getThreadID()); %>, <% out.print(pageNum); %>)">Share to Twitter</a></li>
+                                            <%
+                                                }
+                                                if (loggedUser != null && "admin".equalsIgnoreCase(loggedUser.getUserType()) ) {
+                                            %>
                                             <li class="divider"></li>
-                                            <li><a href="DeletePostServlet?pid=<%=posts.get(i).getPostID()%>&tid=<%=thread.getThreadID()%>">Delete Post</a></li>
+                                            <li><a href="DeletePostServlet?tid=<% out.print(thread.getThreadID()); %>&pid<% out.print(posts.get(i).getPostID()); %>)">Delete Post</a></li>
+                                            <%
+                                                }
+                                            %>
+                                            
                                         </ul>
                                     </span>
 
@@ -195,7 +209,16 @@
         </div>
 
         <script>
-
+            <%
+                if (twitter != null) {
+            %>
+            function shareTwitter(threadID, page) {
+                $.ajax({url: "TwitterShare"});
+            }
+            <%        
+                }
+            %>
+                
             <%
                 if (loggedUser != null) {
             %>
@@ -229,7 +252,6 @@
             <%
                 }
             %>
-
         </script>
     </body>
 </html>

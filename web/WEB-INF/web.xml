@@ -177,6 +177,10 @@
         <servlet-class>Servlet.CallbackServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>TwitterShareServlet</servlet-name>
+        <servlet-class>Servlet.TwitterShareServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ResetPasswordServlet</servlet-name>
         <servlet-class>Servlet.ResetPasswordServlet</servlet-class>
     </servlet>
@@ -447,6 +451,10 @@
     <servlet-mapping>
         <servlet-name>CallbackServlet</servlet-name>
         <url-pattern>/callback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TwitterShareServlet</servlet-name>
+        <url-pattern>/TwitterShare</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ResetPasswordServlet</servlet-name>
