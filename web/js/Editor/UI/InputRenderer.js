@@ -372,6 +372,7 @@ InputRenderer.createLinkField = function (name, valueParent, value, ext) {
                             return;
                         }
                         $("#" + res.id).val(">" + frameNo);
+                        $("#" + res.id).blur();
                     });
                 }
             }, {
@@ -383,6 +384,7 @@ InputRenderer.createLinkField = function (name, valueParent, value, ext) {
                         }
 
                         $("#" + res.id).val("#" + newValue);
+                        $("#" + res.id).blur();
                     });
                 }
 
@@ -686,8 +688,9 @@ InputRenderer.createActionArray = function (name, valueParent, value, ext) {
             return this.ext.formatValueToElem(valueParent[value]);
         },
         moveUp: function (index) {
+            index = parseInt(index);
             var arr = this.getDataArray();
-            if (index > 0) {
+            if (arr.length > 1 && index > 0) {
                 var temp = arr[index];
                 arr[index] = arr[index - 1];
                 arr[index - 1] = temp;
@@ -696,8 +699,9 @@ InputRenderer.createActionArray = function (name, valueParent, value, ext) {
             return false;
         },
         moveDown: function (index) {
+            index = parseInt(index);
             var arr = this.getDataArray();
-            if (arr.length <= index + 1) {
+            if (arr.length > index + 1) {
                 var temp = arr[index];
                 arr[index] = arr[index + 1];
                 arr[index + 1] = temp;
@@ -716,6 +720,7 @@ InputRenderer.createActionArray = function (name, valueParent, value, ext) {
             var arr = this.getDataArray();
             for (var k in arr) {
                 var action = arr[k];
+                console.log(k, arr[k]);
                 var name = action.actionName;
                 str += "<div class='propActionGroup'>" +
                         InputRenderer.propertiesRow(
@@ -1100,7 +1105,7 @@ InputRenderer.createObjectField = function (name, arrayObject, ext) {
             if (this.modifyable) {
                 var that = this;
                 res += "<div>";
-                res += InputRenderer.createButton("+", function (elem) {
+                res += InputRenderer.createButton("<span class='icon-plus3'></span>", function (elem) {
                     editor.prompt("New Variable Name", "newVariable", function (newName) {
                         if (!newName) {
                             return;

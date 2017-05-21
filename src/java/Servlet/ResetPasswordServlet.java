@@ -1,9 +1,16 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Servlet;
 
 import Model.DBAdmin;
+import Model.DirectoryAdmin;
+import Model.MailAdmin;
 import Model.User;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,38 +18,36 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Andree Yosua
+ * @author Deni Barasena
  */
-public class SettingServlet extends HttpServlet {
+public class ResetPasswordServlet extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        try {
+            int userID = Integer.parseInt(request.getParameter("uid"));
+            User user = DBAdmin.getUser(userID);
+            String password = user.getFullName().charAt(0) + "" + user.getOrganization().charAt(0) + "" + ("" + (int) (Math.floor(Math.random() * 90000) + 10000)) + user.getEmail().charAt(0);
 
-        // Initialize variable
-        User loggedUser;
-
-        // Get user session
-        loggedUser = (User) request.getSession().getAttribute("loggedUser");
-        if (loggedUser == null) {
-            response.sendRedirect("login");
-            return;
+            user.setActivationLink(DirectoryAdmin.getURLContextPath(request) + "/login");
+            DBAdmin.resetUserPassword(userID, password);
+            MailAdmin.sendNewPassword(user, password);
+        } catch (NumberFormatException e) {
         }
         
-        if("admin".equalsIgnoreCase(loggedUser.getUserType())) {
-            ArrayList<User> users = DBAdmin.getAllUsers();
-            request.setAttribute("users", users);
-        }
-
-        // Forward to view
-        request.getRequestDispatcher("setting.jsp").forward(request, response);
+        response.sendRedirect("setting");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

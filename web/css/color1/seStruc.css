@@ -51,6 +51,7 @@
     width: 60.38%;
     /*background-color: gray;*/
     margin: 4% 0px 0px 5%;
+    margin-top: 0px;
     min-height: 50px;
     font-size: 1.5vw;
 }
@@ -366,6 +367,45 @@ td#avatar{
     font-weight: bold;
 }
 
+
+
+#userControl{
+    padding: 1% 5%;
+    margin: 10px 0px;
+}
+
+#userControl > table {
+    padding: 5px 0px;
+    table-layout: initial;
+    border: none;
+    border-collapse: collapse;
+    padding-left: 10px;
+    text-align: left;
+}
+#userControl > table td, 
+#userControl > table th {
+    padding: 5px;
+}
+#userControl > table #Button {
+    padding: 4px;
+    font-size: smaller;
+}
+
+
+
+#userControl > table > thead > tr {
+    background-color: #458e77;
+}
+
+#userControl > table > tbody >  tr:nth-child(odd) {
+    background-color: #b2c3af;
+    
+}
+#userControl > table > tbody >  tr:nth-child(even) {
+    background-color: #a3b79f;
+    
+}
+
 /*setting table*/
 table, tr, td,#setting{
     padding: 5px 0px;
@@ -374,7 +414,6 @@ table, tr, td,#setting{
     border-collapse: collapse;
     padding-left: 10px;
     text-align: left;
-    font-size: 2vh;
 }
 
 table#setting{
@@ -389,11 +428,15 @@ th#setting{
 }
 
 
-tr#setting:nth-child(2){
+
+
+tr#setting:nth-child(2),
+tr#setting:nth-child(4){
     background-color: #a3b79f;
 }
 
-tr#setting:nth-child(3){
+tr#setting:nth-child(3),
+tr#setting:nth-child(5){
     background-color: #b2c3af;
 }
 

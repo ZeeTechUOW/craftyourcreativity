@@ -97,7 +97,9 @@ img{
     min-height: calc(100% - 78px);
     display: flex;
     flex-direction: column;
+    /*background-color: #f6faf9;*/
     background-color: #aad0c5;
+
     border-left: solid 1px white;
     border-right: solid 1px white;
 }
@@ -113,6 +115,7 @@ img{
         display: flex;
         flex-direction: column;
         background-color: #aad0c5;
+        /*background-color: #f6faf9;*/
         border-left: solid 8px white;
         border-right: solid 8px white;
     }

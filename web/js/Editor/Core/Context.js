@@ -81,50 +81,63 @@ function Context(editor) {
         }
     };
 
-    this.imageChosen = function (url, i) {
-        if (!i)
-            i = 0;
+    this.checkUrl = function (url, onDone, onError, i) {
+        if (!i) {
+            editor.showSmallLoader();
+            i = 20;
+        }
 
-        var name = url.split("/").pop();
 
         var http = new XMLHttpRequest();
 
         http.open('HEAD', editor.projectPath(url), true);
+
         http.onload = function () {
             if (http.status !== 404) {
-                console.log("SUCCESS i=" + i);
-                editor.addToCurrentViewport(Editor.QSprite, {
-                    name: name,
-                    src: url
-                });
+                if (onDone)
+                    onDone();
                 editor.hideSmallLoader();
             } else if (i > 0) {
                 console.log("404 i=" + i);
                 setTimeout(function () {
-                    editor.context.imageChosen(url, i - 1);
+                    editor.context.checkUrl(url, onDone, onError, i - 1);
                 }, 500);
             } else {
-                editor.addToCurrentViewport(Editor.QSprite, {
-                    name: name,
-                    src: "resource/missing_file.png"
-                });
+                if (onError) {
+                    onError();
+                }
                 editor.hideSmallLoader();
             }
         };
         http.send();
     };
 
+    this.imageChosen = function (url) {
+        var name = url.split("/").pop();
+        this.checkUrl(url, function () {
+            editor.addToCurrentViewport(Editor.QSprite, {
+                name: name,
+                src: url
+            });
+        }, function () {
+            editor.addToCurrentViewport(Editor.QSprite, {
+                name: name,
+                src: "resource/missing_file.png"
+            });
+        });
+    };
+
     this.addEdit = function (edit) {
-        if( edit.initDo ) {
+        if (edit.initDo) {
             edit.doEdit();
         }
-        
+
         $("#redoTool").prop("disabled", true);
         $("#undoTool").prop("disabled", false);
-        
+
         $("#redoDiagramTool").prop("disabled", true);
         $("#undoDiagramTool").prop("disabled", false);
-        
+
         this.edits.push(edit);
         this.redoEdits = [];
     };
@@ -139,22 +152,22 @@ function Context(editor) {
 
             edit.undoEdit();
             this.redoEdits.push(edit);
-            
-            if(!skipNotify) {
+
+            if (!skipNotify) {
                 $.notify("Undo: " + edit.getName(), {position: "top right", className: "success"});
             }
-            
-            if( edit.combineSignal && this.edits.length > 0) {
-                if(this.edits[this.edits.length - 1].combineSignal === edit.combineSignal) {
+
+            if (edit.combineSignal && this.edits.length > 0) {
+                if (this.edits[this.edits.length - 1].combineSignal === edit.combineSignal) {
                     this.undo(true);
                 }
             }
-            
-            if( this.edits.length < 1 ) {
+
+            if (this.edits.length < 1) {
                 $("#undoTool").prop("disabled", true);
                 $("#undoDiagramTool").prop("disabled", true);
             }
-            
+
             $("#redoTool").prop("disabled", false);
             $("#redoDiagramTool").prop("disabled", false);
             return true;
@@ -171,25 +184,25 @@ function Context(editor) {
 
             edit.redoEdit();
             this.edits.push(edit);
-            
-            if(!skipNotify) {
+
+            if (!skipNotify) {
                 $.notify("Redo: " + edit.getName(), {position: "top right", className: "success"});
             }
-            
-            if( edit.combineSignal && this.redoEdits.length > 0) {
-                if(this.redoEdits[this.redoEdits.length - 1].combineSignal === edit.combineSignal) {
+
+            if (edit.combineSignal && this.redoEdits.length > 0) {
+                if (this.redoEdits[this.redoEdits.length - 1].combineSignal === edit.combineSignal) {
                     this.redo(true);
                 }
             }
-            
-            if( this.redoEdits.length < 1 ) {
+
+            if (this.redoEdits.length < 1) {
                 $("#redoTool").prop("disabled", true);
                 $("#redoDiagramTool").prop("disabled", true);
-                
+
             }
             $("#undoTool").prop("disabled", false);
             $("#undoDiagramTool").prop("disabled", false);
-            
+
             return true;
         }
     };

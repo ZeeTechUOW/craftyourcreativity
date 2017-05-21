@@ -29,15 +29,15 @@
             <div id="descTitle" style="padding-left: 10%"><% out.print(module.getModuleName());%></div>
 
 
-            <div id="descImg"  class="aFrame" style="text-align: center; border: solid white .4vw; border-radius: .4vw;">
+            <div id="descImg"  class="aFrame moduleImage" style="text-align: center; border: solid white .4vw; border-radius: .4vw;">
                 <img style="height: 400px; width: 400px;" src="module/<%=module.getModuleID()%>/thumbnail" onerror='this.onerror=null; this.src ="resource/thumbnail.png"' alt="">
                 <div class="overlay" style="width: 400px; height: 400px;">
-                        <div class="text">
-                            <button onclick="location.href = 'nowplaying?mid=<%=module.getModuleID()%>';" id="Button" class="btn btn-default" style="font-size: 40px">
-                                Play
-                            </button>
-                        </div>
+                    <div class="text">
+                        <button onclick="location.href = 'nowplaying?mid=<%=module.getModuleID()%>';" id="Button" class="btn btn-default" style="font-size: 40px">
+                            Play
+                        </button>
                     </div>
+                </div>
             </div>   
 
 
@@ -69,16 +69,16 @@
         </div>
 
         <script>
-            
+
             function animate() {
                 requestAnimationFrame(animate);
-                
-                var left = ($("#container").width() - $("#descImg").width())/2;
+
+                var left = ($("#container").width() - $("#descImg").width()) / 2;
                 $("#descImg").css("margin-left", left + "px");
             }
-            
+
             animate();
-            
+
         </script>
     </body>
 </html>

@@ -56,9 +56,8 @@ function SequencePanel(context) {
             }
 
             if (frame.actions.length >= 1) {
-                res += "       <button class='btn btn-sm frameButton actionGroupCollapseButton' onclick='toggleCollapseFrame(" + k + ");'>" +
-                        (isCollapsed ? "+" : "-") +
-                        "       </button>";
+                res += "       <button class='btn btn-sm frameButton actionGroupCollapseButton' onclick='toggleCollapseFrame(" + k + ");'><span class='" + (isCollapsed ? "icon-plus3" : "icon-minus3") + "'>" +
+                        "       </span></button>";
             }
 
             if (!isCollapsed) {
@@ -80,7 +79,7 @@ function SequencePanel(context) {
                                     action.printAction() +
                                     "</li>";
                         } else {
-                            ap = "<li id='Action" + actionCode + "' onmousedown='actionClicked(this, true);' class = 'actionBox" + (c ? "Active" : "") + "' style='" + (l === frame.actions[j].length - 1 ? "margin-bottom: 0px" : "") + "' draggable='true' ondragstart='event.dataTransfer.setData(\"Text\", \"" + actionCode + "\");'>" +
+                            ap = "<li id='Action" + actionCode + "' onmouseup='actionClicked(this, true);' class = 'actionBox" + (c ? "Active" : "") + "' style='" + (l === frame.actions[j].length - 1 ? "margin-bottom: 0px" : "") + "' draggable='true' ondragstart='event.dataTransfer.setData(\"Text\", \"" + actionCode + "\");'>" +
                                     action.printAction() +
                                     "</li>";
                         }
@@ -95,7 +94,7 @@ function SequencePanel(context) {
             n++;
         }
 
-        res += "<li class='frameListItemHead'><div class='frameGroup'><button class='btn btn-md frameButton' onclick='editor.addNewFrame();'>+</button></div></li>";
+        res += "<li class='frameListItemHead'><div class='frameGroup'><button class='btn btn-md frameButton' onclick='editor.addNewFrame();'><span class='icon-plus3'></span></button></div></li>";
 
         res += "</ul>";
         this.dom.innerHTML = res;
