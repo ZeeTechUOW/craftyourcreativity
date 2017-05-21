@@ -1,12 +1,18 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="Model.User"%>
 <%@page import="Model.DBAdmin"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-    
+
     String error = request.getParameter("error");
     String c = request.getParameter("c");
+    
+    ArrayList<User> users = (ArrayList<User>) request.getAttribute("users");
+    if( users == null ) {
+        users = new ArrayList<>();
+    }
 %>
 
 <!DOCTYPE>
@@ -24,76 +30,86 @@
             <div id="container">
                 <div id="seStructure">
                     <div id="alertBox1" class="seAlertBox">
-                        <%
-                            if (error != null && error.equalsIgnoreCase("invalidemail")) {
-                        %>
-                        <div class="alert alert-danger fade in alert-dismissable"> 
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
-                            <strong>Error!</strong> Invalid email format!
-                        </div>
-                        <%    
-                            }
-                            
-                            if (error != null && error.equalsIgnoreCase("invalidpass")) {
-                        %>
-                        <div class="alert alert-danger fade in alert-dismissable"> 
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
-                            <strong>Error!</strong> Invalid password format! Password must be at least 8 char long contains uppercase, lowercase, and number!
-                        </div>
-                        <%
-                            }
-
-                            if (error != null && error.equalsIgnoreCase("wrongpass")) {
-                        %>
-                        <div class="alert alert-danger fade in alert-dismissable"> 
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
-                            <strong>Warning!</strong> Wrong password!
-                        </div>
-                        <%
-                            }
-
-                            if (error != null && error.equalsIgnoreCase("notmatchpass")) {
-                        %>
-                        <div class="alert alert-danger fade in alert-dismissable"> 
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
-                            <strong>Warning!</strong> Confirm new password input doesn't match with new password input!
-                        </div>
-                        <%
-                            }
-
-                            if (c != null && c.equalsIgnoreCase("pass")) {
-                        %>
-                        <div class="alert alert-success fade in alert-dismissable"> 
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
-                            <strong>Success!</strong> Password is changed!
-                        </div>
-                        <%
-                            }
-
-                            if (c != null && c.equalsIgnoreCase("email")) {
-                        %>
-                        <div class="alert alert-success fade in alert-dismissable"> 
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
-                            <strong>Success!</strong> Email is changed!
-                        </div>
-                        <%
-                            }
-                        %>
+                    <%
+                        if (error != null && error.equalsIgnoreCase("invalidemail")) {
+                    %>
+                    <div class="alert alert-danger fade in alert-dismissable"> 
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
+                        <strong>Error!</strong> Invalid email format!
                     </div>
-                    <div id="seContent">
-                        <div id="teBox">
-                            <table id="setting">
-                                <tr id="setting">
-                                    <th id="setting" colspan="2">My Account information</th>
-                                </tr>
-                                <tr id="setting">
-                                    <td id="setting">Profile Name</td>
-                                    <td id="setting"><% out.print(loggedUser.getUsername()); %></td>
+                    <%
+                        }
+
+                        if (error != null && error.equalsIgnoreCase("invalidpass")) {
+                    %>
+                    <div class="alert alert-danger fade in alert-dismissable"> 
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
+                        <strong>Error!</strong> Invalid password format! Password must be at least 8 char long contains uppercase, lowercase, and number!
+                    </div>
+                    <%
+                        }
+
+                        if (error != null && error.equalsIgnoreCase("wrongpass")) {
+                    %>
+                    <div class="alert alert-danger fade in alert-dismissable"> 
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
+                        <strong>Warning!</strong> Wrong password!
+                    </div>
+                    <%
+                        }
+
+                        if (error != null && error.equalsIgnoreCase("notmatchpass")) {
+                    %>
+                    <div class="alert alert-danger fade in alert-dismissable"> 
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
+                        <strong>Warning!</strong> Confirm new password input doesn't match with new password input!
+                    </div>
+                    <%
+                        }
+
+                        if (c != null && c.equalsIgnoreCase("pass")) {
+                    %>
+                    <div class="alert alert-success fade in alert-dismissable"> 
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
+                        <strong>Success!</strong> Password is changed!
+                    </div>
+                    <%
+                        }
+
+                        if (c != null && c.equalsIgnoreCase("email")) {
+                    %>
+                    <div class="alert alert-success fade in alert-dismissable"> 
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> 
+                        <strong>Success!</strong> Email is changed!
+                    </div>
+                    <%
+                        }
+                    %>
+                </div>
+                <div id="seContent">
+                    <div id="teBox">
+                        <table id="setting">
+                            <tr id="setting">
+                                <th id="setting" colspan="2">My Account information</th>
+                            </tr>
+                            <tr id="setting">
+                                <td id="setting">Profile Name</td>
+                                <td id="setting"><% out.print(loggedUser.getUsername()); %></td>
                             </tr>
                             <tr id="setting">
                                 <td id="setting">User ID</td>
                                 <td id="setting"><% out.print(loggedUser.getUserID()); %></td>
                             </tr>
+                            <tr id="setting">
+                                <td id="setting">Full Name</td>
+                                <td id="setting"><% out.print(loggedUser.getFullName()); %></td>
+                            </tr>
+                            <%if ("trainer".equalsIgnoreCase(loggedUser.getUserType())) {%>
+                            <tr id="setting">
+                                <td id="setting">Organization</td>
+                                <td id="setting"><% out.print(loggedUser.getOrganization()); %></td>
+                            </tr>
+                            <%}%>
                         </table>
                     </div>
                     <div id="seBoxUnderline">
@@ -188,6 +204,44 @@
                             </table>
                         </form>
                     </div>
+
+                    <%
+                        if ("admin".equalsIgnoreCase(loggedUser.getUserType())) {
+                    %>
+                    <div id="seBoxUnderline">
+                        USER CONTROL
+                    </div>
+                    <div id="userControl">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Username</th>
+                                    <th>User Type</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <%for (int i = 0; i < users.size(); i++) {
+                                        User user = users.get(i);
+                                        if( user.getUserID() < 0 ) continue;
+                                        if( "admin".equalsIgnoreCase(user.getUserType()) ) continue;
+                                        if( user.getEmail() == null || user.getEmail().length() < 1 ) continue;
+                                %>
+                                <tr>
+                                    <td><%=user.getUserID()%></td>
+                                    <td><%=user.getUsername()%></td>
+                                    <td><%=user.getUserType()%></td>
+                                    <td><%=user.getEmail()%></td>
+                                    <td><button id="Button" onclick="location.href = 'ResetPasswordServlet?uid=<%=user.getUserID()%>'">Reset Password</button></td>
+                                </tr>
+                                <%}%>
+                            </tbody>
+                        </table>
+                    </div>
+                    <%}%>
                 </div>
             </div>
         </div>
@@ -215,7 +269,7 @@
                 var value = $('#emailSetting').val();
                 if (value.length > 0) {
                     value = $("#passwordSetting").val();
-                    
+
                     if (value.length > 0) {
                         return true;
                     } else {
@@ -227,22 +281,22 @@
                     return false;
                 }
             }
-            
+
             function checkPasswordInput() {
                 var value = $('#oldPasswordSetting').val();
                 if (value.length > 0) {
                     value = $("#newPassword1Setting").val();
-                    
+
                     if (value.length > 0) {
                         value = $("newPassword2Setting").val();
-                        
+
                         if (value.length > 0) {
                             return true;
                         } else {
                             $("#alertBox3").html($("#blankPasswordError").html());
                             return false;
                         }
-                        
+
                         return true;
                     } else {
                         $("#alertBox3").html($("#blankPasswordError").html());

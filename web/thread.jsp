@@ -32,6 +32,7 @@
         <link rel="stylesheet" type="text/css" href="css/color1/tStruc.css">
 
         <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="fonts/icomoon/styles.css">
         <script src="jquery/jquery-3.2.1.js"></script>
         <script src="js/bootstrap.js"></script>
 
@@ -145,9 +146,6 @@
                     }
                 %>
                 <div id="tThreadBot">
-                    <div id="tBot">
-                        <a style='text-decoration: none;' href="forum">Forum</a> ►  <a style='text-decoration: none;' href='forum?type=<%=thread.getThreadType()%>'><% out.print(StringUtils.capitalize(thread.getThreadType()));%></a> ►  <a style='text-decoration: none;' href="thread?tid=<%=Integer.toString(thread.getThreadID())%>"><% out.print(thread.getThreadTitle()); %></a> 
-                    </div>
                     <div id="tBotPage">
                         <%
                             for (int p = 0; p < pageCount.size(); p++) {

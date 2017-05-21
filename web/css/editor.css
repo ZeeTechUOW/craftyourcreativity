@@ -1643,6 +1643,10 @@ button{
     border-radius: 4px;
 }
 
+.fieldDropdown {
+    cursor: pointer;
+}
+
 #fileChooserDeleteButton:hover:enabled,
 #fileChooserNewFolderButton:hover:enabled,
 #fileChooserRenameButton:hover:enabled,
@@ -1708,8 +1712,38 @@ textarea {
     box-shadow: none !important;
 }
 
+.diagramNode input,
+.diagramNode textarea,
+.diagramNode select {
+    max-width: 190px;
+    max-height: 190px;
+}
+
+.diagramNode.small input,
+.diagramNode.small textarea,
+.diagramNode.small select {
+    max-width: 90px;
+}
+
+
 #signBar {
     color: #004a04;
+}
+
+#fullscreenIcon {
+    font-size: larger;
+}
+
+.actionGroupCollapseButton > span {
+    font-size: 8px;
+}
+
+.frameButton > span {
+    font-size: smaller;
+}
+
+.fieldButton > span {
+    font-size: smaller;
 }
 
 *:fullscreen

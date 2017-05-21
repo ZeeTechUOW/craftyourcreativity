@@ -37,6 +37,9 @@ public class DBAdmin {
     private static final String REGISTER_TWITTER_ID
             = "INSERT INTO `usertwitter` (`userID`, `twitterID`) "
             + "VALUES (?, ?)";
+    private static final String GET_ALL_USERS
+            = "SELECT * "
+            + "FROM `user` ";
     private static final String GET_USER_FROM_USERNAME
             = "SELECT * "
             + "FROM `user` "
@@ -53,6 +56,10 @@ public class DBAdmin {
             = "UPDATE `user` "
             + "SET password=SHA1(?) "
             + "WHERE userID=? AND password=SHA1(?)";
+    private static final String RESET_USER_PASSWORD
+            = "UPDATE `user` "
+            + "SET password=SHA1(?) "
+            + "WHERE userID=?";
     private static final String GET_ADMIN_EMAIL
             = "SELECT `email` FROM `user` "
             + "WHERE userType = 'admin'";
@@ -161,7 +168,9 @@ public class DBAdmin {
             + "FROM `post` p "
             + "WHERE p.threadID = ? "
             + "LIMIT ?, ?";
-
+    private static final String DELETE_POST_BY_ID 
+            = "DELETE FROM `post` "
+            + "WHERE `postID` = ?";
     // Module Query
     private static final String CREATE_NEW_MODULE
             = "INSERT INTO `module` (`moduleID`, `userID`, `moduleName`, `moduleDescription`, `releaseTime`, `lastEdited`) "
@@ -497,6 +506,42 @@ public class DBAdmin {
             closeResultSet(resultSet);
         }
     }
+    public static ArrayList<User> getAllUsers() {
+        ArrayList<User> users = new ArrayList<>();
+        
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            preparedStatement = connection.prepareStatement(GET_ALL_USERS);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int _userID = resultSet.getInt("userID");
+                String _username = resultSet.getString("username");
+                String _email = resultSet.getString("email");
+                String _userType = resultSet.getString("userType");
+                String _fullName = resultSet.getString("fullname");
+                String _organization = resultSet.getString("organization");
+
+                users.add(new User(_userID, _username, "", _email, _userType, _fullName, _organization));
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
+        }
+
+        return users;
+    }
     
     public static User getUser(int userID) {
         Connection connection = null;
@@ -573,6 +618,30 @@ public class DBAdmin {
             preparedStatement.setString(1, newPassword);
             preparedStatement.setInt(2, userID);
             preparedStatement.setString(3, password);
+
+            return preparedStatement.executeUpdate() > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+
+            return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+        }
+    }
+    
+    public static boolean resetUserPassword(int userID, String newPassword) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            preparedStatement = connection.prepareStatement(RESET_USER_PASSWORD);
+            preparedStatement.setString(1, newPassword);
+            preparedStatement.setInt(2, userID);
 
             return preparedStatement.executeUpdate() > 0;
         } catch (ClassNotFoundException | SQLException ex) {
@@ -939,6 +1008,29 @@ public class DBAdmin {
         }
 
         return posts;
+    }
+    
+    public static boolean deletePost(int postID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            preparedStatement = connection.prepareStatement(DELETE_POST_BY_ID);
+            preparedStatement.setInt(1, postID);
+
+            return preparedStatement.execute();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            
+            return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+        }
     }
 
     // Module method
