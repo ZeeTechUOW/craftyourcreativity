@@ -6,8 +6,6 @@
 package Servlet;
 
 import Model.DBAdmin;
-import Model.DirectoryAdmin;
-import Model.MailAdmin;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Deni Barasena
  */
-public class ResetPasswordServlet extends HttpServlet {
+public class DeleteModuleServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,18 +41,16 @@ public class ResetPasswordServlet extends HttpServlet {
         }
         
         try {
-            int userID = Integer.parseInt(request.getParameter("uid"));
-            User user = DBAdmin.getUser(userID);
-            String password = user.getFullName().charAt(0) + "" + user.getOrganization().charAt(0) + "" + ("" + (int) (Math.floor(Math.random() * 90000) + 10000)) + user.getEmail().charAt(0);
-
-            user.setActivationLink(DirectoryAdmin.getURLContextPath(request) + "/login");
-            DBAdmin.resetUserPassword(userID, password);
-            MailAdmin.sendNewPassword(user, password);
+            int moduleID = Integer.parseInt(request.getParameter("mid"));
+            DBAdmin.deleteModule(moduleID);
+            
+            response.sendRedirect("module?mid=" + moduleID);
+            return;
         } catch (NumberFormatException e) {
+        
         }
         
-        response.sendRedirect("setting");
-        
+        response.sendRedirect("main");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

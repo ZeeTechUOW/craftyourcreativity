@@ -10,6 +10,10 @@
     Module module = (Module) request.getAttribute("module");
     boolean isPublished = (Boolean) request.getAttribute("isPublished");
     boolean isSaved = (Boolean) request.getAttribute("isSaved");
+
+    int views = (Integer) request.getAttribute("views");
+    int thumbsUp = (Integer) request.getAttribute("thumbsUp");
+    int thumbsDown = (Integer) request.getAttribute("thumbsDown");
 %>
 
 <!DOCTYPE>
@@ -63,6 +67,28 @@
                         <p style="font-size:25px"><% out.print(module.getLastUpdatedFormatted()); %></p>
                     </div>
                 </div>
+
+                <%
+                        if (isPublished) {%>
+                <div style="display: inline-block; float: right; padding: 10px;">
+
+                    <div id='viewCount' style='display: inline-block;'>
+                        <p style="font-size:25px"><%=views%><span class="glyphicon glyphicon-eye-open"></span></p>
+                    </div>
+                </div>
+                <div style="display: inline-block; float: right; padding: 10px;">
+                    <div id='thumbsUp' style='display: inline-block;'>
+                        <p style="font-size:25px"><%=thumbsUp%><span class="glyphicon glyphicon-thumbs-up"></span></p>
+                    </div>
+                </div>
+                <div style="display: inline-block; float: right; padding: 10px;">
+                    <div id='thumbsDown' style='display: inline-block;'>
+                        <p style="font-size:25px"><%=thumbsDown%><span class="glyphicon glyphicon-thumbs-down"></span></p>
+                    </div>
+                </div>
+                <%}
+                %>
+
 
                 <p style="font-size:30px; margin-top: 30px">Module Description</p>
                 <p style="font-size:25px"><% out.print(module.getModuleDescription());%></p>

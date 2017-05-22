@@ -16,8 +16,8 @@ public class DBAdmin {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cyc";
     private static final String DB_USER = "root";
-    private static final String DB_PASS = ""; // Local machine DB Pass
-//    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
+//    private static final String DB_PASS = ""; // Local machine DB Pass
+    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
 //    private static final String DB_PASS = "cK3rMeyG"; // Andree GCP machine DB Pass
 
     // <editor-fold defaultstate="collapsed" desc="Query String. Click + sign on the left to expand the code">
@@ -37,6 +37,9 @@ public class DBAdmin {
     private static final String REGISTER_TWITTER_ID
             = "INSERT INTO `usertwitter` (`userID`, `twitterID`) "
             + "VALUES (?, ?)";
+    private static final String DELETE_USER_BY_ID
+            = "DELETE FROM `user` "
+            + "WHERE `userID` = ?";
     private static final String GET_ALL_USERS
             = "SELECT * "
             + "FROM `user` ";
@@ -213,9 +216,25 @@ public class DBAdmin {
             + "AS dislikes "
             + "FROM `module` m "
             + "WHERE m.moduleID=?";
+    private static final String GET_THUMBS_UP_BY_MODULE_ID
+            = "SELECT COUNT(*) as likeCount "
+            + "FROM `moduleuserdata` d "
+            + "WHERE d.moduleID = ? "
+            + "AND d.mKey = 'lstate' "
+            + "AND d.mValue = 'like' ";
+    private static final String GET_THUMBS_DOWN_BY_MODULE_ID
+            = "SELECT COUNT(*) as dislikeCount "
+            + "FROM `moduleuserdata` d "
+            + "WHERE d.moduleID = ? "
+            + "AND d.mKey = 'lstate' "
+            + "AND d.mValue = 'dislike' ";
     private static final String ADD_VIEW_TO_MODULE
             = "INSERT INTO `views` (`userID`, `moduleID`, `time`) "
             + "VALUES (?, ?, CURRENT_TIMESTAMP)";
+    private static final String GET_VIEW_BY_MODULE
+            = "SELECT COUNT(*) as viewCount "
+            + "FROM `views` "
+            + "WHERE `moduleID` = ?";
     private static final String MODULE_UPDATED
             = "UPDATE `module` "
             + "SET `lastEdited` = CURRENT_TIMESTAMP "
@@ -593,6 +612,29 @@ public class DBAdmin {
             preparedStatement.setString(1, email);
             preparedStatement.setInt(2, userID);
             preparedStatement.setString(3, password);
+
+            return preparedStatement.executeUpdate() > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+
+            return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+        }
+    }
+    
+    public static boolean deleteUser(int userID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            preparedStatement = connection.prepareStatement(DELETE_USER_BY_ID);
+            preparedStatement.setInt(1, userID);
 
             return preparedStatement.executeUpdate() > 0;
         } catch (ClassNotFoundException | SQLException ex) {
@@ -1422,6 +1464,34 @@ public class DBAdmin {
             closePreparedStatement(preparedStatement);
         }
     }
+    
+    public static int getViews(int moduleID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            preparedStatement = connection.prepareStatement(GET_VIEW_BY_MODULE);
+            preparedStatement.setInt(1, moduleID);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("viewCount");
+            }
+            return 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+
+            return 0;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+        }
+    }
+    
 
     public static ArrayList<Module> getModulesByUserID(int userID) {
         ArrayList<Module> modules = new ArrayList<>();
@@ -1913,6 +1983,7 @@ public class DBAdmin {
     }
     
     private static void closeConnection(Connection connection) {
+        if( connection == null ) return;
         try {
             connection.close();
         } catch (SQLException ex) {
@@ -1921,6 +1992,7 @@ public class DBAdmin {
     }
     
     private static void closePreparedStatement(PreparedStatement preparedStatement) {
+        if( preparedStatement == null ) return;
         try {
             preparedStatement.close();
         } catch (SQLException ex) {
@@ -1929,10 +2001,66 @@ public class DBAdmin {
     }
     
     private static void closeResultSet(ResultSet resultSet) {
+        if( resultSet == null ) return;
         try {
             resultSet.close();
         } catch (SQLException ex) {
             Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static int getThumbsUp(int moduleID) {
+    
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            preparedStatement = connection.prepareStatement(GET_THUMBS_UP_BY_MODULE_ID);
+            preparedStatement.setInt(1, moduleID);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("likeCount");
+            }
+            return 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+
+            return 0;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+        }
+    }
+
+    public static int getThumbsDown(int moduleID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            preparedStatement = connection.prepareStatement(GET_THUMBS_DOWN_BY_MODULE_ID);
+            preparedStatement.setInt(1, moduleID);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("dislikeCount");
+            }
+            return 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+
+            return 0;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
         }
     }
 }

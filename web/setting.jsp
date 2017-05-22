@@ -236,7 +236,10 @@
                                     <td><%=user.getUsername()%></td>
                                     <td><%=user.getUserType()%></td>
                                     <td><%=user.getEmail()%></td>
-                                    <td><button id="Button" onclick="location.href = 'ResetPasswordServlet?uid=<%=user.getUserID()%>'">Reset Password</button></td>
+                                    <td>
+                                        <button id="Button" onclick="location.href = 'ResetPasswordServlet?uid=<%=user.getUserID()%>'">Reset Password</button>
+                                        <button id="Button" onclick="location.href = 'DeleteUserServlet?uid=<%=user.getUserID()%>'">Delete User</button>
+                                    </td>
                                 </tr>
                                 <%}%>
                             </tbody>

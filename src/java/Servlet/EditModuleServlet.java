@@ -102,11 +102,18 @@ public class EditModuleServlet extends HttpServlet {
         boolean isPublishedSaveExist = new File(DirectoryAdmin.getPath(request, "/module/" + moduleID + "/publishedSave.json")).exists();
 
         // Get Module Image
+        
+        int views = DBAdmin.getViews(moduleID);
+        int thumbsUp = DBAdmin.getThumbsUp(moduleID);
+        int thumbsDown = DBAdmin.getThumbsDown(moduleID);
 
         // Set Attribute
         request.setAttribute("module", module);
         request.setAttribute("isPublished", isPublishedSaveExist);
         request.setAttribute("isSaved", isSaveExist);
+        request.setAttribute("views", views);
+        request.setAttribute("thumbsUp", thumbsUp);
+        request.setAttribute("thumbsDown", thumbsDown);
 
         request.getRequestDispatcher("editmodule.jsp").forward(request, response);
     }

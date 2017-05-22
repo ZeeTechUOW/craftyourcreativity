@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Deni Barasena
  */
-public class ResetPasswordServlet extends HttpServlet {
+public class DeleteUserServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,17 +44,12 @@ public class ResetPasswordServlet extends HttpServlet {
         
         try {
             int userID = Integer.parseInt(request.getParameter("uid"));
-            User user = DBAdmin.getUser(userID);
-            String password = user.getFullName().charAt(0) + "" + user.getOrganization().charAt(0) + "" + ("" + (int) (Math.floor(Math.random() * 90000) + 10000)) + user.getEmail().charAt(0);
-
-            user.setActivationLink(DirectoryAdmin.getURLContextPath(request) + "/login");
-            DBAdmin.resetUserPassword(userID, password);
-            MailAdmin.sendNewPassword(user, password);
+            DBAdmin.deleteUser(userID);
         } catch (NumberFormatException e) {
+        
         }
         
         response.sendRedirect("setting");
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

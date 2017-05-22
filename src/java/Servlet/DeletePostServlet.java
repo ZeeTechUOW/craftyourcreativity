@@ -6,6 +6,7 @@
 package Servlet;
 
 import Model.DBAdmin;
+import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -31,6 +32,13 @@ public class DeletePostServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        
+        User loggedUser = (User) request.getSession().getAttribute("loggedUser");
+        if( loggedUser == null || "admin".equalsIgnoreCase(loggedUser.getUserType()) ) {
+            response.sendRedirect("login");
+            return;
+        }
         
         int postID;
         int threadID;
