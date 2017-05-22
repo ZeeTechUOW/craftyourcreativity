@@ -125,7 +125,7 @@
                                                 if (loggedUser != null && "admin".equalsIgnoreCase(loggedUser.getUserType()) ) {
                                             %>
                                             <li class="divider"></li>
-                                            <li><a href="DeletePostServlet?tid=<% out.print(thread.getThreadID()); %>&pid<% out.print(posts.get(i).getPostID()); %>)">Delete Post</a></li>
+                                            <li><a href="DeletePostServlet?tid=<% out.print(thread.getThreadID()); %>&pid=<% out.print(posts.get(i).getPostID()); %>">Delete Post</a></li>
                                             <%
                                                 }
                                             %>

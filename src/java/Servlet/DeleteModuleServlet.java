@@ -35,7 +35,7 @@ public class DeleteModuleServlet extends HttpServlet {
         
         User loggedUser = (User) request.getSession().getAttribute("loggedUser");
         
-        if( loggedUser == null || "admin".equalsIgnoreCase(loggedUser.getUserType()) ) {
+        if( loggedUser == null || !"admin".equalsIgnoreCase(loggedUser.getUserType()) ) {
             response.sendRedirect("login");
             return;
         }

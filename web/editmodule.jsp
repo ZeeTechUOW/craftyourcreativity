@@ -42,9 +42,12 @@
             <div style="text-align: center; padding: 0px 10%">
                 <button id="Button" onclick="location.href = 'editachievement?mid=<%=module.getModuleID()%>'" type="button" class="btn btn-default pull-left">Edit Achievements</button>
                 <button id="Button" onclick="$('#editModuleModal').modal('show');" type="button" class="btn btn-default pull-left" style="margin-left: 20px">Edit Details</button>
-                <%if (isSaved) {
-                %><button id="Button" onclick="$('#publishModal').modal('show');" type="button" class="btn btn-default pull-right">Publish</button><%
-                    }%>
+                <%if (isSaved) {%>
+                <button id="Button" onclick="$('#publishModal').modal('show');" type="button" class="btn btn-default pull-right">Publish</button>
+                <%}%>
+                <%if (isPublished) {%>
+                <button id="Button" onclick="$('#unpublishModal').modal('show');" type="button" class="btn btn-default pull-right" style="margin: 0px 8px">Unpublish</button>
+                <%}%>
             </div>
             <div id="descBox" >
                 <div id="sFrame" class="aFrame" style="display: inline-block; width: 200px; height: 200px;">
@@ -163,6 +166,35 @@
                         <div class="modal-body">
                             <h3>
                                 Are you sure you want to publish <%=module.getModuleName()%>?
+                            </h3>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="pull-right">
+                                <input id="Button" type="submit" class="btn btn-default" value="Yes">   
+                                <button id="Button" type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">No</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="unpublishModal" tabindex="-1" role="dialog" aria-labelledby="unpublishModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form method="post" action="editmodule">
+                        <input type="hidden" name="op" value="unpublish">
+                        <input type="hidden" name="mid" value="<%=module.getModuleID()%>">
+                        <div class="modal-header">
+                            <h3 class="modal-title"> 
+                                <span id="publishModalLabel">Unpublish Module</span>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </h3>
+                        </div>
+                        <div class="modal-body">
+                            <h3>
+                                Are you sure you want to unpublish <%=module.getModuleName()%>?
                             </h3>
                         </div>
                         <div class="modal-footer">

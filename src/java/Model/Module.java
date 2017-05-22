@@ -16,6 +16,7 @@ public class Module {
     private LocalDateTime lastEdited;
     private int likes;
     private int dislikes;
+    private int views;
 
     /**
      * Class to represent the module details and information.
@@ -41,6 +42,34 @@ public class Module {
         this.dislikes = dislikes;
     }
 
+    /**
+     * Class to represent the module details and information.
+     *
+     * @param moduleID Module ID
+     * @param userID User ID
+     * @param moduleVersion Module version
+     * @param moduleName Module name
+     * @param moduleDescription Module description
+     * @param releaseTime Module release time
+     * @param lastEdited Module last edited time
+     * @param likes Amount of likes
+     * @param dislikes Amount of dislikes
+     * @param views Amount of views
+     */
+    public Module(int moduleID, int userID, String moduleName, String moduleDescription, LocalDateTime releaseTime, LocalDateTime lastEdited, int likes, int dislikes, int views) {
+        this.moduleID = moduleID;
+        this.userID = userID;
+        this.moduleName = moduleName;
+        this.moduleDescription = moduleDescription;
+        this.releaseTime = releaseTime;
+        this.lastEdited = lastEdited;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        this.views = views;
+    }
+    
+    
+
     // <editor-fold defaultstate="collapsed" desc="Getter and Setter. Click + sign on the left to expand the code">
     /**
      * Return this <code>Module</code> ID in <code>int</code> format.
@@ -49,6 +78,12 @@ public class Module {
     public int getModuleID() {
         return moduleID;
     }
+
+    public void setViews(int views) {
+        this.views = views;
+    }
+    
+    
 
     /**
      * Set this <code>Module</code> ID to specified <code>int</code>.
@@ -60,6 +95,10 @@ public class Module {
 
     public int getDislikes() {
         return dislikes;
+    }
+
+    public int getViews() {
+        return views;
     }
 
     public void setDislikes(int dislikes) {

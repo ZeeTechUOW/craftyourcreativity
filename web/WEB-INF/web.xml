@@ -196,6 +196,14 @@
         <servlet-name>DeleteModuleServlet</servlet-name>
         <servlet-class>Servlet.DeleteModuleServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddUserServlet</servlet-name>
+        <servlet-class>Servlet.AddUserServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StatisticsServlet</servlet-name>
+        <servlet-class>Servlet.StatisticsServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DirectoryServlet</servlet-name>
         <url-pattern>/DirectoryServlet</url-pattern>
@@ -479,6 +487,14 @@
     <servlet-mapping>
         <servlet-name>DeleteModuleServlet</servlet-name>
         <url-pattern>/DeleteModuleServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddUserServlet</servlet-name>
+        <url-pattern>/AddUserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StatisticsServlet</servlet-name>
+        <url-pattern>/statistics</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
