@@ -7,10 +7,10 @@ package Servlet;
 
 import Model.DBAdmin;
 import Model.DirectoryAdmin;
-import Model.MailAdmin;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,17 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Deni Barasena
  */
-public class DeleteUserServlet extends HttpServlet {
+public class AddUserServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -42,11 +33,63 @@ public class DeleteUserServlet extends HttpServlet {
             return;
         }
         
-        try {
-            int userID = Integer.parseInt(request.getParameter("uid"));
-            DBAdmin.deleteUser(userID);
-        } catch (NumberFormatException e) {
+        String username = request.getParameter("usernameRegister");
+        String password = request.getParameter("passwordRegister");
+        String email = request.getParameter("emailRegister");
+        String fullName = request.getParameter("fullName");
+        String userType = request.getParameter("userType");
+        String organization = request.getParameter("organization");
         
+        if (
+                username == null ||
+                password == null ||
+                email == null || 
+                fullName == null || 
+                organization == null ||
+                userType == null 
+                ) {
+            request.getRequestDispatcher("adduser.jsp").forward(request, response);
+            return;
+        }
+        if (
+                username.isEmpty() || 
+                password.isEmpty() || 
+                email.isEmpty() || 
+                fullName.isEmpty() ||
+                organization.isEmpty() ||
+                userType.isEmpty()
+                ) {
+            request.getRequestDispatcher("adduser.jsp?error=empty").forward(request, response);
+            return;
+        }
+        
+        User user = new User(0, username, password, email, userType, fullName, organization);
+
+        if (!user.isEmailValid()) {
+            request.getRequestDispatcher("adduser.jsp?error=invalidemail").forward(request, response);
+            return;
+        }
+
+        if (Pattern.compile("[^a-zA-Z0-9]").matcher(username).find()) {
+            request.getRequestDispatcher("adduser.jsp?error=invaliduser").forward(request, response);
+            return;
+        }
+
+        if (DBAdmin.isUsernameTaken(username)) {
+            request.getRequestDispatcher("adduser.jsp?error=usertaken").forward(request, response);
+            return;
+        }
+
+        if (!user.isPasswordValid()) {
+            request.getRequestDispatcher("adduser.jsp?error=invalidpass").forward(request, response);
+            return;
+        }
+
+        if (DBAdmin.register(username, email, password, userType, fullName, organization)) {
+            DirectoryAdmin.prepNewUserDirectory(request, username);
+        } else {
+            request.getRequestDispatcher("adduser.jsp?error=general").forward(request, response);
+            return;
         }
         
         response.sendRedirect("setting");

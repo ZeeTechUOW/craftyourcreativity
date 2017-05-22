@@ -26,6 +26,10 @@
             <div id="structure">
                 <div id="sTitle">
                     My Modules
+                    
+                    <button id="Button" style="padding: 6px 10px; margin-top: 10px" onclick="location.href = 'statistics';" class="pull-right">
+                        Statistics
+                    </button>
                 </div>
                 <div id="sMore">
                 </div>

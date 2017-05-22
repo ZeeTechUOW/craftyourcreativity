@@ -16,8 +16,8 @@ public class DBAdmin {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cyc";
     private static final String DB_USER = "root";
-//    private static final String DB_PASS = ""; // Local machine DB Pass
-    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
+    private static final String DB_PASS = ""; // Local machine DB Pass
+//    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
 //    private static final String DB_PASS = "cK3rMeyG"; // Andree GCP machine DB Pass
 
     // <editor-fold defaultstate="collapsed" desc="Query String. Click + sign on the left to expand the code">
@@ -200,6 +200,27 @@ public class DBAdmin {
             + "FROM `module` "
             + "WHERE userID = ? "
             + "ORDER BY `lastEdited` DESC";
+    private static final String GET_ALL_DETAILED_MODULE_FROM_USER_ID
+            = "SELECT *, "
+            + "(SELECT COUNT(*) "
+            + "FROM `views` v "
+            + "WHERE m.moduleID = v.moduleID) "
+            + "AS views, "
+            + "(SELECT COUNT(*) "
+            + "FROM `moduleuserdata` d "
+            + "WHERE m.moduleID = d.moduleID "
+            + "AND d.mKey = 'lstate' "
+            + "AND d.mValue = 'like') "
+            + "AS likes, "
+            + "(SELECT COUNT(*) "
+            + "FROM `moduleuserdata` d "
+            + "WHERE m.moduleID = d.moduleID "
+            + "AND d.mKey = 'lstate' "
+            + "AND d.mValue = 'dislike') "
+            + "AS dislikes "
+            + "FROM `module` m "
+            + "WHERE userID = ? "
+            + "ORDER BY `lastEdited` DESC";
     private static final String GET_MODULE_FROM_MODULE_ID
             = "SELECT *, "
             + "(SELECT COUNT(*) "
@@ -243,6 +264,10 @@ public class DBAdmin {
             = "UPDATE `module` "
             + "SET `releaseTime` = CURRENT_TIMESTAMP "
             + ", `lastEdited` = CURRENT_TIMESTAMP "
+            + "WHERE `moduleID` = ?";
+    private static final String MODULE_UNRELEASED
+            = "UPDATE `module` "
+            + "SET `releaseTime` = NULL "
             + "WHERE `moduleID` = ?";
     private static final String UPDATE_MODULE
             = "UPDATE `module` "
@@ -1536,6 +1561,53 @@ public class DBAdmin {
 
         return modules;
     }
+    public static ArrayList<Module> getDetailedModulesByUserID(int userID) {
+        ArrayList<Module> modules = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            preparedStatement = connection.prepareStatement(GET_ALL_DETAILED_MODULE_FROM_USER_ID);
+            preparedStatement.setInt(1, userID);
+            
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int _moduleID = resultSet.getInt("moduleID");
+                int _userID = resultSet.getInt("userID");
+                String _moduleName = resultSet.getString("moduleName");
+                String _moduleDescription = resultSet.getString("moduleDescription");
+                LocalDateTime _lastEdited = resultSet.getTimestamp("lastEdited").toLocalDateTime();
+
+                int _likes = resultSet.getInt("likes");
+                int _dislikes = resultSet.getInt("dislikes");
+                int _views = resultSet.getInt("views");
+                
+                Timestamp ts = resultSet.getTimestamp("releaseTime");
+                if (ts != null) {
+                    LocalDateTime _releaseTime = resultSet.getTimestamp("releaseTime").toLocalDateTime();
+                    modules.add(new Module(_moduleID, _userID, _moduleName, _moduleDescription, _releaseTime, _lastEdited, _likes, _dislikes, _views));
+                } else {
+                    modules.add(new Module(_moduleID, _userID, _moduleName, _moduleDescription, null, _lastEdited, _likes, _dislikes, _views));
+                }
+
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+            closeResultSet(resultSet);
+        }
+
+        return modules;
+    }
 
     public static boolean removeAchievement(int moduleID, int achievementID) {
         Connection connection = null;
@@ -1683,6 +1755,28 @@ public class DBAdmin {
             connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 
             preparedStatement = connection.prepareStatement(MODULE_RELEASED);
+            preparedStatement.setInt(1, moduleID);
+
+            return preparedStatement.execute();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            
+            return false;
+        } finally {
+            closeConnection(connection);
+            closePreparedStatement(preparedStatement);
+        }
+    }
+    public static boolean moduleUnreleased(int moduleID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            
+            connection = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            preparedStatement = connection.prepareStatement(MODULE_UNRELEASED);
             preparedStatement.setInt(1, moduleID);
 
             return preparedStatement.execute();

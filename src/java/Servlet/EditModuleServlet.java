@@ -68,18 +68,25 @@ public class EditModuleServlet extends HttpServlet {
             return;
         }
 
+        System.out.println("AAA " + op);
         if ("publish".equalsIgnoreCase(op)) {
             if (loggedUser.getUserID() == module.getUserID()) {
                 if( module.getReleaseTime() == null ) {
-                    System.out.println(module.getModuleName() + " RELEASED");
                     DBAdmin.moduleReleased(moduleID);
                 } else {
-                    System.out.println(module.getModuleName() + " UPDATED");
                     DBAdmin.moduleUpdated(moduleID);
                 }
                 module = DBAdmin.getModule(moduleID);
 
                 DirectoryAdmin.prepPublishProject(request, moduleID);
+            }
+        } else if ("unpublish".equalsIgnoreCase(op)) {
+            System.out.println("Unpub");
+            if (loggedUser.getUserID() == module.getUserID()) {
+                System.out.println("unrel");
+                DBAdmin.moduleUnreleased(moduleID);       
+                System.out.println("unrel2");         
+                module.setReleaseTime(null);
             }
         } else if ("edit".equalsIgnoreCase(op)) {
             String newName = request.getParameter("moduleName");
@@ -99,7 +106,7 @@ public class EditModuleServlet extends HttpServlet {
         }
 
         boolean isSaveExist = new File(DirectoryAdmin.getPath(request, "/module/" + moduleID + "/save.json")).exists();
-        boolean isPublishedSaveExist = new File(DirectoryAdmin.getPath(request, "/module/" + moduleID + "/publishedSave.json")).exists();
+        boolean isPublishedSaveExist = module.getReleaseTime() != null;
 
         // Get Module Image
         

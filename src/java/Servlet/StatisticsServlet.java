@@ -6,9 +6,11 @@
 package Servlet;
 
 import Model.DBAdmin;
+import Model.Module;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Deni Barasena
  */
-public class DeletePostServlet extends HttpServlet {
+public class StatisticsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,31 +31,19 @@ public class DeletePostServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        
         User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-        if( loggedUser == null || !"admin".equalsIgnoreCase(loggedUser.getUserType()) ) {
+        
+        if( loggedUser == null ) {
             response.sendRedirect("login");
             return;
         }
         
-        int postID;
-        int threadID;
-        
-        try {
-            postID = Integer.parseInt(request.getParameter("pid"));
-            threadID = Integer.parseInt(request.getParameter("tid"));
-        } catch (NumberFormatException e) {
-            response.sendRedirect("forum");
-            return;
-        }
-        
-        DBAdmin.deletePost(postID);
-        
-        response.sendRedirect("thread?tid=" + threadID);
+        ArrayList<Module> modules = DBAdmin.getDetailedModulesByUserID(loggedUser.getUserID());
+        request.setAttribute("modules", modules);
+        request.getRequestDispatcher("statistics.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

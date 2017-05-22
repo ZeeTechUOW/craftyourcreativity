@@ -208,8 +208,9 @@
                     <%
                         if ("admin".equalsIgnoreCase(loggedUser.getUserType())) {
                     %>
-                    <div id="seBoxUnderline">
+                    <div id="seBoxUnderline" style="display: block;">
                         USER CONTROL
+                        <button id="Button" class="pull-right" onclick="location.href = 'AddUserServlet';" style="padding: 6px 10px">Add User</button>
                     </div>
                     <div id="userControl">
                         <table>
