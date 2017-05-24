@@ -21,6 +21,9 @@ https://github.com/ZeeTechUOW/craftyourcreativity.git
 
 #### Using other Java IDE
 1. Clone the project
+```
+https://github.com/ZeeTechUOW/craftyourcreativity.git
+```
 2. Open the project
 3. Add all library from /lib/ folder
 4. Set the project configuration to use Tomcat 8
