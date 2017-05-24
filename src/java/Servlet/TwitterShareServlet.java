@@ -44,30 +44,52 @@ public class TwitterShareServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        int threadID;
-        int page;
+        String share = request.getParameter("share");
 
-        try {
-            threadID = Integer.parseInt(request.getParameter("tid"));
-        } catch (NumberFormatException ex) {
-            threadID = 1;
-            Logger.getLogger(TwitterShareServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        if (share.equalsIgnoreCase("post")) {
+            int threadID;
+            int page;
 
-        try {
-            page = Integer.parseInt(request.getParameter("page"));
-        } catch (NumberFormatException ex) {
-            page = 1;
-            Logger.getLogger(TwitterShareServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            try {
+                threadID = Integer.parseInt(request.getParameter("tid"));
+            } catch (NumberFormatException ex) {
+                threadID = 0;
+                Logger.getLogger(TwitterShareServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-        Twitter twitter = (Twitter) request.getSession().getAttribute("twitter");
-        StatusUpdate su = new StatusUpdate(DirectoryAdmin.getURLContextPath(request) + "/thread?tid=" + threadID + "&page=" + page);
+            try {
+                page = Integer.parseInt(request.getParameter("page"));
+            } catch (NumberFormatException ex) {
+                page = 1;
+                Logger.getLogger(TwitterShareServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-        try {
-            twitter.updateStatus(su);
-        } catch (TwitterException ex) {
-            Logger.getLogger(TwitterShareServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Twitter twitter = (Twitter) request.getSession().getAttribute("twitter");
+            StatusUpdate su = new StatusUpdate(DirectoryAdmin.getURLContextPath(request) + "/thread?tid=" + threadID + "&page=" + page);
+
+            try {
+                twitter.updateStatus(su);
+            } catch (TwitterException ex) {
+                Logger.getLogger(TwitterShareServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (share.equalsIgnoreCase("module")) {
+            int moduleID;
+            
+            try {
+                moduleID = Integer.parseInt(request.getParameter("mid"));
+            } catch (NumberFormatException ex) {
+                moduleID = 0;
+                Logger.getLogger(TwitterShareServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            Twitter twitter = (Twitter) request.getSession().getAttribute("twitter");
+            StatusUpdate su = new StatusUpdate(DirectoryAdmin.getURLContextPath(request) + "/module?mid=" + moduleID);
+            
+            try {
+                twitter.updateStatus(su);
+            } catch (TwitterException ex) {
+                Logger.getLogger(TwitterShareServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

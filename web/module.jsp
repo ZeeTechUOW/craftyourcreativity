@@ -1,3 +1,4 @@
+<%@page import="twitter4j.Twitter"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Model.DBAdmin"%>
 <%@page import="Model.User"%>
@@ -9,6 +10,8 @@
 
     Module module = (Module) request.getAttribute("module");
     boolean isCertificated = (Boolean) request.getAttribute("isCertificated");
+    
+    Twitter twitter = (Twitter) request.getSession().getAttribute("twitter");
 %>
 
 <!DOCTYPE>
@@ -45,6 +48,13 @@
                 <button id="Button" onclick="location.href = 'achievement?mid=<%=module.getModuleID()%>'" type="button" class="btn btn-default">Achievements</button>
                 <button id="Button" onclick="location.href = 'leaderboard?mid=<%=module.getModuleID()%>'" type="button" class="btn btn-default">Leaderboards</button>
                 <button id="Button" onclick="location.href = 'forum?type=<%=module.getModuleName()%>'" type="button" class="btn btn-default">Forums</button>
+                <%
+                    if (twitter != null) {
+                %>
+                <button id="Button" onclick="shareTwitter(<% out.print(module.getModuleID()); %>)" type="button" class="btn btn-default">Share to Twitter</button>
+                <%
+                    }
+                %>
             </div>
 
             <div id="descBox">
@@ -72,7 +82,16 @@
         </div>
 
         <script>
-
+            <%
+                if (twitter != null) {
+            %>
+            function shareTwitter(moduleID) {
+                $.ajax({url: "TwitterShare?share=module&mid=" + moduleID});
+            }
+            <%        
+                }
+            %>
+            
             function animate() {
                 requestAnimationFrame(animate);
 

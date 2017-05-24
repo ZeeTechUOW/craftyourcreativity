@@ -213,7 +213,7 @@
                 if (twitter != null) {
             %>
             function shareTwitter(threadID, page) {
-                $.ajax({url: "TwitterShare?tid=" + threadID + "&page=" + page});
+                $.ajax({url: "TwitterShare?share=post&tid=" + threadID + "&page=" + page});
             }
             <%        
                 }
