@@ -31,7 +31,7 @@ https://github.com/ZeeTechUOW/craftyourcreativity.git
 When compiling and running the project in you machine, the project is already deployed in your local machine.
 In case you want to deploy the project in server, the server should meet this requirements:
 * Tomcat 8
-* MySQL 6.6 or MariaDB 10.1
+* MySQL 5.6 or MariaDB 10.1
 
 ### Deploying the project to web server
 1. Clean and build the project
