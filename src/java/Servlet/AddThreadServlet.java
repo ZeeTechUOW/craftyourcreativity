@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017 Andree Yosua.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package Servlet;
 
 import Model.DBAdmin;
@@ -24,7 +39,7 @@ public class AddThreadServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // Initialize variable
         User loggedUser;
         String threadTitle;
@@ -38,19 +53,19 @@ public class AddThreadServlet extends HttpServlet {
             response.sendRedirect("login");
             return;
         }
-        
+
         // Parse all parameters
         threadTitle = request.getParameter("threadTitle");
         threadType = request.getParameter("threadType");
         threadPost = request.getParameter("threadPost");
-        
-        if( threadType == null ) {
+
+        if (threadType == null) {
             response.sendRedirect("main");
             return;
         }
         threadType = threadType.toLowerCase();
-        
-        switch(threadType.toUpperCase()) {
+
+        switch (threadType.toUpperCase()) {
             case "GENERAL":
             case "BUG":
             case "MODULE":
@@ -61,9 +76,8 @@ public class AddThreadServlet extends HttpServlet {
                 threadType = "module_" + threadType;
                 break;
         }
-        
+
         // Create Thread
-        
         int newThreadID = DBAdmin.createNewThread(loggedUser.getUserID(), threadTitle, threadType, threadPost);
         response.sendRedirect("thread?tid=" + newThreadID);
     }

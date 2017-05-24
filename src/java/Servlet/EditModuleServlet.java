@@ -1,7 +1,17 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2017 Andree Yosua.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package Servlet;
 
@@ -11,7 +21,6 @@ import Model.Module;
 import Model.User;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,16 +33,14 @@ import javax.servlet.http.HttpServletResponse;
 public class EditModuleServlet extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         User loggedUser = (User) request.getSession().getAttribute("loggedUser");
@@ -71,7 +78,7 @@ public class EditModuleServlet extends HttpServlet {
         System.out.println("AAA " + op);
         if ("publish".equalsIgnoreCase(op)) {
             if (loggedUser.getUserID() == module.getUserID()) {
-                if( module.getReleaseTime() == null ) {
+                if (module.getReleaseTime() == null) {
                     DBAdmin.moduleReleased(moduleID);
                 } else {
                     DBAdmin.moduleUpdated(moduleID);
@@ -84,8 +91,8 @@ public class EditModuleServlet extends HttpServlet {
             System.out.println("Unpub");
             if (loggedUser.getUserID() == module.getUserID()) {
                 System.out.println("unrel");
-                DBAdmin.moduleUnreleased(moduleID);       
-                System.out.println("unrel2");         
+                DBAdmin.moduleUnreleased(moduleID);
+                System.out.println("unrel2");
                 module.setReleaseTime(null);
             }
         } else if ("edit".equalsIgnoreCase(op)) {
@@ -109,7 +116,6 @@ public class EditModuleServlet extends HttpServlet {
         boolean isPublishedSaveExist = module.getReleaseTime() != null;
 
         // Get Module Image
-        
         int views = DBAdmin.getViews(moduleID);
         int thumbsUp = DBAdmin.getThumbsUp(moduleID);
         int thumbsDown = DBAdmin.getThumbsDown(moduleID);

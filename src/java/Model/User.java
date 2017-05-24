@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017 Andree Yosua.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package Model;
 
 import java.util.regex.Matcher;
@@ -18,18 +33,8 @@ public class User {
     private String organization;
 
     private String activationLink;
-    
-    /**
-     *
-     * @param userID
-     * @param username
-     * @param password
-     * @param email
-     * @param userType
-     * @param fullName
-     * @param organization
-     */
-    public User(int userID, String username, String password, String email, String userType, String fullName, String organization) {    
+
+    public User(int userID, String username, String password, String email, String userType, String fullName, String organization) {
         this.userID = userID;
         this.username = username;
         this.password = password;
@@ -39,13 +44,7 @@ public class User {
         this.organization = organization;
     }
 
-    /**
-     * Check whether the email pattern is valid or not.
-     *
-     * @return true if pattern is valid; otherwise false.
-     */
     public boolean isEmailValid() {
-        //        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
         String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+)*@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
 
         Pattern pattern = Pattern.compile(regex);
@@ -54,11 +53,6 @@ public class User {
         return matcher.matches();
     }
 
-    /**
-     * Check whether the password pattern is valid or not. The password must be at least 8 characters long, contain at least 1 number, and no whitespace.
-     *
-     * @return true if pattern is valid; otherwise false.
-     */
     public boolean isPasswordValid() {
         String regex = "^(?=.*[0-9])(?=\\S+$).{8,}$";
         Pattern pattern = Pattern.compile(regex);
@@ -68,7 +62,6 @@ public class User {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Getter and Setter. Click + sign on the left to expand the code">
-
     public void setActivationLink(String activationLink) {
         this.activationLink = activationLink;
     }
@@ -76,19 +69,11 @@ public class User {
     public String getActivationLink() {
         return activationLink;
     }
-    
-    /**
-     *
-     * @return
-     */
+
     public int getUserID() {
         return userID;
     }
 
-    /**
-     *
-     * @param userID
-     */
     public void setUserID(int userID) {
         this.userID = userID;
     }
@@ -108,67 +93,35 @@ public class User {
     public void setOrganization(String organization) {
         this.organization = organization;
     }
-    
-    /**
-     *
-     * @return
-     */
+
     public String getUsername() {
         return username;
     }
 
-    /**
-     *
-     * @param username
-     */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getPassword() {
         return password;
     }
 
-    /**
-     *
-     * @param password
-     */
     public void setPassword(String password) {
         this.password = password;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getEmail() {
         return email;
     }
 
-    /**
-     *
-     * @param email
-     */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getUserType() {
         return userType;
     }
 
-    /**
-     *
-     * @param userType
-     */
     public void setUserType(String userType) {
         this.userType = userType;
     }// </editor-fold>

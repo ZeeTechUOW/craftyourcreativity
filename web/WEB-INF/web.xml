@@ -93,14 +93,6 @@
         <servlet-class>Editor.UploadServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>PlayServlet</servlet-name>
-        <servlet-class>Editor.PlayServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>RequestImageServlet</servlet-name>
-        <servlet-class>Editor.RequestImageServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>AddThreadServlet</servlet-name>
         <servlet-class>Servlet.AddThreadServlet</servlet-class>
     </servlet>
@@ -217,14 +209,6 @@
         <url-pattern>/SaveServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>PlayServlet</servlet-name>
-        <url-pattern>/PlayServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>RequestImageServlet</servlet-name>
-        <url-pattern>/RequestImageServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>UploadServlet</servlet-name>
         <url-pattern>/UploadServlet</url-pattern>
     </servlet-mapping>
@@ -325,10 +309,6 @@
         <location>/error?code=504</location>
     </error-page>
     <servlet>
-        <servlet-name>NewProjectServlet</servlet-name>
-        <servlet-class>Editor.NewProjectServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>MyModuleServlet</servlet-name>
         <servlet-class>Servlet.MyModuleServlet</servlet-class>
     </servlet>
@@ -375,10 +355,6 @@
     <servlet-mapping>
         <servlet-name>AddThreadServlet</servlet-name>
         <url-pattern>/addthread</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>NewProjectServlet</servlet-name>
-        <url-pattern>/NewProjectServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MyModuleServlet</servlet-name>
