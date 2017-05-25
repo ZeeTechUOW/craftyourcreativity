@@ -26,7 +26,7 @@ public class ProjectProperties {
 //    localhost
 //    public static final String DATABASE_PASSWORD = "";
 //    www.craftyourcreativity.com webserver
-    public static final String DATABASE_PASSWORD = "uvUqdU9n";
+    public static final String DATABASE_PASSWORD = "cK3rMeyG";
     
 //    Facebook App
 //    localhost
@@ -35,7 +35,7 @@ public class ProjectProperties {
 //    www.craftyourcreativity.com webserver
     public static final String FACEBOOK_APP_ID = "1768702590088466";
     public static final String FACEBOOK_APP_SECRET = "019fbbc3376dce8da24ae020c230759e";
-    
+
 //    Twitter App
 //    localhost
 //    public static final String TWITTER_CONSUMER_KEY = "Ab56XTijCyIBTn8ufvYvu0Ugs";                              
