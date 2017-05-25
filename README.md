@@ -17,6 +17,7 @@ https://github.com/ZeeTechUOW/craftyourcreativity.git
 ```
 3. Open the project
 4. Import the .sql in /db/ folder to your database
+5. Edit ProjectProperties.java in package Model to match the database url, user, and pass
 6. Run the project
 
 #### Using other Java IDE
@@ -28,7 +29,8 @@ https://github.com/ZeeTechUOW/craftyourcreativity.git
 3. Add all library from /lib/ folder
 4. Set the project configuration to use Tomcat 8
 5. Import the .sql in /db/ folder to your database
-6. Run the project
+6. Edit ProjectProperties.java in package Model to match the database url, user, and pass
+7. Run the project
 
 ## Deploying to web server
 When compiling and running the project in you machine, the project is already deployed in your local machine.
