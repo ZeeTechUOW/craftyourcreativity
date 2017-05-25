@@ -3,6 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the player.
  */
+/**
+ *
+ * @author Deni Barasena
+ */
 
 function GamePlayer(moduleID, userID) {
     this.context = new Player.Context(this, function (value) {
