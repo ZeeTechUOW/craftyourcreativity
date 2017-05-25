@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.12
+-- version 4.5.1
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2017 at 08:16 AM
--- Server version: 5.6.16
--- PHP Version: 5.5.11
+-- Generation Time: May 25, 2017 at 11:55 AM
+-- Server version: 10.1.19-MariaDB
+-- PHP Version: 5.6.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `cyc`
@@ -26,14 +26,12 @@ SET time_zone = "+00:00";
 -- Table structure for table `achievement`
 --
 
-CREATE TABLE IF NOT EXISTS `achievement` (
-  `achievementID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `achievement` (
+  `achievementID` int(11) NOT NULL,
   `moduleID` int(11) NOT NULL,
   `achievementName` varchar(100) NOT NULL,
-  `achievementDescription` text NOT NULL,
-  PRIMARY KEY (`achievementID`,`moduleID`),
-  KEY `fk_achievement_module1_idx` (`moduleID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=85 ;
+  `achievementDescription` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `achievement`
@@ -48,11 +46,9 @@ INSERT INTO `achievement` (`achievementID`, `moduleID`, `achievementName`, `achi
 -- Table structure for table `genre`
 --
 
-CREATE TABLE IF NOT EXISTS `genre` (
+CREATE TABLE `genre` (
   `moduleID` int(11) NOT NULL,
-  `genre` varchar(100) NOT NULL,
-  PRIMARY KEY (`moduleID`,`genre`),
-  KEY `fk_genre_module1_idx` (`moduleID`)
+  `genre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -61,15 +57,14 @@ CREATE TABLE IF NOT EXISTS `genre` (
 -- Table structure for table `module`
 --
 
-CREATE TABLE IF NOT EXISTS `module` (
-  `moduleID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `module` (
+  `moduleID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `moduleName` varchar(100) NOT NULL,
   `moduleDescription` text NOT NULL,
   `releaseTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `lastEdited` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`moduleID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+  `lastEdited` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `module`
@@ -84,10 +79,9 @@ INSERT INTO `module` (`moduleID`, `userID`, `moduleName`, `moduleDescription`, `
 -- Table structure for table `moduleenddata`
 --
 
-CREATE TABLE IF NOT EXISTS `moduleenddata` (
+CREATE TABLE `moduleenddata` (
   `moduleID` int(11) NOT NULL,
-  `endData` varchar(100) NOT NULL,
-  PRIMARY KEY (`moduleID`,`endData`)
+  `endData` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -96,15 +90,12 @@ CREATE TABLE IF NOT EXISTS `moduleenddata` (
 -- Table structure for table `moduleuserdata`
 --
 
-CREATE TABLE IF NOT EXISTS `moduleuserdata` (
+CREATE TABLE `moduleuserdata` (
   `moduleID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `mKey` varchar(100) NOT NULL,
   `mValue` varchar(100) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`mKey`,`userID`,`moduleID`,`timestamp`),
-  KEY `fk_moduleuserdata_module1_idx` (`moduleID`),
-  KEY `fk_moduleuserdata_user1_idx` (`userID`)
+  `timestamp` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -113,24 +104,14 @@ CREATE TABLE IF NOT EXISTS `moduleuserdata` (
 -- Table structure for table `post`
 --
 
-CREATE TABLE IF NOT EXISTS `post` (
-  `postID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `post` (
+  `postID` int(11) NOT NULL,
   `threadID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `openingPost` tinyint(1) DEFAULT NULL,
   `message` text NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`postID`),
-  KEY `fk_post_thread1_idx` (`threadID`),
-  KEY `fk_post_user1_idx` (`userID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
-
---
--- Dumping data for table `post`
---
-
-INSERT INTO `post` (`postID`, `threadID`, `userID`, `openingPost`, `message`, `timestamp`) VALUES
-(1, 1, 1, 1, 'Welcome to CYC Forum!<br><br>\nForum rules:<br>\n1. No Spam, keep you posts clean as possible.<br>\n2. No Porn, warez, or other illegal content.<br>\n3. Forums categorized by topics, create your thread in appropriate forum.<br><br>\nI will keep adding rules later on.', '2017-04-04 05:47:54');
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -138,13 +119,11 @@ INSERT INTO `post` (`postID`, `threadID`, `userID`, `openingPost`, `message`, `t
 -- Table structure for table `postuserdata`
 --
 
-CREATE TABLE IF NOT EXISTS `postuserdata` (
+CREATE TABLE `postuserdata` (
   `postID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `mKey` varchar(100) NOT NULL,
-  `mValue` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`postID`,`userID`,`mKey`),
-  KEY `userID` (`userID`)
+  `mValue` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -153,21 +132,12 @@ CREATE TABLE IF NOT EXISTS `postuserdata` (
 -- Table structure for table `thread`
 --
 
-CREATE TABLE IF NOT EXISTS `thread` (
-  `threadID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `thread` (
+  `threadID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `threadTitle` varchar(100) NOT NULL,
-  `threadType` varchar(100) NOT NULL,
-  PRIMARY KEY (`threadID`),
-  KEY `fk_thread_user1_idx` (`userID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
-
---
--- Dumping data for table `thread`
---
-
-INSERT INTO `thread` (`threadID`, `userID`, `threadTitle`, `threadType`) VALUES
-(1, 1, 'Welcome to CYC, read the forum rules', 'general');
+  `threadType` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -175,16 +145,15 @@ INSERT INTO `thread` (`threadID`, `userID`, `threadTitle`, `threadType`) VALUES
 -- Table structure for table `user`
 --
 
-CREATE TABLE IF NOT EXISTS `user` (
-  `userID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user` (
+  `userID` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` char(64) NOT NULL,
   `email` varchar(100) NOT NULL,
   `userType` varchar(100) NOT NULL,
   `fullname` varchar(100) NOT NULL,
-  `organization` varchar(100) NOT NULL,
-  PRIMARY KEY (`userID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+  `organization` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
@@ -192,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`userID`, `username`, `password`, `email`, `userType`, `fullname`, `organization`) VALUES
 (-1, 'Anonymous', 'nopassword', 'no@email.here', 'player', 'No Name', 'Null'),
-(1, 'admin', '459ff8ddc3d877b86573aa391746824c9c1d5c9a', 'andree.yosua@gmail.com', 'admin', 'The Admin', 'cyc');
+(1, 'admin', '459ff8ddc3d877b86573aa391746824c9c1d5c9a', 'admin@domain.com', 'admin', 'Admin CYC', 'cyc');
 
 -- --------------------------------------------------------
 
@@ -200,13 +169,10 @@ INSERT INTO `user` (`userID`, `username`, `password`, `email`, `userType`, `full
 -- Table structure for table `userachievement`
 --
 
-CREATE TABLE IF NOT EXISTS `userachievement` (
+CREATE TABLE `userachievement` (
   `userID` int(11) NOT NULL,
   `achievementID` int(11) NOT NULL,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`userID`,`achievementID`),
-  KEY `fk_userachievement_user1_idx` (`userID`),
-  KEY `fk_userachievement_achievement1_idx` (`achievementID`)
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -215,10 +181,9 @@ CREATE TABLE IF NOT EXISTS `userachievement` (
 -- Table structure for table `userfacebook`
 --
 
-CREATE TABLE IF NOT EXISTS `userfacebook` (
+CREATE TABLE `userfacebook` (
   `userID` int(11) NOT NULL,
-  `facebookID` varchar(100) NOT NULL,
-  PRIMARY KEY (`userID`,`facebookID`)
+  `facebookID` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -227,10 +192,9 @@ CREATE TABLE IF NOT EXISTS `userfacebook` (
 -- Table structure for table `usertwitter`
 --
 
-CREATE TABLE IF NOT EXISTS `usertwitter` (
+CREATE TABLE `usertwitter` (
   `userID` int(11) NOT NULL,
-  `twitterID` varchar(100) NOT NULL,
-  PRIMARY KEY (`userID`,`twitterID`)
+  `twitterID` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -239,15 +203,135 @@ CREATE TABLE IF NOT EXISTS `usertwitter` (
 -- Table structure for table `views`
 --
 
-CREATE TABLE IF NOT EXISTS `views` (
+CREATE TABLE `views` (
   `userID` int(11) NOT NULL DEFAULT '0',
   `moduleID` int(11) NOT NULL,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`userID`,`moduleID`,`time`),
-  KEY `fk_views_module1_idx` (`moduleID`),
-  KEY `fk_views_user1_idx` (`userID`)
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `achievement`
+--
+ALTER TABLE `achievement`
+  ADD PRIMARY KEY (`achievementID`,`moduleID`),
+  ADD KEY `fk_achievement_module1_idx` (`moduleID`);
+
+--
+-- Indexes for table `genre`
+--
+ALTER TABLE `genre`
+  ADD PRIMARY KEY (`moduleID`,`genre`),
+  ADD KEY `fk_genre_module1_idx` (`moduleID`);
+
+--
+-- Indexes for table `module`
+--
+ALTER TABLE `module`
+  ADD PRIMARY KEY (`moduleID`);
+
+--
+-- Indexes for table `moduleenddata`
+--
+ALTER TABLE `moduleenddata`
+  ADD PRIMARY KEY (`moduleID`,`endData`);
+
+--
+-- Indexes for table `moduleuserdata`
+--
+ALTER TABLE `moduleuserdata`
+  ADD PRIMARY KEY (`mKey`,`userID`,`moduleID`,`timestamp`),
+  ADD KEY `fk_moduleuserdata_module1_idx` (`moduleID`),
+  ADD KEY `fk_moduleuserdata_user1_idx` (`userID`);
+
+--
+-- Indexes for table `post`
+--
+ALTER TABLE `post`
+  ADD PRIMARY KEY (`postID`),
+  ADD KEY `fk_post_thread1_idx` (`threadID`),
+  ADD KEY `fk_post_user1_idx` (`userID`);
+
+--
+-- Indexes for table `postuserdata`
+--
+ALTER TABLE `postuserdata`
+  ADD PRIMARY KEY (`postID`,`userID`,`mKey`),
+  ADD KEY `userID` (`userID`);
+
+--
+-- Indexes for table `thread`
+--
+ALTER TABLE `thread`
+  ADD PRIMARY KEY (`threadID`),
+  ADD KEY `fk_thread_user1_idx` (`userID`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`userID`);
+
+--
+-- Indexes for table `userachievement`
+--
+ALTER TABLE `userachievement`
+  ADD PRIMARY KEY (`userID`,`achievementID`),
+  ADD KEY `fk_userachievement_user1_idx` (`userID`),
+  ADD KEY `fk_userachievement_achievement1_idx` (`achievementID`);
+
+--
+-- Indexes for table `userfacebook`
+--
+ALTER TABLE `userfacebook`
+  ADD PRIMARY KEY (`userID`,`facebookID`);
+
+--
+-- Indexes for table `usertwitter`
+--
+ALTER TABLE `usertwitter`
+  ADD PRIMARY KEY (`userID`,`twitterID`);
+
+--
+-- Indexes for table `views`
+--
+ALTER TABLE `views`
+  ADD PRIMARY KEY (`userID`,`moduleID`,`time`),
+  ADD KEY `fk_views_module1_idx` (`moduleID`),
+  ADD KEY `fk_views_user1_idx` (`userID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `achievement`
+--
+ALTER TABLE `achievement`
+  MODIFY `achievementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `module`
+--
+ALTER TABLE `module`
+  MODIFY `moduleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `post`
+--
+ALTER TABLE `post`
+  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `thread`
+--
+ALTER TABLE `thread`
+  MODIFY `threadID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Constraints for dumped tables
 --
