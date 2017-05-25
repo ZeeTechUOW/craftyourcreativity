@@ -59,7 +59,6 @@
                                         <span style="margin: 2px 5px; font-size: 28px;"><span id="dislikeAmount"><%=module.getDislikes()%></span> <a id='thumbsDown' href="#" onclick="if (dislikeClicked)
                                         dislikeClicked()" class="thumbsDown <%=("dislike".equals(userLikeState) ? "active" : "")%>"><span class="glyphicon glyphicon-thumbs-down"></span></a>
                             </span>
-                            <button id="Button" class="btn btn-default pull-right" style="margin-left: 5px;">Share</button>
                         </div>
                     </div>
                 </div>
