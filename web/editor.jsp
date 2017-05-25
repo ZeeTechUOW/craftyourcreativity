@@ -126,7 +126,7 @@
                                 <li><a onmousedown="openLinkerSyntaxModal({})">Linker Syntax</a></li>
                                 <li><a onmousedown="openVariableCallModal({})">Variable Calls</a></li>
                                 <li class="divider"></li>
-                                <li><a onmousedown="window.open('', '_blank')">User Manual</a></li>
+                                <li><a onmousedown="window.open('resource/userManual.pdf', '_blank')">User Manual</a></li>
                             </ul>
                         </li>
                         <li >

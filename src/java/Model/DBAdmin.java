@@ -14,9 +14,9 @@ import java.util.logging.Logger;
 
 public class DBAdmin {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/cyc";
-    private static final String DB_USER = "root";
-    private static final String DB_PASS = ""; // L1ocal machine DB Pass
+    private static final String DB_URL = ProjectProperties.DATABASE_URL;
+    private static final String DB_USER = ProjectProperties.DATABASE_USER;
+    private static final String DB_PASS = ProjectProperties.DATABASE_PASSWORD; // L1ocal machine DB Pass
 //    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
 //    private static final String DB_PASS = "cK3rMeyG"; // Andree GCP machine DB Pass
 
@@ -179,11 +179,9 @@ public class DBAdmin {
             = "INSERT INTO `module` (`moduleID`, `userID`, `moduleName`, `moduleDescription`, `releaseTime`, `lastEdited`) "
             + "VALUES (NULL, ?, ?, ?, NULL, CURRENT_TIMESTAMP);";
     private static final String GET_ALL_MODULE_SORT_BY_POPULAR_VIEW
-            = "SELECT m.moduleID, m.userID, m.moduleName, m.moduleDescription, m.releaseTime, m.lastEdited, COUNT(v.moduleID) AS viewCount "
-            + "FROM module m, views v "
-            + "WHERE m.moduleID = v.moduleID "
-            + "AND m.releaseTime > 0 "
-            + "GROUP BY m.moduleID "
+            = "SELECT m.moduleID, m.userID, m.moduleName, m.moduleDescription, m.releaseTime, m.lastEdited, (SELECT COUNT(*) FROM views v WHERE v.moduleID = m.moduleID) AS viewCount "
+            + "FROM module m "
+            + "WHERE m.releaseTime > 0 "
             + "ORDER BY viewCount DESC";
     private static final String GET_ALL_MODULE_SORT_BY_NEWEST_RELEASE
             = "SELECT * "
