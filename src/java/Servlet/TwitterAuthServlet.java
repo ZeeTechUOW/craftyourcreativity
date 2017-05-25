@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017 Andree Yosua.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package Servlet;
 
 import Model.TwitterApp;
@@ -12,6 +27,10 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.ConfigurationBuilder;
 
+/**
+ *
+ * @author Andree Yosua
+ */
 public class TwitterAuthServlet extends HttpServlet {
 
     /**
@@ -24,12 +43,12 @@ public class TwitterAuthServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         ConfigurationBuilder cb = new ConfigurationBuilder();
-        
+
         cb.setOAuthConsumerKey(TwitterApp.CONSUMER_KEY);
         cb.setOAuthConsumerSecret(TwitterApp.CONSUMER_SECRET);
-        
+
         Twitter twitter = new TwitterFactory(cb.build()).getInstance();
         request.getSession().setAttribute("twitter", twitter);
         try {
@@ -38,12 +57,12 @@ public class TwitterAuthServlet extends HttpServlet {
             callbackURL.replace(index, callbackURL.length(), "").append("/callback");
 
             System.out.println(callbackURL);
-            
+
             RequestToken requestToken = twitter.getOAuthRequestToken(callbackURL.toString());
-            
+
             System.out.println("Authentication " + requestToken.getAuthenticationURL());
             System.out.println("Authorization " + requestToken.getAuthorizationURL());
-            
+
             request.getSession().setAttribute("requestToken", requestToken);
             response.sendRedirect(requestToken.getAuthenticationURL());
         } catch (TwitterException e) {

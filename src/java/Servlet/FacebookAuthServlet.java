@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017 Andree Yosua.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package Servlet;
 
 import Model.DBAdmin;
@@ -19,6 +34,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ *
+ * @author Andree Yosua
+ */
 public class FacebookAuthServlet extends HttpServlet {
 
     /**
@@ -31,40 +50,40 @@ public class FacebookAuthServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String code = request.getParameter("code");
         if (code == null) {
             response.sendRedirect("login");
             return;
         }
-        
+
         code += "#_=_";
-        
+
         String redirectURL = DirectoryAdmin.getURLContextPath(request) + "/facebookauth";
-        String authURL 
+        String authURL
                 = "https://graph.facebook.com/v2.9/oauth/access_token?"
                 + "client_id=" + FBApp.APP_ID
                 + "&redirect_uri=" + redirectURL
                 + "&client_secret=" + FBApp.APP_SECRET
                 + "&code=" + code;
-        
+
         URL url = new URL(authURL);
-        
-        HttpURLConnection con =(HttpURLConnection) url.openConnection();
+
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.connect();
-        
+
         JsonObject j = Json.parse(new InputStreamReader(con.getInputStream())).asObject();
-        
+
         String accessToken = j.getString("access_token", null);
-        
+
         FacebookClient fbClient = new DefaultFacebookClient(accessToken, FBApp.APP_SECRET, Version.LATEST);
         User me = fbClient.fetchObject("me", User.class, Parameter.with("fields", "id,name,email"));
-        
+
         Model.User loggedUser = DBAdmin.getFacebookUser(me.getId());
-        
+
         if (loggedUser == null) {
             String username = me.getName().replaceAll(" ", "");
-            
+
             if (DBAdmin.isUsernameTaken(username)) {
                 int i = 1;
                 while (DBAdmin.isUsernameTaken(username + i)) {
@@ -72,16 +91,15 @@ public class FacebookAuthServlet extends HttpServlet {
                 }
                 username += i;
             }
-            
+
             DBAdmin.registerFacebook(me.getId(), username, "null", "", "player", me.getName(), "unaffliated");
             DirectoryAdmin.prepNewUserDirectory(request, username);
 
-            
             loggedUser = DBAdmin.getFacebookUser(me.getId());
         }
-        
+
         request.getSession().setAttribute("loggedUser", loggedUser);
-        
+
         response.sendRedirect("main");
     }
 

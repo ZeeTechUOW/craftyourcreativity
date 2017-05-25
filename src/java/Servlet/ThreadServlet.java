@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017 Andree Yosua.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package Servlet;
 
 import Model.DBAdmin;
@@ -30,7 +45,7 @@ public class ThreadServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-        
+
         // Initialize variable
         int id;
         int pageNum;
@@ -59,7 +74,7 @@ public class ThreadServlet extends HttpServlet {
 
         // Calculating total page
         postCount = DBAdmin.getThreadPostCount(id);
-        if( postCount < 1 ) {
+        if (postCount < 1) {
             response.sendRedirect("forum");
             return;
         }
@@ -83,13 +98,13 @@ public class ThreadServlet extends HttpServlet {
             response.sendRedirect("error?code=404");
             return;
         }
-        
-        if( loggedUser != null ) {
+
+        if (loggedUser != null) {
             posts = DBAdmin.getThreadPost(loggedUser.getUserID(), id, pageNum);
         } else {
             posts = DBAdmin.getThreadPost(id, pageNum);
         }
-        
+
         // Get username for every post
         userList = new ArrayList<>();
         for (Post p : posts) {

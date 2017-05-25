@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017 Andree Yosua.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package Model;
 
 import java.time.LocalDateTime;
@@ -21,14 +36,7 @@ public class Post {
     private PrettyTime p = new PrettyTime();
 
     private String userLikes;
-    /**
-     *
-     * @param postID
-     * @param threadID
-     * @param userID
-     * @param postMessage
-     * @param postTime
-     */
+    
     public Post(int postID, int threadID, int userID, String postMessage, LocalDateTime postTime, int likes, int dislikes) {
         this.postID = postID;
         this.threadID = threadID;
@@ -40,7 +48,6 @@ public class Post {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Getter and Setter. Click + sign on the left to expand the code">
-
     public String getUserLikes() {
         return userLikes;
     }
@@ -48,51 +55,27 @@ public class Post {
     public void setUserLikes(String userLikes) {
         this.userLikes = userLikes;
     }
-    
-    /**
-     *
-     * @return
-     */
+
     public int getPostID() {
         return postID;
     }
 
-    /**
-     *
-     * @param postID
-     */
     public void setPostID(int postID) {
         this.postID = postID;
     }
 
-    /**
-     *
-     * @return
-     */
     public int getThreadID() {
         return threadID;
     }
 
-    /**
-     *
-     * @param threadID
-     */
     public void setThreadID(int threadID) {
         this.threadID = threadID;
     }
 
-    /**
-     *
-     * @return
-     */
     public int getUserID() {
         return userID;
     }
 
-    /**
-     *
-     * @param userID
-     */
     public void setUserID(int userID) {
         this.userID = userID;
     }
@@ -112,45 +95,23 @@ public class Post {
     public void setLikes(int likes) {
         this.likes = likes;
     }
-    
-    
 
-    /**
-     *
-     * @return
-     */
     public String getPostMessage() {
         return postMessage;
     }
 
-    /**
-     *
-     * @param postMessage
-     */
     public void setPostMessage(String postMessage) {
         this.postMessage = postMessage;
     }
 
-    /**
-     *
-     * @return
-     */
     public LocalDateTime getPostTime() {
         return postTime;
     }
 
-    /**
-     *
-     * @param postTime
-     */
     public void setPostTime(LocalDateTime postTime) {
         this.postTime = postTime;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getPostTimeFormatted() {
         return p.format(Date.from(postTime.atZone(ZoneId.systemDefault()).toInstant()));
     }// </editor-fold>\

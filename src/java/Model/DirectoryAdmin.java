@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017 Andree Yosua.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package Model;
 
 import java.io.File;
@@ -19,10 +34,10 @@ public class DirectoryAdmin {
         createNewDirectory(f, "certs");
     }
 
-    public static void prepNewProjectDirectory(HttpServletRequest request, int moduleID ) {
+    public static void prepNewProjectDirectory(HttpServletRequest request, int moduleID) {
         String modulePath = DirectoryAdmin.getPath(request, "/module");
         File templateFolder = new File(DirectoryAdmin.getPath(request, "/projectFolderTemplate"));
-        
+
         File f = new File(modulePath);
 
         if (!f.exists()) {
@@ -33,7 +48,6 @@ public class DirectoryAdmin {
         renameFile(new File(f, templateFolder.getName()), "" + moduleID);
     }
 
-    
     public static void prepPublishProject(HttpServletRequest request, int moduleID) throws IOException {
         File f = new File(DirectoryAdmin.getPath(request, "/module/" + moduleID + "/save.json"));
         File f2 = new File(DirectoryAdmin.getPath(request, "/module/" + moduleID + "/Assets"));
@@ -48,7 +62,7 @@ public class DirectoryAdmin {
 
         DirectoryAdmin.copyFiles(f2, f4);
     }
-            
+
     public static void createNewDirectory(File folder, String newName) {
         String baseName = newName;
         String extension = "";
@@ -257,22 +271,24 @@ public class DirectoryAdmin {
 
         }
     }
-    
+
     public static String getPath(HttpServletRequest request, String path) {
-        if( !path.startsWith("/") ) path = "/" + path;
+        if (!path.startsWith("/")) {
+            path = "/" + path;
+        }
 //        System.out.println(path + " >>> " + (getURLFilePath(request) + path));
 //        return getURLFilePath(request) + path;
 //        return getURLContextPath(request) + path;
         return request.getServletContext().getRealPath(path);
     }
-    
+
     public static String getURLFilePath(HttpServletRequest request) {
         return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getServletContext().getInitParameter("userfile.location");
     }
+
     public static String getURLContextPath(HttpServletRequest request) {
         return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
-
 
     private static String quote(String string) {
         if (string == null || string.length() == 0) {
@@ -325,5 +341,4 @@ public class DirectoryAdmin {
         }
         return sb.toString();
     }
-
 }

@@ -1,7 +1,17 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2017 Andree Yosua.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package Editor;
 
@@ -23,8 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LoadServlet extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -33,19 +42,19 @@ public class LoadServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         int projectID;
         int userID;
         String username;
-        
+
         User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-        if( loggedUser != null ) {
+        if (loggedUser != null) {
             username = loggedUser.getUsername();
         } else {
             response.sendError(500, "NO USER");
             return;
         }
-        
+
         try {
             projectID = Integer.parseInt(request.getParameter("mid"));
             userID = Integer.parseInt(request.getParameter("uid"));
@@ -53,19 +62,19 @@ public class LoadServlet extends HttpServlet {
             response.sendError(500, "NO PARAMS " + request.getParameter("mid") + " | " + request.getParameter("uid"));
             return;
         }
-        
-        if( userID != loggedUser.getUserID() || "player".equals(loggedUser.getUserType()) ) {
+
+        if (userID != loggedUser.getUserID() || "player".equals(loggedUser.getUserType())) {
             response.sendError(500, "User Not Matched " + userID + " | " + loggedUser.getUserID());
             return;
         }
-        
+
         try (PrintWriter out = response.getWriter()) {
 //            File inputFile = new File(getServletContext().getRealPath("/") + "module/" + projectID + "/save.json");
             File inputFile = new File(DirectoryAdmin.getPath(request, "module/" + projectID + "/save.json"));
-            
-            if(inputFile.exists()) {
+
+            if (inputFile.exists()) {
                 try (Scanner scanner = new Scanner(inputFile)) {
-                    while( scanner.hasNextLine() ) {
+                    while (scanner.hasNextLine()) {
                         out.println(scanner.nextLine());
                     }
                 }

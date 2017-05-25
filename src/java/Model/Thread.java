@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017 Andree Yosua.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package Model;
 
 import java.time.LocalDateTime;
@@ -19,13 +34,6 @@ public class Thread {
     private int replyCount;
     private PrettyTime p = new PrettyTime();
 
-    /**
-     *
-     * @param threadID
-     * @param threadUserID
-     * @param threadTitle
-     * @param threadType
-     */
     public Thread(int threadID, int threadUserID, String threadTitle, String threadType) {
         this.threadID = threadID;
         this.userID = threadUserID;
@@ -35,15 +43,6 @@ public class Thread {
         replyCount = -1;
     }
 
-    /**
-     *
-     * @param threadID
-     * @param userID
-     * @param threadTitle
-     * @param threadType
-     * @param threadTime
-     * @param replyCount
-     */
     public Thread(int threadID, int userID, String threadTitle, String threadType, LocalDateTime threadTime, int replyCount) {
         this.threadID = threadID;
         this.userID = userID;
@@ -56,110 +55,57 @@ public class Thread {
     public boolean isModuleThread() {
         return threadType.startsWith("module_");
     }
-    
-    // <editor-fold defaultstate="collapsed" desc="Getter and Setter. Click + sign on the left to expand the code">
 
-    /**
-     *
-     * @return
-     */
+    // <editor-fold defaultstate="collapsed" desc="Getter and Setter. Click + sign on the left to expand the code">
     public int getThreadID() {
         return threadID;
     }
 
-    /**
-     *
-     * @param threadID
-     */
     public void setThreadID(int threadID) {
         this.threadID = threadID;
     }
 
-    /**
-     *
-     * @return
-     */
     public int getUserID() {
         return userID;
     }
 
-    /**
-     *
-     * @param userID
-     */
     public void setUserID(int userID) {
         this.userID = userID;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getThreadTitle() {
-        
+
         return threadTitle;
     }
 
-    /**
-     *
-     * @param threadTitle
-     */
     public void setThreadTitle(String threadTitle) {
         this.threadTitle = threadTitle;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getThreadType() {
         return threadType.replace("module_", "");
     }
 
-    /**
-     *
-     * @param threadType
-     */
     public void setThreadType(String threadType) {
         this.threadType = threadType;
     }
 
-    /**
-     *
-     * @return
-     */
     public LocalDateTime getThreadTime() {
         return threadTime;
     }
 
-    /**
-     *
-     * @param threadTime
-     */
     public void setThreadTime(LocalDateTime threadTime) {
         this.threadTime = threadTime;
     }
 
-    /**
-     *
-     * @return
-     */
     public int getReplyCount() {
         return replyCount;
     }
 
-    /**
-     *
-     * @param replyCount
-     */
     public void setReplyCount(int replyCount) {
         this.replyCount = replyCount;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getThreadTimeFormatted() {
         return p.format(Date.from(threadTime.atZone(ZoneId.systemDefault()).toInstant()));
     }// </editor-fold>\    

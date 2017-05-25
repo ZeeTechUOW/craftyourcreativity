@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017 Andree Yosua.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package Servlet;
 
 import Model.DBAdmin;
@@ -28,14 +43,14 @@ public class CreatePostServlet extends HttpServlet {
         // Initialize variable
         User loggedUser;
         int threadID;
-        
+
         // Get user session
         loggedUser = (User) request.getSession().getAttribute("loggedUser");
         if (loggedUser == null) {
             response.sendRedirect("login");
             return;
         }
-        
+
         // Parse all parameters
         try {
             // Parse thread ID
@@ -58,7 +73,7 @@ public class CreatePostServlet extends HttpServlet {
             } else {
                 lastPage = (int) Math.floorDiv(postCount, 10) + 1;
             }
-            
+
             // Redirect to last page of thread
             response.sendRedirect("thread?tid=" + threadID + "&page=" + lastPage);
         } else {

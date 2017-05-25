@@ -1,7 +1,17 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2017 Andree Yosua.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package Servlet;
 
@@ -9,12 +19,9 @@ import Model.DirectoryAdmin;
 import Model.User;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,12 +31,10 @@ import javax.servlet.http.Part;
  *
  * @author Deni Barasena
  */
-@MultipartConfig
 public class UploadImageServlet extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -65,13 +70,13 @@ public class UploadImageServlet extends HttpServlet {
                 response.sendRedirect("main");
                 return;
         }
-        
+
         Part imageFile = request.getPart("imageUpload");
-        if( imageFile == null) {
+        if (imageFile == null) {
             response.sendRedirect("main");
             return;
         }
-        
+
         File file = new File(DirectoryAdmin.getPath(request, path));
         Files.copy(imageFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
