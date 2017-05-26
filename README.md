@@ -1,6 +1,5 @@
 # Craft Your Creativity
-Craft Your Creativity is a web based e-learning project that incorporate gamification. This project created to fullfill the requirement of CSIT321 for Zeetech group.
-
+Craft Your Creativity is a web based e-learning project that incorporate gamification. This project created to fullfill the requirement of CSIT321 for Zeetech group. This webapps is accessible from [www.craftyourcreativity.com](http://www.craftyourcreativity.com) until February 2018.
 ## Getting started
 ### Prerequisites
 * Java SE Development Kit 8
