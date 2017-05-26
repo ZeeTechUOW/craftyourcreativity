@@ -16,8 +16,8 @@ public class DBAdmin {
 
     private static final String DB_URL = ProjectProperties.DATABASE_URL;
     private static final String DB_USER = ProjectProperties.DATABASE_USER;
-    private static final String DB_PASS = ""; // L1ocal machine DB Pass
-//    private static final String DB_PASS = ProjectProperties.DATABASE_PASSWORD; // L1ocal machine DB Pass
+//    private static final String DB_PASS = ""; // L1ocal machine DB Pass
+    private static final String DB_PASS = ProjectProperties.DATABASE_PASSWORD; // L1ocal machine DB Pass
 //    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
 //    private static final String DB_PASS = "cK3rMeyG"; // Andree GCP machine DB Pass
 
