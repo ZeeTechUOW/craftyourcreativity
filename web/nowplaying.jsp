@@ -56,7 +56,7 @@
                             <span style="margin: 2px 5px; font-size: 28px;"><span id="likeAmount"><%=module.getLikes()%></span> <a id='thumbsUp' href="#" onclick="if (likeClicked)
                                         likeClicked()" class="thumbsUp <%=("like".equals(userLikeState) ? "active" : "")%>"><span class="glyphicon glyphicon-thumbs-up"></span></a>
                             </span>
-                                        <span style="margin: 2px 5px; font-size: 28px;"><span id="dislikeAmount"><%=module.getDislikes()%></span> <a id='thumbsDown' href="#" onclick="if (dislikeClicked)
+                            <span style="margin: 2px 5px; font-size: 28px;"><span id="dislikeAmount"><%=module.getDislikes()%></span> <a id='thumbsDown' href="#" onclick="if (dislikeClicked)
                                         dislikeClicked()" class="thumbsDown <%=("dislike".equals(userLikeState) ? "active" : "")%>"><span class="glyphicon glyphicon-thumbs-down"></span></a>
                             </span>
                         </div>
@@ -107,7 +107,7 @@
                                 player.startGame(function () {
                                     player.game.dataVariables.username = username;
                                     player.game.dataVariables.fullname = fullname;
-                                    
+
                                     hideLoader();
 
                                     $("#buttonBar>div").css("max-width", player.game.windowSize.x + "px");
@@ -178,12 +178,12 @@
 
                                 function _ON_GAME_FINISHED(data) {
                                     var otherData = "";
-                                    for( var k in data ) {
-                                        if( k !== "score" ) {
+                                    for (var k in data) {
+                                        if (k !== "score") {
                                             otherData += "&" + encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
                                         }
                                     }
-                                    
+
                                     data._isCertified = _isCertified;
                                     data._moduleID = <%=module.getModuleID()%>;
                                     location.href = "GameFinishedServlet?mid=<%=module.getModuleID()%>&score=" + data.score + (_isCertified ? "&certs=true" : "") + otherData;

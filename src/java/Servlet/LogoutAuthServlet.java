@@ -38,8 +38,8 @@ public class LogoutAuthServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        request.getSession().setAttribute("loggedUser", null);
-        request.getSession().setAttribute("twitter", null);
+        request.getSession().invalidate();
+        
         response.sendRedirect("login");
     }
 
