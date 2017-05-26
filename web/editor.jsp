@@ -25,6 +25,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Module Editor - <%=module.getModuleName()%></title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="fonts/icomoon/styles.css" rel="stylesheet">

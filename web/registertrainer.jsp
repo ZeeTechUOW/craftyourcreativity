@@ -14,6 +14,7 @@
 <html>
     <head>
         <title>Approve Trainer <%=fullName%></title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/color1/logup.css">
         <script src="jquery/jquery-3.2.1.min.js"></script>
