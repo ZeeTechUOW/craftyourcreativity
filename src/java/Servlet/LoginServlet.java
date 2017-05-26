@@ -43,8 +43,7 @@ public class LoginServlet extends HttpServlet {
         String fbRedirectURL = DirectoryAdmin.getURLContextPath(request) + "/facebookauth";
         
         // Please comment this for localhost machine
-        fbRedirectURL = fbRedirectURL.replace("^(http:\\/\\/)(?!www)", "$1www.");
-        
+        fbRedirectURL = fbRedirectURL.replaceAll("^(http:\\/\\/)(?!www.)", "$1www.");
         String fbAuthURL
                 = "https://www.facebook.com/v2.9/dialog/oauth?"
                 + "client_id=" + FBApp.APP_ID
