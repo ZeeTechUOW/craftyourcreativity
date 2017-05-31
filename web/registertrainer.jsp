@@ -2,7 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    String fullName = request.getParameter("fullName");
+    String fullName = request.getParameter("fullname");
     String organization = request.getParameter("organization");
     String email = request.getParameter("email");
     String username = (String) request.getAttribute("username");
@@ -29,7 +29,7 @@
                 case "success":
             %>
             <h2>Approve Successful</h2>
-            <p>An email will be regarding the new account details will be sent to <%=email%></p>
+            <p>An email regarding the new account details will be sent to <%=email%></p>
             <%      
                     break;
                 case "username": 
