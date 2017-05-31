@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017 Andree Yosua.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package Model;
 
 import com.mysql.jdbc.Connection;
@@ -16,10 +31,7 @@ public class DBAdmin {
 
     private static final String DB_URL = ProjectProperties.DATABASE_URL;
     private static final String DB_USER = ProjectProperties.DATABASE_USER;
-//    private static final String DB_PASS = ""; // L1ocal machine DB Pass
-    private static final String DB_PASS = ProjectProperties.DATABASE_PASSWORD; // L1ocal machine DB Pass
-//    private static final String DB_PASS = "uvUqdU9n"; // DENI GCP machine DB Pass
-//    private static final String DB_PASS = "cK3rMeyG"; // Andree GCP machine DB Pass
+    private static final String DB_PASS = ProjectProperties.DATABASE_PASSWORD;
 
     // <editor-fold defaultstate="collapsed" desc="Query String. Click + sign on the left to expand the code">
     // User Query
