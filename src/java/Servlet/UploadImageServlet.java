@@ -17,10 +17,12 @@ package Servlet;
 
 import Model.DirectoryAdmin;
 import Model.User;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Base64;
 import java.util.Scanner;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -87,15 +89,19 @@ public class UploadImageServlet extends HttpServlet {
         Files.copy(imageFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
         
-        request.getSession().setAttribute("imageFile", imageFile);
-        
+        byte[] src = new byte[(int)imageFile.getSize()];
+        DataInputStream dataIs = new DataInputStream(imageFile.getInputStream());
+        dataIs.readFully(src);
+
         
         switch (uploadType) {
             case "MODULE_THUMBNAIL":
-                response.sendRedirect("editmodule?mid=" + request.getParameter("mid") + "&onSession=true");
+                request.getSession().setAttribute("imageFileM" + request.getParameter("mid"), Base64.getEncoder().encodeToString(src));
+                response.sendRedirect("editmodule?mid=" + request.getParameter("mid"));
                 break;
             case "ACHIEVEMENT_THUMBNAIL":
-                response.sendRedirect("editachievement?mid=" + request.getParameter("mid") + "&onSession=true");
+                request.getSession().setAttribute("imageFileA" + request.getParameter("aid"), Base64.getEncoder().encodeToString(src));
+                response.sendRedirect("editachievement?mid=" + request.getParameter("mid"));
                 break;
             default:
                 response.sendRedirect("main");

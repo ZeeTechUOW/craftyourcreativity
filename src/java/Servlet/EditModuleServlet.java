@@ -112,18 +112,10 @@ public class EditModuleServlet extends HttpServlet {
         int thumbsUp = DBAdmin.getThumbsUp(moduleID);
         int thumbsDown = DBAdmin.getThumbsDown(moduleID);
 
-        if( "true".equals(request.getParameter("onSession")) ) {
-            Part imageFile = (Part) request.getSession().getAttribute("imageFile");
-            request.getSession().removeAttribute("imageFile");
-            
-            if( imageFile != null ) {
-                byte[] src = new byte[(int)imageFile.getSize()];
-                DataInputStream dataIs = new DataInputStream(imageFile.getInputStream());
-                dataIs.readFully(src);
+        String imageFile = (String) request.getSession().getAttribute("imageFileM" + moduleID);
 
-                request.setAttribute("imageFileString", Base64.getEncoder().encodeToString(src));
-            }
-            
+        if( imageFile != null || !"".equals(imageFile)) {
+            request.setAttribute("imageFileString", imageFile);
         }
         
         // Set Attribute

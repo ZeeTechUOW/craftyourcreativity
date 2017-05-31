@@ -121,20 +121,11 @@ public class EditAchievementServlet extends HttpServlet {
             if (a.getUnlockTime() != LocalDateTime.MIN) {
                 unlockedModuleCount++;
             }
-        }
-        
-        if( "true".equals(request.getParameter("onSession")) ) {
-            Part imageFile = (Part) request.getSession().getAttribute("imageFile");
-            request.getSession().removeAttribute("imageFile");
             
-            if( imageFile != null ) {
-                byte[] src = new byte[(int)imageFile.getSize()];
-                DataInputStream dataIs = new DataInputStream(imageFile.getInputStream());
-                dataIs.readFully(src);
-
-                request.setAttribute("imageFileString", Base64.getEncoder().encodeToString(src));
+            String imageFile = (String) request.getSession().getAttribute("imageFileA" + a.getAchievementID());
+            if( imageFile != null || !"".equals(imageFile)) {
+                a.setImagePath(imageFile);
             }
-            
         }
         
         // Set Atrribute
