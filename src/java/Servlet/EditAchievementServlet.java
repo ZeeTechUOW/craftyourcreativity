@@ -19,13 +19,16 @@ import Model.Achievement;
 import Model.DBAdmin;
 import Model.Module;
 import Model.User;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Base64;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -119,7 +122,21 @@ public class EditAchievementServlet extends HttpServlet {
                 unlockedModuleCount++;
             }
         }
+        
+        if( "true".equals(request.getParameter("onSession")) ) {
+            Part imageFile = (Part) request.getSession().getAttribute("imageFile");
+            request.getSession().removeAttribute("imageFile");
+            
+            if( imageFile != null ) {
+                byte[] src = new byte[(int)imageFile.getSize()];
+                DataInputStream dataIs = new DataInputStream(imageFile.getInputStream());
+                dataIs.readFully(src);
 
+                request.setAttribute("imageFileString", Base64.getEncoder().encodeToString(src));
+            }
+            
+        }
+        
         // Set Atrribute
         request.setAttribute("module", module);
         request.setAttribute("achievements", achievements);

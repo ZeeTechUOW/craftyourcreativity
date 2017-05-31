@@ -21,7 +21,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Scanner;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +33,7 @@ import javax.servlet.http.Part;
  *
  * @author Deni Barasena
  */
+@MultipartConfig
 public class UploadImageServlet extends HttpServlet {
 
     /**
@@ -51,6 +54,9 @@ public class UploadImageServlet extends HttpServlet {
         }
 
         String uploadType = request.getParameter("uploadType");
+        System.out.println(uploadType);
+        System.out.println(request.getParameter("mid"));
+        System.out.println(request.getPart("imageUpload"));
 
         if (uploadType == null) {
             response.sendRedirect("main");
@@ -80,12 +86,16 @@ public class UploadImageServlet extends HttpServlet {
         File file = new File(DirectoryAdmin.getPath(request, path));
         Files.copy(imageFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
+        
+        request.getSession().setAttribute("imageFile", imageFile);
+        
+        
         switch (uploadType) {
             case "MODULE_THUMBNAIL":
-                response.sendRedirect("editmodule?mid=" + request.getParameter("mid"));
+                response.sendRedirect("editmodule?mid=" + request.getParameter("mid") + "&onSession=true");
                 break;
             case "ACHIEVEMENT_THUMBNAIL":
-                response.sendRedirect("editachievement?mid=" + request.getParameter("mid"));
+                response.sendRedirect("editachievement?mid=" + request.getParameter("mid") + "&onSession=true");
                 break;
             default:
                 response.sendRedirect("main");

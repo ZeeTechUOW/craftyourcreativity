@@ -14,6 +14,8 @@
     int views = (Integer) request.getAttribute("views");
     int thumbsUp = (Integer) request.getAttribute("thumbsUp");
     int thumbsDown = (Integer) request.getAttribute("thumbsDown");
+    
+    String imageFileString = (String) request.getAttribute("imageFileString");
 %>
 
 <!DOCTYPE>
@@ -52,7 +54,7 @@
             </div>
             <div id="descBox" >
                 <div id="sFrame" class="aFrame" style="display: inline-block; width: 200px; height: 200px;">
-                    <img src="module/<%=module.getModuleID()%>/thumbnail" onerror="this.onerror = null; this.src='resource/thumbnail.png'; " alt="<%=module.getModuleName()%>">
+                    <img src="<%=(imageFileString == null?"module/" + module.getModuleID() + "/thumbnail" : "data:image/jpeg;base64," + imageFileString) %>" onerror="this.onerror = null; this.src='resource/thumbnail.png'; " alt="<%=module.getModuleName()%>">
                     <div class="overlay" style="width: 200px; height: 200px;">
                         <div class="text">
                             <button onclick="$('#uploadImageFile').click();" id="Button" class="btn btn-default">

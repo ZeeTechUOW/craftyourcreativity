@@ -9,13 +9,15 @@ import Model.DBAdmin;
 import Model.DirectoryAdmin;
 import Model.Module;
 import Model.User;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Base64;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -68,7 +70,6 @@ public class EditModuleServlet extends HttpServlet {
             return;
         }
 
-        System.out.println("AAA " + op);
         if ("publish".equalsIgnoreCase(op)) {
             if (loggedUser.getUserID() == module.getUserID()) {
                 if( module.getReleaseTime() == null ) {
@@ -81,11 +82,8 @@ public class EditModuleServlet extends HttpServlet {
                 DirectoryAdmin.prepPublishProject(request, moduleID);
             }
         } else if ("unpublish".equalsIgnoreCase(op)) {
-            System.out.println("Unpub");
             if (loggedUser.getUserID() == module.getUserID()) {
-                System.out.println("unrel");
                 DBAdmin.moduleUnreleased(moduleID);       
-                System.out.println("unrel2");         
                 module.setReleaseTime(null);
             }
         } else if ("edit".equalsIgnoreCase(op)) {
@@ -114,6 +112,20 @@ public class EditModuleServlet extends HttpServlet {
         int thumbsUp = DBAdmin.getThumbsUp(moduleID);
         int thumbsDown = DBAdmin.getThumbsDown(moduleID);
 
+        if( "true".equals(request.getParameter("onSession")) ) {
+            Part imageFile = (Part) request.getSession().getAttribute("imageFile");
+            request.getSession().removeAttribute("imageFile");
+            
+            if( imageFile != null ) {
+                byte[] src = new byte[(int)imageFile.getSize()];
+                DataInputStream dataIs = new DataInputStream(imageFile.getInputStream());
+                dataIs.readFully(src);
+
+                request.setAttribute("imageFileString", Base64.getEncoder().encodeToString(src));
+            }
+            
+        }
+        
         // Set Attribute
         request.setAttribute("module", module);
         request.setAttribute("isPublished", isPublishedSaveExist);

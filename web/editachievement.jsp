@@ -12,6 +12,7 @@
     Module module = (Module) request.getAttribute("module");
     ArrayList<Achievement> achievements = (ArrayList<Achievement>) request.getAttribute("achievements");
     int unlockedModuleCount = (int) request.getAttribute("unlockedModuleCount");
+    String imageFileString = (String) request.getAttribute("imageFileString");
 %>
 <!DOCTYPE>
 <html>
@@ -39,7 +40,7 @@
                                 <td>
                                     <div id="aSpic">
                                         <div class="aFrame">
-                                            <img src="achievementThumbs/<% out.print(a.getAchievementID());%>thumbnail" onerror="this.onerror = null; this.src = 'resource/trophy.png';" alt="a1">
+                                            <img src="<%=(imageFileString == null?"achievementThumbs/" + a.getAchievementID() + "thumbnail" : "data:image/jpeg;base64," + imageFileString) %>" onerror="this.onerror = null; this.src = 'resource/trophy.png';" alt="a1">
                                             <div class="overlay">
                                                 <div class="text">
                                                     <button onclick="$('#uploadAchievementID').val('<%=a.getAchievementID()%>'); $('#uploadImageFile').click();"  id="Button" class="btn btn-default">
