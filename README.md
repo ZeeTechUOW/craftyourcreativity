@@ -67,7 +67,7 @@ You could rename .war to ROOT.war before deploying to web server. If this method
 1. Stop the Tomcat service in web server
 2. Locate and navigate to Tomcat directory in web server
 3. Go to /conf/ folder
-4. Edit server.xml to add this code in Host node (right before ```</Host>``` tag)
+4. Edit server.xml to add this code in Host node (right before ```</Host>``` tag) change the appcontext name to match the .war file
 ```
 <Context path="" docBase="yourAppContextName">
 
@@ -76,7 +76,9 @@ You could rename .war to ROOT.war before deploying to web server. If this method
 
 </Context>
 ```
-5. Start the Tomcat service in web server, the webapps now accessible from root url
+5. Go back to Tomcat root directory, go to webapps folder
+6. Delete folder ROOT
+7. Start the Tomcat service in web server, the webapps now accessible from root url
 
 ## License
 This project is licensed under [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
