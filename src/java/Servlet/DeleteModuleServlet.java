@@ -44,7 +44,7 @@ public class DeleteModuleServlet extends HttpServlet {
             int moduleID = Integer.parseInt(request.getParameter("mid"));
             DBAdmin.deleteModule(moduleID);
             
-            response.sendRedirect("module?mid=" + moduleID);
+            response.sendRedirect("main");
             return;
         } catch (NumberFormatException e) {
         

@@ -24,10 +24,10 @@ public class ProjectProperties {
     public static final String DATABASE_URL = "jdbc:mysql://localhost:3306/cyc";
     public static final String DATABASE_USER = "root";
 //    localhost
-    public static final String DATABASE_PASSWORD = "";
+//    public static final String DATABASE_PASSWORD = "";
 //    www.craftyourcreativity.com webserver
 
-//    public static final String DATABASE_PASSWORD = "cK3rMeyG";
+    public static final String DATABASE_PASSWORD = "cK3rMeyG";
     
 //    Facebook App
 //    localhost

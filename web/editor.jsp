@@ -448,7 +448,7 @@
                                 <div>
                                     <i><div>eg: {=@count}, {=@hour} Hours</div>
                                     <div>eg: {=@aSceneVariable * #aProjectVariable}, {=5 + #anotherProjectVariable}</div>
-                                    <div>eg: {=(@time < 10? "Success" : "Failed")}</div></i>
+                                    <div>eg: {=(@time < 10? 'Success' : 'Failed')}</div></i>
                                 </div>
                             </div>
 
