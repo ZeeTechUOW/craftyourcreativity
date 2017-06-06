@@ -37,7 +37,8 @@ import javax.servlet.http.Part;
 public class EditAchievementServlet extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -56,6 +57,14 @@ public class EditAchievementServlet extends HttpServlet {
         String op = request.getParameter("op");
         String newName = request.getParameter("achievementName");
         String newDescription = request.getParameter("achievementDescription");
+
+        if (newDescription != null) {
+            newDescription = newDescription.replaceAll("[\\t\\n\\r]", " ").replaceAll("['\\[\\]{}\\\\]", "");
+        }
+        if (newName != null) {
+            newName = newName.replaceAll("[\\t\\n\\r]", " ").replaceAll("['\\[\\]{}\\\\]", "");
+        }
+
         int achievementID;
         int moduleID;
         int unlockedModuleCount;
@@ -96,10 +105,12 @@ public class EditAchievementServlet extends HttpServlet {
 
                 break;
             case "edit":
-                try {
-                    achievementID = Integer.parseInt(request.getParameter("aid"));
-                    DBAdmin.editAchievement(moduleID, achievementID, newName, newDescription);
-                } catch (NumberFormatException e) {
+                if (newDescription != null && newDescription.length() > 0 && newName != null && newName.length() > 0) {
+                    try {
+                        achievementID = Integer.parseInt(request.getParameter("aid"));
+                        DBAdmin.editAchievement(moduleID, achievementID, newName, newDescription);
+                    } catch (NumberFormatException e) {
+                    }
                 }
 
                 break;
@@ -121,13 +132,13 @@ public class EditAchievementServlet extends HttpServlet {
             if (a.getUnlockTime() != LocalDateTime.MIN) {
                 unlockedModuleCount++;
             }
-            
+
             String imageFile = (String) request.getSession().getAttribute("imageFileA" + a.getAchievementID());
-            if( imageFile != null || !"".equals(imageFile)) {
+            if (imageFile != null || !"".equals(imageFile)) {
                 a.setImagePath(imageFile);
             }
         }
-        
+
         // Set Atrribute
         request.setAttribute("module", module);
         request.setAttribute("achievements", achievements);

@@ -871,7 +871,7 @@ function Editor(opts) {
                 sceneValues = {};
             }
 
-            var res = ("" + value).replace(/({=([@#a-z \-+\*\/0-9A-Z\?:'()]*)})/g, function (a, b, capture) {
+            var res = ("" + value).replace(/({=([@#a-z \-+\*\/0-9A-Z\?:'()<>=]*)})/g, function (a, b, capture) {
                 var str = capture.replace(/@([a-zA-Z0-9_]*)/g, function (a, e) {
                     var v = (sceneValues[e] ? sceneValues[e].value : "");
 

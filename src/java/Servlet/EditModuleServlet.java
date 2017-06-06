@@ -72,7 +72,7 @@ public class EditModuleServlet extends HttpServlet {
 
         if ("publish".equalsIgnoreCase(op)) {
             if (loggedUser.getUserID() == module.getUserID()) {
-                if( module.getReleaseTime() == null ) {
+                if (module.getReleaseTime() == null) {
                     DBAdmin.moduleReleased(moduleID);
                 } else {
                     DBAdmin.moduleUpdated(moduleID);
@@ -83,17 +83,26 @@ public class EditModuleServlet extends HttpServlet {
             }
         } else if ("unpublish".equalsIgnoreCase(op)) {
             if (loggedUser.getUserID() == module.getUserID()) {
-                DBAdmin.moduleUnreleased(moduleID);       
+                DBAdmin.moduleUnreleased(moduleID);
                 module.setReleaseTime(null);
             }
         } else if ("edit".equalsIgnoreCase(op)) {
             String newName = request.getParameter("moduleName");
             String newDescription = request.getParameter("moduleDescription");
 
-            DBAdmin.editModule(moduleID, newName, newDescription);
+            if (newDescription != null) {
+                newDescription = newDescription.replaceAll("[\\t\\n\\r]", " ").replaceAll("['\\[\\]{}\\\\]", "");
+            }
+            if (newName != null) {
+                newName = newName.replaceAll("[\\t\\n\\r]", " ").replaceAll("['\\[\\]{}\\\\]", "");
+            }
 
-            module.setModuleName(newName);
-            module.setModuleDescription(newDescription);
+            if (newDescription != null && newDescription.length() > 0 && newName != null && newName.length() > 0) {
+                DBAdmin.editModule(moduleID, newName, newDescription);
+
+                module.setModuleName(newName);
+                module.setModuleDescription(newDescription);
+            }
 
         } else if ("del".equalsIgnoreCase(op)) {
             DBAdmin.deleteModule(moduleID);
@@ -107,17 +116,16 @@ public class EditModuleServlet extends HttpServlet {
         boolean isPublishedSaveExist = module.getReleaseTime() != null;
 
         // Get Module Image
-        
         int views = DBAdmin.getViews(moduleID);
         int thumbsUp = DBAdmin.getThumbsUp(moduleID);
         int thumbsDown = DBAdmin.getThumbsDown(moduleID);
 
         String imageFile = (String) request.getSession().getAttribute("imageFileM" + moduleID);
 
-        if( imageFile != null || !"".equals(imageFile)) {
+        if (imageFile != null || !"".equals(imageFile)) {
             request.setAttribute("imageFileString", imageFile);
         }
-        
+
         // Set Attribute
         request.setAttribute("module", module);
         request.setAttribute("isPublished", isPublishedSaveExist);

@@ -1061,7 +1061,7 @@ InputRenderer.createObjectField = function (name, arrayObject, ext) {
                                             if (!newName) {
                                                 return;
                                             }
-                                            newName = newName.replace(/[^a-zA-Z0-9_]/gi, '').replace(/[^a-zA-Z]/, "_");
+                                            newName = newName.replace(/[^a-zA-Z0-9_]/gi, '').replace(/^[^a-zA-Z]/, "_");
                                             if (!newName || newName.length <= 0) {
                                                 return;
                                             }
@@ -1114,7 +1114,7 @@ InputRenderer.createObjectField = function (name, arrayObject, ext) {
                         if (!newName) {
                             return;
                         }
-                        newName = newName.replace(/[^a-zA-Z0-9_]/gi, '').replace(/[^a-zA-Z]/, "_");
+                        newName = newName.replace(/[^a-zA-Z0-9_]/gi, '').replace(/^[^a-zA-Z]/, "_");
                         if (!newName || newName.length <= 0) {
                             return;
                         }

@@ -68,7 +68,7 @@
                 <p style="font-size:25px"><% out.print(module.getModuleDescription());%></p>
                 <div id="descButtonBox">
                     <%if( loggedUser != null && "admin".equalsIgnoreCase(loggedUser.getUserType()) ) {%>
-                    <button onclick="location.href = 'DeleteModuleServlet?mid=<%=module.getModuleID()%>';" id="Button" class="btn btn-default pull-left"><span class="glyphicon glyphicon-trash"></span></button>
+                    <button onclick="location.href = 'DeleteModuleServlet?mid=<%=module.getModuleID()%>';" id="Button" class="btn btn-default pull-left" style="margin: 1px 10px; min-height: 40px"><span class="glyphicon glyphicon-trash"></span></button>
                     <%}
                     if (isCertificated) {%>
                     <a href="users/<%=loggedUser.getUsername()%>/certs/<%=module.getModuleID()%>.pdf" download="<%=module.getModuleName()%> Certificate.pdf"> <div id="buttonBox" style='float: left'><button id="Button" type="button" class="btn btn-default">Certificate</button></div></a>

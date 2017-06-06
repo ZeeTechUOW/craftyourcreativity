@@ -1,0 +1,4047 @@
+{
+    "scenes": {
+        "0": {
+            "entities": [
+                {
+                    "name": "ailamo.png",
+                    "isAnEntity": true,
+                    "entityID": 21,
+                    "entityProperty": {
+                        "posx": -1,
+                        "posy": 1,
+                        "rotation": 0,
+                        "scalex": 1.0258107541454105,
+                        "scaley": 0.7709240536181325,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [
+                        {
+                            "actionID": 136,
+                            "actionName": "Go to",
+                            "targetID": 0,
+                            "offset": 0,
+                            "duration": 1000,
+                            "isLinkAction": true,
+                            "stateMatrix": {
+                                "link": "#next"
+                            }
+                        }
+                    ],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo.png",
+                    "isAQSprite": true
+                },
+                {
+                    "name": "New Text",
+                    "isAnEntity": true,
+                    "entityID": 2639,
+                    "entityProperty": {
+                        "posx": 334,
+                        "posy": -123,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [
+                        {
+                            "actionID": 2662,
+                            "actionName": "Go to",
+                            "targetID": 0,
+                            "offset": 0,
+                            "duration": 1000,
+                            "isLinkAction": true,
+                            "stateMatrix": {
+                                "link": "#next"
+                            }
+                        }
+                    ],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Click Anyhere\nto start",
+                    "isAQText": true,
+                    "align": "Right",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#FFFFFF",
+                    "font": "Arial",
+                    "fontSize": 48,
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                }
+            ],
+            "frames": {},
+            "startState": {
+                "ss21": {
+                    "name": "ailamo.png",
+                    "isAnEntity": true,
+                    "entityID": 21,
+                    "posx": -1,
+                    "posy": 1,
+                    "rotation": 0,
+                    "scalex": 1.0258107541454105,
+                    "scaley": 0.7709240536181325,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo.png",
+                    "isAQSprite": true
+                },
+                "ss2639": {
+                    "name": "New Text",
+                    "isAnEntity": true,
+                    "entityID": 2639,
+                    "posx": 334,
+                    "posy": -123,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Click Anyhere\nto start",
+                    "isAQText": true,
+                    "align": "Right",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#FFFFFF",
+                    "font": "Arial",
+                    "fontSize": 48,
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                }
+            },
+            "sceneName": "opening",
+            "sceneID": 3,
+            "backgroundColor": 16777215,
+            "rootAttributes": {},
+            "dataVariables": {}
+        },
+        "1": {
+            "entities": [
+                {
+                    "name": "free_printable_certificate_templates_n435doyw.jpg",
+                    "isAnEntity": true,
+                    "entityID": 216,
+                    "entityProperty": {
+                        "posx": 0,
+                        "posy": 0,
+                        "rotation": 0,
+                        "scalex": 1.03090518697064,
+                        "scaley": 1.0558987082800928,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/free_printable_certificate_templates_n435doyw.jpg",
+                    "isAQSprite": true
+                },
+                {
+                    "name": "signature.png",
+                    "isAnEntity": true,
+                    "entityID": 263,
+                    "entityProperty": {
+                        "posx": "0",
+                        "posy": "190",
+                        "rotation": 0,
+                        "scalex": 0.5731588267585266,
+                        "scaley": 0.5731588267585266,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/signature.png",
+                    "isAQSprite": true
+                },
+                {
+                    "name": "exp",
+                    "isAnEntity": true,
+                    "entityID": 240,
+                    "entityProperty": {
+                        "posx": "0",
+                        "posy": "265",
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Instructor",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "20",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                {
+                    "name": "score",
+                    "isAnEntity": true,
+                    "entityID": 1356,
+                    "entityProperty": {
+                        "posx": "190",
+                        "posy": "60",
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "{=#SCORE}/100",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "30",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                {
+                    "name": "pretext2",
+                    "isAnEntity": true,
+                    "entityID": 848,
+                    "entityProperty": {
+                        "posx": "-340",
+                        "posy": "60",
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "for finishing this training with a score of",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "30",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                {
+                    "name": "player name",
+                    "isAnEntity": true,
+                    "entityID": 547,
+                    "entityProperty": {
+                        "posx": "20",
+                        "posy": "-50",
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "{=@fullname}",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "35",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                {
+                    "name": "pretext1",
+                    "isAnEntity": true,
+                    "entityID": 432,
+                    "entityProperty": {
+                        "posx": "-265",
+                        "posy": "-50",
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Congratulation to",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "35",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                }
+            ],
+            "frames": {
+                "0": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 7128,
+                                "actionName": "Change text",
+                                "targetID": 547,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "{=#fullname}"
+                                }
+                            },
+                            {
+                                "actionID": 7129,
+                                "actionName": "Change text",
+                                "targetID": 1356,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "{=#SCORE}/100"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Automatic"
+                }
+            },
+            "startState": {
+                "ss216": {
+                    "name": "free_printable_certificate_templates_n435doyw.jpg",
+                    "isAnEntity": true,
+                    "entityID": 216,
+                    "posx": 0,
+                    "posy": 0,
+                    "rotation": 0,
+                    "scalex": 1.03090518697064,
+                    "scaley": 1.0558987082800928,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/free_printable_certificate_templates_n435doyw.jpg",
+                    "isAQSprite": true
+                },
+                "ss263": {
+                    "name": "signature.png",
+                    "isAnEntity": true,
+                    "entityID": 263,
+                    "posx": "0",
+                    "posy": "190",
+                    "rotation": 0,
+                    "scalex": 0.5731588267585266,
+                    "scaley": 0.5731588267585266,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/signature.png",
+                    "isAQSprite": true
+                },
+                "ss240": {
+                    "name": "exp",
+                    "isAnEntity": true,
+                    "entityID": 240,
+                    "posx": "0",
+                    "posy": "265",
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Instructor",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "20",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                "ss1356": {
+                    "name": "score",
+                    "isAnEntity": true,
+                    "entityID": 1356,
+                    "posx": "190",
+                    "posy": "60",
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "{=#SCORE}/100",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "30",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                "ss848": {
+                    "name": "pretext2",
+                    "isAnEntity": true,
+                    "entityID": 848,
+                    "posx": "-340",
+                    "posy": "60",
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "for finishing this training with a score of",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "30",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                "ss547": {
+                    "name": "player name",
+                    "isAnEntity": true,
+                    "entityID": 547,
+                    "posx": "20",
+                    "posy": "-50",
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "{=@fullname}",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "35",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                "ss432": {
+                    "name": "pretext1",
+                    "isAnEntity": true,
+                    "entityID": 432,
+                    "posx": "-265",
+                    "posy": "-50",
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Congratulation to",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "35",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                }
+            },
+            "sceneName": "certificate",
+            "sceneID": 104,
+            "backgroundColor": 16777215,
+            "rootAttributes": {},
+            "dataVariables": {}
+        },
+        "2": {
+            "entities": [
+                {
+                    "name": "ailamo_instruction_image.png",
+                    "isAnEntity": true,
+                    "entityID": 1815,
+                    "entityProperty": {
+                        "posx": 0,
+                        "posy": 0,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_instruction_image.png",
+                    "isAQSprite": true
+                },
+                {
+                    "name": "instruction text",
+                    "isAnEntity": true,
+                    "entityID": 1845,
+                    "entityProperty": {
+                        "posx": "-2",
+                        "posy": "-297",
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0,
+                        "anchory": 0,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "",
+                    "isAQText": true,
+                    "align": "Left",
+                    "wordWrap": "500",
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "38",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                {
+                    "name": "proceed",
+                    "isAnEntity": true,
+                    "entityID": 2779,
+                    "entityProperty": {
+                        "posx": 343,
+                        "posy": 338,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [
+                        {
+                            "actionID": 5933,
+                            "actionName": "Go to",
+                            "targetID": 0,
+                            "offset": 0,
+                            "duration": 1000,
+                            "isLinkAction": true,
+                            "stateMatrix": {
+                                "link": "#next"
+                            }
+                        }
+                    ],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Proceed",
+                    "link": "#next",
+                    "isAButton": true,
+                    "normSrc": "button.png"
+                }
+            ],
+            "frames": {
+                "0": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 1963,
+                                "actionName": "Change text",
+                                "targetID": 1845,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "Help Ai find his Intergalactic\nCommunicator so he can\ngo back to his home planet\nby finishing the tasks!"
+                                }
+                            }
+                        ],
+                        "1": [
+                            {
+                                "actionID": 2851,
+                                "actionName": "Change Alpha",
+                                "targetID": 2779,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "alpha": "1"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                }
+            },
+            "startState": {
+                "ss1815": {
+                    "name": "ailamo_instruction_image.png",
+                    "isAnEntity": true,
+                    "entityID": 1815,
+                    "posx": 0,
+                    "posy": 0,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_instruction_image.png",
+                    "isAQSprite": true
+                },
+                "ss1845": {
+                    "name": "instruction text",
+                    "isAnEntity": true,
+                    "entityID": 1845,
+                    "posx": "-2",
+                    "posy": "-297",
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0,
+                    "anchory": 0,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "",
+                    "isAQText": true,
+                    "align": "Left",
+                    "wordWrap": "500",
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "38",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                "ss2779": {
+                    "name": "proceed",
+                    "isAnEntity": true,
+                    "entityID": 2779,
+                    "posx": 343,
+                    "posy": 338,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": "0",
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Proceed",
+                    "link": "#next",
+                    "isAButton": true,
+                    "normSrc": "button.png"
+                }
+            },
+            "sceneName": "instruction",
+            "sceneID": 1752,
+            "backgroundColor": 16777215,
+            "rootAttributes": {},
+            "dataVariables": {}
+        },
+        "3": {
+            "entities": [
+                {
+                    "name": "ailamo_test1.png",
+                    "isAnEntity": true,
+                    "entityID": 3227,
+                    "entityProperty": {
+                        "posx": 0,
+                        "posy": 0,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_test1.png",
+                    "isAQSprite": true
+                },
+                {
+                    "name": "test1 instruction",
+                    "isAnEntity": true,
+                    "entityID": 3245,
+                    "entityProperty": {
+                        "posx": -411,
+                        "posy": -256,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Select the bigger number of the two!",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "50",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                {
+                    "name": "option1",
+                    "isAnEntity": true,
+                    "entityID": 3382,
+                    "entityProperty": {
+                        "posx": -258,
+                        "posy": 118,
+                        "rotation": 0,
+                        "scalex": 3.7531336773574013,
+                        "scaley": 3.7531336773574013,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [
+                        {
+                            "actionID": 4012,
+                            "actionName": "Go to",
+                            "targetID": 0,
+                            "offset": 0,
+                            "duration": 1000,
+                            "isLinkAction": true,
+                            "stateMatrix": {
+                                "link": ">{=(@question-1)*3+2}"
+                            }
+                        }
+                    ],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "1",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "80",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                {
+                    "name": "option2",
+                    "isAnEntity": true,
+                    "entityID": 3463,
+                    "entityProperty": {
+                        "posx": 261,
+                        "posy": 113,
+                        "rotation": 0,
+                        "scalex": 3.7531336773574013,
+                        "scaley": 3.7531336773574013,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [
+                        {
+                            "actionID": 4077,
+                            "actionName": "Go to",
+                            "targetID": 0,
+                            "offset": 0,
+                            "duration": 1000,
+                            "isLinkAction": true,
+                            "stateMatrix": {
+                                "link": ">{=(@question-1)*3+3}"
+                            }
+                        }
+                    ],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "1",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "80",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                }
+            ],
+            "frames": {
+                "0": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 3549,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "@question",
+                                    "dvalue": "{=@question+1}"
+                                }
+                            },
+                            {
+                                "actionID": 3585,
+                                "actionName": "Change Text",
+                                "targetID": 3382,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "5"
+                                }
+                            },
+                            {
+                                "actionID": 3624,
+                                "actionName": "Change Text",
+                                "targetID": 3463,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "2"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "1": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 3656,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*3+1}"
+                                }
+                            },
+                            {
+                                "actionID": 3723,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "#SCORE",
+                                    "dvalue": "{=#SCORE+10}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "2": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 3695,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*3+1}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "3": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 4314,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "@question",
+                                    "dvalue": "{=@question+1}"
+                                }
+                            },
+                            {
+                                "actionID": 4371,
+                                "actionName": "Change text",
+                                "targetID": 3382,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "3"
+                                }
+                            },
+                            {
+                                "actionID": 4372,
+                                "actionName": "Change text",
+                                "targetID": 3463,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "7"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "4": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 4402,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*3+1}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "5": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 4430,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*3+1}"
+                                }
+                            },
+                            {
+                                "actionID": 4453,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "#SCORE",
+                                    "dvalue": "{=#SCORE+10}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "6": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 4894,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "@question",
+                                    "dvalue": "{=@question+1}"
+                                }
+                            },
+                            {
+                                "actionID": 4951,
+                                "actionName": "Change text",
+                                "targetID": 3382,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "5"
+                                }
+                            },
+                            {
+                                "actionID": 4952,
+                                "actionName": "Change text",
+                                "targetID": 3463,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "5"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "7": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 4999,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*3+1}"
+                                }
+                            },
+                            {
+                                "actionID": 5058,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "#SCORE",
+                                    "dvalue": "{=#SCORE+10}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "8": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 5035,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*3+1}"
+                                }
+                            },
+                            {
+                                "actionID": 5098,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "#SCORE",
+                                    "dvalue": "{=#SCORE+10}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "9": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 5136,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "@question",
+                                    "dvalue": "{=@question+1}"
+                                }
+                            },
+                            {
+                                "actionID": 5193,
+                                "actionName": "Change text",
+                                "targetID": 3382,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "1/2"
+                                }
+                            },
+                            {
+                                "actionID": 5194,
+                                "actionName": "Change fontSize",
+                                "targetID": 3382,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "fontSize": "50"
+                                }
+                            },
+                            {
+                                "actionID": 5195,
+                                "actionName": "Change text",
+                                "targetID": 3463,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "0.97"
+                                }
+                            },
+                            {
+                                "actionID": 5196,
+                                "actionName": "Change fontSize",
+                                "targetID": 3463,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "fontSize": "40"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "10": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 5246,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*3+1}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "11": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 5283,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*3+1}"
+                                }
+                            },
+                            {
+                                "actionID": 5306,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "#SCORE",
+                                    "dvalue": "{=#SCORE+10}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "12": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 5341,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": "#test2"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                }
+            },
+            "startState": {
+                "ss3227": {
+                    "name": "ailamo_test1.png",
+                    "isAnEntity": true,
+                    "entityID": 3227,
+                    "posx": 0,
+                    "posy": 0,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_test1.png",
+                    "isAQSprite": true
+                },
+                "ss3245": {
+                    "name": "test1 instruction",
+                    "isAnEntity": true,
+                    "entityID": 3245,
+                    "posx": -411,
+                    "posy": -256,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Select the bigger number of the two!",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "50",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                "ss3382": {
+                    "name": "option1",
+                    "isAnEntity": true,
+                    "entityID": 3382,
+                    "posx": -258,
+                    "posy": 118,
+                    "rotation": 0,
+                    "scalex": 3.7531336773574013,
+                    "scaley": 3.7531336773574013,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "1",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "80",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                "ss3463": {
+                    "name": "option2",
+                    "isAnEntity": true,
+                    "entityID": 3463,
+                    "posx": 261,
+                    "posy": 113,
+                    "rotation": 0,
+                    "scalex": 3.7531336773574013,
+                    "scaley": 3.7531336773574013,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "1",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "80",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                }
+            },
+            "sceneName": "test1",
+            "sceneID": 2987,
+            "backgroundColor": 16777215,
+            "rootAttributes": {},
+            "dataVariables": {
+                "question": {
+                    "type": "NUMBER",
+                    "value": "0"
+                }
+            }
+        },
+        "4": {
+            "entities": [
+                {
+                    "name": "ailamo_test2.png",
+                    "isAnEntity": true,
+                    "entityID": 13514,
+                    "entityProperty": {
+                        "posx": 0,
+                        "posy": 0,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_test2.png",
+                    "isAQSprite": true
+                },
+                {
+                    "name": "test2 instruction",
+                    "isAnEntity": true,
+                    "entityID": 13532,
+                    "entityProperty": {
+                        "posx": 0,
+                        "posy": -277,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Answer the following questions!",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": 48,
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                {
+                    "name": "questions",
+                    "isAnEntity": true,
+                    "entityID": 13555,
+                    "entityProperty": {
+                        "posx": -3,
+                        "posy": -59,
+                        "rotation": 0,
+                        "scalex": 3.116873269988667,
+                        "scaley": 3.116873269988667,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Text",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": 48,
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                {
+                    "name": "option1",
+                    "isAnEntity": true,
+                    "entityID": 13578,
+                    "entityProperty": {
+                        "posx": -287,
+                        "posy": 221,
+                        "rotation": 0,
+                        "scalex": 2.905757354071696,
+                        "scaley": 2.905757354071696,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [
+                        {
+                            "actionID": 13763,
+                            "actionName": "Go to",
+                            "targetID": 0,
+                            "offset": 0,
+                            "duration": 1000,
+                            "isLinkAction": true,
+                            "stateMatrix": {
+                                "link": ">{=(@question-1)*4+2}"
+                            }
+                        }
+                    ],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "1",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": 48,
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                {
+                    "name": "option2",
+                    "isAnEntity": true,
+                    "entityID": 13602,
+                    "entityProperty": {
+                        "posx": 17,
+                        "posy": 221,
+                        "rotation": 0,
+                        "scalex": 2.905757354071696,
+                        "scaley": 2.905757354071696,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [
+                        {
+                            "actionID": 13818,
+                            "actionName": "Go to",
+                            "targetID": 0,
+                            "offset": 0,
+                            "duration": 1000,
+                            "isLinkAction": true,
+                            "stateMatrix": {
+                                "link": ">{=(@question-1)*4+3}"
+                            }
+                        }
+                    ],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "1",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": 48,
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                {
+                    "name": "option3",
+                    "isAnEntity": true,
+                    "entityID": 13626,
+                    "entityProperty": {
+                        "posx": 319,
+                        "posy": 218,
+                        "rotation": 0,
+                        "scalex": 2.905757354071696,
+                        "scaley": 2.905757354071696,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [
+                        {
+                            "actionID": 13927,
+                            "actionName": "Go to",
+                            "targetID": 0,
+                            "offset": 0,
+                            "duration": 1000,
+                            "isLinkAction": true,
+                            "stateMatrix": {
+                                "link": ">{=(@question-1)*4+4}"
+                            }
+                        }
+                    ],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "1",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": 48,
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                {
+                    "name": "ailamo_part2_question3.png",
+                    "isAnEntity": true,
+                    "entityID": 15223,
+                    "entityProperty": {
+                        "posx": 13,
+                        "posy": -57,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": "0"
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_part2_question3.png",
+                    "isAQSprite": true
+                }
+            ],
+            "frames": {
+                "0": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 14009,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "@question",
+                                    "dvalue": "{=@question+1}"
+                                }
+                            },
+                            {
+                                "actionID": 14114,
+                                "actionName": "Change text",
+                                "targetID": 13555,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "2 x 5 ="
+                                }
+                            },
+                            {
+                                "actionID": 14115,
+                                "actionName": "Change text",
+                                "targetID": 13578,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "7"
+                                }
+                            },
+                            {
+                                "actionID": 14116,
+                                "actionName": "Change posx posy",
+                                "targetID": 13602,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "posx": 14,
+                                    "posy": 220
+                                }
+                            },
+                            {
+                                "actionID": 14117,
+                                "actionName": "Change text",
+                                "targetID": 13602,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "10"
+                                }
+                            },
+                            {
+                                "actionID": 14118,
+                                "actionName": "Change text",
+                                "targetID": 13626,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "3"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "1": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 14166,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*4+1}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "2": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 14212,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*4+1}"
+                                }
+                            },
+                            {
+                                "actionID": 14411,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "#SCORE",
+                                    "dvalue": "{=#SCORE+10}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "3": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 14258,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*4+1}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "4": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 14893,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "@question",
+                                    "dvalue": "{=@question+1}"
+                                }
+                            },
+                            {
+                                "actionID": 15014,
+                                "actionName": "Change posx posy",
+                                "targetID": 13555,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "posx": 14,
+                                    "posy": -59
+                                }
+                            },
+                            {
+                                "actionID": 15015,
+                                "actionName": "Change text",
+                                "targetID": 13555,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "7 + 10 / 2 ="
+                                }
+                            },
+                            {
+                                "actionID": 15016,
+                                "actionName": "Change text",
+                                "targetID": 13578,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "8.5"
+                                }
+                            },
+                            {
+                                "actionID": 15017,
+                                "actionName": "Change fontSize",
+                                "targetID": 13578,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "fontSize": "35"
+                                }
+                            },
+                            {
+                                "actionID": 15018,
+                                "actionName": "Change text",
+                                "targetID": 13602,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "12"
+                                }
+                            },
+                            {
+                                "actionID": 15019,
+                                "actionName": "Change posx posy",
+                                "targetID": 13626,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "posx": 316,
+                                    "posy": 222
+                                }
+                            },
+                            {
+                                "actionID": 15020,
+                                "actionName": "Change text",
+                                "targetID": 13626,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "17/2"
+                                }
+                            },
+                            {
+                                "actionID": 15021,
+                                "actionName": "Change fontSize",
+                                "targetID": 13626,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "fontSize": "25"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "5": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 15062,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*4+1}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "6": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 15108,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*4+1}"
+                                }
+                            },
+                            {
+                                "actionID": 15177,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "#SCORE",
+                                    "dvalue": "{=#SCORE+10}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "7": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 15154,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*4+1}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "8": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 15439,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "@question",
+                                    "dvalue": "{=@question+1}"
+                                }
+                            },
+                            {
+                                "actionID": 15272,
+                                "actionName": "Change Alpha",
+                                "targetID": 15223,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "alpha": "1"
+                                }
+                            },
+                            {
+                                "actionID": 15410,
+                                "actionName": "Change text",
+                                "targetID": 13578,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "90"
+                                }
+                            },
+                            {
+                                "actionID": 15411,
+                                "actionName": "Change text",
+                                "targetID": 13602,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "70"
+                                }
+                            },
+                            {
+                                "actionID": 15412,
+                                "actionName": "Change fontSize",
+                                "targetID": 13602,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "fontSize": "35"
+                                }
+                            },
+                            {
+                                "actionID": 15413,
+                                "actionName": "Change fontSize",
+                                "targetID": 13626,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "fontSize": "35"
+                                }
+                            },
+                            {
+                                "actionID": 15414,
+                                "actionName": "Change text",
+                                "targetID": 13626,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "45"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "9": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 15492,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*4+1}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "10": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 15538,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*4+1}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "11": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 15584,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*4+1}"
+                                }
+                            },
+                            {
+                                "actionID": 15607,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "#SCORE",
+                                    "dvalue": "{=#SCORE+10}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "12": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 15660,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": "#test3"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                }
+            },
+            "startState": {
+                "ss13514": {
+                    "name": "ailamo_test2.png",
+                    "isAnEntity": true,
+                    "entityID": 13514,
+                    "posx": 0,
+                    "posy": 0,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_test2.png",
+                    "isAQSprite": true
+                },
+                "ss13532": {
+                    "name": "test2 instruction",
+                    "isAnEntity": true,
+                    "entityID": 13532,
+                    "posx": 0,
+                    "posy": -277,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Answer the following questions!",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": 48,
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                "ss13555": {
+                    "name": "questions",
+                    "isAnEntity": true,
+                    "entityID": 13555,
+                    "posx": -3,
+                    "posy": -59,
+                    "rotation": 0,
+                    "scalex": 3.116873269988667,
+                    "scaley": 3.116873269988667,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Text",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": 48,
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                "ss13578": {
+                    "name": "option1",
+                    "isAnEntity": true,
+                    "entityID": 13578,
+                    "posx": -287,
+                    "posy": 221,
+                    "rotation": 0,
+                    "scalex": 2.905757354071696,
+                    "scaley": 2.905757354071696,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "1",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": 48,
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                "ss13602": {
+                    "name": "option2",
+                    "isAnEntity": true,
+                    "entityID": 13602,
+                    "posx": 17,
+                    "posy": 221,
+                    "rotation": 0,
+                    "scalex": 2.905757354071696,
+                    "scaley": 2.905757354071696,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "1",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": 48,
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                "ss13626": {
+                    "name": "option3",
+                    "isAnEntity": true,
+                    "entityID": 13626,
+                    "posx": 319,
+                    "posy": 218,
+                    "rotation": 0,
+                    "scalex": 2.905757354071696,
+                    "scaley": 2.905757354071696,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "1",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": 48,
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                "ss15223": {
+                    "name": "ailamo_part2_question3.png",
+                    "isAnEntity": true,
+                    "entityID": 15223,
+                    "posx": 13,
+                    "posy": -57,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": "0",
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_part2_question3.png",
+                    "isAQSprite": true
+                }
+            },
+            "sceneName": "test2",
+            "sceneID": 3003,
+            "backgroundColor": 16777215,
+            "rootAttributes": {},
+            "dataVariables": {
+                "question": {
+                    "type": "NUMBER",
+                    "value": "0"
+                }
+            }
+        },
+        "5": {
+            "entities": [
+                {
+                    "name": "ailamo_test2.png",
+                    "isAnEntity": true,
+                    "entityID": 9590,
+                    "entityProperty": {
+                        "posx": 0,
+                        "posy": 0,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_test2.png",
+                    "isAQSprite": true
+                },
+                {
+                    "name": "New Text",
+                    "isAnEntity": true,
+                    "entityID": 9608,
+                    "entityProperty": {
+                        "posx": "0",
+                        "posy": -278,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Finish the following patern!",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": 48,
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                {
+                    "name": "ailamo_part3_question1.png",
+                    "isAnEntity": true,
+                    "entityID": 9631,
+                    "entityProperty": {
+                        "posx": 12,
+                        "posy": -58,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_part3_question1.png",
+                    "isAQSprite": true
+                },
+                {
+                    "name": "ailamo_part2_question3_answer1.png",
+                    "isAnEntity": true,
+                    "entityID": 9649,
+                    "entityProperty": {
+                        "posx": -287,
+                        "posy": 222,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [
+                        {
+                            "actionID": 9807,
+                            "actionName": "Go to",
+                            "targetID": 0,
+                            "offset": 0,
+                            "duration": 1000,
+                            "isLinkAction": true,
+                            "stateMatrix": {
+                                "link": ">{=(@question-1)*4+2}"
+                            }
+                        }
+                    ],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_part2_question3_answer1.png",
+                    "isAQSprite": true
+                },
+                {
+                    "name": "ailamo_part2_question3_answer2.png",
+                    "isAnEntity": true,
+                    "entityID": 9667,
+                    "entityProperty": {
+                        "posx": 16,
+                        "posy": 218,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [
+                        {
+                            "actionID": 9968,
+                            "actionName": "Go to",
+                            "targetID": 0,
+                            "offset": 0,
+                            "duration": 1000,
+                            "isLinkAction": true,
+                            "stateMatrix": {
+                                "link": ">{=(@question-1)*4+3}"
+                            }
+                        }
+                    ],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_part2_question3_answer2.png",
+                    "isAQSprite": true
+                },
+                {
+                    "name": "ailamo_part2_question3_answer3.png",
+                    "isAnEntity": true,
+                    "entityID": 9702,
+                    "entityProperty": {
+                        "posx": 318,
+                        "posy": 216,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [
+                        {
+                            "actionID": 10013,
+                            "actionName": "Go to",
+                            "targetID": 0,
+                            "offset": 0,
+                            "duration": 1000,
+                            "isLinkAction": true,
+                            "stateMatrix": {
+                                "link": ">{=(@question-1)*4+4}"
+                            }
+                        }
+                    ],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_part2_question3_answer3.png",
+                    "isAQSprite": true
+                }
+            ],
+            "frames": {
+                "0": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 10062,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "@question",
+                                    "dvalue": "{=@question+1}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "1": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 10102,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*4+1}"
+                                }
+                            },
+                            {
+                                "actionID": 10279,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "#SCORE",
+                                    "dvalue": "{=#SCORE+15}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "2": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 10143,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*4+1}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "3": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 10184,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*4+1}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "4": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 10435,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "@question",
+                                    "dvalue": "{=@question+1}"
+                                }
+                            },
+                            {
+                                "actionID": 10372,
+                                "actionName": "Change src",
+                                "targetID": 9631,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "src": "/Assets/uploaded image/ailamo_part3_question2.png"
+                                }
+                            },
+                            {
+                                "actionID": 10373,
+                                "actionName": "Change src",
+                                "targetID": 9649,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "src": "/Assets/uploaded image/ailamo_part3_question2_answer1.png"
+                                }
+                            },
+                            {
+                                "actionID": 10374,
+                                "actionName": "Change src",
+                                "targetID": 9667,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "src": "/Assets/uploaded image/ailamo_part3_question2_answer3.png"
+                                }
+                            },
+                            {
+                                "actionID": 10375,
+                                "actionName": "Change src",
+                                "targetID": 9702,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "src": "/Assets/uploaded image/ailamo_part3_question2_answer2.png"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "5": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 10475,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*4+1}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "6": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 10516,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*4+1}"
+                                }
+                            },
+                            {
+                                "actionID": 10580,
+                                "actionName": "Set Variable",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isDataAction": true,
+                                "stateMatrix": {
+                                    "dvarName": "#SCORE",
+                                    "dvalue": "{=#SCORE+15}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "7": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 10557,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": ">{=@question*4+1}"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                },
+                "8": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 10620,
+                                "actionName": "Go to",
+                                "targetID": 0,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isLinkAction": true,
+                                "stateMatrix": {
+                                    "link": "#ending"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                }
+            },
+            "startState": {
+                "ss9590": {
+                    "name": "ailamo_test2.png",
+                    "isAnEntity": true,
+                    "entityID": 9590,
+                    "posx": 0,
+                    "posy": 0,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_test2.png",
+                    "isAQSprite": true
+                },
+                "ss9608": {
+                    "name": "New Text",
+                    "isAnEntity": true,
+                    "entityID": 9608,
+                    "posx": "0",
+                    "posy": -278,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Finish the following patern!",
+                    "isAQText": true,
+                    "align": "Center",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": 48,
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                "ss9631": {
+                    "name": "ailamo_part3_question1.png",
+                    "isAnEntity": true,
+                    "entityID": 9631,
+                    "posx": 12,
+                    "posy": -58,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_part3_question1.png",
+                    "isAQSprite": true
+                },
+                "ss9649": {
+                    "name": "ailamo_part2_question3_answer1.png",
+                    "isAnEntity": true,
+                    "entityID": 9649,
+                    "posx": -287,
+                    "posy": 222,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_part2_question3_answer1.png",
+                    "isAQSprite": true
+                },
+                "ss9667": {
+                    "name": "ailamo_part2_question3_answer2.png",
+                    "isAnEntity": true,
+                    "entityID": 9667,
+                    "posx": 16,
+                    "posy": 218,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_part2_question3_answer2.png",
+                    "isAQSprite": true
+                },
+                "ss9702": {
+                    "name": "ailamo_part2_question3_answer3.png",
+                    "isAnEntity": true,
+                    "entityID": 9702,
+                    "posx": 318,
+                    "posy": 216,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_part2_question3_answer3.png",
+                    "isAQSprite": true
+                }
+            },
+            "sceneName": "test3",
+            "sceneID": 3031,
+            "backgroundColor": 16777215,
+            "rootAttributes": {},
+            "dataVariables": {
+                "question": {
+                    "type": "NUMBER",
+                    "value": "0"
+                }
+            }
+        },
+        "6": {
+            "entities": [
+                {
+                    "name": "ailamo_ending_image.png",
+                    "isAnEntity": true,
+                    "entityID": 7746,
+                    "entityProperty": {
+                        "posx": 0,
+                        "posy": 0,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_ending_image.png",
+                    "isAQSprite": true
+                },
+                {
+                    "name": "ending text",
+                    "isAnEntity": true,
+                    "entityID": 7764,
+                    "entityProperty": {
+                        "posx": 8,
+                        "posy": 171,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0,
+                        "anchory": 0,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "With your help, Ai\ncan contact ship\nback home!\nCongratulation!",
+                    "isAQText": true,
+                    "align": "Left",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "40",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                {
+                    "name": "finish",
+                    "isAnEntity": true,
+                    "entityID": 7926,
+                    "entityProperty": {
+                        "posx": 327,
+                        "posy": 94,
+                        "rotation": 0,
+                        "scalex": 1,
+                        "scaley": 1,
+                        "anchorx": 0.5,
+                        "anchory": 0.5,
+                        "pivotx": 0,
+                        "pivoty": 0
+                    },
+                    "shadingProperty": {
+                        "tint": "#FFFFFF",
+                        "alpha": 1
+                    },
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Finish",
+                    "link": "#next",
+                    "isAButton": true,
+                    "normSrc": "button.png"
+                }
+            ],
+            "frames": {
+                "0": {
+                    "actions": {
+                        "0": [
+                            {
+                                "actionID": 7856,
+                                "actionName": "Change Text",
+                                "targetID": 7764,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "text": "With your help, Ai\ncan contact ship\nback home!\nCongratulation!"
+                                }
+                            }
+                        ],
+                        "1": [
+                            {
+                                "actionID": 8000,
+                                "actionName": "Change Alpha",
+                                "targetID": 7926,
+                                "offset": 0,
+                                "duration": 1000,
+                                "isEntityAction": true,
+                                "easing": {
+                                    "name": "Linear"
+                                },
+                                "stateMatrix": {
+                                    "alpha": "1"
+                                }
+                            }
+                        ]
+                    },
+                    "frameLabel": "",
+                    "nextFrameOptions": "Wait Indefinitely"
+                }
+            },
+            "startState": {
+                "ss7746": {
+                    "name": "ailamo_ending_image.png",
+                    "isAnEntity": true,
+                    "entityID": 7746,
+                    "posx": 0,
+                    "posy": 0,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "src": "/Assets/uploaded image/ailamo_ending_image.png",
+                    "isAQSprite": true
+                },
+                "ss7764": {
+                    "name": "ending text",
+                    "isAnEntity": true,
+                    "entityID": 7764,
+                    "posx": 8,
+                    "posy": 171,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0,
+                    "anchory": 0,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": 1,
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "With your help, Ai\ncan contact ship\nback home!\nCongratulation!",
+                    "isAQText": true,
+                    "align": "Left",
+                    "wordWrap": 0,
+                    "breakWords": false,
+                    "color": "#000000",
+                    "font": "Arial",
+                    "fontSize": "40",
+                    "stroke": 0,
+                    "strokeColor": 0,
+                    "isItalic": false,
+                    "isBold": false,
+                    "isExtraBold": false,
+                    "padding": 0,
+                    "valign": "middle",
+                    "letterSpacing": 0,
+                    "dropShadow": false,
+                    "dsColor": 0,
+                    "dsAlpha": 1,
+                    "dsAngle": 0.5235987755982988,
+                    "dsBlur": 0,
+                    "dsDistance": 5
+                },
+                "ss7926": {
+                    "name": "finish",
+                    "isAnEntity": true,
+                    "entityID": 7926,
+                    "posx": 327,
+                    "posy": 94,
+                    "rotation": 0,
+                    "scalex": 1,
+                    "scaley": 1,
+                    "anchorx": 0.5,
+                    "anchory": 0.5,
+                    "pivotx": 0,
+                    "pivoty": 0,
+                    "tint": "#FFFFFF",
+                    "alpha": "0",
+                    "onClickActions": [],
+                    "onEnterActions": [],
+                    "onExitActions": [],
+                    "text": "Finish",
+                    "link": "#next",
+                    "isAButton": true,
+                    "normSrc": "button.png"
+                }
+            },
+            "sceneName": "ending",
+            "sceneID": 3047,
+            "backgroundColor": 16777215,
+            "rootAttributes": {},
+            "dataVariables": {}
+        }
+    },
+    "projectName": "Project1",
+    "version": "1.0.0",
+    "description": "",
+    "author": "Matthew",
+    "nodes": [
+        {
+            "nodeID": 4,
+            "nodeName": "Start",
+            "nodeTypeID": "start",
+            "x": -265.74519230769226,
+            "y": -347.47596153846155,
+            "flowOutput": {
+                "_def": 5
+            },
+            "nodeTypeData": {}
+        },
+        {
+            "nodeID": 5,
+            "nodeName": "Play Scene",
+            "nodeTypeID": "playScene",
+            "x": -132.93269230769226,
+            "y": -405.1682692307692,
+            "flowInput": true,
+            "flowOutput": {
+                "_def": true,
+                "next": 1992
+            },
+            "nodeTypeData": {
+                "sceneName": {
+                    "value": 3
+                }
+            }
+        },
+        {
+            "nodeID": 6,
+            "nodeName": "End",
+            "nodeTypeID": "end",
+            "x": 1758.7565789473683,
+            "y": -463.44104251012146,
+            "flowInput": true,
+            "flowOutput": {},
+            "nodeTypeData": {
+                "score": {
+                    "dataInput": "1644|projVar_SCORE",
+                    "value": 0
+                }
+            }
+        },
+        {
+            "nodeID": 1644,
+            "nodeName": "Project Data",
+            "nodeTypeID": "getProjectData",
+            "x": 1596.2492408906883,
+            "y": -306.0822368421052,
+            "flowOutput": {},
+            "nodeTypeData": {
+                "projVar_SCORE": {
+                    "dataInput": false
+                }
+            }
+        },
+        {
+            "nodeID": 1992,
+            "nodeName": "Play Scene",
+            "nodeTypeID": "playScene",
+            "x": 92.27884615384619,
+            "y": -404.78846153846155,
+            "flowInput": true,
+            "flowOutput": {
+                "_def": true,
+                "next": 3834
+            },
+            "nodeTypeData": {
+                "sceneName": {
+                    "value": 1752
+                }
+            }
+        },
+        {
+            "nodeID": 3078,
+            "nodeName": "Play Scene",
+            "nodeTypeID": "playScene",
+            "x": 1342.0528846153845,
+            "y": -537.3942307692308,
+            "flowInput": true,
+            "flowOutput": {
+                "_def": 9189
+            },
+            "nodeTypeData": {
+                "sceneName": {
+                    "value": 104
+                }
+            }
+        },
+        {
+            "nodeID": 3834,
+            "nodeName": "Play Scene",
+            "nodeTypeID": "playScene",
+            "x": 335.9230769230769,
+            "y": -546.5288461538462,
+            "flowInput": true,
+            "flowOutput": {
+                "_def": true,
+                "test2": 8393
+            },
+            "nodeTypeData": {
+                "sceneName": {
+                    "value": 2987
+                },
+                "sceneVar_question": {
+                    "dataInput": true,
+                    "value": {
+                        "type": "NUMBER",
+                        "value": ""
+                    }
+                }
+            }
+        },
+        {
+            "nodeID": 6658,
+            "nodeName": "Play Scene",
+            "nodeTypeID": "playScene",
+            "x": 583.7932692307694,
+            "y": -542.0673076923076,
+            "flowInput": true,
+            "flowOutput": {
+                "_def": true,
+                "test3": 8608
+            },
+            "nodeTypeData": {
+                "sceneName": {
+                    "value": 3003
+                },
+                "sceneVar_question": {
+                    "dataInput": true,
+                    "value": {
+                        "type": "NUMBER",
+                        "value": ""
+                    }
+                }
+            }
+        },
+        {
+            "nodeID": 8393,
+            "nodeName": "Unlock Achievement",
+            "nodeTypeID": "achievement",
+            "x": 333.1875,
+            "y": -304.375,
+            "flowInput": true,
+            "flowOutput": {
+                "_def": 6658
+            },
+            "nodeTypeData": {
+                "achievementName": {
+                    "value": "10"
+                }
+            }
+        },
+        {
+            "nodeID": 8608,
+            "nodeName": "Unlock Achievement",
+            "nodeTypeID": "achievement",
+            "x": 584.75,
+            "y": -301.25,
+            "flowInput": true,
+            "flowOutput": {
+                "_def": 8670
+            },
+            "nodeTypeData": {
+                "achievementName": {
+                    "value": "11"
+                }
+            }
+        },
+        {
+            "nodeID": 8670,
+            "nodeName": "Play Scene",
+            "nodeTypeID": "playScene",
+            "x": 831.5625,
+            "y": -540.625,
+            "flowInput": true,
+            "flowOutput": {
+                "_def": true,
+                "ending": 8902
+            },
+            "nodeTypeData": {
+                "sceneName": {
+                    "value": 3031
+                },
+                "sceneVar_question": {
+                    "dataInput": true,
+                    "value": {
+                        "type": "NUMBER",
+                        "value": ""
+                    }
+                }
+            }
+        },
+        {
+            "nodeID": 8817,
+            "nodeName": "Play Scene",
+            "nodeTypeID": "playScene",
+            "x": 1085.875,
+            "y": -542.3125,
+            "flowInput": true,
+            "flowOutput": {
+                "_def": true,
+                "next": 9009
+            },
+            "nodeTypeData": {
+                "sceneName": {
+                    "value": 3047
+                }
+            }
+        },
+        {
+            "nodeID": 8902,
+            "nodeName": "Unlock Achievement",
+            "nodeTypeID": "achievement",
+            "x": 829.625,
+            "y": -300.125,
+            "flowInput": true,
+            "flowOutput": {
+                "_def": 8817
+            },
+            "nodeTypeData": {
+                "achievementName": {
+                    "value": "24"
+                }
+            }
+        },
+        {
+            "nodeID": 9009,
+            "nodeName": "Unlock Achievement",
+            "nodeTypeID": "achievement",
+            "x": 1085.875,
+            "y": -300.125,
+            "flowInput": true,
+            "flowOutput": {
+                "_def": 3078
+            },
+            "nodeTypeData": {
+                "achievementName": {
+                    "value": "26"
+                }
+            }
+        },
+        {
+            "nodeID": 9189,
+            "nodeName": "Print Certificate",
+            "nodeTypeID": "printCertificate",
+            "x": 1345.25,
+            "y": -303.25,
+            "flowInput": true,
+            "flowOutput": {
+                "_def": 6
+            },
+            "nodeTypeData": {
+                "sceneName": {
+                    "value": 104
+                }
+            }
+        }
+    ],
+    "windowSizeX": 1024,
+    "windowSizeY": 768,
+    "initialScene": 3,
+    "textProfiles": {},
+    "dataVariables": {
+        "SCORE": {
+            "type": "NUMBER",
+            "value": ""
+        }
+    },
+    "lastUniqueID": 17554
+}
